@@ -9,6 +9,7 @@
 [![Stage](https://img.shields.io/badge/stage-early%20development-orange?style=flat-square)](#-status-early-development)
 [![Complete](https://img.shields.io/badge/paper--to--code-53%25-yellow?style=flat-square)](SI/incomplete.md)
 [![Papers](https://img.shields.io/badge/papers-54-informational?style=flat-square)](SI/research-paper)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.21756604-blue?style=flat-square&logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.21756604)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C?style=flat-square&logo=cplusplus&logoColor=white)](SI/src)
 [![Deps](https://img.shields.io/badge/dependencies-none-success?style=flat-square)](#build)
 
@@ -282,14 +283,17 @@ have.
 
 ## Citing
 
+**Paper:** [https://doi.org/10.5281/zenodo.21756604](https://doi.org/10.5281/zenodo.21756604)
+
 ```bibtex
 @software{mahir_si,
   author  = {Mahir, Irfan},
   title   = {Synthetic Intelligence: A Graph-Physics Substrate
              for Structural Reasoning},
   year    = {2026},
-  note    = {Early development. See incomplete.md for the gap audit.},
-  url     = {https://github.com/irfanmahir/SI}
+  doi     = {10.5281/zenodo.21756604},
+  url     = {https://doi.org/10.5281/zenodo.21756604},
+  note    = {Early development. See incomplete.md for the gap audit.}
 }
 ```
 
