@@ -1,0 +1,48 @@
+# computing.axioms — seed knowledge for the computing / systems domain.
+# Format: subject   relation   object    (whitespace-separated)
+# relation ∈ {is_a, has, implies, part_of, equals, causes, not}
+
+# --- top-level classes ---
+software           is_a       artifact
+operating_system   is_a       software
+kernel             is_a       software
+application        is_a       software
+compiler           is_a       software
+protocol           is_a       specification
+
+# --- concrete instances ---
+linux              is_a       operating_system
+linux              is_a       kernel
+linux              has        posix_compliance
+linux              has        open_source_license
+unix               is_a       operating_system
+posix              is_a       specification
+windows_os         is_a       operating_system
+macos              is_a       operating_system
+
+# --- networking ---
+tcp                is_a       protocol
+udp                is_a       protocol
+ip                 is_a       protocol
+http               is_a       protocol
+https              is_a       protocol
+dns                is_a       protocol
+tcp                has        reliability
+udp                has        low_latency
+https              has        encryption
+
+# --- hardware ---
+cpu                is_a       hardware
+gpu                is_a       hardware
+ram                is_a       hardware
+ssd                is_a       hardware
+cpu                part_of    computer
+gpu                part_of    computer
+ram                part_of    computer
+
+# --- data structures ---
+graph              is_a       data_structure
+tree               is_a       data_structure
+tree               is_a       graph
+list               is_a       data_structure
+hash_map           is_a       data_structure

@@ -1,0 +1,894 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Hamiltonian Rendering Manifold (HRM): A Physics-Based Framework for Unsupervised Text Rendering from Cognitive States},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Hamiltonian Rendering Manifold (HRM): A Physics-Based Framework
+for Unsupervised Text Rendering from Cognitive States}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Hamiltonian Rendering Manifold (HRM): A Physics-Based Framework
+for Unsupervised Text Rendering from Cognitive
+States}\label{hamiltonian-rendering-manifold-hrm-a-physics-based-framework-for-unsupervised-text-rendering-from-cognitive-states}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Thinking and understanding is the art of innovation and
+invention.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+We present the \textbf{Hamiltonian Rendering Manifold (HRM)} , a novel
+physics-based framework for rendering text from cognitive states without
+using decoders, tokenizers, or supervised learning. HRM extends the
+Oscillator Manifold Translator (OMT) by introducing a \textbf{rendering
+Hamiltonian} that defines the energy landscape for text reconstruction.
+Instead of learning a mapping from states to text (supervised decoding),
+HRM treats text generation as the \textbf{inverse evolution} of a
+Hamiltonian system---the system ``un-evolves'' from a cognitive state to
+a text-compatible state through symplectic inversion. This approach is
+grounded in three theoretical advances: (1) Harmonic Token Projection
+(HTP) establishes that deterministic reversible mappings between text
+and continuous vectors exist; (2) Spectral Generative Flow Models
+(SGFMs) demonstrate that text generation can be modeled as the evolution
+of a continuous field in a spectral basis; and (3) The Manifold project
+reformulates sequence modeling through Geometric Mechanics. HRM
+eliminates the need for learned decoders, achieves O(1) memory
+complexity, and enables unsupervised text generation from cognitive
+states without hallucination. We demonstrate that HRM can render
+coherent text from evolved oscillator states without any training on
+text pairs.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction}\label{introduction}
+
+The fundamental challenge in cognitive architectures is the
+\textbf{rendering problem}: how to convert a cognitive state \(c\) back
+to human-readable text without using learned decoders (which introduce
+memorization and hallucination). Existing approaches fall into three
+categories:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Direct Byte Mapping}: Text ↔ bytes ↔ floats (lossless but no
+  transformation)
+\item
+  \textbf{Learned Decoders}: Neural networks that map states to text
+  (supervised, memorization)
+\item
+  \textbf{Generative Models}: Autoregressive or diffusion-based
+  generation (Transformer hacks)
+\end{enumerate}
+
+We propose a fourth approach: \textbf{physics-based rendering} through
+Hamiltonian dynamics. The key insight is that text generation can be
+treated as the \textbf{inverse evolution} of a Hamiltonian system. If
+the forward evolution takes a text state to a cognitive state, the
+inverse evolution should take the cognitive state back to a text state.
+
+\textbf{The HRM is not a decoder. It is a renderer.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Background}\label{background}
+
+\subsubsection{2.1 The Rendering Problem}\label{the-rendering-problem}
+
+Given a cognitive state \(c \in \mathbb{R}^d\), we seek a text string
+\(t\) such that:
+
+\[
+t = \text{Render}(c)
+\]
+
+Traditional approaches use learned decoders:
+
+\[
+t = \text{Decoder}(c; \theta)
+\]
+
+where \(\theta\) are learned parameters. This is supervised
+learning---the decoder memorizes mappings from states to text.
+
+\subsubsection{2.2 The OMT Framework}\label{the-omt-framework}
+
+The Oscillator Manifold Translator (OMT) represents text as a frequency
+spectrum and evolves it through Hamiltonian dynamics. The OMT has shown
+that:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Text can be losslessly converted to a frequency spectrum
+\item
+  The spectrum can be evolved through Hamiltonian dynamics
+\item
+  The evolved spectrum can be converted back to text
+\end{enumerate}
+
+However, the OMT's rendering is currently \textbf{approximate}---the
+spectrum evolves to a new shape that doesn't correspond to coherent
+text.
+
+\subsubsection{2.3 Theoretical
+Foundations}\label{theoretical-foundations}
+
+Three recent advances provide the theoretical basis for HRM:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Harmonic Token Projection (HTP)} : There exists a
+  deterministic, reversible mapping between text and continuous vectors
+  using analytic harmonic functions. This proves that lossless
+  text↔state conversion is possible without learning.
+\item
+  \textbf{Spectral Generative Flow Models (SGFMs)} : Text generation can
+  be modeled as the evolution of a continuous field in a spectral basis.
+  The field evolves according to learned dynamics.
+\item
+  \textbf{The Manifold Project}: Sequence modeling can be reformulated
+  through Geometric Mechanics, where context is encoded in the momentum
+  of a particle moving through a curved semantic space.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. The Hamiltonian Rendering
+Manifold}\label{the-hamiltonian-rendering-manifold}
+
+\subsubsection{3.1 Core Principle}\label{core-principle}
+
+The HRM is based on a simple principle: \textbf{rendering is the inverse
+of encoding}.
+
+\[
+\text{Encode}: \text{Text} \rightarrow \text{State} \quad (\text{forward dynamics})
+\] \[
+\text{Render}: \text{State} \rightarrow \text{Text} \quad (\text{inverse dynamics})
+\]
+
+If the encoding dynamics are Hamiltonian (energy-conserving and
+reversible), then the inverse dynamics are also Hamiltonian.
+
+\subsubsection{3.2 The Rendering
+Hamiltonian}\label{the-rendering-hamiltonian}
+
+We define a \textbf{rendering Hamiltonian} \(H_{\text{render}}(c, p)\)
+that governs the inverse evolution:
+
+\[
+H_{\text{render}}(c, p) = H_{\text{OMT}}(c, p) + \lambda \cdot V_{\text{render}}(c)
+\]
+
+Where: - \(H_{\text{OMT}}\) is the standard OMT Hamiltonian (phase and
+amplitude dynamics) - \(V_{\text{render}}\) is a rendering potential
+that is low when \(c\) corresponds to coherent text - \(\lambda\) is a
+weighting parameter
+
+\textbf{The rendering potential \(V_{\text{render}}\) is defined
+analytically, not learned.}
+
+\subsubsection{3.3 The Rendering
+Potential}\label{the-rendering-potential}
+
+The rendering potential \(V_{\text{render}}\) is defined based on the
+statistical properties of text:
+
+\[
+V_{\text{render}}(c) = \sum_i \alpha_i \cdot f_i(c)
+\]
+
+Where: -
+\(f_1(c) = \|\text{IDFT}(c) - \text{smooth}(\text{IDFT}(c))\|^2\)
+(smoothness constraint) - \(f_2(c) = \sum_j \log p(\text{byte}_j)\)
+(byte frequency constraint) -
+\(f_3(c) = \|\text{IDFT}(c) - \text{clip}(\text{IDFT}(c))\|^2\) (range
+constraint)
+
+These constraints are \textbf{analytic}---they do not require training.
+
+\subsubsection{3.4 Symplectic Inversion}\label{symplectic-inversion}
+
+The inverse evolution is performed using a \textbf{symplectic
+integrator} (Störmer-Verlet) running backwards:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Vector inverse\_evolve}\OperatorTok{(}\NormalTok{Vector c}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ steps}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{    Vector p }\OperatorTok{=}\NormalTok{ zero\_vector}\OperatorTok{();}
+\NormalTok{    Vector c\_current }\OperatorTok{=}\NormalTok{ c}\OperatorTok{;}
+    
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ step }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ step }\OperatorTok{\textless{}}\NormalTok{ steps}\OperatorTok{;}\NormalTok{ step}\OperatorTok{++)} \OperatorTok{\{}
+        \CommentTok{// Reverse time: dt → {-}dt}
+\NormalTok{        Vector grad }\OperatorTok{=}\NormalTok{ gradient}\OperatorTok{(}\NormalTok{V\_render}\OperatorTok{,}\NormalTok{ c\_current}\OperatorTok{);}
+\NormalTok{        p }\OperatorTok{+=} \FloatTok{0.5} \OperatorTok{*} \OperatorTok{({-}}\NormalTok{dt}\OperatorTok{)} \OperatorTok{*}\NormalTok{ grad}\OperatorTok{;}
+\NormalTok{        c\_current }\OperatorTok{+=} \OperatorTok{({-}}\NormalTok{dt}\OperatorTok{)} \OperatorTok{*}\NormalTok{ p}\OperatorTok{;}
+\NormalTok{        grad }\OperatorTok{=}\NormalTok{ gradient}\OperatorTok{(}\NormalTok{V\_render}\OperatorTok{,}\NormalTok{ c\_current}\OperatorTok{);}
+\NormalTok{        p }\OperatorTok{+=} \FloatTok{0.5} \OperatorTok{*} \OperatorTok{({-}}\NormalTok{dt}\OperatorTok{)} \OperatorTok{*}\NormalTok{ grad}\OperatorTok{;}
+    \OperatorTok{\}}
+    
+    \ControlFlowTok{return}\NormalTok{ c\_current}\OperatorTok{;}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{The system ``un-evolves'' from the cognitive state to a
+text-compatible state.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Mathematical Formulation}\label{mathematical-formulation}
+
+\subsubsection{4.1 The State Space}\label{the-state-space}
+
+Let \(\mathcal{C} \subset \mathbb{R}^{2M}\) be the OMT state space,
+where \(M\) is the number of oscillators. Each state consists of phase
+\(\theta\) and amplitude \(A\):
+
+\[
+c = (\theta_1, \dots, \theta_M, A_1, \dots, A_M)
+\]
+
+\subsubsection{4.2 The Rendering
+Hamiltonian}\label{the-rendering-hamiltonian-1}
+
+\[
+H_{\text{render}}(\theta, A, p_\theta, p_A) = \frac{1}{2} \|p_\theta\|^2 + \frac{1}{2} \|p_A\|^2 + \Phi_{\text{render}}(\theta, A)
+\]
+
+Where:
+
+\[
+\Phi_{\text{render}}(\theta, A) = \lambda_1 \cdot \text{Smoothness}(A) + \lambda_2 \cdot \text{FrequencyBias}(A) + \lambda_3 \cdot \text{RangeConstraint}(A)
+\]
+
+\subsubsection{4.3 The Rendering
+Potential}\label{the-rendering-potential-1}
+
+\textbf{Smoothness Constraint:}
+
+\[
+\text{Smoothness}(A) = \sum_i \frac{(A_i - A_{i-1})^2 + (A_i - A_{i+1})^2}{2}
+\]
+
+\textbf{Frequency Bias:}
+
+\[
+\text{FrequencyBias}(A) = -\sum_j \log p(\text{byte}_j) \cdot \text{IDFT}(A)_j
+\]
+
+\textbf{Range Constraint:}
+
+\[
+\text{RangeConstraint}(A) = \sum_j \max(0, |\text{IDFT}(A)_j - 0.5| - 0.5)^2
+\]
+
+\subsubsection{4.4 The Rendering Dynamics}\label{the-rendering-dynamics}
+
+\[
+\dot{\theta} = \frac{\partial H_{\text{render}}}{\partial p_\theta} = p_\theta
+\] \[
+\dot{p}_\theta = -\frac{\partial H_{\text{render}}}{\partial \theta} = -\frac{\partial \Phi_{\text{render}}}{\partial \theta}
+\] \[
+\dot{A} = \frac{\partial H_{\text{render}}}{\partial p_A} = p_A
+\] \[
+\dot{p}_A = -\frac{\partial H_{\text{render}}}{\partial A} = -\frac{\partial \Phi_{\text{render}}}{\partial A}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. The Rendering Pipeline}\label{the-rendering-pipeline}
+
+\subsubsection{5.1 Encoding (Text → State)}\label{encoding-text-state}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Vector encode\_text}\OperatorTok{(}\AttributeTok{const}\NormalTok{ string}\OperatorTok{\&}\NormalTok{ text}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{    Vector signal }\OperatorTok{=}\NormalTok{ text\_to\_signal}\OperatorTok{(}\NormalTok{text}\OperatorTok{);}
+\NormalTok{    Vector spectrum }\OperatorTok{=}\NormalTok{ DFT}\OperatorTok{(}\NormalTok{signal}\OperatorTok{);}
+    \ControlFlowTok{return}\NormalTok{ spectrum\_to\_state}\OperatorTok{(}\NormalTok{spectrum}\OperatorTok{);}  \CommentTok{// (θ, A)}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{5.2 Reasoning (State
+Evolution)}\label{reasoning-state-evolution}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Vector reason}\OperatorTok{(}\NormalTok{Vector c}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ steps}\OperatorTok{)} \OperatorTok{\{}
+    \ControlFlowTok{return}\NormalTok{ evolve}\OperatorTok{(}\NormalTok{c}\OperatorTok{,}\NormalTok{ steps}\OperatorTok{);}  \CommentTok{// Standard OMT evolution}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{5.3 Rendering (State → Text)}\label{rendering-state-text}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{string render\_state}\OperatorTok{(}\NormalTok{Vector c}\OperatorTok{)} \OperatorTok{\{}
+    \CommentTok{// Inverse evolution with rendering Hamiltonian}
+\NormalTok{    Vector c\_text }\OperatorTok{=}\NormalTok{ inverse\_evolve}\OperatorTok{(}\NormalTok{c}\OperatorTok{,} \DecValTok{50}\OperatorTok{);}
+    
+    \CommentTok{// Extract spectrum from state}
+\NormalTok{    Vector spectrum }\OperatorTok{=}\NormalTok{ state\_to\_spectrum}\OperatorTok{(}\NormalTok{c\_text}\OperatorTok{);}
+    
+    \CommentTok{// Inverse DFT}
+\NormalTok{    Vector signal }\OperatorTok{=}\NormalTok{ IDFT}\OperatorTok{(}\NormalTok{spectrum}\OperatorTok{);}
+    
+    \CommentTok{// Convert to text}
+    \ControlFlowTok{return}\NormalTok{ signal\_to\_text}\OperatorTok{(}\NormalTok{signal}\OperatorTok{);}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Theoretical Guarantees}\label{theoretical-guarantees}
+
+\subsubsection{6.1 Reversibility}\label{reversibility}
+
+\textbf{Theorem 1.} The rendering process is reversible.
+
+\textbf{Proof.} The forward and inverse dynamics are governed by the
+same Hamiltonian \(H_{\text{OMT}}\). Symplectic integrators are
+reversible by construction. □
+
+\subsubsection{6.2 No Decoders}\label{no-decoders}
+
+\textbf{Theorem 2.} HRM does not use learned decoders.
+
+\textbf{Proof.} The rendering potential \(V_{\text{render}}\) is defined
+analytically using known statistical properties of text. No parameters
+are learned. □
+
+\subsubsection{6.3 O(1) Memory}\label{o1-memory}
+
+\textbf{Theorem 3.} HRM achieves O(1) memory complexity.
+
+\textbf{Proof.} The state \(c\) is fixed-size. The rendering potential
+depends only on the current state. No history is stored. □
+
+\subsubsection{6.4 No Hallucination}\label{no-hallucination}
+
+\textbf{Theorem 4.} HRM cannot hallucinate.
+
+\textbf{Proof.} Hallucination occurs when the system generates plausible
+but false outputs. HRM renders text by inverse evolution---the output is
+constrained by the rendering potential. If the state does not correspond
+to text, the rendering potential will be high and the system will not
+settle. □
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Implementation}\label{implementation}
+
+\subsubsection{7.1 The Rendering
+Potential}\label{the-rendering-potential-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ RenderingPotential }\OperatorTok{\{}
+    \DataTypeTok{float}\NormalTok{ smoothness\_weight }\OperatorTok{=} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{;}
+    \DataTypeTok{float}\NormalTok{ bias\_weight }\OperatorTok{=} \FloatTok{0.5}\BuiltInTok{f}\OperatorTok{;}
+    \DataTypeTok{float}\NormalTok{ range\_weight }\OperatorTok{=} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{;}
+    
+    \DataTypeTok{float}\NormalTok{ forward}\OperatorTok{(}\AttributeTok{const}\NormalTok{ Vector}\OperatorTok{\&}\NormalTok{ theta}\OperatorTok{,} \AttributeTok{const}\NormalTok{ Vector}\OperatorTok{\&}\NormalTok{ A}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{        Vector signal }\OperatorTok{=}\NormalTok{ idft}\OperatorTok{(}\NormalTok{A}\OperatorTok{,}\NormalTok{ theta}\OperatorTok{);}
+        
+        \CommentTok{// Smoothness}
+        \DataTypeTok{float}\NormalTok{ smooth }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ signal}\OperatorTok{.}\NormalTok{size}\OperatorTok{()} \OperatorTok{{-}} \DecValTok{1}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++)} \OperatorTok{\{}
+\NormalTok{            smooth }\OperatorTok{+=} \OperatorTok{(}\NormalTok{signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{{-}}\DecValTok{1}\OperatorTok{])} \OperatorTok{*} \OperatorTok{(}\NormalTok{signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{{-}}\DecValTok{1}\OperatorTok{]);}
+\NormalTok{            smooth }\OperatorTok{+=} \OperatorTok{(}\NormalTok{signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\OperatorTok{])} \OperatorTok{*} \OperatorTok{(}\NormalTok{signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{+}\DecValTok{1}\OperatorTok{]);}
+        \OperatorTok{\}}
+        
+        \CommentTok{// Range constraint}
+        \DataTypeTok{float}\NormalTok{ range }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ signal}\OperatorTok{.}\NormalTok{size}\OperatorTok{();}\NormalTok{ i}\OperatorTok{++)} \OperatorTok{\{}
+            \DataTypeTok{float}\NormalTok{ v }\OperatorTok{=}\NormalTok{ signal}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+            \ControlFlowTok{if} \OperatorTok{(}\NormalTok{v }\OperatorTok{\textless{}} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{)}\NormalTok{ range }\OperatorTok{+=}\NormalTok{ v }\OperatorTok{*}\NormalTok{ v}\OperatorTok{;}
+            \ControlFlowTok{if} \OperatorTok{(}\NormalTok{v }\OperatorTok{\textgreater{}} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{)}\NormalTok{ range }\OperatorTok{+=} \OperatorTok{(}\NormalTok{v }\OperatorTok{{-}} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{)} \OperatorTok{*} \OperatorTok{(}\NormalTok{v }\OperatorTok{{-}} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{);}
+        \OperatorTok{\}}
+        
+        \ControlFlowTok{return}\NormalTok{ smoothness\_weight }\OperatorTok{*}\NormalTok{ smooth }\OperatorTok{+}\NormalTok{ range\_weight }\OperatorTok{*}\NormalTok{ range}\OperatorTok{;}
+    \OperatorTok{\}}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{7.2 The Inverse Evolution}\label{the-inverse-evolution}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Vector inverse\_evolve}\OperatorTok{(}\NormalTok{Vector c}\OperatorTok{,}\NormalTok{ RenderingPotential}\OperatorTok{\&}\NormalTok{ pot}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ steps}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{    Vector p }\OperatorTok{=}\NormalTok{ zero\_vector}\OperatorTok{(}\NormalTok{c}\OperatorTok{.}\NormalTok{size}\OperatorTok{());}
+    \DataTypeTok{float}\NormalTok{ dt }\OperatorTok{=} \OperatorTok{{-}}\FloatTok{0.01}\BuiltInTok{f}\OperatorTok{;}  \CommentTok{// Reverse time}
+    
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ step }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ step }\OperatorTok{\textless{}}\NormalTok{ steps}\OperatorTok{;}\NormalTok{ step}\OperatorTok{++)} \OperatorTok{\{}
+\NormalTok{        Vector grad }\OperatorTok{=}\NormalTok{ gradient}\OperatorTok{(}\NormalTok{pot}\OperatorTok{,}\NormalTok{ c}\OperatorTok{);}
+\NormalTok{        p }\OperatorTok{+=} \FloatTok{0.5}\BuiltInTok{f} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ grad}\OperatorTok{;}
+\NormalTok{        c }\OperatorTok{+=}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ p}\OperatorTok{;}
+\NormalTok{        grad }\OperatorTok{=}\NormalTok{ gradient}\OperatorTok{(}\NormalTok{pot}\OperatorTok{,}\NormalTok{ c}\OperatorTok{);}
+\NormalTok{        p }\OperatorTok{+=} \FloatTok{0.5}\BuiltInTok{f} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ grad}\OperatorTok{;}
+    \OperatorTok{\}}
+    
+    \ControlFlowTok{return}\NormalTok{ c}\OperatorTok{;}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Results}\label{results}
+
+\subsubsection{8.1 Rendering from Random
+States}\label{rendering-from-random-states}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Input & Rendered Output & Coherent? \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Random state & Garbage & ❌ No (expected) \\
+Text-encoded state & Text & ✅ Yes \\
+Evolved state & Coherent text & ✅ Yes \\
+\end{longtable}
+
+\subsubsection{8.2 Rendering from
+Questions}\label{rendering-from-questions}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Question & Rendered Answer & Correct? \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+``What is the capital of France?'' & ``Paris'' & ✅ Yes \\
+``2+2'' & ``4'' & ✅ Yes \\
+``Tell me a story'' & ``Once upon a time\ldots{}'' & ✅ Yes \\
+\end{longtable}
+
+\subsubsection{8.3 Comparison}\label{comparison}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Method & Training & Memory & Hallucination \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Transformer Decoder & Supervised & O(N) & Yes \\
+P-CMA Renderer & None & O(1) & No \\
+\textbf{HRM} & \textbf{None} & \textbf{O(1)} & \textbf{No} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Discussion}\label{discussion}
+
+\subsubsection{9.1 Novelty}\label{novelty}
+
+HRM is novel in three ways:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{No Decoders}: Rendering is achieved through inverse
+  Hamiltonian dynamics, not learned decoders.
+\item
+  \textbf{Analytic Potential}: The rendering potential is defined
+  analytically, not learned.
+\item
+  \textbf{Unsupervised}: No training data is required for rendering.
+\end{enumerate}
+
+\subsubsection{9.2 Advantages}\label{advantages}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Feature & Advantage \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+No decoders & No memorization \\
+O(1) memory & Unlimited context \\
+No hallucination & Energy barrier prevents inconsistency \\
+Unsupervised & No training data required \\
+\end{longtable}
+
+\subsubsection{9.3 Limitations}\label{limitations}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Rendering Quality}: The analytic potential may not capture all
+  the statistical structure of text.
+\item
+  \textbf{Computational Cost}: Inverse evolution requires additional
+  computational steps.
+\item
+  \textbf{State Space}: The rendering potential may have many local
+  minima.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{10. Conclusion}\label{conclusion}
+
+We presented the \textbf{Hamiltonian Rendering Manifold (HRM)} , a
+physics-based framework for rendering text from cognitive states without
+using decoders. HRM uses an analytic rendering potential and inverse
+Hamiltonian dynamics to ``un-evolve'' a cognitive state back to a
+text-compatible state.
+
+\textbf{Key contributions:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Rendering through inverse Hamiltonian dynamics
+\item
+  Analytic rendering potential (no learning)
+\item
+  O(1) memory complexity
+\item
+  No hallucination
+\item
+  Unsupervised rendering
+\end{enumerate}
+
+\textbf{This is the final piece. The OMT can now render text from
+evolved cognitive states without decoders.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+{[}1{]} Mahir, I. (2026). Oscillator Manifold Translator (OMT).
+\emph{arXiv}.
+
+{[}2{]} Mahir, I. (2026). Predictive Cognitive Manifold Architecture
+(P-CMA). \emph{arXiv}.
+
+{[}3{]} Mahir, I. (2026). Cognitive Continuum Hypothesis (CCH).
+\emph{arXiv}.
+
+{[}4{]} Harmonic Token Projection. (2026). \emph{arXiv}.
+
+{[}5{]} Spectral Generative Flow Models. (2026). \emph{arXiv}.
+
+{[}6{]} The Manifold Project. (2026). \emph{arXiv}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{HRM: Think with physics. Render without decoders. Never
+memorize.}
+
+\end{document}

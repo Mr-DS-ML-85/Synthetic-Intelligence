@@ -1,0 +1,144 @@
+# insulin_pathway.axioms — a small but real biochemical seed.
+#
+# Encodes the insulin signalling cascade, glucose homeostasis, and the
+# drug-target relationships used in type-2 diabetes and related
+# cardiometabolic disease. Sufficient to demonstrate drug-repurposing
+# abduction over shared mechanism (kinase inhibition, transporter
+# activation, receptor binding).
+#
+# Every line is: subject   relation   object
+
+# ---------- top-level typing ----------
+insulin              is_a  hormone
+glucagon             is_a  hormone
+glucose              is_a  molecule
+insulin_receptor     is_a  receptor
+irs1                 is_a  protein
+pi3k                 is_a  kinase
+akt                  is_a  kinase
+mtor                 is_a  kinase
+ampk                 is_a  kinase
+glut4                is_a  transporter
+glut2                is_a  transporter
+sglt2                is_a  transporter
+dpp4                 is_a  enzyme
+glp1r                is_a  receptor
+pparg                is_a  receptor
+foxo1                is_a  transcription_factor
+glycogen_synthase    is_a  enzyme
+hmg_coa_reductase    is_a  enzyme
+
+# ---------- pathway membership ----------
+insulin              part_of_pathway  insulin_signaling
+insulin_receptor     part_of_pathway  insulin_signaling
+irs1                 part_of_pathway  insulin_signaling
+pi3k                 part_of_pathway  insulin_signaling
+akt                  part_of_pathway  insulin_signaling
+mtor                 part_of_pathway  insulin_signaling
+glut4                part_of_pathway  glucose_uptake
+glut2                part_of_pathway  glucose_uptake
+sglt2                part_of_pathway  glucose_reabsorption
+ampk                 part_of_pathway  energy_homeostasis
+glp1r                part_of_pathway  incretin_signaling
+dpp4                 part_of_pathway  incretin_signaling
+pparg                part_of_pathway  adipogenesis
+hmg_coa_reductase    part_of_pathway  cholesterol_synthesis
+
+# ---------- biochemical activation / inhibition ----------
+insulin              binds_to    insulin_receptor
+insulin_receptor     activates   irs1
+irs1                 activates   pi3k
+pi3k                 activates   akt
+akt                  activates   glut4
+akt                  activates   mtor
+akt                  inhibits    foxo1
+ampk                 inhibits    mtor
+ampk                 activates   glut4
+# AMPK phosphorylates HMG-CoA reductase to inhibit it — real biology.
+# This is the diabetes / lipid-metabolism bridge the DMN can traverse.
+ampk                 inhibits    hmg_coa_reductase
+glp1r                activates   insulin
+dpp4                 inhibits    glp1
+glut4                activates   glucose_uptake
+sglt2                activates   glucose_reabsorption
+hmg_coa_reductase    activates   cholesterol_synthesis
+
+# ---------- disease axioms ----------
+type2_diabetes       is_a           metabolic_disease
+insulin_resistance   causes_disease type2_diabetes
+hyperglycemia        causes_disease type2_diabetes
+obesity              causes_disease type2_diabetes
+hypercholesterolemia causes_disease atherosclerosis
+
+# ---------- known treatments (with mechanisms) ----------
+# metformin — reduces hepatic glucose production, activates AMPK
+metformin            is_a         drug
+metformin            treats       type2_diabetes
+metformin            activates    ampk
+metformin            inhibits     mtor
+
+# empagliflozin — SGLT2 inhibitor
+empagliflozin        is_a         drug
+empagliflozin        treats       type2_diabetes
+empagliflozin        inhibits     sglt2
+
+# canagliflozin — another SGLT2 inhibitor
+canagliflozin        is_a         drug
+canagliflozin        treats       type2_diabetes
+canagliflozin        inhibits     sglt2
+
+# sitagliptin — DPP4 inhibitor
+sitagliptin          is_a         drug
+sitagliptin          treats       type2_diabetes
+sitagliptin          inhibits     dpp4
+
+# liraglutide — GLP1 receptor agonist
+liraglutide          is_a         drug
+liraglutide          treats       type2_diabetes
+liraglutide          activates    glp1r
+
+# pioglitazone — PPARgamma agonist
+pioglitazone         is_a         drug
+pioglitazone         treats       type2_diabetes
+pioglitazone         activates    pparg
+
+# ---------- candidate molecules NOT yet linked to type2_diabetes ----------
+# but whose mechanisms overlap with known treatments — these are the
+# repurposing candidates the abductive engine should surface.
+
+# berberine — natural product, known AMPK activator, mTOR inhibitor.
+# Also a real LDL-lowering agent (upregulates LDL receptor / inhibits
+# PCSK9-adjacent lipid pathways); we add this so the graph can discover
+# the diabetes / cardiometabolic bridge that berberine actually is in
+# clinical reality.
+berberine            is_a         molecule
+berberine            activates    ampk
+berberine            inhibits     mtor
+berberine            inhibits     hmg_coa_reductase
+
+# rapamycin — mTOR inhibitor
+rapamycin            is_a         drug
+rapamycin            inhibits     mtor
+
+# resveratrol — SIRT1/AMPK activator
+resveratrol          is_a         molecule
+resveratrol          activates    ampk
+
+# sotagliflozin — SGLT1/SGLT2 inhibitor
+sotagliflozin        is_a         drug
+sotagliflozin        inhibits     sglt2
+
+# vildagliptin — DPP4 inhibitor
+vildagliptin         is_a         drug
+vildagliptin         inhibits     dpp4
+
+# exenatide — GLP1 receptor agonist
+exenatide            is_a         drug
+exenatide            activates    glp1r
+
+# statins — HMG-CoA reductase inhibitors (mechanistically unrelated
+# to diabetes, but included so the search does NOT falsely surface
+# them just for being drugs)
+atorvastatin         is_a         drug
+atorvastatin         inhibits     hmg_coa_reductase
+atorvastatin         treats       hypercholesterolemia

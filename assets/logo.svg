@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" width="640" height="200" role="img" aria-label="Synthetic Intelligence">
+  <title>Synthetic Intelligence</title>
+
+  <defs>
+    <!-- Cavities are oscillators; the gradient runs cold (rare, tightly
+         coupled) to hot (ubiquitous, decoupled past the Curie point). -->
+    <linearGradient id="field" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#2E6FF2"/>
+      <stop offset="55%"  stop-color="#7A4BE0"/>
+      <stop offset="100%" stop-color="#E0533B"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#2E6FF2" stop-opacity="0.15"/>
+      <stop offset="50%"  stop-color="#7A4BE0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#E0533B" stop-opacity="0.15"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0%"   stop-color="#7A4BE0" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#7A4BE0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="640" height="200" fill="#0D1117"/>
+  <circle cx="100" cy="100" r="86" fill="url(#glow)"/>
+
+  <!-- Standing wave: the settled field IS the thought (PRM §4.3). -->
+  <path d="M18 100 Q 44 46 70 100 T 122 100 T 174 100"
+        fill="none" stroke="url(#wave)" stroke-width="2.5" opacity="0.9"/>
+  <path d="M18 100 Q 44 154 70 100 T 122 100 T 174 100"
+        fill="none" stroke="url(#wave)" stroke-width="2.5" opacity="0.55"/>
+
+  <!-- Tunnels. Stiffness is relation type, so line weight varies:
+       thick = mechanistic (steel), thin = categorical (rubber). -->
+  <g stroke="url(#field)" fill="none" opacity="0.75">
+    <line x1="100" y1="100" x2="44"  y2="58"  stroke-width="2.6"/>
+    <line x1="100" y1="100" x2="156" y2="58"  stroke-width="1.1"/>
+    <line x1="100" y1="100" x2="44"  y2="142" stroke-width="1.1"/>
+    <line x1="100" y1="100" x2="156" y2="142" stroke-width="2.6"/>
+    <line x1="44"  y1="58"  x2="156" y2="58"  stroke-width="0.8"/>
+    <line x1="44"  y1="142" x2="156" y2="142" stroke-width="0.8"/>
+    <!-- The rubber bridge: L6-A analogical link across domains. -->
+    <path d="M44 58 Q 100 22 156 142" stroke-width="0.9"
+          stroke-dasharray="3 4" opacity="0.6"/>
+  </g>
+
+  <!-- Cavities. Radius is degree; the centre is the driven concept. -->
+  <g fill="#0D1117" stroke="url(#field)" stroke-width="2.2">
+    <circle cx="100" cy="100" r="13"/>
+    <circle cx="44"  cy="58"  r="7.5"/>
+    <circle cx="156" cy="58"  r="6"/>
+    <circle cx="44"  cy="142" r="6"/>
+    <circle cx="156" cy="142" r="7.5"/>
+  </g>
+  <circle cx="100" cy="100" r="4.5" fill="url(#field)"/>
+
+  <!-- Wordmark -->
+  <text x="212" y="88" font-family="Georgia, 'Times New Roman', serif"
+        font-size="46" fill="#E6EDF3" letter-spacing="0.5">Synthetic</text>
+  <text x="212" y="136" font-family="Georgia, 'Times New Roman', serif"
+        font-size="46" fill="url(#field)" letter-spacing="0.5">Intelligence</text>
+  <text x="215" y="164" font-family="'DejaVu Sans Mono', monospace"
+        font-size="12.5" fill="#7D8590" letter-spacing="2.6">
+    NO GRADIENTS · NO TOKENS · NO SAMPLING
+  </text>
+</svg>

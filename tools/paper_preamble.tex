@@ -1,0 +1,174 @@
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}

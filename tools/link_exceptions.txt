@@ -1,0 +1,30 @@
+# link_exceptions.txt — references that are known-broken and accepted.
+#
+# Format:  <citing paper> -> <reference>   # reason
+#
+# A reference belongs here ONLY if the paper citing it is retired and
+# rewriting it would falsify the historical record. A broken reference
+# in a LIVE paper is a bug and must be fixed, not listed.
+#
+# Two of the entries below point at files that NEVER EXISTED. They were
+# cited in roadmaps as work planned and then not done. That is exactly
+# the failure mode the CMD paper suffered — a citation nobody followed —
+# and recording it is more useful than deleting it.
+
+# --- removed, superseded by ROADMAP.md ---
+failed_but_parts_works/DEAD/bug_fix.md -> research-paper/failed_but_parts_works/deprected/how_we_implement.md
+failed_but_parts_works/DEAD/future_fix.md -> research-paper/failed_but_parts_works/deprected/how_we_implement.md
+failed_but_parts_works/README.md -> contributing/how_we_implement.md
+
+# --- NEVER EXISTED: planned in a roadmap, never written ---
+failed_but_parts_works/DEAD/bug_fix.md -> research-paper/mims_transfer.md
+failed_but_parts_works/DEAD/future_fix.md -> mims_transfer.md
+failed_but_parts_works/DEAD/future_fix.md -> research-paper/mims_transfer.md
+
+# --- NEVER EXISTED: planned implementation, never built ---
+failed_but_parts_works/DEAD/bug_fix.md -> src/abduction_discovery.hpp
+failed_but_parts_works/DEAD/future_fix.md -> src/abduction_discovery.hpp
+
+# --- belonged to the retired DCHL trainer, removed with it ---
+failed_but_parts_works/README.md -> src/bench.cpp
+failed_but_parts_works/README.md -> src/gpu_training.cu

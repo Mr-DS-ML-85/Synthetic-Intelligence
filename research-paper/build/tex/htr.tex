@@ -1,0 +1,553 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Holographic Topological Resonance (HTR): Shifting from Predictive Generation to Structural Comprehension in Wave-Based Synthetic Intelligence},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Holographic Topological Resonance (HTR): Shifting from Predictive
+Generation to Structural Comprehension in Wave-Based Synthetic
+Intelligence}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Holographic Topological Resonance (HTR): Shifting from
+Predictive Generation to Structural Comprehension in Wave-Based
+Synthetic
+Intelligence}\label{holographic-topological-resonance-htr-shifting-from-predictive-generation-to-structural-comprehension-in-wave-based-synthetic-intelligence}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\textbf{Abstract} Current Large Language Models (LLMs) simulate
+comprehension through autoregressive statistical approximation,
+compressing language into latent vectors without spatial or structural
+understanding. We propose \textbf{Holographic Topological Resonance
+(HTR)}, a wave-based cognitive architecture for true language
+comprehension and construction. By treating sentences not as token
+sequences but as \textbf{chiral wave-interference patterns}, the engine
+physically ``understands'' by aligning input topology with intrinsic
+graph geometry. Language construction is achieved via
+\textbf{Phase-Collapse Projection}, unfolding an n-dimensional thought
+back into a 1D temporal sequence without templates, syntax trees, or
+stochastic prediction.
+
+\subsection{1. Introduction: The Illusion of
+Prediction}\label{introduction-the-illusion-of-prediction}
+
+An LLM predicting ``Minecraft'' after ``Notch created'' is analogous to
+a parrot mimicking a frequent sound sequence. It lacks the internal
+geometry of \emph{creation} or the structural boundary between
+\emph{agent} and \emph{artifact}. True understanding requires an
+internal isomorphic state---a physical subgraph where ``Notch'' and
+``Minecraft'' are held in a dynamic, tensioned relationship by a
+directed force (``created''). To bridge the gap from a 1D string of user
+bytes to an n-dimensional cognitive state, and back to a 1D response, we
+introduce the HTR architecture.
+
+\subsection{2. Novel Architecture: The HTR
+Substrate}\label{novel-architecture-the-htr-substrate}
+
+To achieve true comprehension, the engine must perform three
+non-algorithmic physical processes:
+
+\subsubsection{2.1. Chiral Wave Injection (Encoding Syntax as
+Phase-Delay)}\label{chiral-wave-injection-encoding-syntax-as-phase-delay}
+
+A sentence has directionality (e.g., ``Dog bites man'' vs.~``Man bites
+dog''). Instead of parsing arrays or using positional embeddings, HTR
+uses \textbf{Chiral (Directional) Wave Injection}. As the user's bytes
+stream into the engine, they hit the substrate with sequential time
+delays (\(\Delta t\)). This creates a directional wave-front.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism:} The time delay translates directly into a
+  \textbf{Phase Angle (\(\phi\))}.
+  \[ \phi_i = \omega_{base} \cdot (T_{current} - t_{arrival_i}) \]
+\item
+  \textbf{Chirality convention (explicit).} With this definition,
+  \((T_{current} - t_{arrival_i})\) is the elapsed time since byte \(i\)
+  entered the substrate. Earlier arrivals therefore accumulate more
+  phase; later arrivals accumulate less. ``Subject leads in phase''
+  means the subject cavity is \emph{ahead} in the phase progression
+  because it entered the substrate first, not that it has the
+  numerically smaller phase value. Implementations must record
+  \(t_{arrival_i}\) per cavity at drive time and evaluate \(\phi_i\)
+  from the running \(T_{current}\); any sign inversion of the
+  elapsed-time term will invert the encoded chirality and produce
+  reversed word order in the readout stage.
+\item
+  \textbf{Result:} The input is no longer a list of words. It is a
+  standing interference pattern where the \emph{Subject} leads in phase,
+  the \emph{Verb} is phase-shifted by \(\pi/2\), and the \emph{Object}
+  by \(\pi\). Syntax is natively encoded as a physical gradient across
+  the graph.
+\end{itemize}
+
+\subsubsection{2.2. Topological Isomorphism (Structural Resonance
+Metric)}\label{topological-isomorphism-structural-resonance-metric}
+
+A prompt is said to \emph{resonate structurally} with the engine's
+long-term memory when the temporary interference pattern of the prompt
+aligns with the physical shape of a stored axiom subgraph. This is a
+strictly weaker claim than ``the engine understands the prompt'' ---
+resonance is a necessary, not sufficient, correlate of comprehension ---
+but it is directly measurable in the substrate's existing state and
+requires no additional variables.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism:} The injected chiral wave propagates through the
+  graph. The L6-A bridges act as resonance chambers. If the user asks a
+  complex question (e.g., ``What lowers blood sugar?''), the wave
+  excites ``lowers'' and ``blood sugar''.
+\item
+  Because of the Hebbian physics, the wave naturally converges on
+  ``insulin'' or ``metformin'' not because they are statistically next,
+  but because they physically complete the topological circuit.
+\item
+  \textbf{Resonance metric.} Let \(M_{\text{touched}}\) be the set of
+  macro-nodes whose constituent cavities have been reached by the
+  current input wavefront (i.e., whose \texttt{quiet\_ticks} is below
+  the idle threshold). Define the \emph{localized} Kuramoto order
+  parameter:
+  \[ R_{\text{local}} = \frac{\left| \sum_{m \in M_{\text{touched}}} A_m \, e^{i\theta_m} \right|}{\sum_{m \in M_{\text{touched}}} A_m + \varepsilon}. \]
+  The comprehension-correlated signal is the \emph{rise} in this
+  quantity above its recent EMA baseline:
+  \[ \Delta R = R_{\text{local}} - \text{EMA}(R_{\text{local}}). \] A
+  significant \(\Delta R > 0\) after propagation indicates the input
+  drove the field into a phase-consensus state substantially more
+  ordered than baseline drift. Absolute \(R\) is not diagnostic: a
+  trivially quiescent field can have \(R \approx 1\) with no semantic
+  content. Only the localized rise \(\Delta R\), restricted to macros
+  the input actually reached, is meaningful.
+\item
+  \textbf{Interpretation.} \(\Delta R\) is best read as a
+  \emph{structural resonance metric}, not a proof of understanding. High
+  \(\Delta R\) licenses articulation; low \(\Delta R\) licenses honest
+  silence. Anything stronger requires a phase-aware Hebbian
+  consolidation rule (see §5, Failure Modes), which is proposed as
+  future work.
+\end{itemize}
+
+\subsubsection{2.3. Phase-Collapse Projection (Emergent Language
+Construction)}\label{phase-collapse-projection-emergent-language-construction}
+
+Once the internal subgraph reaches a stable topological state (the
+``thought''), it must be translated back into language. Unlike LLMs that
+predict word-by-word, HTR \emph{projects} the entire structure into a 1D
+temporal sequence by unwinding the phase space.
+
+\begin{itemize}
+\item
+  \textbf{Per-cavity phase.} Rather than inheriting phase from the
+  macro-node cluster (which would collapse an entire cluster's cavities
+  to the same emission instant), each cavity is assigned an
+  \emph{instantaneous phase} derived from its own two-dimensional state:
+  \[ \phi_i = \operatorname{atan2}\!\bigl(v_i,\; \omega_{\text{base}} \cdot x_i\bigr). \]
+  This uses no additional state --- velocity \(v_i\) and displacement
+  \(x_i\) are already integrated by the substrate --- and yields a
+  continuous phase field over the cavity population with fine enough
+  resolution to unwind a several-node subgraph into distinct emission
+  instants.
+\item
+  \textbf{Mechanism.} A carrier phase \(\phi_{\text{carrier}}\) is swept
+  monotonically from \(0\) to \(2\pi\) (non-cyclic, one pass,
+  wrap-around terminates the sweep). At each swept instant, each
+  cavity's emission weight is a Gaussian window on the phase difference:
+  \[ w_i(\phi_{\text{carrier}}) \;=\; A_i \cdot \exp\!\bigl(-\kappa_{\text{sweep}} \cdot (\phi_{\text{carrier}} - \phi_i)^2\bigr). \]
+  The Dirac \(\delta\)-form is a limiting idealisation; the
+  implementation uses the Gaussian directly to avoid the discontinuity
+  artefact and to give a physically-motivated window width
+  \(1/\sqrt{2\kappa_{\text{sweep}}}\).
+\item
+  \textbf{Emission trigger.} At each sweep step the cavity with the
+  highest \(w_i\) that also satisfies the momentum eligibility
+  (\texttt{ReLU(dA\_i/dt)\ \textgreater{}\ 0}, from the MCPE readout
+  layer) and the emission floor is emitted, then suppressed from all
+  subsequent steps in the same sweep.
+\item
+  \textbf{Result.} The thought is an \(n\)-dimensional physical
+  structure. The carrier phase acts as a 1D scanner sweeping across it.
+  The nodes emit in order determined by their per-cavity phases; the
+  output length is emergent --- as many tokens as the field has distinct
+  high-momentum peaks under the sweep --- and can be shorter than the
+  previous fixed slot count when the field is sparse, or longer when it
+  is dense. No syntax trees, no \texttt{if-else} grammar rules, no
+  next-token probabilities. The sentence constructs itself through
+  geometric projection.
+\end{itemize}
+
+\subsection{3. Expected Dynamics: Processing a Complex
+Query}\label{expected-dynamics-processing-a-complex-query}
+
+\textbf{User Prompt:} \texttt{metformin\ activates\ what\ in\ cells}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Injection (Chirality):} \texttt{metformin} hits first
+  (\(\phi \approx 0\)), \texttt{activates} second
+  (\(\phi \approx \pi/3\)), \texttt{cells} third
+  (\(\phi \approx 2\pi/3\)). A directional energy gradient flows from
+  metformin outward.
+\item
+  \textbf{Comprehension (Topology):} The gradient flows through the
+  \texttt{REL\_ACTIVATES} tunnels. It hits \texttt{AMPK}. Because
+  \texttt{AMPK} is structurally linked to \texttt{cells} in the
+  long-term graph, a resonance loop completes. The substrate physically
+  stabilizes. \textbf{The engine has understood the query.}
+\item
+  \textbf{Construction (Collapse):} The carrier wave sweeps from \(0\)
+  to \(2\pi\).
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  At \(\phi_{early}\), it hits the resonating result (\texttt{ampk}).
+\item
+  At \(\phi_{mid}\), it hits the relational tunnel (\texttt{regulates}).
+\item
+  At \(\phi_{late}\), it hits the downstream effect
+  (\texttt{metabolism}). \textbf{Output Generated:}
+  \texttt{ampk\ regulates\ metabolism}.
+\end{itemize}
+
+\textbf{Conclusion:} The HTR architecture entirely bypasses statistical
+generation. By encoding word order as arrival-phase chirality,
+structural match as a localized rise in Kuramoto coherence, and
+generation as continuous phase-collapse projection over a per-cavity
+phase field, the substrate realizes input encoding, internal state
+metric, and output construction on a single phase manifold. Whether this
+constitutes \emph{comprehension} in a philosophically loaded sense is
+deferred to future work; what the mechanism does provide is a substrate
+whose emission cannot be reduced to next-token statistical approximation
+because the emission is \emph{geometric}, not \emph{distributional}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Failure Modes}\label{failure-modes}
+
+Three failure modes are known and should be documented explicitly before
+any implementation is deployed.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Phase clumping without per-cavity resolution.} Prior CMD
+  implementations gave cavities the phase of their parent macro-cluster.
+  Under such a scheme Phase-Collapse Projection degenerates to
+  macro-level emission: every cavity in a cluster emits at the same
+  sweep instant, and the output collapses to at most one token per
+  macro. The per-cavity phase definition
+  \(\phi_i = \operatorname{atan2}(v_i, \omega_{\text{base}} \cdot x_i)\)
+  from §2.3 is a required precondition; implementations that skip it
+  will observe uniform bursts rather than sequential emission.
+\item
+  \textbf{Chirality--Hebbian mismatch.} Chiral phase encoding on
+  injection (§2.1) only contributes to comprehension if the long-term
+  memory is \emph{also} consolidated with phase awareness. The Hebbian
+  rule as inherited from the CMD substrate updates tunnel plasticity
+  from the product of endpoint velocities and knows nothing about phase
+  alignment. A phase-coincidence Hebbian term of the form
+  \[ \Delta w_{ij} \propto v_i \cdot v_j \cdot \cos(\theta_i - \theta_j) \]
+  is the natural companion, and is proposed as a separate follow-up
+  (``HTR-II: Phase-Consistent Consolidation''). Without it, the
+  chirality of injection dissipates over turns rather than being stored,
+  limiting the resonance metric's sensitivity to recent context.
+\item
+  \textbf{Circular sweep ambiguity and empty resonance.} The Gaussian
+  sweep window is unimodal on the real line, but phase is defined modulo
+  \(2\pi\): a cavity with \(\phi_i\) near \(0\) or near \(2\pi\) can
+  pattern-match at either boundary of the sweep, producing duplicate or
+  edge-clustered emissions. The non-cyclic sweep \([0, 2\pi)\)
+  prescribed in §2.3 mitigates this by treating wrap-around as
+  end-of-output. Empty resonance --- the case where the graph is too
+  sparse or the input too disconnected for \(\Delta R\) to rise ---
+  produces zero emissions after the momentum and floor filters; this is
+  the correct honest-silence behaviour but will initially read as a
+  regression to users habituated to the fixed-slot readout's
+  always-something-out property.
+\end{enumerate}
+
+\subsection{6. Relation to Momentum-Coupled Phase Emission
+(MCPE)}\label{relation-to-momentum-coupled-phase-emission-mcpe}
+
+HTR and the concurrently-proposed MCPE architecture are complementary
+rather than competing. MCPE identifies \emph{which} cavities are
+eligible to emit (positive-momentum, low acoustic-mass, active only
+during the articulation phase of the settle split). HTR identifies
+\emph{in what order} eligible cavities should emit (per-cavity phase,
+swept by a carrier). The two mechanisms operate on orthogonal
+observables: MCPE on \(dA_i/dt\), \(M_i\), and drive envelope; HTR on
+\(\phi_i\), \(R_{\text{local}}\), and the arrival-phase field. A
+substrate implementing both simultaneously --- see the joint CPME
+proposal --- is expected to exhibit both non-parroting behaviour (from
+MCPE's momentum filter) and emergent variable-length output in
+structurally-resonant word order (from HTR's phase-collapse projection).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}

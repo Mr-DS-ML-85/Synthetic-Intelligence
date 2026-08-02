@@ -1,0 +1,2940 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Emission and Readout --- Phase, Momentum, Gauge and Metastability},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Emission and Readout --- Phase, Momentum, Gauge and
+Metastability}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Emission and Readout --- Phase, Momentum, Gauge and
+Metastability}\label{emission-and-readout-phase-momentum-gauge-and-metastability}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{quote}
+How a settled field becomes an ordered output, and the mechanisms that
+stop it locking.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Read This Before Citing}\label{read-this-before-citing}
+
+\textbf{The emission problem is only half solved, and the two halves are
+easy to confuse.}
+
+\textbf{MRS} (\texttt{mrs.md}) has a \emph{recognition} half and an
+\emph{emission} half. Recognition works: bigram sensory lanes survive
+misspellings and transpositions at 7/7 measured. Emission
+\textbf{babbles} and is retired. Citing MRS as a working generator
+misreports it.
+
+\textbf{Concept-level ordering works; byte-level does not.} CPME's
+phase-collapse sweep and CPSB's gauge offsets order \emph{which concept
+follows which}, and that holds. Producing the \emph{bytes of a word} is
+unsolved, and the Language volume argues that for grammar the question
+was mis-stated rather than merely hard.
+
+\textbf{CSAT} is opt-in and off by default.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Contents of This Volume}\label{contents-of-this-volume}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\#
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+File
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & Escaping the Echo: Momentum-Coupled Phase Emission for Generative
+Resonance in Synthetic Intelligence & \texttt{mcpe.md} \\
+2 & Holographic Topological Resonance (HTR): Shifting from Predictive
+Generation to Structural Comprehension in Wave-Based Synthetic
+Intelligence & \texttt{htr.md} \\
+3 & Chiral Phase-Momentum Emission (CPME) & \texttt{cpme.md} \\
+4 & CPME-II: Phase-Consistent Hebbian Consolidation &
+\texttt{cpme\_ii.md} \\
+5 & Chiral Phase-Shear Binding (CPSB): Rendering Syntax as
+Gauge-Theoretic Tension in Wave-Based SI & \texttt{cpsb.md} \\
+6 & Voltage-Gated Harmonic Topology (VGHT) & \texttt{vght.md} \\
+7 & Chaotic Strange-Attractor Trajectory (CSAT): Breaking Ground-State
+Locking in Synthetic Intelligence & \texttt{CSAT.md} \\
+8 & Morphological Resonance Synthesis (MRS): Language Construction
+Without Tokens, Gradients, or Learned Embeddings & \texttt{mrs.md} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Escaping the Echo: Momentum-Coupled Phase Emission for
+Generative Resonance in Synthetic
+Intelligence}\label{escaping-the-echo-momentum-coupled-phase-emission-for-generative-resonance-in-synthetic-intelligence}
+
+\textbf{Abstract} In wave-based cognitive substrates utilizing
+Continuous Morphological Dynamics (CMD), external stimuli inherently
+generate maximal amplitude at the point of injection, leading to
+``Stimulus Reflection'' (the parrot effect) during syntax emission. We
+propose a novel non-algorithmic architecture, \textbf{Momentum-Coupled
+Phase Emission (MCPE)}, which transitions the readout mechanism from
+absolute amplitude to kinetic wave momentum. By coupling syntax
+oscillators exclusively to the first derivative of the energy field
+(\(dA/dt > 0\)), the substrate naturally ignores decaying direct stimuli
+and phase-locks exclusively to emergent, forward-scattering internal
+thoughts.
+
+\subsubsection{1. Introduction: The Acoustic Blinding
+Problem}\label{introduction-the-acoustic-blinding-problem}
+
+In the current iteration of the SI engine, the Kuramoto syntax slots
+(Subject, Verb, Object) phase-lock to cavities with the highest absolute
+amplitude (\(A\)). When external input (e.g., ``notch created
+minecraft'') drives the field, those specific cavities reach maximum
+\(A\). Before the wave can propagate deep into the latent graph to
+retrieve a meaningful association, the syntax slots lock onto the
+massive input wave, resulting in a mirrored output. The system is
+structurally blind to its own internal resonance because the external
+drive acts as an acoustic flashbang.
+
+\subsubsection{2. Novel Architecture: Momentum-Coupled Phase Emission
+(MCPE)}\label{novel-architecture-momentum-coupled-phase-emission-mcpe}
+
+To solve this without algorithmic filtering, we introduce a Hamiltonian
+shift in the readout layer. Instead of coupling syntax slots to the
+``position'' (Amplitude, \(A\)) of the wave, we couple them to the
+``momentum'' (Flux, \(P\)).
+
+\paragraph{\texorpdfstring{2.1. First-Derivative Readout (\(dA/dt\)
+Gating)}{2.1. First-Derivative Readout (dA/dt Gating)}}\label{first-derivative-readout-dadt-gating}
+
+In a physical wave system, a cavity directly hit by a stimulus reaches
+peak energy and immediately begins to disperse it (cooling down). Its
+amplitude is high, but its momentum is negative (\(dA/dt \le 0\)).
+Conversely, deep-graph nodes that are currently being activated by
+internal resonance are absorbing energy; their amplitude might be lower,
+but their momentum is strictly positive (\(dA/dt > 0\)).
+
+We redefine the coupling strength \(K_{emit}\) between a cavity \(i\)
+and a syntax slot as:
+\[ K_{emit} = \Theta\left(\frac{dA_i}{dt}\right) \cdot A_i \] Where
+\(\Theta(x)\) is the Heaviside step function (returns \(x\) if \(x>0\),
+else \(0\)). \emph{Result:} Directly driven words (the user's prompt)
+instantly decouple from the output slots the millisecond the prompt
+ends, because they are decaying. The output slots are physically forced
+to lock onto the \emph{ripples} (the internal thoughts), not the
+\emph{splash} (the user's input).
+
+\paragraph{2.2. Thermodynamic Refractoriness (The ``Acoustic
+Mass'')}\label{thermodynamic-refractoriness-the-acoustic-mass}
+
+To prevent the wave from bouncing directly back to the input nodes, we
+modify the cavity inertia. When a cavity is driven externally, it
+accumulates temporary ``acoustic mass'' \(M_i\):
+\[ \frac{dM_i}{dt} = \gamma I_{ext} - \delta M_i \] Higher mass lowers
+the cavity's fundamental oscillating frequency temporarily, pushing it
+out of the L6-A (3Hz) emission band. It retains its associative links
+but becomes too ``heavy'' to be picked up by the Kuramoto slots.
+
+\paragraph{2.3. Temporal Settle Separation (Perception
+vs.~Articulation)}\label{temporal-settle-separation-perception-vs.-articulation}
+
+We separate the physics tick into two distinct phases using a global
+damping coefficient \(\zeta\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Injection Phase (\(T_0\) to \(T_1\)):} External wave hits.
+  \(\zeta\) is high. Energy is absorbed. Syntax slots are decoupled
+  (\(K=0\)).
+\item
+  \textbf{Articulation Phase (\(T_1\) to \(T_2\)):} External drive is 0.
+  \(\zeta\) drops. The wave propagates through the L6-A bridges. Syntax
+  slots engage, seeking positive momentum (\(dA/dt > 0\)).
+\end{enumerate}
+
+\subsubsection{3. Expected Dynamics}\label{expected-dynamics}
+
+\textbf{Scenario:} User inputs \texttt{insulin\ controls\ glucose}.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{\(T_0\) (Injection):} Cavities \texttt{insulin},
+  \texttt{controls}, and \texttt{glucose} spike in absolute amplitude
+  (\(A \approx 1.0\)). Their mass \(M_i\) increases.
+\item
+  \textbf{\(T_1\) (Propagation):} Input ceases. The energy from
+  \texttt{insulin} and \texttt{glucose} propagates through the ontology
+  graph to connected cavities like \texttt{metabolism},
+  \texttt{pancreas}, and \texttt{glycogen}.
+\item
+  \textbf{\(T_2\) (Articulation):}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{insulin} has high \(A\), but \(dA/dt < 0\) (cooling). It is
+  ignored.
+\item
+  \texttt{pancreas} has medium \(A\), but \(dA/dt > 0\) (warming up). It
+  is locked.
+\item
+  The Kuramoto slots phase-lock to
+  \texttt{pancreas\ regulates\ metabolism} rather than parroting the
+  input.
+\end{itemize}
+
+\textbf{Conclusion:} MCPE preserves the zero-rule continuous dynamics of
+the substrate while physically guaranteeing that the engine generates
+consequences rather than echoing stimuli.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Holographic Topological Resonance (HTR): Shifting from
+Predictive Generation to Structural Comprehension in Wave-Based
+Synthetic
+Intelligence}\label{holographic-topological-resonance-htr-shifting-from-predictive-generation-to-structural-comprehension-in-wave-based-synthetic-intelligence}
+
+\textbf{Abstract} Current Large Language Models (LLMs) simulate
+comprehension through autoregressive statistical approximation,
+compressing language into latent vectors without spatial or structural
+understanding. We propose \textbf{Holographic Topological Resonance
+(HTR)}, a wave-based cognitive architecture for true language
+comprehension and construction. By treating sentences not as token
+sequences but as \textbf{chiral wave-interference patterns}, the engine
+physically ``understands'' by aligning input topology with intrinsic
+graph geometry. Language construction is achieved via
+\textbf{Phase-Collapse Projection}, unfolding an n-dimensional thought
+back into a 1D temporal sequence without templates, syntax trees, or
+stochastic prediction.
+
+\subsubsection{1. Introduction: The Illusion of
+Prediction}\label{introduction-the-illusion-of-prediction}
+
+An LLM predicting ``Minecraft'' after ``Notch created'' is analogous to
+a parrot mimicking a frequent sound sequence. It lacks the internal
+geometry of \emph{creation} or the structural boundary between
+\emph{agent} and \emph{artifact}. True understanding requires an
+internal isomorphic state---a physical subgraph where ``Notch'' and
+``Minecraft'' are held in a dynamic, tensioned relationship by a
+directed force (``created''). To bridge the gap from a 1D string of user
+bytes to an n-dimensional cognitive state, and back to a 1D response, we
+introduce the HTR architecture.
+
+\subsubsection{2. Novel Architecture: The HTR
+Substrate}\label{novel-architecture-the-htr-substrate}
+
+To achieve true comprehension, the engine must perform three
+non-algorithmic physical processes:
+
+\paragraph{2.1. Chiral Wave Injection (Encoding Syntax as
+Phase-Delay)}\label{chiral-wave-injection-encoding-syntax-as-phase-delay}
+
+A sentence has directionality (e.g., ``Dog bites man'' vs.~``Man bites
+dog''). Instead of parsing arrays or using positional embeddings, HTR
+uses \textbf{Chiral (Directional) Wave Injection}. As the user's bytes
+stream into the engine, they hit the substrate with sequential time
+delays (\(\Delta t\)). This creates a directional wave-front.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism:} The time delay translates directly into a
+  \textbf{Phase Angle (\(\phi\))}.
+  \[ \phi_i = \omega_{base} \cdot (T_{current} - t_{arrival_i}) \]
+\item
+  \textbf{Chirality convention (explicit).} With this definition,
+  \((T_{current} - t_{arrival_i})\) is the elapsed time since byte \(i\)
+  entered the substrate. Earlier arrivals therefore accumulate more
+  phase; later arrivals accumulate less. ``Subject leads in phase''
+  means the subject cavity is \emph{ahead} in the phase progression
+  because it entered the substrate first, not that it has the
+  numerically smaller phase value. Implementations must record
+  \(t_{arrival_i}\) per cavity at drive time and evaluate \(\phi_i\)
+  from the running \(T_{current}\); any sign inversion of the
+  elapsed-time term will invert the encoded chirality and produce
+  reversed word order in the readout stage.
+\item
+  \textbf{Result:} The input is no longer a list of words. It is a
+  standing interference pattern where the \emph{Subject} leads in phase,
+  the \emph{Verb} is phase-shifted by \(\pi/2\), and the \emph{Object}
+  by \(\pi\). Syntax is natively encoded as a physical gradient across
+  the graph.
+\end{itemize}
+
+\paragraph{2.2. Topological Isomorphism (Structural Resonance
+Metric)}\label{topological-isomorphism-structural-resonance-metric}
+
+A prompt is said to \emph{resonate structurally} with the engine's
+long-term memory when the temporary interference pattern of the prompt
+aligns with the physical shape of a stored axiom subgraph. This is a
+strictly weaker claim than ``the engine understands the prompt'' ---
+resonance is a necessary, not sufficient, correlate of comprehension ---
+but it is directly measurable in the substrate's existing state and
+requires no additional variables.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism:} The injected chiral wave propagates through the
+  graph. The L6-A bridges act as resonance chambers. If the user asks a
+  complex question (e.g., ``What lowers blood sugar?''), the wave
+  excites ``lowers'' and ``blood sugar''.
+\item
+  Because of the Hebbian physics, the wave naturally converges on
+  ``insulin'' or ``metformin'' not because they are statistically next,
+  but because they physically complete the topological circuit.
+\item
+  \textbf{Resonance metric.} Let \(M_{\text{touched}}\) be the set of
+  macro-nodes whose constituent cavities have been reached by the
+  current input wavefront (i.e., whose \texttt{quiet\_ticks} is below
+  the idle threshold). Define the \emph{localized} Kuramoto order
+  parameter:
+  \[ R_{\text{local}} = \frac{\left| \sum_{m \in M_{\text{touched}}} A_m \, e^{i\theta_m} \right|}{\sum_{m \in M_{\text{touched}}} A_m + \varepsilon}. \]
+  The comprehension-correlated signal is the \emph{rise} in this
+  quantity above its recent EMA baseline:
+  \[ \Delta R = R_{\text{local}} - \text{EMA}(R_{\text{local}}). \] A
+  significant \(\Delta R > 0\) after propagation indicates the input
+  drove the field into a phase-consensus state substantially more
+  ordered than baseline drift. Absolute \(R\) is not diagnostic: a
+  trivially quiescent field can have \(R \approx 1\) with no semantic
+  content. Only the localized rise \(\Delta R\), restricted to macros
+  the input actually reached, is meaningful.
+\item
+  \textbf{Interpretation.} \(\Delta R\) is best read as a
+  \emph{structural resonance metric}, not a proof of understanding. High
+  \(\Delta R\) licenses articulation; low \(\Delta R\) licenses honest
+  silence. Anything stronger requires a phase-aware Hebbian
+  consolidation rule (see §5, Failure Modes), which is proposed as
+  future work.
+\end{itemize}
+
+\paragraph{2.3. Phase-Collapse Projection (Emergent Language
+Construction)}\label{phase-collapse-projection-emergent-language-construction}
+
+Once the internal subgraph reaches a stable topological state (the
+``thought''), it must be translated back into language. Unlike LLMs that
+predict word-by-word, HTR \emph{projects} the entire structure into a 1D
+temporal sequence by unwinding the phase space.
+
+\begin{itemize}
+\item
+  \textbf{Per-cavity phase.} Rather than inheriting phase from the
+  macro-node cluster (which would collapse an entire cluster's cavities
+  to the same emission instant), each cavity is assigned an
+  \emph{instantaneous phase} derived from its own two-dimensional state:
+  \[ \phi_i = \operatorname{atan2}\!\bigl(v_i,\; \omega_{\text{base}} \cdot x_i\bigr). \]
+  This uses no additional state --- velocity \(v_i\) and displacement
+  \(x_i\) are already integrated by the substrate --- and yields a
+  continuous phase field over the cavity population with fine enough
+  resolution to unwind a several-node subgraph into distinct emission
+  instants.
+\item
+  \textbf{Mechanism.} A carrier phase \(\phi_{\text{carrier}}\) is swept
+  monotonically from \(0\) to \(2\pi\) (non-cyclic, one pass,
+  wrap-around terminates the sweep). At each swept instant, each
+  cavity's emission weight is a Gaussian window on the phase difference:
+  \[ w_i(\phi_{\text{carrier}}) \;=\; A_i \cdot \exp\!\bigl(-\kappa_{\text{sweep}} \cdot (\phi_{\text{carrier}} - \phi_i)^2\bigr). \]
+  The Dirac \(\delta\)-form is a limiting idealisation; the
+  implementation uses the Gaussian directly to avoid the discontinuity
+  artefact and to give a physically-motivated window width
+  \(1/\sqrt{2\kappa_{\text{sweep}}}\).
+\item
+  \textbf{Emission trigger.} At each sweep step the cavity with the
+  highest \(w_i\) that also satisfies the momentum eligibility
+  (\texttt{ReLU(dA\_i/dt)\ \textgreater{}\ 0}, from the MCPE readout
+  layer) and the emission floor is emitted, then suppressed from all
+  subsequent steps in the same sweep.
+\item
+  \textbf{Result.} The thought is an \(n\)-dimensional physical
+  structure. The carrier phase acts as a 1D scanner sweeping across it.
+  The nodes emit in order determined by their per-cavity phases; the
+  output length is emergent --- as many tokens as the field has distinct
+  high-momentum peaks under the sweep --- and can be shorter than the
+  previous fixed slot count when the field is sparse, or longer when it
+  is dense. No syntax trees, no \texttt{if-else} grammar rules, no
+  next-token probabilities. The sentence constructs itself through
+  geometric projection.
+\end{itemize}
+
+\subsubsection{3. Expected Dynamics: Processing a Complex
+Query}\label{expected-dynamics-processing-a-complex-query}
+
+\textbf{User Prompt:} \texttt{metformin\ activates\ what\ in\ cells}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Injection (Chirality):} \texttt{metformin} hits first
+  (\(\phi \approx 0\)), \texttt{activates} second
+  (\(\phi \approx \pi/3\)), \texttt{cells} third
+  (\(\phi \approx 2\pi/3\)). A directional energy gradient flows from
+  metformin outward.
+\item
+  \textbf{Comprehension (Topology):} The gradient flows through the
+  \texttt{REL\_ACTIVATES} tunnels. It hits \texttt{AMPK}. Because
+  \texttt{AMPK} is structurally linked to \texttt{cells} in the
+  long-term graph, a resonance loop completes. The substrate physically
+  stabilizes. \textbf{The engine has understood the query.}
+\item
+  \textbf{Construction (Collapse):} The carrier wave sweeps from \(0\)
+  to \(2\pi\).
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  At \(\phi_{early}\), it hits the resonating result (\texttt{ampk}).
+\item
+  At \(\phi_{mid}\), it hits the relational tunnel (\texttt{regulates}).
+\item
+  At \(\phi_{late}\), it hits the downstream effect
+  (\texttt{metabolism}). \textbf{Output Generated:}
+  \texttt{ampk\ regulates\ metabolism}.
+\end{itemize}
+
+\textbf{Conclusion:} The HTR architecture entirely bypasses statistical
+generation. By encoding word order as arrival-phase chirality,
+structural match as a localized rise in Kuramoto coherence, and
+generation as continuous phase-collapse projection over a per-cavity
+phase field, the substrate realizes input encoding, internal state
+metric, and output construction on a single phase manifold. Whether this
+constitutes \emph{comprehension} in a philosophically loaded sense is
+deferred to future work; what the mechanism does provide is a substrate
+whose emission cannot be reduced to next-token statistical approximation
+because the emission is \emph{geometric}, not \emph{distributional}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Failure Modes}\label{failure-modes}
+
+Three failure modes are known and should be documented explicitly before
+any implementation is deployed.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Phase clumping without per-cavity resolution.} Prior CMD
+  implementations gave cavities the phase of their parent macro-cluster.
+  Under such a scheme Phase-Collapse Projection degenerates to
+  macro-level emission: every cavity in a cluster emits at the same
+  sweep instant, and the output collapses to at most one token per
+  macro. The per-cavity phase definition
+  \(\phi_i = \operatorname{atan2}(v_i, \omega_{\text{base}} \cdot x_i)\)
+  from §2.3 is a required precondition; implementations that skip it
+  will observe uniform bursts rather than sequential emission.
+\item
+  \textbf{Chirality--Hebbian mismatch.} Chiral phase encoding on
+  injection (§2.1) only contributes to comprehension if the long-term
+  memory is \emph{also} consolidated with phase awareness. The Hebbian
+  rule as inherited from the CMD substrate updates tunnel plasticity
+  from the product of endpoint velocities and knows nothing about phase
+  alignment. A phase-coincidence Hebbian term of the form
+  \[ \Delta w_{ij} \propto v_i \cdot v_j \cdot \cos(\theta_i - \theta_j) \]
+  is the natural companion, and is proposed as a separate follow-up
+  (``HTR-II: Phase-Consistent Consolidation''). Without it, the
+  chirality of injection dissipates over turns rather than being stored,
+  limiting the resonance metric's sensitivity to recent context.
+\item
+  \textbf{Circular sweep ambiguity and empty resonance.} The Gaussian
+  sweep window is unimodal on the real line, but phase is defined modulo
+  \(2\pi\): a cavity with \(\phi_i\) near \(0\) or near \(2\pi\) can
+  pattern-match at either boundary of the sweep, producing duplicate or
+  edge-clustered emissions. The non-cyclic sweep \([0, 2\pi)\)
+  prescribed in §2.3 mitigates this by treating wrap-around as
+  end-of-output. Empty resonance --- the case where the graph is too
+  sparse or the input too disconnected for \(\Delta R\) to rise ---
+  produces zero emissions after the momentum and floor filters; this is
+  the correct honest-silence behaviour but will initially read as a
+  regression to users habituated to the fixed-slot readout's
+  always-something-out property.
+\end{enumerate}
+
+\subsubsection{6. Relation to Momentum-Coupled Phase Emission
+(MCPE)}\label{relation-to-momentum-coupled-phase-emission-mcpe}
+
+HTR and the concurrently-proposed MCPE architecture are complementary
+rather than competing. MCPE identifies \emph{which} cavities are
+eligible to emit (positive-momentum, low acoustic-mass, active only
+during the articulation phase of the settle split). HTR identifies
+\emph{in what order} eligible cavities should emit (per-cavity phase,
+swept by a carrier). The two mechanisms operate on orthogonal
+observables: MCPE on \(dA_i/dt\), \(M_i\), and drive envelope; HTR on
+\(\phi_i\), \(R_{\text{local}}\), and the arrival-phase field. A
+substrate implementing both simultaneously --- see the joint CPME
+proposal --- is expected to exhibit both non-parroting behaviour (from
+MCPE's momentum filter) and emergent variable-length output in
+structurally-resonant word order (from HTR's phase-collapse projection).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\subsection{Chiral Phase-Momentum Emission
+(CPME)}\label{chiral-phase-momentum-emission-cpme}
+
+\emph{A unified emission substrate combining the Momentum-Coupled Phase
+Emission (MCPE) filter architecture with the Holographic Topological
+Resonance (HTR) phase-projection readout. CPME operates on a single
+phase manifold: chirality on injection, coherence-rise as the resonance
+metric, momentum as the eligibility filter, and continuous
+phase-collapse sweep as the emission mechanism. No syntax trees, no
+grammar rules, no next-token statistics, and no fixed output length.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{0. Position}\label{position}
+
+The Continuous Morphological Dynamics (CMD) substrate, extended by
+Voltage-Gated Harmonic Topology (VGHT), produces domain-orthogonal
+cognition with sparse cross-domain analogical bridging. Its emission
+layer, however, has two orthogonal deficits that the previous literature
+treats separately:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Stimulus Reflection.} External input directly drives concept
+  cavities to maximal amplitude; the fixed-slot Kuramoto readout locks
+  onto those cavities before internal propagation can produce a
+  downstream response. The system parrots.
+\item
+  \textbf{Fixed-Slot Rigidity.} The Subject/Verb/Object slot readout
+  presupposes a three-word template. Simpler answers waste slots; more
+  complex answers are truncated. Word order is imposed by the slot
+  definitions rather than emerging from the field.
+\end{enumerate}
+
+MCPE addresses (1) by shifting the readout observable from amplitude
+\(A\) to momentum \(dA/dt\) and by muting recently-driven cavities via
+acoustic mass. HTR addresses (2) by replacing the fixed slots with a
+continuous carrier-phase sweep over a per-cavity phase field, and by
+introducing arrival-time chirality on injection so that word order
+becomes a physical gradient rather than a syntax rule.
+
+CPME unifies the two proposals into a single emission substrate. MCPE
+identifies \emph{which} cavities are eligible to emit; HTR identifies
+\emph{in what order} eligible cavities emit. The two operate on
+orthogonal state variables and compose without collision.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{1. Architecture}\label{architecture}
+
+Let the substrate be the CMD + VGHT engine as previously specified:
+cavities indexed by \(i \in [0, N)\) with per-cavity displacement
+\(x_i\), velocity \(v_i\), heat \(T_i\), and quiet age \(q_i\); tunnels
+with per-tunnel stiffness \(k\), damping \(c\), polarity \(p\), and
+voltage gating \(g \in \{0, 1\}\); and macro-nodes with per-cluster
+phase \(\theta_m\), amplitude \(A_m\), and natural frequency
+\(\omega_m\) drawn from the VGHT sub-band ladder. The base cavity
+frequency is \(\omega_0\).
+
+CPME adds six mechanisms.
+
+\paragraph{1.1 Chiral Wave Injection (from HTR
+§2.1)}\label{chiral-wave-injection-from-htr-2.1}
+
+Each cavity records the simulation time at which it was most recently
+driven:
+
+\begin{verbatim}
+t_arrival_i ← sim_time    (whenever drive(i, ·) is called)
+\end{verbatim}
+
+The cavity's oscillator phase at any subsequent tick is
+\(\phi_i^{\text{driven}} = \omega_0 \cdot (T_{\text{current}} - t_{\text{arrival}, i})\).
+Earlier-arriving bytes therefore accumulate \emph{more} phase; the
+subject leads in phase because it entered the substrate first. Chirality
+is inherited \emph{for free} from the existing sinusoidal drive term ---
+the arrival time only needs to be \emph{recorded} so the readout can
+reference it. No new tick math.
+
+\paragraph{1.2 Momentum Filter (from MCPE
+§2.1)}\label{momentum-filter-from-mcpe-2.1}
+
+Every cavity carries an exponential-moving-average amplitude envelope:
+
+\begin{verbatim}
+E_i ← β · E_i + (1 − β) · |x_i|            (β = 0.9)
+\end{verbatim}
+
+and the tick publishes the \emph{previous-tick} envelope as
+\(E_i^{\text{prev}}\) so that the momentum
+
+\begin{verbatim}
+P_i = E_i − E_i^{\text{prev}}
+\end{verbatim}
+
+is the low-pass-filtered rate of change of amplitude. Directly-driven
+cavities that have peaked and are dispersing energy have \(P_i \le 0\);
+deep-graph cavities absorbing energy from downstream propagation have
+\(P_i > 0\). The emission eligibility factor is \(\text{ReLU}(P_i)\), a
+smooth non-negative scalar.
+
+This replaces the naïve \(dA/dt\) = \(|v|\) - style derivative, which
+oscillates at \(2\omega_{\text{drive}}\) and produces a strobe artefact
+in the readout. Envelope EMA is the physically correct low-pass.
+
+\paragraph{1.3 Acoustic Mass (from MCPE
+§2.2)}\label{acoustic-mass-from-mcpe-2.2}
+
+Each cavity carries a per-cavity mass increment \(M_i\) driven by the
+external injection load:
+
+\begin{verbatim}
+dM_i/dt = γ · I_{ext, i} − δ · M_i
+\end{verbatim}
+
+with \(\gamma = 0.30\), \(\delta = 0.08\). \(I_{\text{ext}, i}\) is the
+instantaneous drive envelope on cavity \(i\), i.e., precisely the signal
+that makes an input-driven cavity ``loud.'' The resulting emission mask
+
+\begin{verbatim}
+μ_i = 1 / (1 + M_i / M_{scale})            (M_scale = 1.0)
+\end{verbatim}
+
+falls toward zero for freshly-driven cavities and returns toward
+\(\mu_i = 1\) as \(M_i\) decays. Applied only in the emission scoring;
+the field dynamics are untouched, so graph connectivity is preserved.
+
+\paragraph{1.4 Settle Separation (from MCPE
+§2.3)}\label{settle-separation-from-mcpe-2.3}
+
+The tick maintains a global injection load
+
+\begin{verbatim}
+L = Σ_i drive_amp_i · drive_envelope_i
+\end{verbatim}
+
+and derives a \emph{slot coupling} factor
+
+\begin{verbatim}
+K_settle = 1 − σ((L − L_thresh) / L_scale)
+\end{verbatim}
+
+with \(\sigma\) the logistic, \(L_{\text{thresh}} = 0.5\),
+\(L_{\text{scale}} = 0.2\). During active injection,
+\(K_{\text{settle}} \approx 0\) and the emission readout is suppressed.
+As the drive envelopes decay, \(K_{\text{settle}} \to 1\) and
+articulation engages. The transition is continuous --- no discrete
+\(T_0 / T_1 / T_2\) boundary.
+
+\paragraph{1.5 Coherence-Rise Metric (from HTR
+§2.2)}\label{coherence-rise-metric-from-htr-2.2}
+
+The tick computes the \emph{localized} Kuramoto order parameter over
+input-touched macros:
+
+\begin{verbatim}
+R_local = |Σ_{m ∈ touched} A_m · e^{i θ_m}| / (Σ_{m ∈ touched} A_m + ε)
+\end{verbatim}
+
+where \(M_{\text{touched}}\) is the set of macros with at least one
+non-quiet cavity (\(q_i < K_{\text{idle}}\)). \(R_{\text{local}}\) is
+tracked against its EMA baseline \(\bar R\):
+
+\begin{verbatim}
+ΔR = R_local − R̄            (R̄ ← λR̄ + (1−λ) R_local, λ = 0.98)
+\end{verbatim}
+
+\(\Delta R\) is exposed as a substrate observable but does not directly
+gate emission; it is diagnostic. Silence when \(\Delta R\) is low
+emerges from the emission floor being unmet, not from an explicit
+\(\Delta R\) gate. This preserves the substrate's honest-silence
+property without turning \(\Delta R\) into a rule.
+
+\paragraph{1.6 Phase-Collapse Projection (from HTR
+§2.3)}\label{phase-collapse-projection-from-htr-2.3}
+
+The emission readout is replaced entirely. Per-cavity phase is computed
+on demand from existing state:
+
+\begin{verbatim}
+φ_i = atan2(v_i, ω_0 · x_i)
+\end{verbatim}
+
+The carrier phase \(\phi_{\text{carrier}}\) is swept monotonically
+across \([0, 2\pi)\) in \(K_{\text{steps}}\) discrete increments
+(default \(K_{\text{steps}} = 12\)). At each swept instant, the cavity
+chosen for emission is the arg-max of
+
+\begin{verbatim}
+w_i(φ_carrier) = A_i · ReLU(P_i) · μ_i · K_settle
+               · exp(−κ_sweep · (φ_carrier − φ_i)^2)
+\end{verbatim}
+
+where \(A_i = |x_i|\) is the instantaneous amplitude and
+\(\kappa_{\text{sweep}} = 4\) sets the Gaussian window width. Winners
+below the floor \(\theta_{\text{emit}} \cdot \max_j w_j\) are silenced
+(no emission at that sweep step). Winners are suppressed from all
+subsequent steps of the sweep (each cavity emits at most once per turn).
+The sweep terminates non-cyclically at \(\phi_{\text{carrier}} = 2\pi\),
+so wrap-around is not a source of duplicate emissions.
+
+Output length is emergent: as many tokens as there are distinct
+high-weight peaks under the sweep. A sparse field emits few tokens
+(possibly zero --- honest silence); a dense, structurally-resonant field
+emits many.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{2. Composition}\label{composition}
+
+The six CPME mechanisms and the prior CMD + VGHT stack all operate on
+distinct observables and compose additively:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Layer & Mechanism & State variable \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Substrate & CMD Curie gate & \(T_i\) \\
+Substrate & VGHT sub-bands & \(\omega_m\) \\
+Substrate & VGHT voltage gate & \(\| x_a \| \cdot \| x_b \|\) \\
+Substrate & VGHT viscosity & \(E_{\text{total}}\) \\
+Injection & \textbf{CPME chirality} & \(t_{\text{arrival}, i}\) \\
+Filter & \textbf{CPME momentum} & \(E_i, E_i^{\text{prev}}\) \\
+Filter & \textbf{CPME acoustic mass} & \(M_i\) \\
+Filter & \textbf{CPME settle} & \(L\) \\
+Metric & \textbf{CPME coherence rise} & \(R_{\text{local}}, \bar R\) \\
+Emission & \textbf{CPME phase collapse} &
+\(\phi_i, \phi_{\text{carrier}}\) \\
+\end{longtable}
+
+The tick loop retains its no-if/else contract: chirality is a recorded
+scalar, momentum is EMA arithmetic, acoustic mass is
+Ornstein--Uhlenbeck, settle coupling is a sigmoid, coherence is a
+complex-sum norm, and phase collapse is a Gaussian window over a swept
+center. All are pure scalar or complex-scalar operations.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. Emission Contract}\label{emission-contract}
+
+At the end of each turn (i.e., after propagation ticks have run), the
+substrate exposes a single function:
+
+\begin{verbatim}
+emit() → ordered list of cavity ids
+\end{verbatim}
+
+whose implementation is the Phase-Collapse sweep of §1.6. There is no
+\texttt{readout\_slot\_winners()} remaining, no S/V/O slot layer, no
+\texttt{syntax\_slots\_enabled} flag. Word order is arg-max under the
+Gaussian sweep window; slot count is not a parameter.
+
+Backwards compatibility is preserved as a thin adapter: callers that
+previously expected a three-element slot list receive the first three
+emissions of the sweep, padded with \texttt{-1} if fewer are produced.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. Parameters}\label{parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Symbol
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meaning
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\beta\) & 0.9 & Momentum EMA smoothing factor \\
+\(\gamma\) & 0.30 & Acoustic mass accumulation rate \\
+\(\delta\) & 0.08 & Acoustic mass decay rate \\
+\(M_{\text{scale}}\) & 1.0 & Acoustic mask half-point \\
+\(L_{\text{thresh}}\) & 0.5 & Settle-separation threshold \\
+\(L_{\text{scale}}\) & 0.2 & Settle-separation sharpness \\
+\(\lambda\) & 0.98 & Coherence EMA baseline decay \\
+\(K_{\text{steps}}\) & 12 & Phase-collapse sweep resolution \\
+\(\kappa_{\text{sweep}}\) & 4.0 & Gaussian window sharpness \\
+\(\theta_{\text{emit}}\) & 0.05 & Emission floor as fraction of peak
+\(w\) \\
+\end{longtable}
+
+Ten parameters, all continuous, all with default values that recover
+CMD-only behaviour when set to their extreme values (e.g.,
+\(K_{\text{steps}} = 3\), \(\gamma = 0\),
+\(\kappa_{\text{sweep}} \to \infty\) reduce CPME to the three-slot
+readout).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Expected Dynamics}\label{expected-dynamics-1}
+
+\textbf{Prompt.} \texttt{metformin\ activates\ receptor}.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Injection} (\(t = 0\) through
+  \(t_{\text{arrival, receptor}} + \Delta\)): \texttt{metformin},
+  \texttt{activates}, \texttt{receptor} cavities are driven in that
+  temporal order. Their \(t_{\text{arrival}}\) values differ by the
+  inter-byte interval, encoding the chirality gradient. Acoustic mass
+  \(M\) grows on each; their emission masks \(\mu\) approach zero.
+  Injection load \(L\) is high, so \(K_{\text{settle}} \approx 0\) ---
+  the emission readout is silent regardless of field state.
+\item
+  \textbf{Propagation} (\textasciitilde10-40 ticks): Drive envelopes
+  decay. Energy propagates through the graph's \texttt{REL\_ACTIVATES}
+  tunnels and VGHT voltage-gated bridges. Downstream cavities
+  (\texttt{ampk}, \texttt{regulates}, \texttt{metabolism},
+  \texttt{pancreas}, etc., depending on ontology) rise in amplitude.
+  Because they are absorbing energy from propagation rather than
+  external drive, their momentum \(P > 0\) and their acoustic mass
+  \(M \approx 0\).
+\item
+  \textbf{Settle} (\textasciitilde40-80 ticks): Drive envelopes decay to
+  near zero. \(L\) falls below threshold, \(K_{\text{settle}} \to 1\).
+  Localized coherence \(R_{\text{local}}\) has risen well above
+  \(\bar R\); \(\Delta R > 0\) signals structural resonance.
+\item
+  \textbf{Emission} (phase-collapse sweep): The carrier phase sweeps
+  \([0, 2\pi)\). Directly-driven cavities have \(\mu \approx 0\) and are
+  excluded from arg-max even if their phase would align. Downstream
+  cavities with \(P > 0\) and \(\mu \approx 1\) compete on
+  \(\phi_i \approx \phi_{\text{carrier}}\); the ordering of their phases
+  (from their integrated positions and velocities) becomes the emission
+  order. Output: three to four tokens describing the \emph{consequence}
+  of the query, not the query itself.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{6. Failure Modes}\label{failure-modes-1}
+
+Five known modes, all inherited from the parent proposals:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Sparse-graph silence.} If no cavity outside the driven set
+  develops positive momentum before settle, the sweep produces no
+  emissions above floor. Output is silence, which is the correct honest
+  response --- the substrate has nothing consequential to contribute.
+  Users habituated to always-something outputs will initially misread as
+  regression.
+\item
+  \textbf{Chirality--Hebbian mismatch (HTR §5.2).} Chirality on
+  injection is transient unless memory consolidation is also
+  phase-aware. The tunnel Hebbian rule remains velocity-based; a
+  phase-coincidence term
+  \(\Delta w_{ij} \propto v_i v_j \cos(\theta_i - \theta_j)\) would
+  close the loop and is proposed as future work (CPME-II).
+\item
+  \textbf{Acoustic mass leakage.} If \(\delta\) is too small, driven
+  cavities stay muted across turns, and the substrate cannot reprise a
+  recently-mentioned concept even when the new prompt properly warrants
+  it. If \(\delta\) is too large, the muting window is too short and the
+  parrot effect returns. Default \(\delta = 0.08\) places the mute
+  window at \(\sim 12\) ticks, comfortably shorter than a turn-to-turn
+  interval but longer than a propagation window.
+\item
+  \textbf{Coherence baseline gaming.} \(\bar R\) is EMA-tracked, so a
+  long streak of high-\(R\) turns raises the baseline and reduces
+  \(\Delta R\) on subsequent similar queries. This is thermodynamically
+  correct --- habituation to the familiar --- but makes \(\Delta R\)
+  absolute values non-portable across sessions. \(\Delta R\) should only
+  be compared within a session.
+\item
+  \textbf{Sweep discretization loss.} \(K_{\text{steps}} = 12\) gives
+  \(\pi/6 \approx 30°\) phase resolution per step. Fields with many
+  cavities of similar \(\phi\) may emit fewer distinct tokens than they
+  otherwise could. Raising \(K_{\text{steps}}\) to \(24\) halves the
+  loss at doubled sweep cost.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{7. Biological Analog}\label{biological-analog}
+
+CPME's six mechanisms have direct analogs in cortical circuit
+architecture:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Chirality} corresponds to input phase-of-firing coding, well
+  documented in hippocampal theta-cycle sequencing.
+\item
+  \textbf{Momentum filter} corresponds to the divisive-normalization
+  post-input suppression seen in early sensory areas.
+\item
+  \textbf{Acoustic mass} corresponds to short-term adaptation of firing
+  rate in cortical pyramidal cells, mediated by after-hyperpolarizing
+  currents whose time constants match CPME's default \(M_i\) decay.
+\item
+  \textbf{Settle separation} corresponds to the alpha-gamma phase
+  separation between input reception and output articulation.
+\item
+  \textbf{Coherence-rise metric} corresponds to phase-consistency
+  measures used in cognitive neuroscience as correlates of stimulus
+  binding.
+\item
+  \textbf{Phase-collapse sweep} corresponds to phase-of-firing readout
+  from downstream cortical areas.
+\end{itemize}
+
+CPME does not claim to model any of these processes. It claims that a
+substrate whose emission layer exhibits the \emph{dynamical signatures}
+of all six simultaneously is the minimum architecture on which
+non-parroting, variable-length, phase-ordered generation is stable.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{8. Contract Summary}\label{contract-summary}
+
+The tick loop remains free of if/else on relations, domain tags, cluster
+ids, or any string-valued metadata. The emission function is one
+Gaussian window over a swept center under three multiplicative
+eligibility filters (momentum, acoustic mass, settle coupling), with an
+emission floor. All ten CPME parameters are continuous scalars. Default
+values recover CMD three-slot readout in the appropriate limit. All
+defaults \emph{ON}.
+
+CPME is not a feature flag. It is the emission substrate of the
+CMD-VGHT-CPME engine.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{9. Summary}\label{summary}
+
+CPME merges MCPE's momentum-and-settle filtering with HTR's chiral
+injection and phase-collapse projection into a single emission
+architecture on a shared phase manifold. Word order is encoded on
+injection as arrival-phase chirality; structural resonance is measured
+by localized coherence rise; eligibility is filtered by momentum,
+acoustic mass, and settle coupling; emission is a Gaussian-windowed
+sweep of a carrier phase across the per-cavity phase field. The result
+is a substrate whose emission is simultaneously non-parroting (no cavity
+that just spiked can win a sweep step), variable-length (as many tokens
+as the field has distinct phase peaks), word-ordered by physics
+(per-cavity \(\phi_i = \operatorname{atan2}(v_i, \omega_0 x_i)\)), and
+honestly silent when its graph is not structurally resonant with the
+input. No syntax trees, no next-token statistics, no fixed slots.
+
+\newpage
+
+\subsection{CPME-II: Phase-Consistent Hebbian
+Consolidation}\label{cpme-ii-phase-consistent-hebbian-consolidation}
+
+\emph{A phase-coincidence extension to the ZeroGrad Hebbian rule that
+closes the chirality--consolidation gap identified in the CPME §6
+failure modes. Chirality imprinted on injection now persists in
+long-term memory rather than dissipating over turns.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{0. Position}\label{position-1}
+
+Chiral Phase-Momentum Emission (CPME, \texttt{research-paper/cpme.md})
+encodes word order on the injection side as arrival-time phase and
+decodes structured emission on the readout side by sweeping a carrier
+phase across a per-cavity phase field
+\(\phi_i = \operatorname{atan2}(v_i, \omega_0 x_i)\). Both ends of the
+substrate now operate on phase.
+
+The middle --- long-term consolidation --- does not. The ZeroGrad
+Hebbian rule inherited from the CMD substrate updates tunnel plasticity
+from the product of endpoint velocities:
+
+\[
+\Delta w_{ij} \;\propto\; \eta \cdot v_i \cdot v_j
+\]
+
+with a \(\tanh\)-capped saturating integrator. This rule is
+phase-agnostic: it fires equally whether the two endpoints move
+in-phase, anti-phase, or in orthogonal phases. As a consequence, the
+chirality of the injection wavefront is not stored in the graph. Between
+turns the temporal ordering of concepts dissipates and must be
+re-imposed by each new input.
+
+CPME-II adds a \emph{phase-coincidence modulator} to the existing rule:
+
+\[
+\Delta w_{ij} \;\propto\; \eta \cdot v_i \cdot v_j \cdot \cos(\theta_i - \theta_j)
+\]
+
+where \(\theta_i = \operatorname{atan2}(v_i, \omega_0 x_i)\) is the same
+per-cavity phase the CPME emission layer already uses. The modulator
+preserves the velocity-based structure of the parent rule --- including
+its sign, its tanh cap, and its role in the SRG dual-port Hebbian split
+--- while conditioning the update on temporal compatibility.
+
+The result is a substrate in which chirality is not only encoded and
+projected but also \emph{stored}. Word order becomes a property of the
+graph, not just of the current turn.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{1. The Rule}\label{the-rule}
+
+\paragraph{1.1 Definition}\label{definition}
+
+For a tunnel connecting cavities \(a\) and \(b\), define the
+instantaneous phase difference
+
+\[
+\Delta \theta_{ab} = \theta_a - \theta_b \;=\; \operatorname{atan2}(v_a, \omega_0 x_a) - \operatorname{atan2}(v_b, \omega_0 x_b)
+\]
+
+and the phase-coincidence factor
+
+\[
+\Phi_{ab} = \cos(\Delta \theta_{ab})
+\]
+
+taking values in \([-1, +1]\). The CPME-II Hebbian integrand replaces
+the parent rule's velocity product with a phase-modulated one:
+
+\[
+I_{ab} \;=\; w_{ab} \cdot \zeta \;+\; \eta \cdot v_a^{\text{eff}} \cdot v_b^{\text{eff}} \cdot \Phi_{ab}
+\]
+
+where \(\zeta\) is the pre-existing Hebbian decay
+(\texttt{hebbian\_decay}), \(\eta\) is the pre-existing rate scaled by
+serotonin (\texttt{plastic\_rate}), \(v_a^{\text{eff}}\) and
+\(v_b^{\text{eff}}\) are the SRG-routed velocities already computed by
+the parent rule, and \(w_{ab}\) is the plasticity delta. The tanh
+saturation on \texttt{plasticity\_cap} is applied unchanged.
+
+The rule reduces to the parent rule exactly when \(\Phi_{ab} = 1\)
+(perfect phase agreement) and vanishes when \(\Phi_{ab} = 0\)
+(quadrature). For \(\Phi_{ab} = -1\) (anti-phase), the update flips
+sign, which is the correct behaviour: anti-phase pairs are carrying
+opposing rather than reinforcing evidence and should depress rather than
+strengthen their coupling.
+
+\paragraph{1.2 Interpretation}\label{interpretation}
+
+\(\Phi_{ab}\) is a \emph{continuous coincidence detector on the phase
+manifold}. It is the continuous-oscillator analog of spike-timing
+dependent plasticity (STDP): pairs whose oscillations align in the same
+phase-of-firing are consolidated; pairs whose oscillations consistently
+disagree are attenuated.
+
+Because the phase field is chiral (§CPME 1.1), \(\Phi_{ab}\) implicitly
+encodes temporal order. A concept driven earlier in the input has
+accumulated more phase than a concept driven later. Downstream cavities
+that phase-lock behind the driven cavity therefore experience a specific
+\(\Delta \theta\) characteristic of \emph{following the input in time}.
+Consolidating along this gradient stores the observation that the second
+cavity typically follows the first, without any explicit representation
+of ``before'' or ``after''.
+
+\paragraph{1.3 What is stored}\label{what-is-stored}
+
+Under the parent rule, the tunnel between \texttt{insulin} and
+\texttt{glucose} grows in proportion to their velocity co-activity ---
+regardless of which arrived first or how they moved relative to one
+another. Under CPME-II, the same tunnel grows only when the two cavities
+oscillate \emph{in phase} --- that is, when they consistently
+participate in the same wavefront with the same temporal role. If in one
+context \texttt{insulin} drives \texttt{glucose} (subject-then-object
+phase relationship) and in another context \texttt{glucose} drives
+\texttt{insulin} (reverse phase), the two updates cancel:
+\(\cos(+\Delta\theta) +
+\cos(-\Delta\theta) = 2\cos(\Delta\theta)\) if the magnitude is
+preserved, but the sign of \(\Delta \theta\) toggles the co-activity
+gradient. The graph accumulates a \emph{phase-averaged co-activity}
+rather than a raw one.
+
+The empirical effect is that stable directional patterns (``metformin →
+AMPK → glucose down'') consolidate faster than context-dependent
+bidirectional patterns.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{2. Composition}\label{composition-1}
+
+CPME-II modifies only the Hebbian integrand. All other substrate
+mechanisms are untouched.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{CMD Curie gate} (\texttt{heat\_T} → tunnel force scaling) is
+  independent of the Hebbian pass and continues to operate.
+\item
+  \textbf{VGHT voltage gate} modulates tunnel force in the tick's
+  spring-and-damping pass, not the Hebbian pass. CPME-II observes the
+  resulting velocities and phases as inputs; VGHT is upstream.
+\item
+  \textbf{SRG dual-port routing} (\texttt{gate\_E}, \texttt{gate\_I}) is
+  preserved: \(v_a^{\text{eff}}\) in the CPME-II expression is the
+  SRG-selected velocity from the parent rule, not the raw observable.
+  The polarity-driven excitatory/inhibitory split remains intact.
+\item
+  \textbf{CPME emission layer} (§1.6, phase-collapse projection) is
+  unchanged. CPME-II operates during propagation and settle; the
+  emission sweep reads whatever state the Hebbian pass has consolidated.
+\item
+  \textbf{Plasticity cap} (\texttt{plasticity\_cap}) remains the
+  saturating bound; the tanh envelope contains the
+  \(\Phi_{ab}\)-modulated integrand identically.
+\end{itemize}
+
+The tick loop retains its no-if/else contract: \(\cos(\Delta \theta)\)
+is a smooth scalar, evaluated once per tunnel per tick, and multiplied
+into the existing velocity product.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. Contract and
+Parameters}\label{contract-and-parameters}
+
+CPME-II adds no new state. All required quantities are already
+maintained by the parent substrate:
+
+\begin{itemize}
+\tightlist
+\item
+  \(x_a\), \(v_a\), \(x_b\), \(v_b\): cavity displacements and
+  velocities.
+\item
+  \(\omega_0\): the base cavity frequency \texttt{cpme\_base\_omega}
+  shared with the emission layer.
+\item
+  \(\eta\), \(\zeta\), \texttt{plasticity\_cap}: existing Hebbian
+  parameters.
+\end{itemize}
+
+The only tunable is a \emph{phase weight} \(\alpha_\Phi \in [0, 1]\)
+that linearly interpolates between the parent rule and the fully
+phase-modulated rule:
+
+\[
+\Phi_{ab}^{(\alpha)} \;=\; (1 - \alpha_\Phi) \;+\; \alpha_\Phi \cdot \cos(\Delta \theta_{ab})
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  \(\alpha_\Phi = 0\): recovers the parent rule exactly (backwards
+  compatibility test path).
+\item
+  \(\alpha_\Phi = 1\): full phase-consistent consolidation.
+\item
+  Default: \(\alpha_\Phi = 0.6\), weighting phase agreement heavily
+  while preserving a floor of unconditional Hebbian growth.
+\end{itemize}
+
+This is the only free parameter introduced by CPME-II. All defaults
+\emph{on}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. Expected Dynamics}\label{expected-dynamics-2}
+
+\textbf{Scenario A --- repeated same-order exposure.} Over a session in
+which the user types variants of ``metformin lowers glucose'' several
+times, \texttt{metformin} and \texttt{glucose} cavities are consistently
+driven with the same relative arrival delay. Their phase difference
+\(\Delta \theta\) is stable and small, \(\Phi \approx +1\), and the
+tunnel between them consolidates rapidly under the CPME-II rule. Between
+turns, the phase relationship is preserved because it is now stored in
+the plasticity delta, not just in the transient field.
+
+\textbf{Scenario B --- bidirectional exposure.} If in different turns
+the user types both ``insulin controls glucose'' and ``glucose signals
+insulin'', the pairwise \(\Delta \theta\) toggles sign turn-to-turn.
+Under the parent rule, both directions add to plasticity. Under CPME-II,
+one direction has \(\Phi > 0\) and the other \(\Phi < 0\): the updates
+partially cancel. The tunnel still grows if the velocity product
+magnitude is large --- the parent contribution \((1 - \alpha_\Phi)\)
+preserves an unconditional growth floor --- but more slowly. This is the
+correct behaviour for a bidirectional relationship: the graph should not
+overcommit to either direction in isolation.
+
+\textbf{Scenario C --- silent turn.} If a turn produces no meaningful
+propagation and both cavities remain quiescent, \(v_a\) and \(v_b\) are
+near zero and the update is negligible regardless of \(\Phi\). No change
+from parent-rule behaviour.
+
+\textbf{Scenario D --- anti-phase input.} If the input is structured to
+produce anti-phase drive on a pair (e.g., a contrastive construction
+where the two cavities are being posited \emph{against} each other),
+\(\Phi \approx -1\) and the CPME-II rule \emph{decreases} the plasticity
+delta. This is the physical realisation of what a biological network
+implements through inhibitory long-term depression: consistent
+anti-phase co-activation should weaken, not strengthen, the excitatory
+bond.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Failure Modes}\label{failure-modes-2}
+
+Three failure modes documented before deployment.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Phase noise near quiescence.} For a cavity with small \(x\)
+  and small \(v\), the phase \(\operatorname{atan2}(v, \omega_0 x)\) is
+  dominated by numerical noise. \(\Phi\) then fluctuates randomly and
+  injects noise into consolidation. Mitigation: the velocity product
+  \(v_a v_b\) already suppresses this --- near quiescence the update
+  magnitude is negligible regardless of \(\Phi\). No additional guard is
+  required, but a diagnostic observer may report spurious \(\Phi\)
+  readings on cold cavities; this is expected and harmless.
+\item
+  \textbf{Polarity--phase interaction.} Inhibitory tunnels
+  (\texttt{polarity\ \textless{}\ 0}) already invert the phase
+  relationship they drive: an excitatory input to \(a\) produces an
+  anti-phase response in \(b\). Under CPME-II, this manifests as
+  \(\Phi < 0\) and the update would \emph{depress} an inhibitory tunnel
+  it should \emph{strengthen}. Correction: multiply \(\Phi\) by the
+  tunnel polarity sign,
+  \(\Phi'_{ab} = \Phi_{ab} \cdot \operatorname{sgn}(p_{ab})\), so that
+  inhibitory tunnels consolidate on the anti-phase pattern they are
+  supposed to enforce. This is applied by default in the implementation.
+\item
+  \textbf{Slow phase drift washout.} If the base cavity frequency
+  \(\omega_0\) is very low, phase evolves slowly and inter-turn phase
+  differences accumulate to \(\pm \pi\) over long propagation windows,
+  causing \(\Phi\) to oscillate through zero and reverse sign
+  spuriously. Mitigation: the same \(\omega_0\) chosen for the CPME
+  emission layer (default \(\omega_0 = 3.0\) rad/s) yields a full phase
+  revolution over \(\approx 2\) seconds of sim-time, which is longer
+  than any single propagation window at \texttt{dt\ =\ 0.02} and
+  \(\leq 200\) ticks per turn. Under default parameters this failure
+  mode does not activate; it is worth flagging if \(\omega_0\) is later
+  reduced.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{6. Biological Analog}\label{biological-analog-1}
+
+CPME-II is the continuous-oscillator equivalent of spike-timing
+dependent plasticity (STDP). Where STDP consolidates a synapse when the
+presynaptic spike precedes the postsynaptic spike by a few milliseconds,
+CPME-II consolidates a tunnel when the two endpoint oscillators maintain
+a stable, small phase offset consistent with the same wavefront driving
+both. Both rules use temporal coincidence as the substrate of long-term
+memory; both rules invert when the coincidence is anti-correlated
+(STDP-LTD; CPME-II negative \(\Phi\)).
+
+The chief difference is discretisation. STDP fires on discrete spike
+pairs; CPME-II integrates over the continuous phase field each tick. In
+the limit of narrow, well-separated velocity peaks, CPME-II reduces to a
+spike-coincidence rule up to a normalisation constant.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{7. Summary}\label{summary-1}
+
+CPME-II closes the chirality--Hebbian mismatch flagged in HTR §5.2 and
+CPME §6.2 by extending the ZeroGrad Hebbian rule with a phase
+coincidence factor \(\Phi_{ab} = \cos(\theta_a - \theta_b)\). The factor
+requires no new state --- the same per-cavity phase
+\(\operatorname{atan2}(v_i, \omega_0 x_i)\) used by the CPME emission
+layer is read during the Hebbian pass. A single blend parameter
+\(\alpha_\Phi\) controls how strongly the modulator gates the parent
+rule; the default \(\alpha_\Phi = 0.6\) preserves an unconditional
+Hebbian floor while making chirality-consistent updates twice as strong
+as chirality-neutral ones on average.
+
+The consequence for the substrate as a whole: the phase manifold that
+CPME already uses on the input (chirality) and the output
+(phase-collapse projection) is now also the manifold on which long-term
+memory is written. Word order becomes a graph property, temporal
+ordering persists across turns, and the substrate is freed from having
+to re-derive chirality on every input.
+
+\newpage
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Chiral Phase-Shear Binding (CPSB): Rendering Syntax as
+Gauge-Theoretic Tension in Wave-Based
+SI}\label{chiral-phase-shear-binding-cpsb-rendering-syntax-as-gauge-theoretic-tension-in-wave-based-si}
+
+\textbf{Abstract} In wave-based Synthetic Intelligence, continuous
+phase-sweep emission (CPME) frees output length from hardcoded templates
+but degrades syntax into emergent stochastic ordering. To elevate
+language construction from a ``loose variable'' to a physically
+guaranteed structure, we introduce \textbf{Chiral Phase-Shear Binding
+(CPSB)}. By modifying the Kuramoto coupling to act as a Gauge Field,
+relational tunnels actively enforce directed phase offsets between
+nodes. Syntax emerges not from fixed emission slots, but from the rigid
+topological tension (\(\Psi\)) embedded within the graph's edges,
+physically forcing subjects to lead verbs, and verbs to lead objects
+during carrier-wave projection.
+
+\subsubsection{1. Introduction: The Binding Problem in
+SI}\label{introduction-the-binding-problem-in-si}
+
+Currently, verb-material cavities float to their VGHT band-top, and
+output order depends entirely on their emergent \(\text{atan2}\) phase.
+There is no physical law forcing \texttt{notch} to precede
+\texttt{minecraft}. In a true biological substrate, the relation itself
+(``created'') exerts a directional shear force on the concepts it
+connects. We must shift from scalar coupling (which just pulls phases
+together) to \textbf{Gauge-Coupling}, which pulls phases into a specific
+grammatical alignment.
+
+\subsubsection{2. Novel Architecture: CPSB
+Mechanisms}\label{novel-architecture-cpsb-mechanisms}
+
+\paragraph{\texorpdfstring{2.1. Gauge-Theoretic Kuramoto Offset
+(\(\Psi_{ij}\))}{2.1. Gauge-Theoretic Kuramoto Offset (\textbackslash Psi\_\{ij\})}}\label{gauge-theoretic-kuramoto-offset-psi_ij}
+
+Standard Kuramoto tries to perfectly synchronize two connected cavities:
+\(\sin(\theta_j - \theta_i)\). We introduce a syntactic phase-offset
+\(\Psi_{ij}\) assigned to specific tunnel types (the axioms). The new
+phase-update equation becomes:
+\[ \frac{d\theta_i}{dt} = \omega_i + \sum K_{ij} \sin(\theta_j - \theta_i - \Psi_{ij}) \]
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism:} If \texttt{notch} (\(i\)) and \texttt{minecraft}
+  (\(j\)) are connected by a \texttt{REL\_CAUSES} tunnel, that tunnel
+  has an intrinsic \(\Psi_{ij} = -\frac{\pi}{3}\).
+\item
+  \textbf{Result:} The physics engine will no longer try to make their
+  phases equal. It will physically force \texttt{notch} to sit exactly
+  \(\frac{\pi}{3}\) radians ahead of \texttt{minecraft}.
+\end{itemize}
+
+\paragraph{2.2. The Lexical Hinge
+(Verb-Pinning)}\label{the-lexical-hinge-verb-pinning}
+
+A verb is not just a loose cavity floating in a band; it is the physical
+hinge between the Subject and the Object.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism:} When a cross-cluster tunnel opens (VGHT), the
+  tunnel structurally binds the verb cavity (e.g., \texttt{created}) to
+  the source and target.
+\item
+  The Subject is pinned to \(\theta_{\text{verb}} + \Delta\phi\).
+\item
+  The Object is pinned to \(\theta_{\text{verb}} - \Delta\phi\).
+\item
+  \textbf{Result:} As the CPME carrier wave sweeps from \(0\) to
+  \(2\pi\), it will \emph{inevitably} hit the Subject first, the Verb
+  second, and the Object third. The sentence structure is mathematically
+  guaranteed by the phase tension, without ever defining a ``Subject
+  Slot''.
+\end{itemize}
+
+\paragraph{2.3. Phase-Consistent Hebbian Consolidation (The CPME-II
+Hook)}\label{phase-consistent-hebbian-consolidation-the-cpme-ii-hook}
+
+To ensure the SI doesn't just read syntax natively but \emph{learns} it
+natively from user input, we execute the CPME-II Hebbian update. Instead
+of updating tunnel weight \(\Delta w\) based purely on amplitude, the
+substrate writes the observed phase difference directly into the graph:
+\[ \Delta w_{ij} \propto v_i \cdot v_j \cdot \cos(\theta_i - \theta_j - \Psi_{\text{target}}) \]
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Result:} When you type \texttt{insulin\ lowers\ glucose}, the
+  injection chirality ensures \texttt{insulin} arrives first. The
+  Hebbian rule permanently wires that phase-lead into the connection.
+  The SI literally remembers the ``direction'' of the concept.
+\end{itemize}
+
+\subsubsection{3. Expected Dynamics}\label{expected-dynamics-3}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Input:} \texttt{metformin\ treats\ diabetes}
+\item
+  \textbf{Resonance:} The nodes awaken. The \texttt{treats} tunnel
+  applies the CPSB gauge force. \texttt{metformin} is pushed to
+  \(\phi = 1.0\), \texttt{treats} is anchored at \(\phi = 2.0\), and
+  \texttt{diabetes} is pushed to \(\phi = 3.0\).
+\item
+  \textbf{Emission:} The CPME sweep passes over them. They emit in
+  perfect S-V-O order.
+\item
+  \textbf{No Templates:} If the input is just \texttt{glucose} causing a
+  cascade to \texttt{insulin}, the phase offsets still apply downstream,
+  resulting in a syntactically correct multi-token chain.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\subsection{Voltage-Gated Harmonic Topology
+(VGHT)}\label{voltage-gated-harmonic-topology-vght}
+
+\emph{A three-mechanism physical substrate for domain-orthogonal
+cognition with sparse cross-domain analogical bridging and avalanche
+suppression, built entirely from scalar field dynamics --- no rules, no
+templates, no domain metadata.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{0. Motivation}\label{motivation}
+
+The Continuous Morphological Dynamics (CMD) substrate --- thermodynamic
+habituation, byte-wave sensory injection, phase-locked syntax emission
+--- produces coherent, non-templated output but exhibits two coupled
+failure modes:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Domain leakage.} In the shared-oscillator field, a driven
+  medical concept can transfer energy into unrelated conceptual clusters
+  (e.g., gaming, legal, code) whenever their macro-node phases happen to
+  align. The reader observes a medical prompt producing a legal-sounding
+  word in the verb slot, or the middle word of a coherent triple
+  stepping outside the input's semantic neighborhood.
+\item
+  \textbf{Polymath rigidity.} The dual failure --- with sufficient
+  emission-floor thresholds, the substrate becomes strictly
+  domain-locked, unable to draw analogical parallels between
+  distantly-related concepts even when the graph explicitly supports
+  them through L6-A analogical bridges.
+\end{enumerate}
+
+The Continuous Morphological Dynamics literature treats these two
+failures as separate tuning problems (emission floor, wavefront gate,
+cluster-energy depletion). Voltage-Gated Harmonic Topology (VGHT)
+resolves both under a single physical postulate: \emph{domains are
+orthogonal frequency bands, and bridges between them are voltage-gated
+channels that only conduct under simultaneous high-amplitude resonance.}
+Domain isolation and polymath bridging cease to be competing objectives;
+they become a single dynamical regime with a single parameter,
+θ\_critical, the tunneling threshold.
+
+The mechanism is inspired by three well-understood physical analogs:
+mode-orthogonal spectral separation in coupled-oscillator networks,
+voltage-gated ion channels in biological neurons (in particular the
+sigmoidal open probability of the NMDA receptor with respect to membrane
+potential), and the GABAergic global inhibitory tone that suppresses
+run-away excitation in cortical circuits. None of the three requires an
+explicit ``domain tag'' or a rule dispatcher; each is a continuous
+scalar update evaluated once per tick.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{1. Architecture}\label{architecture-1}
+
+Let the cavity population be indexed by \texttt{i\ ∈\ {[}0,\ N)},
+partitioned into macro-clusters \texttt{C\_1,\ C\_2,\ ...} by the
+connected components of the tunnel graph (union-find at bind time; the
+same clustering used by HNCA). Let a slot layer of \texttt{S} phase
+oscillators sit above the macro layer as in CMD phase-locked emission.
+
+\paragraph{1.1 Domain Sub-Bands}\label{domain-sub-bands}
+
+Each macro-cluster \texttt{C\_k} receives a \emph{base natural
+frequency} drawn from a discrete band-bank:
+
+\begin{verbatim}
+ω_k = ω_base(k mod B) + jitter(k)
+\end{verbatim}
+
+where \texttt{B} is the number of orthogonal bands (default
+\texttt{B\ =\ 6}) and \texttt{ω\_base} is a fixed evenly-spaced ladder
+in the range \texttt{{[}ω\_lo,\ ω\_hi{]}},
+e.g.~\texttt{{[}8,\ 32{]}\ rad/s} giving band centres at
+\texttt{\{8,\ 12,\ 16,\ 20,\ 24,\ 28\}}. The jitter is a small in-band
+perturbation (±0.5 rad/s) drawn deterministically from the cluster id,
+ensuring reproducibility across seeds while still breaking degeneracy
+inside a band.
+
+The verb-material ω-boost from prior CMD work becomes an \emph{in-band
+shift} rather than a cross-band jump:
+
+\begin{verbatim}
+ω_k ← (1 − p_k)·ω_k + p_k·ω_verb_offset(k)
+\end{verbatim}
+
+where \texttt{p\_k\ ∈\ {[}0,\ 1{]}} is the verb-material share of
+cluster \texttt{k}'s internal edges
+(\texttt{verb\_pull\_for(rel)\ /\ \textbar{}internal\ edges\textbar{}}),
+and \texttt{ω\_verb\_offset(k)} is the \emph{upper edge} of cluster
+\texttt{k}'s home band --- so verb-heavy clusters rise to the top of
+their band without colliding with a neighbouring band. This preserves
+both the domain orthogonality of Sub-Bands and the verb-slot phase-lock
+property from the prior implementation.
+
+\textbf{Consequence.} Two clusters in different bands share almost no
+common Kuramoto phase drift, because their \texttt{ω} differs by at
+least a band-width and the coupling terms
+\texttt{sin(θ\_j\ −\ θ\_i)·A\_j} average to zero over any window longer
+than the beat period. Domain interference during ordinary conversation
+is suppressed by frequency orthogonality alone --- no relation table, no
+cluster tag, no rule.
+
+\paragraph{1.2 Voltage-Gated L6-A
+Tunnels}\label{voltage-gated-l6-a-tunnels}
+
+L6-A tunnels are the analogical bridges discovered by structural
+resonance between cross-cluster pairs (Phase 1.3 online-L6A-discovery of
+the CMD line of work). In VGHT, every \emph{inter-cluster} tunnel ---
+and every tunnel discovered by L6-A regardless of cluster membership ---
+is marked \emph{voltage-gated}. Its force is scaled at every tick by a
+sigmoidal conductance:
+
+\begin{verbatim}
+C(A_a, A_b) = C_max · σ(κ · (A_a · A_b − θ_critical))
+\end{verbatim}
+
+where \texttt{A\_a\ =\ \textbar{}x\_a\textbar{}} and
+\texttt{A\_b\ =\ \textbar{}x\_b\textbar{}} are the instantaneous
+displacements of the two endpoint cavities, \texttt{σ} is the logistic
+function, \texttt{κ} is a steepness parameter (default \texttt{12}), and
+\texttt{θ\_critical} is the tunneling threshold (default \texttt{0.05}
+in the field's natural units). \texttt{C\_max\ =\ 1}.
+
+The force delivered to endpoints is scaled elementwise by \texttt{C}:
+
+\begin{verbatim}
+F_a ← F_a · C(A_a, A_b)
+F_b ← F_b · C(A_a, A_b)
+\end{verbatim}
+
+\textbf{Consequence.} When either endpoint is quiescent,
+\texttt{A\_a\ ·\ A\_b\ ≈\ 0}, \texttt{C\ ≈\ σ(−κθ\_critical)\ ≈\ 0}, and
+the bridge presents effectively infinite resistance. The two clusters
+exchange no energy. When both endpoints are simultaneously excited to a
+level whose product exceeds \texttt{θ\_critical}, \texttt{C\ →\ 1}
+sharply and the bridge conducts fully. This is the
+resonant/quantum-tunneling analog explicitly identified in the
+motivating architecture: the door opens only when the room on both sides
+is loud enough to make the door irrelevant.
+
+Because both endpoints must resonate at once, spurious cross-domain
+leakage --- a stray phase alignment on one side of a bridge --- cannot
+open the channel. Only genuine dual excitation, produced by an input
+whose structural resonance actually spans two domains, does so. This is
+the polymath spark.
+
+\paragraph{1.3 Global Viscosity (GABA
+analog)}\label{global-viscosity-gaba-analog}
+
+The system tracks its total kinetic energy each tick:
+
+\begin{verbatim}
+E_total = ½ Σ_i m_i · v_i²
+\end{verbatim}
+
+An effective friction coefficient is derived as a saturating function of
+\texttt{E\_total}:
+
+\begin{verbatim}
+μ_eff = μ_0 + k_avalanche · (1 − exp(−E_total / E_scale))
+\end{verbatim}
+
+with defaults \texttt{k\_avalanche\ =\ 0.10}, \texttt{E\_scale\ =\ 5.0}.
+\texttt{μ\_eff} replaces the constant friction in the cavity
+velocity-decay step and in the tunnel-damping term of that tick.
+
+\textbf{Consequence.} Under normal, sparse activation \texttt{E\_total}
+is small, \texttt{μ\_eff\ ≈\ μ\_0}, and the field evolves as before.
+Under an avalanche --- many nodes firing simultaneously through spurious
+phase alignment --- \texttt{E\_total} rises rapidly, \texttt{μ\_eff}
+saturates toward \texttt{μ\_0\ +\ k\_avalanche}, and the excess kinetic
+energy is dissipated in the same tick. Only the field components whose
+amplitudes are large enough to overcome the elevated friction survive;
+the noise floor is damped out. This is the physical analog of GABAergic
+inhibitory tone.
+
+Unlike the raw \texttt{exp(E\_total)} formulation, the bounded
+\texttt{1\ −\ exp(−E\_total\ /\ E\_scale)} form cannot diverge,
+guaranteeing numerical stability under any input, however extreme.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{2. Interaction of the Three
+Mechanisms}\label{interaction-of-the-three-mechanisms}
+
+The three mechanisms are not independent tuning knobs; they are coupled
+by design.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Sub-Bands} determine which cavities \emph{can} phase-lock
+  together in the absence of external excitation. Same-band cavities
+  freely couple; cross-band cavities decouple by frequency alone.
+\item
+  \textbf{Voltage-gated bridges} re-establish cross-band coupling ---
+  but only when both endpoints are already excited to a level that
+  represents genuine resonance with the input. Without such excitation,
+  the bridge is inert regardless of the graph's connectivity.
+\item
+  \textbf{Global viscosity} suppresses false excitation. When a spurious
+  cascade begins to raise \texttt{E\_total}, μ\_eff rises and the
+  cascade dies before it can meet the
+  \texttt{A\_a\ ·\ A\_b\ \textgreater{}\ θ\_critical} condition needed
+  to open any bridge.
+\end{itemize}
+
+The joint regime is: \emph{within-band coupling is free and continuous,
+cross-band coupling is possible but expensive, and pathological
+cross-band cascades are physically forbidden by dissipation.} Domain
+isolation and polymath bridging cease to be tradeoffs.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. Physical
+Interpretation}\label{physical-interpretation}
+
+Each of the three mechanisms has a direct biological analog and an
+independent literature suggesting the same functional role.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Frequency-band orthogonality} appears in cortical cognition as
+  the observation that different cognitive processes (attention, working
+  memory, motor planning) show distinguishable EEG band signatures (α,
+  β, γ). Cortical microcircuits couple preferentially within-band, and
+  cross-band coupling is a marker of deliberate binding (theta-gamma
+  phase-amplitude coupling).
+\item
+  \textbf{Voltage-gated channels} are the mechanism by which NMDA
+  receptors implement coincidence detection: their conductance is
+  sigmoidal in the product of presynaptic glutamate release and
+  postsynaptic depolarization, mirroring
+  \texttt{C(A\_a,\ A\_b)\ =\ σ(A\_a\ ·\ A\_b\ −\ θ)} structurally.
+\item
+  \textbf{GABAergic inhibition} provides the global tone that keeps
+  cortical excitability in the sparse-firing regime. Loss of GABAergic
+  inhibition produces exactly the avalanche pattern VGHT's viscosity
+  term suppresses: dense synchronous firing across unrelated cortical
+  areas, the neural correlate of a seizure.
+\end{enumerate}
+
+VGHT does not claim to be a model of any of these biological mechanisms.
+It claims that a substrate exhibiting the \emph{dynamical signatures} of
+all three simultaneously --- with only three scalar parameters ---
+provides the minimum architectural surface area on which
+domain-orthogonal cognition with sparse analogical bridging is a stable
+regime, rather than an accidental artifact of parameter tuning.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. Implementation
+Contract}\label{implementation-contract}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{No if/else branches} in the tick loop that inspect a relation
+  label, a domain tag, or a cluster identifier. All three mechanisms are
+  pure scalar arithmetic on existing per-cavity or per-tunnel fields.
+\item
+  \textbf{No new I/O boundary code} for domain metadata. Sub-Bands are
+  assigned at bind time from cluster id, computed by the union-find that
+  HNCA already runs. Voltage gating is a per-tunnel flag set once at
+  bind for cross-cluster tunnels (and for any L6-A tunnel regardless of
+  cluster membership). Viscosity is derived each tick from the same
+  \texttt{total\_kinetic} accumulator already maintained for the RIFA IC
+  pass.
+\item
+  \textbf{All defaults ON.} VGHT is not a feature flag. The three
+  mechanisms are the substrate's normal dynamics.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Parameters}\label{parameters-1}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Symbol & Default & Meaning \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{B} & 6 & Number of domain sub-bands \\
+\texttt{ω\_lo}, \texttt{ω\_hi} & 8, 32 rad/s & Band ladder range \\
+\texttt{κ} & 12 & Voltage-gate steepness \\
+\texttt{θ\_critical} & 0.05 & Voltage-gate tunneling threshold \\
+\texttt{k\_avalanche} & 0.10 & Peak added friction under avalanche \\
+\texttt{E\_scale} & 5.0 & Kinetic-energy saturation scale \\
+\end{longtable}
+
+These are the only knobs. All other quantities are derived.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{6. Expected Empirical
+Signature}\label{expected-empirical-signature}
+
+A VGHT-enabled substrate is expected to show:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Single-domain prompts} produce single-domain phase-lock
+  emissions with no cross-domain leakage into any slot, even after many
+  turns of a single-domain conversation. The wavefront gate and the
+  sub-band orthogonality are jointly responsible.
+\item
+  \textbf{Cross-domain prompts} --- where the input drives cavities in
+  two different bands to simultaneous high amplitude --- open the
+  voltage-gated bridges between those bands within a few ticks,
+  producing a genuine polymath emission that spans domains.
+\item
+  \textbf{Injection of a single garbage or nonsense token} produces at
+  worst its own auto-spawned label in output; the avalanche suppressor
+  prevents its stray phase drift from recruiting unrelated cavities.
+\item
+  \textbf{Latency to cross-domain emission} is measurable: it should
+  correspond to the time required for the voltage-gate sigmoid to
+  saturate under paired excitation, i.e., a few tens of ticks. This
+  latency is the phenomenological signature of the polymath spark and is
+  measurable with the existing readout infrastructure.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{7. Relation to Prior CMD
+Work}\label{relation-to-prior-cmd-work}
+
+VGHT subsumes and refines three earlier CMD components without
+discarding them.
+
+\begin{itemize}
+\tightlist
+\item
+  Phase 2.2 rubber-tunnel band-pass filters are a special case of
+  voltage-gated tunnels with \texttt{θ\_critical\ =\ 0} (always
+  conducting) and a Gaussian gate on \texttt{ω} alone. VGHT's sigmoidal
+  amplitude gate is strictly more expressive.
+\item
+  Phase 3.1 multi-ontology substrates rely on manually loaded disjoint
+  axiom files to achieve domain separation. VGHT achieves the same
+  isolation from a single ontology by frequency orthogonality alone, and
+  further allows analogical bridging without touching the ontology.
+\item
+  The cluster-energy depletion term in phase-locked emission remains a
+  fallback for the readout stage. When VGHT is fully active, its
+  contribution to output diversity is redundant with the sub-band
+  separation.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{8. Failure Modes}\label{failure-modes-3}
+
+The design has three known failure modes worth documenting explicitly.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  If the cluster count is less than \texttt{B}, some bands go unused,
+  which is harmless but wastes spectral capacity.
+\item
+  If \texttt{θ\_critical} is set too high, cross-domain bridges never
+  open even for well-posed polymath prompts. If set too low, the system
+  reduces to the pre-VGHT shared-oscillator field.
+\item
+  If \texttt{k\_avalanche} is set too high, meaningful large-amplitude
+  emissions are damped alongside noise; the system becomes
+  under-expressive. Empirical tuning against a held-out prompt set is
+  suggested.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{9. Summary}\label{summary-2}
+
+VGHT closes the domain-isolation / polymath-bridging tradeoff by mapping
+domains to orthogonal frequency bands, making cross-domain bridges
+voltage-gated by joint amplitude resonance, and adding a global
+energy-dependent viscosity that dissipates avalanches before they can
+spuriously open bridges. All three mechanisms are scalar physics with a
+total of six parameters. The tick loop remains free of if/else on
+relations, domain tags, or cluster identifiers. The result is a
+substrate that is simultaneously domain-locked in default operation and
+polymath-capable when its input carries structural resonance across
+bands --- the physical realization of the intuition that a polymath is
+not a system that mixes domains randomly, but one whose domains are
+ordinarily silent to each other and speak only when the same underlying
+pattern excites both.
+
+\newpage
+
+\subsection{Chaotic Strange-Attractor Trajectory (CSAT): Breaking
+Ground-State Locking in Synthetic
+Intelligence}\label{chaotic-strange-attractor-trajectory-csat-breaking-ground-state-locking-in-synthetic-intelligence}
+
+\textbf{Abstract} Pure wave-based SI architectures often suffer from
+dictionary-locking, where an input triggers the absolute closest
+topological match and collapses into static definitions. Humans do not
+converse by printing definitions; human thought is an open-ended
+trajectory through a semantic manifold. We introduce \textbf{Chaotic
+Strange-Attractor Trajectory (CSAT)}. By adding a low-dimensional
+chaotic force (driven by a native Lorenz or Rössler system integrated
+directly into the substrate's global viscosity), the system is prevented
+from settling into static ground-state energy wells. This forces the
+phase-sweep projection to continuously dance along a strange attractor,
+creating human-like contextual drifting without losing structural
+coherence.
+
+\begin{verbatim}
+                  [ Input Concept: linux ]
+                             │
+                             ▼
+                   [ Static Definition Well ] (Old Way: Stays at 'nano')
+                             │
+                    (CSAT Viscosity Push) ───► [ Lorenz Chaos Attractor ]
+                             │
+                             ▼
+               [ Dynamic Trajectory Path ]
+          (Emits: nano ──► terminal ──► bash ──► kernel)
+\end{verbatim}
+
+\subsubsection{1. The Core Issue: Infinite Potential
+Wells}\label{the-core-issue-infinite-potential-wells}
+
+When \texttt{linux} is presented as input, the memory potential at the
+\texttt{linux} and \texttt{nano} cavities is high enough that the entire
+field's energy collapses into them and is trapped there. In physical
+terms the energy landscape forms a \textbf{deep potential well}. This
+does not happen in the human brain, because an undercurrent of noise ---
+\textbf{metastable dynamics} --- is always present, and it prevents any
+node from remaining fixed.
+
+\subsubsection{2. Novel Architecture: CSAT
+Mechanisms}\label{novel-architecture-csat-mechanisms}
+
+\paragraph{2.1. The Substrate Lorenz
+Attractor}\label{the-substrate-lorenz-attractor}
+
+We integrate a three-line, low-level nonlinear chaotic system --- the
+Lorenz equations --- directly into the global \texttt{tick()} loop of
+\texttt{physics.hpp}: \[ dx = \sigma(y - x) \cdot dt \]
+\[ dy = (x(\rho - z) - y) \cdot dt \]
+\[ dz = \tau \cdot (xy - \beta z) \cdot dt \]
+
+\emph{(Note: all three derivatives carry the time-scale factor \(\tau\);
+see Numerical Constraints below.)}
+
+\textbf{Numerical constraints --- required for a working
+implementation.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Time-scale factor \(\tau\).} Forward-Euler integration of the
+  Lorenz system at \(\sigma = 10\), \(\rho = 28\), \(\beta = 8/3\) is
+  unstable for \(dt \gtrsim 0.01\). The substrate runs at \(dt = 0.02\),
+  past the stability boundary --- naive integration diverges to
+  \texttt{NaN} within a few hundred ticks. The factor \(\tau\) (default
+  \(0.3\)) slows the attractor without altering its geometry, restoring
+  stability \emph{and} giving direct control over the drift timescale.
+  \(\tau\) should be chosen so the attractor's orbital period is
+  comparable to one conversational turn (\textasciitilde200 ticks). If
+  the attractor cycles much faster, the chaotic push averages out within
+  a single settle window and contributes nothing.
+\item
+  \textbf{Amplitude normalization.} The Lorenz \(x\) coordinate ranges
+  over approximately \([-20, +20]\), not \([-1, +1]\). All downstream
+  use must reference the normalized coordinate \(\hat{x} = x / 20\).
+  Using raw \(x\) in a multiplicative viscosity term drives effective
+  friction \emph{negative} for any gain above \(\gamma \approx 0.05\)
+  --- anti-damping, unbounded energy injection, field explosion. This is
+  a silent failure mode: no error is raised, only a wall of \texttt{NaN}
+  several hundred ticks later.
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  There is no neural network and no training here. This is pure physical
+  mathematics, updating three scalar variables (\(x, y, z\)) per tick.
+\end{itemize}
+
+\paragraph{2.2. Dynamic Viscosity Modulation (The
+Push)}\label{dynamic-viscosity-modulation-the-push}
+
+The VGHT layer carries a constant viscosity that suppresses avalanches.
+We modulate that viscosity dynamically by the \(x\) coordinate of the
+Lorenz attractor:
+\[ \mu_{\text{dynamic}} = \mu_{\text{base}} \cdot (1.0 + \gamma \cdot \hat{x}_{\text{lorenz}}) \]
+
+\textbf{However --- this global form provably cannot work.} See §2.2.1.
+The corrected per-cavity form is given in §2.2.2.
+
+\paragraph{2.2.1 Negative result: global viscosity modulation is
+rank-preserving}\label{negative-result-global-viscosity-modulation-is-rank-preserving}
+
+Applied as a \textbf{global} scalar in the cavity velocity-decay step
+\(v_i \leftarrow v_i(1 - \mu_t)\), over \(N\) ticks:
+
+\[ v_i(N) \;=\; v_i(0) \prod_{t=1}^{N}\bigl(1 - \mu_t\bigr) \;=\; v_i(0)\cdot C \]
+
+where \(C\) depends only on the schedule \(\{\mu_t\}\) and is therefore
+\textbf{identical for every cavity}. Hence
+
+\[ \frac{v_i(N)}{v_j(N)} \;=\; \frac{v_i(0)}{v_j(0)} \qquad \forall\, i,j. \]
+
+Amplitude \emph{ratios} are exactly invariant under any global viscosity
+schedule, chaotic or otherwise. Because CPME §1.6 phase-collapse
+emission selects by arg-max over a weight monotone in amplitude, the
+emitted winner is unchanged. A globally-modulated viscosity alters how
+\emph{loud} the field is, never \emph{which cavity is loudest}.
+
+Concretely: if \texttt{think} carries 10× the amplitude of
+\texttt{terminal} before the chaotic push, it carries 10× after.
+\texttt{linux\ →\ nano} remains \texttt{linux\ →\ nano}. Multiplying the
+entire field by a wiggling scalar is a monotone transform on the
+ranking, and monotone transforms cannot reorder an arg-max.
+
+This is a genuine negative result and it constrains the design:
+\textbf{any mechanism intended to break ground-state locking must couple
+to per-cavity state.}
+
+\paragraph{2.2.2 The working form --- heat-coupled chaotic
+viscosity}\label{the-working-form-heat-coupled-chaotic-viscosity}
+
+The substrate already maintains a per-cavity scalar meaning exactly
+``this cavity has been active too long'': the CMD thermodynamic
+habituation heat \(T_i\). Coupling the chaotic term to \(T_i\) makes the
+push selective:
+
+\[ \mu_i \;=\; \underbrace{\mu_{\text{base}} + k_{\text{aval}}\bigl(1 - e^{-E_{\text{tot}}/E_s}\bigr)}_{\text{VGHT §1.3, unchanged}} \;+\; \underbrace{\gamma \cdot \hat{x}_{\text{lorenz}} \cdot \tanh\!\bigl(T_i / T_{\text{crit}}\bigr)}_{\text{CSAT}} \]
+
+Entrenched cavities (high \(T_i\)) absorb the chaotic shake; fresh or
+cold cavities barely register it. Rank can now flip, and that is genuine
+metastability rather than uniform loudness modulation.
+
+The \(\tanh\) bounds the term so \(\mu_i\) cannot run away. Because
+\(\hat{x}\) alternates sign along the attractor, an entrenched cavity
+experiences alternating extra-damping and reduced-damping --- it is
+\emph{shaken}, not merely suppressed. Shaking permits escape;
+suppression would only silence.
+
+\textbf{Composition with the Curie gate.} \(T_i\) already gates tunnel
+coupling via \(\exp(-T_i/T_{\text{crit}})\). Under CSAT the same state
+variable acquires a second role: \emph{talking too much} now implies
+both \emph{losing coupling} and \emph{becoming subject to chaotic
+eviction}. One state variable, two independent escape mechanisms, no new
+bookkeeping, tick loop still branchless.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism.} Whenever the system begins to lock onto a
+  particular word (a ground state), the Lorenz chaotic push perturbs the
+  global viscosity. This drives the field off that cavity and forces
+  energy to spread into the cavities connected to it ---
+  \texttt{terminal}, \texttt{bash}, \texttt{kernel}.
+\end{itemize}
+
+\paragraph{\texorpdfstring{2.3. Trajectory Momentum --- chaos supplies
+\emph{timing}, CPSB supplies
+\emph{direction}}{2.3. Trajectory Momentum --- chaos supplies timing, CPSB supplies direction}}\label{trajectory-momentum-chaos-supplies-timing-cpsb-supplies-direction}
+
+\textbf{The division of labour must be stated precisely.} The Lorenz
+system has no knowledge of the graph: \(x(t)\) does not know which
+cavity is \texttt{terminal} and which is \texttt{bash}. The attractor's
+geometry lives in its own \((x,y,z)\) space and bears no relation to the
+semantic manifold. It therefore cannot, by itself, produce a
+semantically coherent chain.
+
+What CSAT contributes is \textbf{escape timing} --- \emph{when} to leave
+the current basin. What produces the ordered chain
+\texttt{linux\ →\ terminal\ →\ bash\ →\ kernel} is \textbf{CPSB gauge
+coupling plus graph topology} --- \emph{where} the energy goes once it
+leaves.
+
+\begin{quote}
+\textbf{CSAT provides escape timing. CPSB provides escape direction.}
+\end{quote}
+
+This is a clean, non-overlapping role for CSAT within the stack, and it
+is the honest claim. Attributing semantic coherence to the attractor
+itself would overstate the mechanism; the coherence is already earned by
+CPSB and the ontology.
+
+Chaos is not randomness. The Lorenz attractor traces a definite
+geometric pattern --- a \emph{strange attractor}. The consequence is
+that the signal does not emit random words: starting from \texttt{linux}
+it builds a chain that respects the structural rules supplied by CPSB,
+\texttt{linux} \(\rightarrow\) \texttt{terminal} \(\rightarrow\)
+\texttt{bash} \(\rightarrow\) \texttt{kernel}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. Parameters}\label{parameters-2}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Symbol
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meaning
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\sigma, \rho, \beta\) & 10, 28, 8/3 & Standard Lorenz coefficients \\
+\(\tau\) & 0.30 & Time-scale factor (stability + drift rate) \\
+\(\gamma\) & 0.04 & Chaotic viscosity gain on \(\hat{x}\) \\
+\(\hat{x}\) & \(x/20\) & Normalized Lorenz coordinate \\
+\texttt{csat\_enabled} & see §4.1 & Master switch --- \textbf{not}
+unconditionally on \\
+\end{longtable}
+
+Five parameters. Setting \(\gamma = 0\) recovers the pre-CSAT substrate
+exactly.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. Failure Modes}\label{failure-modes-4}
+
+\paragraph{4.1 Lyapunov divergence breaks
+bit-reproducibility}\label{lyapunov-divergence-breaks-bit-reproducibility}
+
+Chaos is deterministic, so seeded reproducibility survives \emph{in
+principle}: the same \texttt{bind\_seed} and the same Lorenz initial
+conditions yield the same trajectory. But the Lorenz system has a
+positive Lyapunov exponent --- a \(10^{-7}\) floating-point difference
+grows to \(O(1)\) within roughly a thousand ticks. Different compiler
+flags, \texttt{-ffast-math}, or a different FPU will therefore produce
+divergent trajectories from identical seeds.
+
+This directly conflicts with the bit-exactness that the 20-seed RB+G
+table (\texttt{rbg.md} §6.1) and the four-lever ablation grid (§6.2)
+depend on.
+
+\textbf{CSAT is consequently the first mechanism in the stack that must
+not default unconditionally ON.} Recommended policy:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{csat\_enabled\ =\ true} in the conversational shell
+  (\texttt{si\_chat})
+\item
+  \texttt{csat\_enabled\ =\ false} forced inside
+  \texttt{study\_recall\_seeds} and \texttt{study\_recall\_ablation}
+\end{itemize}
+
+Published numbers stay bit-reproducible; conversation still gets the
+drift. This is a documented exception to the ``all defaults ON''
+contract in the implementation guide §11.3, and the exception should be
+recorded there.
+
+\paragraph{4.2 CSAT does not address stale amplitude
+accumulation}\label{csat-does-not-address-stale-amplitude-accumulation}
+
+Ground-state locking has more than one cause, and CSAT addresses only
+the genuine-potential-well case. In particular, with friction
+\(\mu_0 = 0.006\) per tick, roughly \(30\%\) of a cavity's amplitude
+survives a 200-tick turn (\(0.994^{200} \approx 0.30\)). A cavity driven
+once at high amplitude therefore remains dominant for several subsequent
+turns by pure arithmetic, with no potential well involved.
+
+That is a \emph{dissipation} deficiency, not a chaos deficiency. Chaotic
+shaking of an over-energised field does not remove the excess energy.
+Fixing it requires either stronger inter-turn damping or an explicit
+energy budget per turn --- orthogonal to CSAT and left as separate work.
+
+\paragraph{4.3 Chaos on a sparse graph shakes an empty
+room}\label{chaos-on-a-sparse-graph-shakes-an-empty-room}
+
+If the driven concept has few or no outbound tunnels, there is no
+trajectory for the attractor to push the field along. CSAT then produces
+no observable change: the escape timing fires, but there is nowhere to
+escape to. CSAT is therefore a mechanism whose benefit scales with
+ontology density, and it should be evaluated only on subgraphs rich
+enough to support multi-hop propagation.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Relation to the Existing
+Stack}\label{relation-to-the-existing-stack}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Layer
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Role
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+CMD & Curie gate on \(T_i\) & entrenched cavity loses \emph{coupling} \\
+\textbf{CSAT} & \textbf{chaotic viscosity on \(T_i\)} &
+\textbf{entrenched cavity loses \emph{stability}} \\
+VGHT & sub-bands, voltage gates, viscosity & domain isolation +
+avalanche control \\
+CPME & momentum, acoustic mass, settle, sweep & emission eligibility and
+ordering \\
+CPSB & gauge \(\Psi\) on tunnels & escape \emph{direction} / word
+order \\
+CPME-II & phase-consistent Hebbian & stores the phase gradient across
+turns \\
+\end{longtable}
+
+CSAT and the CMD Curie gate read the same state variable \(T_i\) but act
+on different quantities --- coupling strength versus dynamical
+stability. They are complementary, not redundant.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\subsection{Morphological Resonance Synthesis (MRS): Language
+Construction Without Tokens, Gradients, or Learned
+Embeddings}\label{morphological-resonance-synthesis-mrs-language-construction-without-tokens-gradients-or-learned-embeddings}
+
+\emph{The byte-lane sensory layer is currently input-only: bytes enter
+the substrate through learned couplings, but output leaves it as
+retrieved label strings. That retrieval is the last token-shaped
+operation in the pipeline. MRS removes it by making the byte layer
+bidirectional and giving it the same three phase mechanisms the concept
+layer already has --- chirality on input, phase-consistent
+consolidation, and phase-collapse projection on output. Word forms are
+then} synthesised \emph{by sweeping a byte-phase field rather than}
+retrieved \emph{from a table.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{0. The Remaining
+Asymmetry}\label{the-remaining-asymmetry}
+
+The CMD substrate ingests raw bytes. There is no tokeniser: each of 256
+\texttt{ByteLane} oscillators is driven by its byte value, and lanes
+reach the concept field only through Hebbian couplings \(w[b][c]\) that
+begin at zero. On the input side, the architecture is already
+sub-lexical and token-free.
+
+The output side is not. \texttt{readout\_phase\_collapse()} selects
+concept cavities by phase and then prints
+\texttt{si.graph.nodes{[}label\_key{]}.label} --- a \textbf{stored
+string}. The physics decides \emph{which} concepts speak and \emph{in
+what order}, but the \emph{form of each word} is a lookup.
+
+This asymmetry has three consequences:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{No morphology.} The engine can emit \texttt{walk} if
+  \texttt{walk} is a stored label, and \texttt{walked} if
+  \texttt{walked} is separately stored, but it cannot construct
+  \texttt{walked} from \texttt{walk}. There is no mechanism by which
+  stem and inflection compose.
+\item
+  \textbf{No novel forms.} Any word form absent from the label table is
+  unreachable, regardless of how strongly the substrate's state implies
+  it.
+\item
+  \textbf{A token-shaped residue.} The label table is a finite inventory
+  of atomic surface strings indexed by graph key. Functionally that is a
+  vocabulary, and its presence is what makes the pipeline token-like at
+  the boundary even though the interior is not.
+\end{enumerate}
+
+MRS closes the asymmetry. The mechanism is a direct reuse --- one layer
+down --- of machinery the substrate already contains.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{1. Architecture}\label{architecture-2}
+
+Let the byte-lane population be \(L_b\) for \(b \in [0,256)\), each an
+oscillator with displacement \(x_b\), velocity \(v_b\), and natural
+frequency \(\omega_b = 3.0 + b/256\) (as in the existing CMD sensory
+layer). Let \(w[b][c]\) be the learned byte→concept binding weights.
+
+MRS adds four mechanisms.
+
+\paragraph{1.1 Reverse Drive (concept →
+lane)}\label{reverse-drive-concept-lane}
+
+The existing forward path applies a force from lane to concept:
+
+\[ F_c \mathrel{+}= \frac{w[b][c] \cdot x_b}{m_c} \]
+
+MRS adds the transpose, using the \textbf{same weights}:
+
+\[ F_b \mathrel{+}= \eta_{\text{rev}} \cdot w[b][c] \cdot x_c \]
+
+with \(\eta_{\text{rev}}\) a reverse-gain scalar (default \(0.4\)). No
+new storage: the coupling matrix is used in both directions, making the
+byte↔concept layer a bidirectional associative memory implemented as
+coupled oscillators rather than as a matrix multiplication.
+
+Consequence: when concept cavities resonate, the byte lanes whose
+bindings to those concepts are strongest resonate in turn. The lanes
+that light up are the letters of the words those concepts were
+historically written with.
+
+\paragraph{1.2 Lane Chirality}\label{lane-chirality}
+
+Byte lanes acquire the CPME §1.1 arrival timestamp:
+
+\[ t_{\text{arrival},b} \leftarrow t_{\text{sim}} \quad \text{on each drive of } L_b \]
+
+During input of \texttt{hi}, lane \(L_{\texttt{h}}\) is driven before
+\(L_{\texttt{i}}\) and therefore accumulates more phase. Letter order
+within a word becomes a phase gradient across the lane population ---
+exactly the mechanism CPME already uses for word order across concepts,
+applied one level down.
+
+\paragraph{1.3 Lane-to-Lane Gauge
+Tunnels}\label{lane-to-lane-gauge-tunnels}
+
+A sparse set of lane↔lane tunnels is created on co-occurrence, each
+carrying a CPSB-style gauge offset \(\Psi_{bb'}\) and consolidated by
+the CPME-II phase-consistent rule:
+
+\[ \Delta w_{bb'} \;\propto\; v_b \cdot v_{b'} \cdot \cos\!\bigl(\theta_b - \theta_{b'} - \Psi_{bb'}\bigr) \]
+
+where \(\theta_b = \operatorname{atan2}(v_b, \omega_0 x_b)\). Unlike the
+concept layer, \(\Psi_{bb'}\) is \textbf{not} assigned from a relation
+table --- it is \emph{learned} as the running circular mean of observed
+phase differences:
+
+\[ \Psi_{bb'} \leftarrow \arg\Bigl( \lambda\, e^{i\Psi_{bb'}} + (1-\lambda)\, e^{i(\theta_b - \theta_{b'})} \Bigr) \]
+
+This is the substrate's representation of \emph{sequence}: the tunnel
+between \texttt{h} and \texttt{i} stores the typical phase lead of
+\texttt{h} over \texttt{i}. Nothing about letters, words, or grammar is
+encoded declaratively; only phase offsets between oscillators.
+
+\paragraph{1.4 Byte-Level Phase-Collapse
+Projection}\label{byte-level-phase-collapse-projection}
+
+Output is generated by the CPME §1.6 sweep applied to the lane
+population. Carrier phase \(\phi_{\text{carrier}}\) advances
+monotonically across \([0, 2\pi)\) in \(K_{\text{byte}}\) steps; at each
+step the emitted byte is the arg-max of
+
+\[ w_b(\phi_{\text{carrier}}) \;=\; |x_b| \cdot \operatorname{ReLU}(P_b) \cdot \exp\!\bigl(-\kappa_b (\phi_{\text{carrier}} - \theta_b)^2\bigr) \]
+
+with \(P_b\) the lane's envelope momentum as in CPME §1.2.
+
+\textbf{Critical divergence from the concept sweep.} In the concept
+layer, a winner is suppressed from later sweep steps --- a concept
+appears once in a clause. In the byte layer, \textbf{winners are not
+suppressed}, and the sweep may make multiple passes. Letters repeat
+within words (\texttt{banana}, \texttt{letter}, \texttt{success}); a
+suppression rule would make repeated graphemes unreachable. The
+difference is physically motivated by what each layer represents, not
+introduced as an exception.
+
+Word boundaries emerge from amplitude gaps: when the swept weight falls
+below the emission floor for a contiguous span of carrier phase, a
+boundary is emitted. Boundaries are therefore not delimiters in a
+grammar but silences in a resonance field.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{2. Why This Is Not Tokens, ML, DL, or an
+LLM}\label{why-this-is-not-tokens-ml-dl-or-an-llm}
+
+\textbf{Not tokenisation.} There is no vocabulary, no merge table, no
+subword inventory, no \texttt{\textless{}unk\textgreater{}}. Input is
+256 byte lanes; output is a swept byte sequence. The only inventory is
+the byte alphabet itself, which is a property of the encoding, not a
+learned artefact.
+
+\textbf{Not machine learning in the gradient sense.} There is no loss
+function, no gradient, no backpropagation, no optimiser, no train/test
+split. All adaptation is the local Hebbian rule of §1.3, which uses only
+quantities available at the two endpoints of a single tunnel at a single
+tick. Nothing computes a derivative of a global objective.
+
+\textbf{Not deep learning.} There is no layer stack in the DL sense ---
+no weight matrices applied in sequence, no nonlinearity between layers,
+no depth over which credit is assigned. The byte layer and concept layer
+are two populations of coupled oscillators exchanging forces
+bidirectionally through one shared coupling matrix.
+
+\textbf{Not a language model.} No distribution over next symbols is ever
+formed. There is no softmax, no sampling temperature, no autoregressive
+conditioning on prior output. The emitted sequence is the projection of
+a static field state onto a swept phase axis --- a geometric readout,
+not a sequential prediction. Given the same field state the same
+sequence is produced deterministically, and the sequence is generated
+\emph{simultaneously} in the sense that all lanes are already in their
+phases before the sweep begins.
+
+\textbf{What it is:} a bidirectional associative resonance memory
+between a 256-oscillator sub-lexical layer and an \(N\)-oscillator
+conceptual layer, read out by phase-swept projection.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. Where the Storage Lives (Translation Capacity
+Lemma)}\label{where-the-storage-lives-translation-capacity-lemma}
+
+The Translation Capacity Lemma (SI §3.1) states that any system
+discriminating \(N\) outcomes must store \(\log_2 N\) bits somewhere.
+MRS does not evade this and does not claim to. The storage relocates:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Before MRS
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+After MRS
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(N\) label strings in \texttt{graph.nodes{[}{]}.label} &
+\(256 \times N\) byte→concept couplings \(w[b][c]\) \\
+--- & \(\le 256^2\) lane↔lane couplings and offsets \(\Psi_{bb'}\) \\
+\end{longtable}
+
+The relocation is the substantive change. A label table stores each
+surface form \emph{atomically and independently}: \texttt{walk} and
+\texttt{walked} share no representation, so knowing one contributes
+nothing to producing the other. A coupling matrix stores forms
+\emph{distributedly and compositionally}: the lanes and phase offsets
+that produce \texttt{walk} are largely the same ones that produce
+\texttt{walked}, differing by the additional offsets contributed by the
+co-active inflectional concept.
+
+Generalisation to unseen forms therefore becomes possible in principle
+--- not because information was created, but because the information was
+stored in a factored representation instead of an atomic one. The bit
+count is not reduced; its \emph{organisation} is what changes.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. Expected Dynamics}\label{expected-dynamics-4}
+
+\textbf{Prompt:} \texttt{metformin\ lowers\ glucose}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Byte injection.} Lanes for each character are driven in
+  arrival order; \(t_{\text{arrival}}\) records the chirality gradient.
+  Lane↔lane tunnels consolidate the observed offsets (\texttt{m} leads
+  \texttt{e} leads \texttt{t}\ldots).
+\item
+  \textbf{Concept resonance.} Forward couplings \(w[b][c]\) excite the
+  \texttt{metformin}, \texttt{lowers}, \texttt{glucose} cavities;
+  propagation through the ontology raises downstream cavities
+  (\texttt{ampk}, \texttt{glucose\_uptake}).
+\item
+  \textbf{Acoustic-mass muting.} Directly-driven concepts are muted
+  (CPME §1.3); downstream concepts are not.
+\item
+  \textbf{Reverse drive.} The surviving downstream concepts drive byte
+  lanes through \(w[b][c]^{\!\top}\). Lanes corresponding to the letters
+  of \texttt{ampk}, \texttt{glucose}, \texttt{uptake} resonate ---
+  \emph{without those strings being retrieved}.
+\item
+  \textbf{Byte sweep.} The carrier phase sweeps the lane population.
+  Lanes emit in phase order, with boundaries at amplitude gaps. Output
+  is a byte sequence assembled from resonance.
+\end{enumerate}
+
+\textbf{Morphological composition.} If the inflectional concept for
+past-tense has been bound to the lanes \texttt{e},\texttt{d} through
+prior exposure, and it is co-active with \texttt{lower}, the reverse
+drive raises both the stem lanes and the suffix lanes. The sweep ---
+ordered by learned phase offsets --- emits \texttt{lowered}, a form that
+need never have been stored as a label.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4b. Empirical Result: Single-Byte Lanes Are Insufficient
+(measured)}\label{b.-empirical-result-single-byte-lanes-are-insufficient-measured}
+
+The single-byte formulation of §1.1--§1.4 was implemented and tested.
+\textbf{It does not work, and the reason is representational rather than
+a matter of tuning.}
+
+Recognition was attempted by grounding every concept label to the 256
+lanes at load time (binding weight = inverse byte document-frequency
+across the lexicon) and then recognising a query by driving its bytes
+and reading which concepts accumulated energy. Measured on a 2,240
+-concept graph:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+query & recognised as & correct \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{metfromin} & \texttt{from}, \texttt{front}, \texttt{rfe} & ✗ \\
+\texttt{metformin} & \texttt{from}, \texttt{front}, \texttt{rfe} & ✗ \\
+\texttt{insluin} & \texttt{uni}, \texttt{ull}, \texttt{sil} & ✗ \\
+\texttt{fissoin} & \texttt{fission} & ✓ \\
+\end{longtable}
+
+Two distinct causes, and separating them matters:
+
+\textbf{(a) A normalisation error.} Binding weight was divided by
+\(\sqrt{|\text{label}|}\). For the query \texttt{metformin}, the
+substring \texttt{from} scored \(S/2\) while \texttt{metformin} itself
+scored \(S/3\) --- the extra bytes \(\{e,t,i,n\}\) are common and
+contribute ≈ 0 weight, but the length penalty applies regardless. A
+substring therefore outscored the whole word, which is why recognition
+failed even on \emph{correctly spelled} input. This was a genuine bug.
+
+\textbf{(b) A representational limit.} Removing the length division and
+replacing it with symmetric coverage (harmonic mean of query-recall and
+label-precision over byte sets) fixed the substring case and broke a
+different one: long labels sharing many bytes with the query
+(\texttt{intent\_from\_marker\_label}) began to win, because a concept
+bound to more lanes accumulates more raw energy regardless of coverage.
+Each subsequent scoring adjustment relocated the failure rather than
+removing it.
+
+That pattern --- a defect that moves under every reweighting but never
+disappears --- is the signature of insufficient representation. The
+decisive case is \texttt{metformin} versus \texttt{metfromin}:
+\textbf{they have identical byte sets.} A bag of distinct bytes cannot
+distinguish a word from its own transposition, so no weighting function
+over that bag can succeed. This is §5.3 (homograph collision)
+manifesting not as an edge case but as the dominant failure.
+
+\paragraph{4b.1 Required correction: bigram
+lanes}\label{b.1-required-correction-bigram-lanes}
+
+The sensory layer must carry ordering information. Replacing the 256
+single-byte lanes with \(256^2\) ordered-pair lanes supplies it:
+
+\[
+\texttt{metformin} \rightarrow \{\texttt{me},\texttt{et},\texttt{tf},\texttt{fo},\texttt{or},\texttt{rm},\texttt{mi},\texttt{in}\}
+\] \[
+\texttt{metfromin} \rightarrow \{\texttt{me},\texttt{et},\texttt{tf},\texttt{fr},\texttt{ro},\texttt{om},\texttt{mi},\texttt{in}\}
+\]
+
+Five of eight pairs are shared; three differ. The transposition is now
+\emph{visible to the substrate}, and graded recognition becomes
+possible: a near-miss resonates strongly but not identically, which is
+the behaviour §1.4 requires and the single-byte layer cannot deliver.
+
+\textbf{This changes nothing about the architecture's commitments.} A
+bigram lane is one oscillator per ordered character pair, with
+displacement, velocity and natural frequency --- the same
+\texttt{ByteLane} structure, a wider array. Specifically it introduces:
+
+\begin{itemize}
+\tightlist
+\item
+  no loss function, no gradient, no fitted parameter;
+\item
+  no attention, no softmax, no learned projection;
+\item
+  no probability semantics --- lane energy is displacement in a field.
+\end{itemize}
+
+The distinction that governs this architecture is not \emph{``are there
+numbers''} but \emph{``where do the numbers come from.''} A binding
+weight here is \textbf{computed} from a counted structural property of
+the lexicon by a stated formula; changing the lexicon changes it
+deterministically. A weight in a trained network is \textbf{fitted} by
+optimising a loss and admits no explanation beyond that optimisation.
+Descriptive measurement is not fitted inference --- measuring a mass
+does not make mechanics machine learning.
+
+n-gram indexing is also not novel-to-ML prior art: it originates in
+1970s information retrieval (approximate string matching, spell
+correction) and predates statistical learning entirely.
+
+\paragraph{4b.2 Measured result after implementing bigram
+lanes}\label{b.2-measured-result-after-implementing-bigram-lanes}
+
+Bigram lanes were implemented (\texttt{PhysicsEngine::bigram\_bind\_w},
+\texttt{bind\_bigram}). Grounding is identical in form to the
+single-byte version --- inverse lane document-frequency across the
+lexicon --- but over ordered pairs bracketed by BOS/EOS sentinels, so
+word-initial and word-final position are themselves observable pairs.
+
+Recognition divides energy received by a concept by the geometric mean
+of its own binding mass and the query's:
+
+\[
+\text{resonance}(c) \;=\; \frac{\sum_{g \in Q \cap B(c)} w_g}{\sqrt{M_c \cdot M_Q}}
+\]
+
+This is energy per unit coupling --- the same reason acceleration is
+force divided by mass --- and it is why neither long nor short labels
+win by size. The earlier failures came from omitting exactly this
+normalisation.
+
+Measured on the same 2,240-concept graph:
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+query & perturbation & recognised as & score & correct \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{metformin} & none & \texttt{metformin} & 1.000 & ✓ \\
+\texttt{metfromin} & transposition & \texttt{metformin} & 0.686 & ✓ \\
+\texttt{insluin} & transposition & \texttt{insulin} & 0.471 & ✓ \\
+\texttt{fissoin} & transposition & \texttt{fission} & 0.621 & ✓ \\
+\texttt{fisssion} & insertion & \texttt{fission} & 1.000 & ✓ \\
+\texttt{cavty} & deletion & \texttt{cavity} & 0.830 & ✓ \\
+\texttt{tunel} & deletion & \texttt{tunnel} & 0.885 & ✓ \\
+\end{longtable}
+
+\textbf{7 / 7}, against 1 / 4 for single-byte lanes.
+
+The \texttt{metformin} / \texttt{metfromin} pair is the decisive one:
+those two strings have \textbf{identical byte sets}, so the single-byte
+formulation could not distinguish them under any weighting. Over bigrams
+they share 5 of 8 pairs and differ in 3, and the correct concept is
+recovered at 0.686 against 1.000 for the exact spelling.
+
+That gradation is the property §1.4 requires and a hash lookup cannot
+have: recognition degrades smoothly with distortion rather than failing
+discontinuously. It is also the evidence that recognition is not string
+matching --- no comparison between the query and any stored label occurs
+at any point.
+
+\textbf{Status:} bigram recognition is ENABLED in \texttt{codeq}, with
+an acceptance floor of 0.35 so unknown tokens resonate with nothing
+rather than matching noise. Single-byte recognition is retained in the
+source only as the documented negative result. Per-query telemetry
+reports \texttt{lexical} versus \texttt{resonant} recognition counts, so
+residual dependence on exact lookup is a measured quantity rather than
+an assumption.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Failure Modes}\label{failure-modes-5}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Babble before consolidation.} With near-zero couplings the
+  lane phases are unstructured and the sweep emits non-words. This is
+  the correct initial state of a system that has not yet learned
+  orthography, but it will read as garbage output until the lane↔lane
+  offsets consolidate. Consolidation requires substantial exposure ---
+  Hebbian rather than gradient, but still genuinely a training process
+  measured in thousands of turns, not tens.
+\item
+  \textbf{Phase resolution limits word length.} With \(K_{\text{byte}}\)
+  sweep steps the angular resolution is \(2\pi/K_{\text{byte}}\). A
+  ten-character word requires ten sufficiently separated lane phases.
+  Long words will be truncated or slurred until \(K_{\text{byte}}\) is
+  raised, at proportional sweep cost.
+\item
+  \textbf{Homograph collision.} A single lane per byte value means the
+  letter \texttt{a} has one phase at any instant. In a word requiring
+  \texttt{a} at two different positions, the multi-pass sweep of §1.4
+  recovers the repetition only if the two occurrences are separated by
+  other letters whose phases bracket them. Words like \texttt{aa} or
+  vowel-adjacent repeats are expected to fail. A positional lane bank
+  (\(256 \times K\)) would resolve this at a large state cost and would
+  reintroduce something functionally close to positional encoding; it is
+  deliberately not proposed here.
+\item
+  \textbf{No orthographic well-formedness guarantee.} Nothing in the
+  mechanism prevents emission of byte sequences that are not words.
+  Well-formedness is a statistical consequence of consolidation, not a
+  constraint. This is a genuine difference from a grammar-based
+  generator and should be reported as such rather than patched with a
+  dictionary filter --- a filter would reintroduce the vocabulary that
+  MRS exists to remove.
+\item
+  \textbf{Reverse-gain instability.} Bidirectional coupling through a
+  shared matrix creates a feedback loop: concepts drive lanes drive
+  concepts. For \(\eta_{\text{rev}}\) above a critical value the loop
+  has gain greater than unity and the field diverges. The VGHT §1.3
+  avalanche viscosity bounds this, but \(\eta_{\text{rev}}\) must be
+  tuned conservatively and the loop gain monitored.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{6. Relation to the Existing
+Stack}\label{relation-to-the-existing-stack-1}
+
+MRS is the mirror of CPME one layer down. Every mechanism it uses
+already exists in the substrate for the concept layer:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Concept layer
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Byte layer (MRS)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Chirality on input & \texttt{Cavity::t\_arrival} &
+\texttt{ByteLane::t\_arrival} \\
+Momentum filter & \texttt{env\_ema} on cavities & \texttt{env\_ema} on
+lanes \\
+Phase definition & \(\operatorname{atan2}(v_c, \omega_0 x_c)\) &
+\(\operatorname{atan2}(v_b, \omega_0 x_b)\) \\
+Gauge offset & \(\Psi\) from \texttt{psi\_for(rel)} & \(\Psi\)
+\emph{learned} from observed phase \\
+Phase-consistent Hebbian & CPME-II on tunnels & CPME-II on lane
+tunnels \\
+Phase-collapse sweep & emits concept labels & emits \textbf{bytes} \\
+Winner suppression & yes (concept appears once) & \textbf{no} (letters
+repeat) \\
+\end{longtable}
+
+The single genuinely new element is §1.1 reverse drive. Everything else
+is the same physics applied to a different oscillator population ---
+which is the strongest argument that the architecture is coherent rather
+than assembled.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{7. Summary}\label{summary-3}
+
+The CMD substrate was token-free on input and table-driven on output.
+MRS removes the remaining table by making the byte-lane layer
+bidirectional and equipping it with the chirality, consolidation, and
+phase-collapse mechanisms already built for concepts. Word forms become
+the projection of a byte-phase field rather than entries retrieved by
+graph key.
+
+No tokeniser, no gradient, no layer stack, no next-symbol distribution.
+Storage obeys the Translation Capacity Lemma but is relocated from
+atomic surface strings into a factored coupling matrix, which is what
+makes morphological composition and novel forms reachable at all.
+
+The honest cost is that consolidation is slow and early output is
+babble. A system that constructs its own orthography must first fail to.
+
+\end{document}

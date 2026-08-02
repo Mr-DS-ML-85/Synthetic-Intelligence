@@ -1,0 +1,429 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Conceptual Mutation Architecture (CMA): Generating Non-Trivial Invariants through Structural Bisociation},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Conceptual Mutation Architecture (CMA): Generating Non-Trivial
+Invariants through Structural Bisociation}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Conceptual Mutation Architecture (CMA): Generating Non-Trivial
+Invariants through Structural
+Bisociation}\label{conceptual-mutation-architecture-cma-generating-non-trivial-invariants-through-structural-bisociation}
+
+\textbf{Author:} Irfan Mahir \emph{Independent Researcher, Dhaka,
+Bangladesh} irfan@furylogic.com
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+Discrete graph-rewriting engines for Synthetic Intelligence (SI)
+traditionally rely on axiomatic deduction and strict topological
+constraints. While this ensures high logical coherence and eliminates
+the probabilistic ``hallucinations'' characteristic of Large Language
+Models (LLMs), it creates a closed-system bottleneck: the engine cannot
+generate novelty outside its initial topological training data. We
+introduce the Conceptual Mutation Architecture (CMA), an extension for
+discrete C++ graph systems that leverages \textbf{Structural
+Bisociation}. By systematically injecting forced, non-logical edges
+between semantically distant nodes, and subsequently forcing the
+engine's inference pipeline to bridge the resulting logical gap, CMA
+allows the SI to synthesize original concepts and non-trivial
+invariants.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction: The Limits of Deductive
+Ontologies}\label{introduction-the-limits-of-deductive-ontologies}
+
+In continuous probabilistic models (LLMs), ``novelty'' is a byproduct of
+high-temperature token sampling across a massive, non-linear latent
+space. In a discrete graph engine, where concepts are strict nodes and
+relationships are explicit structural edges, novelty cannot arise
+probabilistically. If an SI engine is constrained to classical deduction
+(e.g., Modus Ponens) and induction over a fixed ontology, its thought
+processes become purely tautological.
+
+To achieve human-like insight, the engine must perform what Arthur
+Koestler termed \emph{Bisociation}---the collision of two mutually
+incompatible logical frames. CMA mathematically formalizes this
+collision within a graph-theoretical framework.
+
+\subsection{2. Mathematical Framework of the Static
+Engine}\label{mathematical-framework-of-the-static-engine}
+
+Let the SI's internal ontology be a directed graph \(G = (V, E)\), where
+\(V\) represents the set of concept nodes and \(E\) represents the set
+of verified logical relationships (edges).
+
+The semantic distance \(d(v_i, v_j)\) between any two nodes is defined
+by the shortest path algorithm across the graph's topology. In the
+standard deduction loop, the probability of the engine traversing or
+forming a new connection between \(v_i\) and \(v_j\) is inversely
+proportional to their distance:
+
+\[ P_{deduce}(v_i \rightarrow v_j) \propto \frac{1}{d(v_i, v_j)^2} \]
+
+This ensures logical safety but absolutely prevents creative leaps. A
+node like \texttt{gravity} will never interact with \texttt{RDMA}
+because \(d(\text{gravity}, \text{RDMA}) \to \infty\) in the trained
+ontology.
+
+\subsection{\texorpdfstring{3. The Mutation Primitive
+(\(\mathcal{M}\))}{3. The Mutation Primitive (\textbackslash mathcal\{M\})}}\label{the-mutation-primitive-mathcalm}
+
+CMA introduces a stochastic mutation operator \(\mathcal{M}\) that
+periodically overrides the deductive pipeline. Instead of following
+existing edges, \(\mathcal{M}\) intentionally targets nodes with maximum
+semantic distance to force a hypothesized edge, denoted as \(E_{hyp}\).
+
+The engine selects two nodes \(v_a\) and \(v_b\) such that their
+semantic distance exceeds a hyperparameter threshold \(\tau_{novelty}\):
+
+\[ d(v_a, v_b) > \tau_{novelty} \implies E_{hyp}(v_a, v_b) = 1 \]
+
+\subsubsection{3.1 The Bisociation Energy
+Function}\label{the-bisociation-energy-function}
+
+Once \(E_{hyp}\) is injected, the engine enters the \textbf{Resolution
+Phase}. The system is put under logical ``tension,'' represented by
+energy \(U\). The engine must attempt to build a coherent sub-graph path
+\(P\) that justifies the connection between \(v_a\) and \(v_b\) using
+intermediary nodes.
+
+The energy of the hypothesized connection is defined as:
+
+\[ U_{hyp} = \sum_{k=1}^{n} R(e_k) - \alpha \cdot C(v_a, v_b) \]
+
+Where:
+
+\begin{itemize}
+\tightlist
+\item
+  \(R(e_k)\) is the logical resistance of the intermediary edges used to
+  build the bridge.
+\item
+  \(C(v_a, v_b)\) is the structural conductivity of the new conceptual
+  bridge.
+\item
+  \(\alpha\) is a scaling constant representing the system's current
+  ``exploratory state'' (analogous to dopamine).
+\end{itemize}
+
+\subsection{4. Logical Resolution and The Novelty
+Test}\label{logical-resolution-and-the-novelty-test}
+
+The forced edge \(E_{hyp}\) is initially treated as a logical
+contradiction. The SI's core engine must resolve this contradiction by
+generating intermediate analogies.
+
+For example, if \(\mathcal{M}\) forces
+\(E_{hyp}(\text{gravity}, \text{RDMA})\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The engine decomposes \texttt{gravity}:
+  \(\text{gravity} \to \text{attractive\_force} \to \text{data\_pull}\).
+\item
+  The engine decomposes \texttt{RDMA}:
+  \(\text{RDMA} \to \text{direct\_memory\_access} \to \text{data\_pull}\).
+\item
+  The bridge is formed at the intersection node \texttt{data\_pull}.
+\end{enumerate}
+
+If the engine successfully constructs a path \(P^*\) that minimizes the
+bisociation energy \(U_{hyp}\) below a critical threshold \(U_{crit}\),
+the edge is validated.
+
+\[ \text{If } \min(U_{hyp}) < U_{crit} \implies E_{hyp} \to E_{verified} \]
+
+The graph has now permanently adopted a novel logical connection that
+was not in its initial training set. The SI has ``invented'' a new idea.
+
+\subsection{5. Algorithmic Pruning
+(Decay)}\label{algorithmic-pruning-decay}
+
+Not all mutations result in profound insights; many are simply
+nonsensical. If the resolution pipeline fails to find a path \(P^*\)
+that satisfies the energy threshold within \(N\) clock cycles, the
+hypothesized edge undergoes rapid topological decay:
+
+\[ \frac{d}{dt} E_{hyp} = -\lambda E_{hyp} \]
+
+Where \(\lambda\) is a severe decay constant. The edge is pruned from
+the graph, preventing the graph from filling with unresolved,
+contradictory noise.
+
+\subsection{6. Conclusion}\label{conclusion}
+
+The Conceptual Mutation Architecture liberates discrete graph-rewriting
+systems from the trap of tautological deduction. By formalizing
+Koestler's bisociation as a stochastic topological operator
+\(\mathcal{M}\) constrained by an energy-minimization resolution phase,
+the SI achieves true structural novelty. It gains the ability to
+``brainstorm'' by forcing disparate concepts together and rigorously
+testing their logical intersections, bridging the gap between static
+knowledge retrieval and dynamic human-like creativity.
+
+\end{document}

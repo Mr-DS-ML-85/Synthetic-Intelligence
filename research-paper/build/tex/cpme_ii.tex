@@ -1,0 +1,596 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={CPME-II: Phase-Consistent Hebbian Consolidation},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{CPME-II: Phase-Consistent Hebbian Consolidation}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{CPME-II: Phase-Consistent Hebbian
+Consolidation}\label{cpme-ii-phase-consistent-hebbian-consolidation}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\emph{A phase-coincidence extension to the ZeroGrad Hebbian rule that
+closes the chirality--consolidation gap identified in the CPME §6
+failure modes. Chirality imprinted on injection now persists in
+long-term memory rather than dissipating over turns.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{0. Position}\label{position}
+
+Chiral Phase-Momentum Emission (CPME, \texttt{research-paper/cpme.md})
+encodes word order on the injection side as arrival-time phase and
+decodes structured emission on the readout side by sweeping a carrier
+phase across a per-cavity phase field
+\(\phi_i = \operatorname{atan2}(v_i, \omega_0 x_i)\). Both ends of the
+substrate now operate on phase.
+
+The middle --- long-term consolidation --- does not. The ZeroGrad
+Hebbian rule inherited from the CMD substrate updates tunnel plasticity
+from the product of endpoint velocities:
+
+\[
+\Delta w_{ij} \;\propto\; \eta \cdot v_i \cdot v_j
+\]
+
+with a \(\tanh\)-capped saturating integrator. This rule is
+phase-agnostic: it fires equally whether the two endpoints move
+in-phase, anti-phase, or in orthogonal phases. As a consequence, the
+chirality of the injection wavefront is not stored in the graph. Between
+turns the temporal ordering of concepts dissipates and must be
+re-imposed by each new input.
+
+CPME-II adds a \emph{phase-coincidence modulator} to the existing rule:
+
+\[
+\Delta w_{ij} \;\propto\; \eta \cdot v_i \cdot v_j \cdot \cos(\theta_i - \theta_j)
+\]
+
+where \(\theta_i = \operatorname{atan2}(v_i, \omega_0 x_i)\) is the same
+per-cavity phase the CPME emission layer already uses. The modulator
+preserves the velocity-based structure of the parent rule --- including
+its sign, its tanh cap, and its role in the SRG dual-port Hebbian split
+--- while conditioning the update on temporal compatibility.
+
+The result is a substrate in which chirality is not only encoded and
+projected but also \emph{stored}. Word order becomes a property of the
+graph, not just of the current turn.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. The Rule}\label{the-rule}
+
+\subsubsection{1.1 Definition}\label{definition}
+
+For a tunnel connecting cavities \(a\) and \(b\), define the
+instantaneous phase difference
+
+\[
+\Delta \theta_{ab} = \theta_a - \theta_b \;=\; \operatorname{atan2}(v_a, \omega_0 x_a) - \operatorname{atan2}(v_b, \omega_0 x_b)
+\]
+
+and the phase-coincidence factor
+
+\[
+\Phi_{ab} = \cos(\Delta \theta_{ab})
+\]
+
+taking values in \([-1, +1]\). The CPME-II Hebbian integrand replaces
+the parent rule's velocity product with a phase-modulated one:
+
+\[
+I_{ab} \;=\; w_{ab} \cdot \zeta \;+\; \eta \cdot v_a^{\text{eff}} \cdot v_b^{\text{eff}} \cdot \Phi_{ab}
+\]
+
+where \(\zeta\) is the pre-existing Hebbian decay
+(\texttt{hebbian\_decay}), \(\eta\) is the pre-existing rate scaled by
+serotonin (\texttt{plastic\_rate}), \(v_a^{\text{eff}}\) and
+\(v_b^{\text{eff}}\) are the SRG-routed velocities already computed by
+the parent rule, and \(w_{ab}\) is the plasticity delta. The tanh
+saturation on \texttt{plasticity\_cap} is applied unchanged.
+
+The rule reduces to the parent rule exactly when \(\Phi_{ab} = 1\)
+(perfect phase agreement) and vanishes when \(\Phi_{ab} = 0\)
+(quadrature). For \(\Phi_{ab} = -1\) (anti-phase), the update flips
+sign, which is the correct behaviour: anti-phase pairs are carrying
+opposing rather than reinforcing evidence and should depress rather than
+strengthen their coupling.
+
+\subsubsection{1.2 Interpretation}\label{interpretation}
+
+\(\Phi_{ab}\) is a \emph{continuous coincidence detector on the phase
+manifold}. It is the continuous-oscillator analog of spike-timing
+dependent plasticity (STDP): pairs whose oscillations align in the same
+phase-of-firing are consolidated; pairs whose oscillations consistently
+disagree are attenuated.
+
+Because the phase field is chiral (§CPME 1.1), \(\Phi_{ab}\) implicitly
+encodes temporal order. A concept driven earlier in the input has
+accumulated more phase than a concept driven later. Downstream cavities
+that phase-lock behind the driven cavity therefore experience a specific
+\(\Delta \theta\) characteristic of \emph{following the input in time}.
+Consolidating along this gradient stores the observation that the second
+cavity typically follows the first, without any explicit representation
+of ``before'' or ``after''.
+
+\subsubsection{1.3 What is stored}\label{what-is-stored}
+
+Under the parent rule, the tunnel between \texttt{insulin} and
+\texttt{glucose} grows in proportion to their velocity co-activity ---
+regardless of which arrived first or how they moved relative to one
+another. Under CPME-II, the same tunnel grows only when the two cavities
+oscillate \emph{in phase} --- that is, when they consistently
+participate in the same wavefront with the same temporal role. If in one
+context \texttt{insulin} drives \texttt{glucose} (subject-then-object
+phase relationship) and in another context \texttt{glucose} drives
+\texttt{insulin} (reverse phase), the two updates cancel:
+\(\cos(+\Delta\theta) +
+\cos(-\Delta\theta) = 2\cos(\Delta\theta)\) if the magnitude is
+preserved, but the sign of \(\Delta \theta\) toggles the co-activity
+gradient. The graph accumulates a \emph{phase-averaged co-activity}
+rather than a raw one.
+
+The empirical effect is that stable directional patterns (``metformin →
+AMPK → glucose down'') consolidate faster than context-dependent
+bidirectional patterns.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Composition}\label{composition}
+
+CPME-II modifies only the Hebbian integrand. All other substrate
+mechanisms are untouched.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{CMD Curie gate} (\texttt{heat\_T} → tunnel force scaling) is
+  independent of the Hebbian pass and continues to operate.
+\item
+  \textbf{VGHT voltage gate} modulates tunnel force in the tick's
+  spring-and-damping pass, not the Hebbian pass. CPME-II observes the
+  resulting velocities and phases as inputs; VGHT is upstream.
+\item
+  \textbf{SRG dual-port routing} (\texttt{gate\_E}, \texttt{gate\_I}) is
+  preserved: \(v_a^{\text{eff}}\) in the CPME-II expression is the
+  SRG-selected velocity from the parent rule, not the raw observable.
+  The polarity-driven excitatory/inhibitory split remains intact.
+\item
+  \textbf{CPME emission layer} (§1.6, phase-collapse projection) is
+  unchanged. CPME-II operates during propagation and settle; the
+  emission sweep reads whatever state the Hebbian pass has consolidated.
+\item
+  \textbf{Plasticity cap} (\texttt{plasticity\_cap}) remains the
+  saturating bound; the tanh envelope contains the
+  \(\Phi_{ab}\)-modulated integrand identically.
+\end{itemize}
+
+The tick loop retains its no-if/else contract: \(\cos(\Delta \theta)\)
+is a smooth scalar, evaluated once per tunnel per tick, and multiplied
+into the existing velocity product.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Contract and Parameters}\label{contract-and-parameters}
+
+CPME-II adds no new state. All required quantities are already
+maintained by the parent substrate:
+
+\begin{itemize}
+\tightlist
+\item
+  \(x_a\), \(v_a\), \(x_b\), \(v_b\): cavity displacements and
+  velocities.
+\item
+  \(\omega_0\): the base cavity frequency \texttt{cpme\_base\_omega}
+  shared with the emission layer.
+\item
+  \(\eta\), \(\zeta\), \texttt{plasticity\_cap}: existing Hebbian
+  parameters.
+\end{itemize}
+
+The only tunable is a \emph{phase weight} \(\alpha_\Phi \in [0, 1]\)
+that linearly interpolates between the parent rule and the fully
+phase-modulated rule:
+
+\[
+\Phi_{ab}^{(\alpha)} \;=\; (1 - \alpha_\Phi) \;+\; \alpha_\Phi \cdot \cos(\Delta \theta_{ab})
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  \(\alpha_\Phi = 0\): recovers the parent rule exactly (backwards
+  compatibility test path).
+\item
+  \(\alpha_\Phi = 1\): full phase-consistent consolidation.
+\item
+  Default: \(\alpha_\Phi = 0.6\), weighting phase agreement heavily
+  while preserving a floor of unconditional Hebbian growth.
+\end{itemize}
+
+This is the only free parameter introduced by CPME-II. All defaults
+\emph{on}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Expected Dynamics}\label{expected-dynamics}
+
+\textbf{Scenario A --- repeated same-order exposure.} Over a session in
+which the user types variants of ``metformin lowers glucose'' several
+times, \texttt{metformin} and \texttt{glucose} cavities are consistently
+driven with the same relative arrival delay. Their phase difference
+\(\Delta \theta\) is stable and small, \(\Phi \approx +1\), and the
+tunnel between them consolidates rapidly under the CPME-II rule. Between
+turns, the phase relationship is preserved because it is now stored in
+the plasticity delta, not just in the transient field.
+
+\textbf{Scenario B --- bidirectional exposure.} If in different turns
+the user types both ``insulin controls glucose'' and ``glucose signals
+insulin'', the pairwise \(\Delta \theta\) toggles sign turn-to-turn.
+Under the parent rule, both directions add to plasticity. Under CPME-II,
+one direction has \(\Phi > 0\) and the other \(\Phi < 0\): the updates
+partially cancel. The tunnel still grows if the velocity product
+magnitude is large --- the parent contribution \((1 - \alpha_\Phi)\)
+preserves an unconditional growth floor --- but more slowly. This is the
+correct behaviour for a bidirectional relationship: the graph should not
+overcommit to either direction in isolation.
+
+\textbf{Scenario C --- silent turn.} If a turn produces no meaningful
+propagation and both cavities remain quiescent, \(v_a\) and \(v_b\) are
+near zero and the update is negligible regardless of \(\Phi\). No change
+from parent-rule behaviour.
+
+\textbf{Scenario D --- anti-phase input.} If the input is structured to
+produce anti-phase drive on a pair (e.g., a contrastive construction
+where the two cavities are being posited \emph{against} each other),
+\(\Phi \approx -1\) and the CPME-II rule \emph{decreases} the plasticity
+delta. This is the physical realisation of what a biological network
+implements through inhibitory long-term depression: consistent
+anti-phase co-activation should weaken, not strengthen, the excitatory
+bond.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Failure Modes}\label{failure-modes}
+
+Three failure modes documented before deployment.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Phase noise near quiescence.} For a cavity with small \(x\)
+  and small \(v\), the phase \(\operatorname{atan2}(v, \omega_0 x)\) is
+  dominated by numerical noise. \(\Phi\) then fluctuates randomly and
+  injects noise into consolidation. Mitigation: the velocity product
+  \(v_a v_b\) already suppresses this --- near quiescence the update
+  magnitude is negligible regardless of \(\Phi\). No additional guard is
+  required, but a diagnostic observer may report spurious \(\Phi\)
+  readings on cold cavities; this is expected and harmless.
+\item
+  \textbf{Polarity--phase interaction.} Inhibitory tunnels
+  (\texttt{polarity\ \textless{}\ 0}) already invert the phase
+  relationship they drive: an excitatory input to \(a\) produces an
+  anti-phase response in \(b\). Under CPME-II, this manifests as
+  \(\Phi < 0\) and the update would \emph{depress} an inhibitory tunnel
+  it should \emph{strengthen}. Correction: multiply \(\Phi\) by the
+  tunnel polarity sign,
+  \(\Phi'_{ab} = \Phi_{ab} \cdot \operatorname{sgn}(p_{ab})\), so that
+  inhibitory tunnels consolidate on the anti-phase pattern they are
+  supposed to enforce. This is applied by default in the implementation.
+\item
+  \textbf{Slow phase drift washout.} If the base cavity frequency
+  \(\omega_0\) is very low, phase evolves slowly and inter-turn phase
+  differences accumulate to \(\pm \pi\) over long propagation windows,
+  causing \(\Phi\) to oscillate through zero and reverse sign
+  spuriously. Mitigation: the same \(\omega_0\) chosen for the CPME
+  emission layer (default \(\omega_0 = 3.0\) rad/s) yields a full phase
+  revolution over \(\approx 2\) seconds of sim-time, which is longer
+  than any single propagation window at \texttt{dt\ =\ 0.02} and
+  \(\leq 200\) ticks per turn. Under default parameters this failure
+  mode does not activate; it is worth flagging if \(\omega_0\) is later
+  reduced.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Biological Analog}\label{biological-analog}
+
+CPME-II is the continuous-oscillator equivalent of spike-timing
+dependent plasticity (STDP). Where STDP consolidates a synapse when the
+presynaptic spike precedes the postsynaptic spike by a few milliseconds,
+CPME-II consolidates a tunnel when the two endpoint oscillators maintain
+a stable, small phase offset consistent with the same wavefront driving
+both. Both rules use temporal coincidence as the substrate of long-term
+memory; both rules invert when the coincidence is anti-correlated
+(STDP-LTD; CPME-II negative \(\Phi\)).
+
+The chief difference is discretisation. STDP fires on discrete spike
+pairs; CPME-II integrates over the continuous phase field each tick. In
+the limit of narrow, well-separated velocity peaks, CPME-II reduces to a
+spike-coincidence rule up to a normalisation constant.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Summary}\label{summary}
+
+CPME-II closes the chirality--Hebbian mismatch flagged in HTR §5.2 and
+CPME §6.2 by extending the ZeroGrad Hebbian rule with a phase
+coincidence factor \(\Phi_{ab} = \cos(\theta_a - \theta_b)\). The factor
+requires no new state --- the same per-cavity phase
+\(\operatorname{atan2}(v_i, \omega_0 x_i)\) used by the CPME emission
+layer is read during the Hebbian pass. A single blend parameter
+\(\alpha_\Phi\) controls how strongly the modulator gates the parent
+rule; the default \(\alpha_\Phi = 0.6\) preserves an unconditional
+Hebbian floor while making chirality-consistent updates twice as strong
+as chirality-neutral ones on average.
+
+The consequence for the substrate as a whole: the phase manifold that
+CPME already uses on the input (chirality) and the output
+(phase-collapse projection) is now also the manifold on which long-term
+memory is written. Word order becomes a graph property, temporal
+ordering persists across turns, and the substrate is freed from having
+to re-derive chirality on every input.
+
+\end{document}

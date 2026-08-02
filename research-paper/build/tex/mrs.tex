@@ -1,0 +1,815 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Morphological Resonance Synthesis (MRS): Language Construction Without Tokens, Gradients, or Learned Embeddings},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Morphological Resonance Synthesis (MRS): Language Construction
+Without Tokens, Gradients, or Learned Embeddings}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Morphological Resonance Synthesis (MRS): Language Construction
+Without Tokens, Gradients, or Learned
+Embeddings}\label{morphological-resonance-synthesis-mrs-language-construction-without-tokens-gradients-or-learned-embeddings}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\emph{The byte-lane sensory layer is currently input-only: bytes enter
+the substrate through learned couplings, but output leaves it as
+retrieved label strings. That retrieval is the last token-shaped
+operation in the pipeline. MRS removes it by making the byte layer
+bidirectional and giving it the same three phase mechanisms the concept
+layer already has --- chirality on input, phase-consistent
+consolidation, and phase-collapse projection on output. Word forms are
+then} synthesised \emph{by sweeping a byte-phase field rather than}
+retrieved \emph{from a table.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{0. The Remaining Asymmetry}\label{the-remaining-asymmetry}
+
+The CMD substrate ingests raw bytes. There is no tokeniser: each of 256
+\texttt{ByteLane} oscillators is driven by its byte value, and lanes
+reach the concept field only through Hebbian couplings \(w[b][c]\) that
+begin at zero. On the input side, the architecture is already
+sub-lexical and token-free.
+
+The output side is not. \texttt{readout\_phase\_collapse()} selects
+concept cavities by phase and then prints
+\texttt{si.graph.nodes{[}label\_key{]}.label} --- a \textbf{stored
+string}. The physics decides \emph{which} concepts speak and \emph{in
+what order}, but the \emph{form of each word} is a lookup.
+
+This asymmetry has three consequences:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{No morphology.} The engine can emit \texttt{walk} if
+  \texttt{walk} is a stored label, and \texttt{walked} if
+  \texttt{walked} is separately stored, but it cannot construct
+  \texttt{walked} from \texttt{walk}. There is no mechanism by which
+  stem and inflection compose.
+\item
+  \textbf{No novel forms.} Any word form absent from the label table is
+  unreachable, regardless of how strongly the substrate's state implies
+  it.
+\item
+  \textbf{A token-shaped residue.} The label table is a finite inventory
+  of atomic surface strings indexed by graph key. Functionally that is a
+  vocabulary, and its presence is what makes the pipeline token-like at
+  the boundary even though the interior is not.
+\end{enumerate}
+
+MRS closes the asymmetry. The mechanism is a direct reuse --- one layer
+down --- of machinery the substrate already contains.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Architecture}\label{architecture}
+
+Let the byte-lane population be \(L_b\) for \(b \in [0,256)\), each an
+oscillator with displacement \(x_b\), velocity \(v_b\), and natural
+frequency \(\omega_b = 3.0 + b/256\) (as in the existing CMD sensory
+layer). Let \(w[b][c]\) be the learned byte→concept binding weights.
+
+MRS adds four mechanisms.
+
+\subsubsection{1.1 Reverse Drive (concept →
+lane)}\label{reverse-drive-concept-lane}
+
+The existing forward path applies a force from lane to concept:
+
+\[ F_c \mathrel{+}= \frac{w[b][c] \cdot x_b}{m_c} \]
+
+MRS adds the transpose, using the \textbf{same weights}:
+
+\[ F_b \mathrel{+}= \eta_{\text{rev}} \cdot w[b][c] \cdot x_c \]
+
+with \(\eta_{\text{rev}}\) a reverse-gain scalar (default \(0.4\)). No
+new storage: the coupling matrix is used in both directions, making the
+byte↔concept layer a bidirectional associative memory implemented as
+coupled oscillators rather than as a matrix multiplication.
+
+Consequence: when concept cavities resonate, the byte lanes whose
+bindings to those concepts are strongest resonate in turn. The lanes
+that light up are the letters of the words those concepts were
+historically written with.
+
+\subsubsection{1.2 Lane Chirality}\label{lane-chirality}
+
+Byte lanes acquire the CPME §1.1 arrival timestamp:
+
+\[ t_{\text{arrival},b} \leftarrow t_{\text{sim}} \quad \text{on each drive of } L_b \]
+
+During input of \texttt{hi}, lane \(L_{\texttt{h}}\) is driven before
+\(L_{\texttt{i}}\) and therefore accumulates more phase. Letter order
+within a word becomes a phase gradient across the lane population ---
+exactly the mechanism CPME already uses for word order across concepts,
+applied one level down.
+
+\subsubsection{1.3 Lane-to-Lane Gauge
+Tunnels}\label{lane-to-lane-gauge-tunnels}
+
+A sparse set of lane↔lane tunnels is created on co-occurrence, each
+carrying a CPSB-style gauge offset \(\Psi_{bb'}\) and consolidated by
+the CPME-II phase-consistent rule:
+
+\[ \Delta w_{bb'} \;\propto\; v_b \cdot v_{b'} \cdot \cos\!\bigl(\theta_b - \theta_{b'} - \Psi_{bb'}\bigr) \]
+
+where \(\theta_b = \operatorname{atan2}(v_b, \omega_0 x_b)\). Unlike the
+concept layer, \(\Psi_{bb'}\) is \textbf{not} assigned from a relation
+table --- it is \emph{learned} as the running circular mean of observed
+phase differences:
+
+\[ \Psi_{bb'} \leftarrow \arg\Bigl( \lambda\, e^{i\Psi_{bb'}} + (1-\lambda)\, e^{i(\theta_b - \theta_{b'})} \Bigr) \]
+
+This is the substrate's representation of \emph{sequence}: the tunnel
+between \texttt{h} and \texttt{i} stores the typical phase lead of
+\texttt{h} over \texttt{i}. Nothing about letters, words, or grammar is
+encoded declaratively; only phase offsets between oscillators.
+
+\subsubsection{1.4 Byte-Level Phase-Collapse
+Projection}\label{byte-level-phase-collapse-projection}
+
+Output is generated by the CPME §1.6 sweep applied to the lane
+population. Carrier phase \(\phi_{\text{carrier}}\) advances
+monotonically across \([0, 2\pi)\) in \(K_{\text{byte}}\) steps; at each
+step the emitted byte is the arg-max of
+
+\[ w_b(\phi_{\text{carrier}}) \;=\; |x_b| \cdot \operatorname{ReLU}(P_b) \cdot \exp\!\bigl(-\kappa_b (\phi_{\text{carrier}} - \theta_b)^2\bigr) \]
+
+with \(P_b\) the lane's envelope momentum as in CPME §1.2.
+
+\textbf{Critical divergence from the concept sweep.} In the concept
+layer, a winner is suppressed from later sweep steps --- a concept
+appears once in a clause. In the byte layer, \textbf{winners are not
+suppressed}, and the sweep may make multiple passes. Letters repeat
+within words (\texttt{banana}, \texttt{letter}, \texttt{success}); a
+suppression rule would make repeated graphemes unreachable. The
+difference is physically motivated by what each layer represents, not
+introduced as an exception.
+
+Word boundaries emerge from amplitude gaps: when the swept weight falls
+below the emission floor for a contiguous span of carrier phase, a
+boundary is emitted. Boundaries are therefore not delimiters in a
+grammar but silences in a resonance field.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Why This Is Not Tokens, ML, DL, or an
+LLM}\label{why-this-is-not-tokens-ml-dl-or-an-llm}
+
+\textbf{Not tokenisation.} There is no vocabulary, no merge table, no
+subword inventory, no \texttt{\textless{}unk\textgreater{}}. Input is
+256 byte lanes; output is a swept byte sequence. The only inventory is
+the byte alphabet itself, which is a property of the encoding, not a
+learned artefact.
+
+\textbf{Not machine learning in the gradient sense.} There is no loss
+function, no gradient, no backpropagation, no optimiser, no train/test
+split. All adaptation is the local Hebbian rule of §1.3, which uses only
+quantities available at the two endpoints of a single tunnel at a single
+tick. Nothing computes a derivative of a global objective.
+
+\textbf{Not deep learning.} There is no layer stack in the DL sense ---
+no weight matrices applied in sequence, no nonlinearity between layers,
+no depth over which credit is assigned. The byte layer and concept layer
+are two populations of coupled oscillators exchanging forces
+bidirectionally through one shared coupling matrix.
+
+\textbf{Not a language model.} No distribution over next symbols is ever
+formed. There is no softmax, no sampling temperature, no autoregressive
+conditioning on prior output. The emitted sequence is the projection of
+a static field state onto a swept phase axis --- a geometric readout,
+not a sequential prediction. Given the same field state the same
+sequence is produced deterministically, and the sequence is generated
+\emph{simultaneously} in the sense that all lanes are already in their
+phases before the sweep begins.
+
+\textbf{What it is:} a bidirectional associative resonance memory
+between a 256-oscillator sub-lexical layer and an \(N\)-oscillator
+conceptual layer, read out by phase-swept projection.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Where the Storage Lives (Translation Capacity
+Lemma)}\label{where-the-storage-lives-translation-capacity-lemma}
+
+The Translation Capacity Lemma (SI §3.1) states that any system
+discriminating \(N\) outcomes must store \(\log_2 N\) bits somewhere.
+MRS does not evade this and does not claim to. The storage relocates:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Before MRS
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+After MRS
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(N\) label strings in \texttt{graph.nodes{[}{]}.label} &
+\(256 \times N\) byte→concept couplings \(w[b][c]\) \\
+--- & \(\le 256^2\) lane↔lane couplings and offsets \(\Psi_{bb'}\) \\
+\end{longtable}
+
+The relocation is the substantive change. A label table stores each
+surface form \emph{atomically and independently}: \texttt{walk} and
+\texttt{walked} share no representation, so knowing one contributes
+nothing to producing the other. A coupling matrix stores forms
+\emph{distributedly and compositionally}: the lanes and phase offsets
+that produce \texttt{walk} are largely the same ones that produce
+\texttt{walked}, differing by the additional offsets contributed by the
+co-active inflectional concept.
+
+Generalisation to unseen forms therefore becomes possible in principle
+--- not because information was created, but because the information was
+stored in a factored representation instead of an atomic one. The bit
+count is not reduced; its \emph{organisation} is what changes.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Expected Dynamics}\label{expected-dynamics}
+
+\textbf{Prompt:} \texttt{metformin\ lowers\ glucose}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Byte injection.} Lanes for each character are driven in
+  arrival order; \(t_{\text{arrival}}\) records the chirality gradient.
+  Lane↔lane tunnels consolidate the observed offsets (\texttt{m} leads
+  \texttt{e} leads \texttt{t}\ldots).
+\item
+  \textbf{Concept resonance.} Forward couplings \(w[b][c]\) excite the
+  \texttt{metformin}, \texttt{lowers}, \texttt{glucose} cavities;
+  propagation through the ontology raises downstream cavities
+  (\texttt{ampk}, \texttt{glucose\_uptake}).
+\item
+  \textbf{Acoustic-mass muting.} Directly-driven concepts are muted
+  (CPME §1.3); downstream concepts are not.
+\item
+  \textbf{Reverse drive.} The surviving downstream concepts drive byte
+  lanes through \(w[b][c]^{\!\top}\). Lanes corresponding to the letters
+  of \texttt{ampk}, \texttt{glucose}, \texttt{uptake} resonate ---
+  \emph{without those strings being retrieved}.
+\item
+  \textbf{Byte sweep.} The carrier phase sweeps the lane population.
+  Lanes emit in phase order, with boundaries at amplitude gaps. Output
+  is a byte sequence assembled from resonance.
+\end{enumerate}
+
+\textbf{Morphological composition.} If the inflectional concept for
+past-tense has been bound to the lanes \texttt{e},\texttt{d} through
+prior exposure, and it is co-active with \texttt{lower}, the reverse
+drive raises both the stem lanes and the suffix lanes. The sweep ---
+ordered by learned phase offsets --- emits \texttt{lowered}, a form that
+need never have been stored as a label.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4b. Empirical Result: Single-Byte Lanes Are Insufficient
+(measured)}\label{b.-empirical-result-single-byte-lanes-are-insufficient-measured}
+
+The single-byte formulation of §1.1--§1.4 was implemented and tested.
+\textbf{It does not work, and the reason is representational rather than
+a matter of tuning.}
+
+Recognition was attempted by grounding every concept label to the 256
+lanes at load time (binding weight = inverse byte document-frequency
+across the lexicon) and then recognising a query by driving its bytes
+and reading which concepts accumulated energy. Measured on a 2,240
+-concept graph:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+query & recognised as & correct \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{metfromin} & \texttt{from}, \texttt{front}, \texttt{rfe} & ✗ \\
+\texttt{metformin} & \texttt{from}, \texttt{front}, \texttt{rfe} & ✗ \\
+\texttt{insluin} & \texttt{uni}, \texttt{ull}, \texttt{sil} & ✗ \\
+\texttt{fissoin} & \texttt{fission} & ✓ \\
+\end{longtable}
+
+Two distinct causes, and separating them matters:
+
+\textbf{(a) A normalisation error.} Binding weight was divided by
+\(\sqrt{|\text{label}|}\). For the query \texttt{metformin}, the
+substring \texttt{from} scored \(S/2\) while \texttt{metformin} itself
+scored \(S/3\) --- the extra bytes \(\{e,t,i,n\}\) are common and
+contribute ≈ 0 weight, but the length penalty applies regardless. A
+substring therefore outscored the whole word, which is why recognition
+failed even on \emph{correctly spelled} input. This was a genuine bug.
+
+\textbf{(b) A representational limit.} Removing the length division and
+replacing it with symmetric coverage (harmonic mean of query-recall and
+label-precision over byte sets) fixed the substring case and broke a
+different one: long labels sharing many bytes with the query
+(\texttt{intent\_from\_marker\_label}) began to win, because a concept
+bound to more lanes accumulates more raw energy regardless of coverage.
+Each subsequent scoring adjustment relocated the failure rather than
+removing it.
+
+That pattern --- a defect that moves under every reweighting but never
+disappears --- is the signature of insufficient representation. The
+decisive case is \texttt{metformin} versus \texttt{metfromin}:
+\textbf{they have identical byte sets.} A bag of distinct bytes cannot
+distinguish a word from its own transposition, so no weighting function
+over that bag can succeed. This is §5.3 (homograph collision)
+manifesting not as an edge case but as the dominant failure.
+
+\subsubsection{4b.1 Required correction: bigram
+lanes}\label{b.1-required-correction-bigram-lanes}
+
+The sensory layer must carry ordering information. Replacing the 256
+single-byte lanes with \(256^2\) ordered-pair lanes supplies it:
+
+\[
+\texttt{metformin} \rightarrow \{\texttt{me},\texttt{et},\texttt{tf},\texttt{fo},\texttt{or},\texttt{rm},\texttt{mi},\texttt{in}\}
+\] \[
+\texttt{metfromin} \rightarrow \{\texttt{me},\texttt{et},\texttt{tf},\texttt{fr},\texttt{ro},\texttt{om},\texttt{mi},\texttt{in}\}
+\]
+
+Five of eight pairs are shared; three differ. The transposition is now
+\emph{visible to the substrate}, and graded recognition becomes
+possible: a near-miss resonates strongly but not identically, which is
+the behaviour §1.4 requires and the single-byte layer cannot deliver.
+
+\textbf{This changes nothing about the architecture's commitments.} A
+bigram lane is one oscillator per ordered character pair, with
+displacement, velocity and natural frequency --- the same
+\texttt{ByteLane} structure, a wider array. Specifically it introduces:
+
+\begin{itemize}
+\tightlist
+\item
+  no loss function, no gradient, no fitted parameter;
+\item
+  no attention, no softmax, no learned projection;
+\item
+  no probability semantics --- lane energy is displacement in a field.
+\end{itemize}
+
+The distinction that governs this architecture is not \emph{``are there
+numbers''} but \emph{``where do the numbers come from.''} A binding
+weight here is \textbf{computed} from a counted structural property of
+the lexicon by a stated formula; changing the lexicon changes it
+deterministically. A weight in a trained network is \textbf{fitted} by
+optimising a loss and admits no explanation beyond that optimisation.
+Descriptive measurement is not fitted inference --- measuring a mass
+does not make mechanics machine learning.
+
+n-gram indexing is also not novel-to-ML prior art: it originates in
+1970s information retrieval (approximate string matching, spell
+correction) and predates statistical learning entirely.
+
+\subsubsection{4b.2 Measured result after implementing bigram
+lanes}\label{b.2-measured-result-after-implementing-bigram-lanes}
+
+Bigram lanes were implemented (\texttt{PhysicsEngine::bigram\_bind\_w},
+\texttt{bind\_bigram}). Grounding is identical in form to the
+single-byte version --- inverse lane document-frequency across the
+lexicon --- but over ordered pairs bracketed by BOS/EOS sentinels, so
+word-initial and word-final position are themselves observable pairs.
+
+Recognition divides energy received by a concept by the geometric mean
+of its own binding mass and the query's:
+
+\[
+\text{resonance}(c) \;=\; \frac{\sum_{g \in Q \cap B(c)} w_g}{\sqrt{M_c \cdot M_Q}}
+\]
+
+This is energy per unit coupling --- the same reason acceleration is
+force divided by mass --- and it is why neither long nor short labels
+win by size. The earlier failures came from omitting exactly this
+normalisation.
+
+Measured on the same 2,240-concept graph:
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+query & perturbation & recognised as & score & correct \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{metformin} & none & \texttt{metformin} & 1.000 & ✓ \\
+\texttt{metfromin} & transposition & \texttt{metformin} & 0.686 & ✓ \\
+\texttt{insluin} & transposition & \texttt{insulin} & 0.471 & ✓ \\
+\texttt{fissoin} & transposition & \texttt{fission} & 0.621 & ✓ \\
+\texttt{fisssion} & insertion & \texttt{fission} & 1.000 & ✓ \\
+\texttt{cavty} & deletion & \texttt{cavity} & 0.830 & ✓ \\
+\texttt{tunel} & deletion & \texttt{tunnel} & 0.885 & ✓ \\
+\end{longtable}
+
+\textbf{7 / 7}, against 1 / 4 for single-byte lanes.
+
+The \texttt{metformin} / \texttt{metfromin} pair is the decisive one:
+those two strings have \textbf{identical byte sets}, so the single-byte
+formulation could not distinguish them under any weighting. Over bigrams
+they share 5 of 8 pairs and differ in 3, and the correct concept is
+recovered at 0.686 against 1.000 for the exact spelling.
+
+That gradation is the property §1.4 requires and a hash lookup cannot
+have: recognition degrades smoothly with distortion rather than failing
+discontinuously. It is also the evidence that recognition is not string
+matching --- no comparison between the query and any stored label occurs
+at any point.
+
+\textbf{Status:} bigram recognition is ENABLED in \texttt{codeq}, with
+an acceptance floor of 0.35 so unknown tokens resonate with nothing
+rather than matching noise. Single-byte recognition is retained in the
+source only as the documented negative result. Per-query telemetry
+reports \texttt{lexical} versus \texttt{resonant} recognition counts, so
+residual dependence on exact lookup is a measured quantity rather than
+an assumption.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Failure Modes}\label{failure-modes}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Babble before consolidation.} With near-zero couplings the
+  lane phases are unstructured and the sweep emits non-words. This is
+  the correct initial state of a system that has not yet learned
+  orthography, but it will read as garbage output until the lane↔lane
+  offsets consolidate. Consolidation requires substantial exposure ---
+  Hebbian rather than gradient, but still genuinely a training process
+  measured in thousands of turns, not tens.
+\item
+  \textbf{Phase resolution limits word length.} With \(K_{\text{byte}}\)
+  sweep steps the angular resolution is \(2\pi/K_{\text{byte}}\). A
+  ten-character word requires ten sufficiently separated lane phases.
+  Long words will be truncated or slurred until \(K_{\text{byte}}\) is
+  raised, at proportional sweep cost.
+\item
+  \textbf{Homograph collision.} A single lane per byte value means the
+  letter \texttt{a} has one phase at any instant. In a word requiring
+  \texttt{a} at two different positions, the multi-pass sweep of §1.4
+  recovers the repetition only if the two occurrences are separated by
+  other letters whose phases bracket them. Words like \texttt{aa} or
+  vowel-adjacent repeats are expected to fail. A positional lane bank
+  (\(256 \times K\)) would resolve this at a large state cost and would
+  reintroduce something functionally close to positional encoding; it is
+  deliberately not proposed here.
+\item
+  \textbf{No orthographic well-formedness guarantee.} Nothing in the
+  mechanism prevents emission of byte sequences that are not words.
+  Well-formedness is a statistical consequence of consolidation, not a
+  constraint. This is a genuine difference from a grammar-based
+  generator and should be reported as such rather than patched with a
+  dictionary filter --- a filter would reintroduce the vocabulary that
+  MRS exists to remove.
+\item
+  \textbf{Reverse-gain instability.} Bidirectional coupling through a
+  shared matrix creates a feedback loop: concepts drive lanes drive
+  concepts. For \(\eta_{\text{rev}}\) above a critical value the loop
+  has gain greater than unity and the field diverges. The VGHT §1.3
+  avalanche viscosity bounds this, but \(\eta_{\text{rev}}\) must be
+  tuned conservatively and the loop gain monitored.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Relation to the Existing
+Stack}\label{relation-to-the-existing-stack}
+
+MRS is the mirror of CPME one layer down. Every mechanism it uses
+already exists in the substrate for the concept layer:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Concept layer
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Byte layer (MRS)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Chirality on input & \texttt{Cavity::t\_arrival} &
+\texttt{ByteLane::t\_arrival} \\
+Momentum filter & \texttt{env\_ema} on cavities & \texttt{env\_ema} on
+lanes \\
+Phase definition & \(\operatorname{atan2}(v_c, \omega_0 x_c)\) &
+\(\operatorname{atan2}(v_b, \omega_0 x_b)\) \\
+Gauge offset & \(\Psi\) from \texttt{psi\_for(rel)} & \(\Psi\)
+\emph{learned} from observed phase \\
+Phase-consistent Hebbian & CPME-II on tunnels & CPME-II on lane
+tunnels \\
+Phase-collapse sweep & emits concept labels & emits \textbf{bytes} \\
+Winner suppression & yes (concept appears once) & \textbf{no} (letters
+repeat) \\
+\end{longtable}
+
+The single genuinely new element is §1.1 reverse drive. Everything else
+is the same physics applied to a different oscillator population ---
+which is the strongest argument that the architecture is coherent rather
+than assembled.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Summary}\label{summary}
+
+The CMD substrate was token-free on input and table-driven on output.
+MRS removes the remaining table by making the byte-lane layer
+bidirectional and equipping it with the chirality, consolidation, and
+phase-collapse mechanisms already built for concepts. Word forms become
+the projection of a byte-phase field rather than entries retrieved by
+graph key.
+
+No tokeniser, no gradient, no layer stack, no next-symbol distribution.
+Storage obeys the Translation Capacity Lemma but is relocated from
+atomic surface strings into a factored coupling matrix, which is what
+makes morphological composition and novel forms reachable at all.
+
+The honest cost is that consolidation is slow and early output is
+babble. A system that constructs its own orthography must first fail to.
+
+\end{document}

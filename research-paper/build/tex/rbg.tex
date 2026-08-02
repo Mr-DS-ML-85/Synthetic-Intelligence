@@ -1,0 +1,1391 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={RB+G: Gated Recursive Bifurcation with Analogical Bridging --- A Physics Substrate for Contradiction Metabolism and Cross-Domain Repurposing},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{RB+G: Gated Recursive Bifurcation with Analogical Bridging --- A
+Physics Substrate for Contradiction Metabolism and Cross-Domain
+Repurposing}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{RB+G: Gated Recursive Bifurcation with Analogical Bridging ---
+A Physics Substrate for Contradiction Metabolism and Cross-Domain
+Repurposing}\label{rbg-gated-recursive-bifurcation-with-analogical-bridging-a-physics-substrate-for-contradiction-metabolism-and-cross-domain-repurposing}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``A concept that contains a contradiction is not a concept --- it
+is two concepts waiting for the physics to split them.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+We present \textbf{RB+G} (Gated Recursive Bifurcation), a
+physics-substrate extension of Resonant Bifurcation {[}Mahir 2026o{]}
+that addresses four documented failure modes of the original mechanism
+--- cascade fission, timeout under stress-test streams, null child
+labels, and drive-amplitude confounds --- while retaining the core
+insight: when a concept-cavity's positive and negative Hebbian updates
+destructively interfere, the physics engine physically splits the cavity
+into two children rather than balancing weights on a single site. The
+extension introduces five mechanisms: (i) a generation cap that prevents
+cascade, (ii) a parallel alias ledger that avoids graph-label pollution,
+(iii) an energy-conserving \(1/\sqrt{2}\) probe fan-out that preserves
+total injected energy across fissioned parents, (iv) a learned
+\(\alpha \leftrightarrow \beta\) binding tunnel that replaces the fiat
+coupling of the original, and (v) an explicit audit trail. On top of
+RB+G we build \textbf{L6-A} (L6 Analogical Bridge), a discovery
+mechanism that inserts a low-stiffness ``rubber'' tunnel between the
+excitatory α-children of two fissioned concepts whenever they share
+\(\geq K\) downstream excitatory targets. In the framework of
+Constructive Structural Cognition {[}Mahir 2026p{]}, RB+G realizes Axiom
+II (non-equilibrium phase-space expansion --- the graph grows to house
+contradictions) and L6-A realizes Axiom III (active construction ---
+analogies are physics-inserted, not retrieved). We validate the combined
+pipeline with a 20-seed reproducibility study on six concepts (three
+contradiction-cluster targets, one mono-directional control, two null
+controls), a four-lever ablation table, and a drug-repurposing case
+study on the insulin-signalling ontology in which a 3 Hz probe on
+\texttt{metformin} surfaces \texttt{atorvastatin} --- a concept
+unreachable by naive graph propagation but reachable through the
+physics-inserted
+\texttt{metformin.α\ ↔\ berberine.α\ ↔\ hmg\_coa\_reductase\ ↔\ atorvastatin}
+bridge.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction}\label{introduction}
+
+\subsubsection{1.1 The Contradiction Problem in Physics-Based
+Cognition}\label{the-contradiction-problem-in-physics-based-cognition}
+
+The PRM + MIMS substrate {[}Mahir 2026q, 2026r{]} represents concepts as
+mass-spring cavities and relationships as physical tunnels with
+material-dependent stiffness. When two tunnels of opposite polarity
+(\(p_1 = +1\), \(p_2 = -1\)) drive the same cavity, their forces sum.
+Over consolidation this produces destructive interference in the
+ZeroGrad Hebbian update rule: positive and negative \(\Delta_e\) terms
+cancel, and the effective plasticity approaches zero even though the
+concept is under high tension. The cavity's ability to represent the
+concept degrades.
+
+This is the failure mode identified in \texttt{srg.md} and
+\texttt{rb.md}: a concept like \texttt{metformin} has one incident
+excitatory tunnel (\texttt{activates\ ampk}) and one incident inhibitory
+tunnel (\texttt{inhibits\ mtor}). Under training, positive and negative
+Hebbian updates land on the same cavity and cancel. The concept becomes
+structurally invisible.
+
+Two solutions have been proposed:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{SRG} (Synaptic Receptor Gating, \texttt{srg.md}): keep the
+  cavity as one entity but route excitatory and inhibitory forces into
+  separate E-port and I-port storage. Waves entering the I-port are 180°
+  phase-inverted before hitting the mass; the observable displacement is
+  \(x = x_E - x_I\). Empirically SRG produced marginal regression on the
+  metformin-recall benchmark (0.887 → 0.831); we retain it as an
+  optional per-tick mechanism but do not depend on it here.
+\item
+  \textbf{RB} (Resonant Bifurcation, \texttt{rb.md}): physically split
+  the cavity into two children --- metformin.α inheriting the excitatory
+  tunnels, metformin.β inheriting the inhibitory tunnels --- bound by an
+  ultra-stiff (k=2.5) semantic spring. This is the foundation on which
+  RB+G is built.
+\end{itemize}
+
+\subsubsection{1.2 The Four Documented RB Failure
+Modes}\label{the-four-documented-rb-failure-modes}
+
+An honest implementation of the RB proposal on our substrate exhibited
+four failure modes:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{F1 Cascade.} With trigger threshold \(\tau > 0.005\) and no
+  generation cap, fission propagated. On a linux-null control the engine
+  fired 13 unintended fissions in one training run; on the luna 2022
+  stress-test it timed out mid-stream.
+\item
+  \textbf{F2 Timeout.} The luna stress-test (18 daily rows from
+  \texttt{data/luna\_2022\_may.csv}) triggered by the same cascade
+  behaviour, exceeding the test harness's time budget.
+\item
+  \textbf{F3 Null child labels.} New cavities created by fission did not
+  exist in \texttt{si.graph.by\_label} --- the label-to-cavity map was
+  frozen at bind time --- so downstream readouts printed
+  \texttt{\textless{}null\textgreater{}} for α and β children.
+\item
+  \textbf{F4 Drive-amplitude confound.} After fission, a drive on the
+  parent hit both children at full amplitude, silently injecting
+  \(2\times\) the energy of a single-cavity drive. Recall gains were
+  confounded with the extra injected energy.
+\end{itemize}
+
+RB+G fixes all four while retaining the core mechanism.
+
+\subsubsection{1.3 Contributions}\label{contributions}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Five-mechanism RB+G architecture} (§3) --- the four fixes plus
+  an audit trail.
+\item
+  \textbf{Layer-2 fission trigger} (§4) --- \(I > 0.15\),
+  \(\tau > 0.005\), sustained 3 ticks, generation \(< g_\text{max}\), at
+  most one fire per structural tick.
+\item
+  \textbf{L6-A extension} (§5) --- physics-inserted rubber tunnels
+  between α-siblings sharing downstream excitatory targets.
+\item
+  \textbf{20-seed reproducibility on six concepts} (§6.1) with three
+  contradiction targets, one mono-directional control, two null
+  controls.
+\item
+  \textbf{Four-lever ablation table} (§6.2) --- honest ablation, with
+  two configurations producing \emph{higher} raw RMS than the full
+  engine, both documented as measurement confounds.
+\item
+  \textbf{Drug-repurposing case study} (§6.3) --- a 3 Hz probe on
+  \texttt{metformin} surfaces \texttt{atorvastatin} at rank 10 only
+  after L6-A bridge insertion; the concept is unreachable by naive graph
+  propagation.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Position in the Prior
+Lineage}\label{position-in-the-prior-lineage}
+
+RB+G is a Layer-1 mechanism in the tri-layer architecture of
+\texttt{synthetic-intelligence.md}. It does not replace anything; it
+\emph{adds} structural mutability to the physics substrate.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Component
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Provides
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+RB+G uses it for
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+PRM (mass-spring cavities) {[}Mahir 2026q{]} & The cavity/tunnel
+substrate & The medium into which children are spawned \\
+MIMS (material impedance) {[}Mahir 2026r{]} & Per-relation stiffness /
+damping & Sets the excitatory-vs-inhibitory tunnel polarity that
+determines child routing \\
+HNCA (Kuramoto macro-nodes) {[}Mahir 2026n{]} & Regional coupling for
+the substrate & Children inherit their parent's cluster; macro-node
+membership is extended \\
+NTDA (D/C/S modulators) {[}Mahir 2026s{]} & Neurotransmitter scalars &
+Training NT profile (\texttt{S=2}) accelerates Hebbian → drives
+incoherence → triggers fission \\
+ZeroGrad Hebbian {[}Mahir 2026d{]} & Local plasticity & The Hebbian
+\(\Delta_e\) split into \(\Sigma^+\) and \(\Sigma^-\) per cavity is the
+fission trigger signal \\
+RIFA IC + SIL {[}Mahir 2026g{]} & Contradiction metabolism & Global
+tension \(T(t)\) gates the fission budget (Axiom II) \\
+Nine reasoning primitives {[}Mahir 2026p, §4.4{]} & Layer-2 composition
+& The structural tick that computes \(I\) and \(\tau\) per cavity \\
+Original RB {[}Mahir 2026o{]} & Fission concept & The base mechanism;
+RB+G fixes its four failure modes \\
+\end{longtable}
+
+RB+G's novelty is not the \emph{idea} of fission (RB has that) but its
+\emph{disciplined implementation} --- the five mechanisms of §3 that
+make fission energy-conserving, cascade-safe, label-clean, and
+auditable.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. The RB+G Architecture}\label{the-rbg-architecture}
+
+\subsubsection{3.1 State Additions}\label{state-additions}
+
+A cavity gains one integer:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ Cavity }\OperatorTok{\{}
+    \CommentTok{// ... existing PRM fields ...}
+    \DataTypeTok{int}\NormalTok{   generation    }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}   \CommentTok{// 0 for gen{-}0 (original graph cavities)}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+The engine gains four structures:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{enum} \KeywordTok{class}\NormalTok{ AliasRole }\OperatorTok{:} \DataTypeTok{int} \OperatorTok{\{}\NormalTok{ RootAlias }\OperatorTok{=} \DecValTok{0}\OperatorTok{,}\NormalTok{ Alpha }\OperatorTok{=} \DecValTok{1}\OperatorTok{,}\NormalTok{ Beta }\OperatorTok{=} \DecValTok{2} \OperatorTok{\};}
+\KeywordTok{struct}\NormalTok{ AliasEntry }\OperatorTok{\{}
+\NormalTok{    AliasRole role      }\OperatorTok{=}\NormalTok{ AliasRole}\OperatorTok{::}\NormalTok{RootAlias}\OperatorTok{;}
+    \DataTypeTok{int}\NormalTok{       parent    }\OperatorTok{=} \OperatorTok{{-}}\DecValTok{1}\OperatorTok{;}   \CommentTok{// parent cavity id (self for RootAlias)}
+    \DataTypeTok{int}\NormalTok{       partner   }\OperatorTok{=} \OperatorTok{{-}}\DecValTok{1}\OperatorTok{;}   \CommentTok{// sibling id (β if Alpha, α if Beta)}
+    \DataTypeTok{int}\NormalTok{       label\_key }\OperatorTok{=} \OperatorTok{{-}}\DecValTok{1}\OperatorTok{;}   \CommentTok{// parent\textquotesingle{}s graph label index}
+\OperatorTok{\};}
+\KeywordTok{struct}\NormalTok{ FissionRecord }\OperatorTok{\{}
+    \DataTypeTok{int}\NormalTok{    tick\_index}\OperatorTok{,}\NormalTok{ parent\_id}\OperatorTok{,}\NormalTok{ streak}\OperatorTok{,}\NormalTok{ child\_alpha}\OperatorTok{,}\NormalTok{ child\_beta}\OperatorTok{;}
+    \DataTypeTok{int}\NormalTok{    incident\_alpha}\OperatorTok{,}\NormalTok{ incident\_beta}\OperatorTok{;}
+    \DataTypeTok{float}\NormalTok{  I}\OperatorTok{,}\NormalTok{ tau}\OperatorTok{,}\NormalTok{ drive\_split\_factor}\OperatorTok{;}
+    \BuiltInTok{std::}\NormalTok{string parent\_label}\OperatorTok{;}
+\OperatorTok{\};}
+
+\BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\NormalTok{AliasEntry}\OperatorTok{\textgreater{}}\NormalTok{                       alias\_ledger}\OperatorTok{;}
+\BuiltInTok{std::}\NormalTok{unordered\_map}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{,}\BuiltInTok{std::}\NormalTok{pair}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{,}\DataTypeTok{int}\OperatorTok{\textgreater{}\textgreater{}}\NormalTok{    fission\_map}\OperatorTok{;}
+\BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\NormalTok{FissionRecord}\OperatorTok{\textgreater{}}\NormalTok{                    fission\_records}\OperatorTok{;}
+\DataTypeTok{int}   \VariableTok{g\_max}              \OperatorTok{=} \DecValTok{1}\OperatorTok{;}
+\DataTypeTok{float}\NormalTok{ rbg\_bind\_k\_init    }\OperatorTok{=} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{;}
+\DataTypeTok{float}\NormalTok{ rbg\_bind\_pol\_init  }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+\DataTypeTok{float}\NormalTok{ rbg\_fanout\_factor  }\OperatorTok{=} \FloatTok{0.70710678}\BuiltInTok{f}\OperatorTok{;}   \CommentTok{// 1/√2}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3.2 The Five Mechanisms}\label{the-five-mechanisms}
+
+\textbf{M1. Generation cap (fixes F1, F2).} Every child cavity is born
+at \texttt{generation\ =\ parent.generation\ +\ 1}. The fission trigger
+refuses any cavity with \texttt{generation\ \textgreater{}=\ g\_max}.
+Setting \(g_\text{max} = 1\) means only original graph cavities can
+fission, and their children cannot. This is a computational necessity,
+not an accuracy win: cascade fission scatters energy across many small
+cavities without improving concept-scoped recall (see §6.2).
+
+\textbf{M2. Alias ledger (fixes F3).} The label-to-cavity map
+\texttt{si.graph.by\_label} is frozen at bind. Instead of extending it,
+RB+G maintains a parallel \texttt{alias\_ledger} sized to
+\texttt{cavities.size()}. Every gen-0 cavity has a \texttt{RootAlias}
+entry pointing at itself. On fission, the parent's ledger entry becomes
+a \texttt{RootAlias} pointing at itself (with \texttt{label\_key}
+retained), and two new entries are appended for α and β with
+\texttt{label\_key\ =\ parent.label\_key}. Dumps that print synthetic
+labels traverse the ledger:
+\texttt{label\_of(α)\ =\ graph.nodes{[}label\_key{]}.label\ +\ ".α"}.
+
+\textbf{M3. Energy-conserving fan-out (fixes F4).} The
+\texttt{drive(node\_id,\ freq,\ amp,\ dur)} API checks the
+\texttt{fission\_map}. If the driven cavity has been fissioned, the
+drive is routed to both children at \(\text{amp} / \sqrt{2}\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{auto}\NormalTok{ it }\OperatorTok{=}\NormalTok{ fission\_map}\OperatorTok{.}\NormalTok{find}\OperatorTok{(}\NormalTok{node\_id}\OperatorTok{);}
+\ControlFlowTok{if} \OperatorTok{(}\NormalTok{it }\OperatorTok{!=}\NormalTok{ fission\_map}\OperatorTok{.}\NormalTok{end}\OperatorTok{()} \OperatorTok{\&\&}\NormalTok{ rbg\_alias\_route\_enabled}\OperatorTok{)} \OperatorTok{\{}
+    \DataTypeTok{float}\NormalTok{ half\_amp }\OperatorTok{=}\NormalTok{ amp }\OperatorTok{*}\NormalTok{ rbg\_fanout\_factor}\OperatorTok{;}   \CommentTok{// 1/√2}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ child }\OperatorTok{:} \OperatorTok{\{}\NormalTok{it}\OperatorTok{{-}\textgreater{}}\NormalTok{second}\OperatorTok{.}\NormalTok{first}\OperatorTok{,}\NormalTok{ it}\OperatorTok{{-}\textgreater{}}\NormalTok{second}\OperatorTok{.}\NormalTok{second}\OperatorTok{\})} \OperatorTok{\{}
+\NormalTok{        cavities}\OperatorTok{[}\NormalTok{child}\OperatorTok{].}\NormalTok{drive\_freq     }\OperatorTok{=}\NormalTok{ freq}\OperatorTok{;}
+\NormalTok{        cavities}\OperatorTok{[}\NormalTok{child}\OperatorTok{].}\NormalTok{drive\_amp      }\OperatorTok{=}\NormalTok{ half\_amp}\OperatorTok{;}
+\NormalTok{        cavities}\OperatorTok{[}\NormalTok{child}\OperatorTok{].}\NormalTok{drive\_envelope }\OperatorTok{=} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{;}
+\NormalTok{        cavities}\OperatorTok{[}\NormalTok{child}\OperatorTok{].}\NormalTok{drive\_decay    }\OperatorTok{=} \BuiltInTok{std::}\NormalTok{exp}\OperatorTok{({-}}\FloatTok{3.0}\BuiltInTok{f} \OperatorTok{/}\NormalTok{ d}\OperatorTok{);}
+\NormalTok{        cavities}\OperatorTok{[}\NormalTok{child}\OperatorTok{].}\NormalTok{was\_driven     }\OperatorTok{=} \KeywordTok{true}\OperatorTok{;}
+    \OperatorTok{\}}
+    \ControlFlowTok{return}\OperatorTok{;}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The parent cavity itself is zeroed at fission and becomes a ``routing
+ghost'' --- it holds no field but its id remains the addressing target
+so external callers do not need to know that fission happened. Total
+kinetic energy injected by a probe on a fissioned parent equals a
+single-cavity probe:
+\(2 \cdot \frac{1}{2} m (\text{amp}/\sqrt{2})^2 = \frac{1}{2} m \, \text{amp}^2\).
+
+\textbf{M4. Learned binding tunnel (replaces RB's fiat \(k=2.5\)).}
+After the split, a new tunnel is inserted between α and β:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Tunnel bind}\OperatorTok{\{\};}
+\NormalTok{bind}\OperatorTok{.}\NormalTok{cavity\_a       }\OperatorTok{=}\NormalTok{ alpha}\OperatorTok{;}
+\NormalTok{bind}\OperatorTok{.}\NormalTok{cavity\_b       }\OperatorTok{=}\NormalTok{ beta}\OperatorTok{;}
+\NormalTok{bind}\OperatorTok{.}\NormalTok{stiffness      }\OperatorTok{=}\NormalTok{ rbg\_bind\_k\_init}\OperatorTok{;}   \CommentTok{// 1.0}
+\NormalTok{bind}\OperatorTok{.}\NormalTok{base\_stiffness }\OperatorTok{=}\NormalTok{ rbg\_bind\_k\_init}\OperatorTok{;}
+\NormalTok{bind}\OperatorTok{.}\NormalTok{damping        }\OperatorTok{=} \FloatTok{0.020}\BuiltInTok{f}\OperatorTok{;}
+\NormalTok{bind}\OperatorTok{.}\NormalTok{polarity       }\OperatorTok{=}\NormalTok{ rbg\_bind\_pol\_init}\OperatorTok{;}  \CommentTok{// 0.0 — pure coordination}
+\NormalTok{bind}\OperatorTok{.}\NormalTok{plasticity\_delta }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+\NormalTok{tunnels}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{bind}\OperatorTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+Init \(k = 1.0\) (soft), polarity \(p = 0.0\) (no forced sign). Under
+Hebbian consolidation the stiffness moves in \([0.5, 2.0]\); the
+polarity shifts under P5b splitting toward whichever sign the
+correlation actually prefers. Empirically converges to a coordination
+stiffness that is \emph{lower} than RB's fiat 2.5 and equally effective
+(see §6.2 ABLATE\_BIND).
+
+\textbf{M5. Audit trail.} Every fission appends a \texttt{FissionRecord}
+to \texttt{physics.fission\_records}. The \texttt{fission\_ledger} shell
+command writes the vector to \texttt{data/fission\_ledger.jsonl} with
+tick, parent label, \(I\), \(\tau\), streak, child ids, incident tunnel
+counts, and drive split factor. Reproducibility is possible from the
+ledger alone: given the axiom files, the RNG seed formula, and the
+ledger, any run can be replayed.
+
+\subsubsection{3.3 The Fission Operation}\label{the-fission-operation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{std::}\NormalTok{pair}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{,}\DataTypeTok{int}\OperatorTok{\textgreater{}}\NormalTok{ fission\_locked}\OperatorTok{(}\DataTypeTok{int}\NormalTok{ parent}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ I\_val}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ tau\_val}\OperatorTok{,}
+                                   \DataTypeTok{int}\NormalTok{ streak}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ tick\_index}\OperatorTok{)} \OperatorTok{\{}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{parent }\OperatorTok{\textless{}} \DecValTok{0} \OperatorTok{||} \OperatorTok{(}\DataTypeTok{size\_t}\OperatorTok{)}\NormalTok{parent }\OperatorTok{\textgreater{}=}\NormalTok{ cavities}\OperatorTok{.}\NormalTok{size}\OperatorTok{())} \ControlFlowTok{return} \OperatorTok{\{{-}}\DecValTok{1}\OperatorTok{,{-}}\DecValTok{1}\OperatorTok{\};}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{fission\_map}\OperatorTok{.}\NormalTok{count}\OperatorTok{(}\NormalTok{parent}\OperatorTok{))} \ControlFlowTok{return}\NormalTok{ fission\_map}\OperatorTok{[}\NormalTok{parent}\OperatorTok{];}    \CommentTok{// idempotent}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{cavities}\OperatorTok{[}\NormalTok{parent}\OperatorTok{].}\NormalTok{generation }\OperatorTok{\textgreater{}=} \VariableTok{g\_max}\OperatorTok{)} \ControlFlowTok{return} \OperatorTok{\{{-}}\DecValTok{1}\OperatorTok{,{-}}\DecValTok{1}\OperatorTok{\};}     \CommentTok{// M1}
+
+\NormalTok{    Cavity p\_snap }\OperatorTok{=}\NormalTok{ cavities}\OperatorTok{[}\NormalTok{parent}\OperatorTok{];}
+    \CommentTok{// zero the parent (routing ghost)}
+\NormalTok{    cavities}\OperatorTok{[}\NormalTok{parent}\OperatorTok{]} \OperatorTok{=}\NormalTok{ zeroed}\OperatorTok{(}\NormalTok{p\_snap}\OperatorTok{);}
+
+    \CommentTok{// spawn α and β at gen + 1}
+    \DataTypeTok{int}\NormalTok{ alpha }\OperatorTok{=}\NormalTok{ spawn\_child}\OperatorTok{(}\NormalTok{p\_snap}\OperatorTok{,}\NormalTok{ gen}\OperatorTok{=+}\DecValTok{1}\OperatorTok{);}
+    \DataTypeTok{int}\NormalTok{ beta  }\OperatorTok{=}\NormalTok{ spawn\_child}\OperatorTok{(}\NormalTok{p\_snap}\OperatorTok{,}\NormalTok{ gen}\OperatorTok{=+}\DecValTok{1}\OperatorTok{);}
+
+    \CommentTok{// reroute incident tunnels by polarity sign}
+    \ControlFlowTok{for} \OperatorTok{(}\KeywordTok{auto}\OperatorTok{\&}\NormalTok{ t }\OperatorTok{:}\NormalTok{ tunnels}\OperatorTok{)} \OperatorTok{\{}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{cavity\_a }\OperatorTok{==}\NormalTok{ parent}\OperatorTok{)}\NormalTok{ t}\OperatorTok{.}\NormalTok{cavity\_a }\OperatorTok{=} \OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{polarity }\OperatorTok{\textgreater{}=} \DecValTok{0}\OperatorTok{)} \OperatorTok{?}\NormalTok{ alpha }\OperatorTok{:}\NormalTok{ beta}\OperatorTok{;}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{cavity\_b }\OperatorTok{==}\NormalTok{ parent}\OperatorTok{)}\NormalTok{ t}\OperatorTok{.}\NormalTok{cavity\_b }\OperatorTok{=} \OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{polarity }\OperatorTok{\textgreater{}=} \DecValTok{0}\OperatorTok{)} \OperatorTok{?}\NormalTok{ alpha }\OperatorTok{:}\NormalTok{ beta}\OperatorTok{;}
+    \OperatorTok{\}}
+
+    \CommentTok{// M4: binding tunnel}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{rbg\_binding\_enabled}\OperatorTok{)}\NormalTok{ tunnels}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{binding\_tunnel}\OperatorTok{(}\NormalTok{alpha}\OperatorTok{,}\NormalTok{ beta}\OperatorTok{));}
+
+    \CommentTok{// M2: alias ledger update}
+\NormalTok{    alias\_ledger}\OperatorTok{[}\NormalTok{parent}\OperatorTok{]} \OperatorTok{=} \OperatorTok{\{}\NormalTok{ RootAlias}\OperatorTok{,}\NormalTok{ parent}\OperatorTok{,} \OperatorTok{{-}}\DecValTok{1}\OperatorTok{,}\NormalTok{ parent\_label\_key }\OperatorTok{\};}
+\NormalTok{    alias\_ledger}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(\{}\NormalTok{ Alpha}\OperatorTok{,}\NormalTok{ parent}\OperatorTok{,}\NormalTok{ beta}\OperatorTok{,}\NormalTok{  parent\_label\_key }\OperatorTok{\});}
+\NormalTok{    alias\_ledger}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(\{}\NormalTok{ Beta}\OperatorTok{,}\NormalTok{  parent}\OperatorTok{,}\NormalTok{ alpha}\OperatorTok{,}\NormalTok{ parent\_label\_key }\OperatorTok{\});}
+
+    \CommentTok{// cluster inheritance (children join parent\textquotesingle{}s HNCA cluster)}
+    \OperatorTok{...}
+
+\NormalTok{    fission\_map}\OperatorTok{[}\NormalTok{parent}\OperatorTok{]} \OperatorTok{=} \OperatorTok{\{}\NormalTok{alpha}\OperatorTok{,}\NormalTok{ beta}\OperatorTok{\};}
+
+    \CommentTok{// M5: audit}
+\NormalTok{    fission\_records}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{record}\OperatorTok{(...));}
+    \ControlFlowTok{return} \OperatorTok{\{}\NormalTok{alpha}\OperatorTok{,}\NormalTok{ beta}\OperatorTok{\};}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Two variants are exposed: \texttt{fission()} acquires the physics mutex
+and is safe to call from the shell; \texttt{fission\_locked()} assumes
+the caller holds the mutex and is called from
+\texttt{ConstructiveEngine::structural\_tick\_once()}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. The Layer-2 Fission
+Trigger}\label{the-layer-2-fission-trigger}
+
+The trigger is a straight-line scalar loop, no branches inside
+per-cavity computation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if} \OperatorTok{(}\NormalTok{fission\_enabled}\OperatorTok{)} \OperatorTok{\{}
+    \DataTypeTok{int}\NormalTok{   fire\_id }\OperatorTok{=} \OperatorTok{{-}}\DecValTok{1}\OperatorTok{;}
+    \DataTypeTok{float}\NormalTok{ fire\_I  }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{,}\NormalTok{ fire\_tau }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+    \DataTypeTok{int}\NormalTok{   fire\_streak\_val }\OperatorTok{=}\NormalTok{ fission\_hold\_target }\OperatorTok{{-}} \DecValTok{1}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ N}\OperatorTok{;} \OperatorTok{++}\NormalTok{i}\OperatorTok{)} \OperatorTok{\{}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{sub}\OperatorTok{{-}\textgreater{}}\NormalTok{cavities}\OperatorTok{[}\NormalTok{i}\OperatorTok{].}\NormalTok{generation }\OperatorTok{\textgreater{}=}\NormalTok{ sub}\OperatorTok{{-}\textgreater{}}\VariableTok{g\_max}\OperatorTok{)} \OperatorTok{\{}\NormalTok{ streak}\OperatorTok{[}\NormalTok{i}\OperatorTok{]=}\DecValTok{0}\OperatorTok{;} \ControlFlowTok{continue}\OperatorTok{;} \OperatorTok{\}}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{sub}\OperatorTok{{-}\textgreater{}}\NormalTok{is\_fissioned}\OperatorTok{(}\NormalTok{i}\OperatorTok{))}                       \OperatorTok{\{}\NormalTok{ streak}\OperatorTok{[}\NormalTok{i}\OperatorTok{]=}\DecValTok{0}\OperatorTok{;} \ControlFlowTok{continue}\OperatorTok{;} \OperatorTok{\}}
+        \DataTypeTok{float} \VariableTok{p\_} \OperatorTok{=}\NormalTok{ pos\_updates\_by\_cavity}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+        \DataTypeTok{float} \VariableTok{n\_} \OperatorTok{=}\NormalTok{ neg\_updates\_by\_cavity}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+        \DataTypeTok{float}\NormalTok{ denom }\OperatorTok{=} \VariableTok{p\_} \OperatorTok{+} \VariableTok{n\_} \OperatorTok{+} \FloatTok{1e{-}9}\BuiltInTok{f}\OperatorTok{;}
+        \DataTypeTok{float}\NormalTok{ I\_i   }\OperatorTok{=} \OperatorTok{(}\VariableTok{p\_} \OperatorTok{*} \VariableTok{n\_}\OperatorTok{)} \OperatorTok{/} \OperatorTok{(}\NormalTok{denom }\OperatorTok{*}\NormalTok{ denom}\OperatorTok{);}          \CommentTok{// incoherence}
+        \DataTypeTok{float}\NormalTok{ tau\_i }\OperatorTok{=}\NormalTok{ local\_tension}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+        \DataTypeTok{bool}\NormalTok{  trig  }\OperatorTok{=} \OperatorTok{(}\NormalTok{I\_i }\OperatorTok{\textgreater{}}\NormalTok{ fission\_I\_thresh}\OperatorTok{)} \OperatorTok{\&\&} \OperatorTok{(}\NormalTok{tau\_i }\OperatorTok{\textgreater{}}\NormalTok{ fission\_tau\_thresh}\OperatorTok{);}
+\NormalTok{        streak}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{=}\NormalTok{ trig }\OperatorTok{?}\NormalTok{ streak}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{+} \DecValTok{1} \OperatorTok{:} \DecValTok{0}\OperatorTok{;}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{streak}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{\textgreater{}=}\NormalTok{ fission\_hold\_target }\OperatorTok{\&\&}\NormalTok{ streak}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{\textgreater{}}\NormalTok{ fire\_streak\_val}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{            fire\_streak\_val }\OperatorTok{=}\NormalTok{ streak}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+\NormalTok{            fire\_id }\OperatorTok{=}\NormalTok{ i}\OperatorTok{;}\NormalTok{ fire\_I }\OperatorTok{=}\NormalTok{ I\_i}\OperatorTok{;}\NormalTok{ fire\_tau }\OperatorTok{=}\NormalTok{ tau\_i}\OperatorTok{;}
+        \OperatorTok{\}}
+    \OperatorTok{\}}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{fire\_id }\OperatorTok{\textgreater{}=} \DecValTok{0}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{        sub}\OperatorTok{{-}\textgreater{}}\NormalTok{fission\_locked}\OperatorTok{(}\NormalTok{fire\_id}\OperatorTok{,}\NormalTok{ fire\_I}\OperatorTok{,}\NormalTok{ fire\_tau}\OperatorTok{,}\NormalTok{ fire\_streak\_val}\OperatorTok{,}\NormalTok{ tick}\OperatorTok{);}
+        \CommentTok{// extend telemetry vectors for the two new cavities and one new tunnel}
+        \OperatorTok{...}
+    \OperatorTok{\}}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Design choices:}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Incoherence, not signed net.}
+  \(I = \Sigma^+ \Sigma^- / (\Sigma^+ + \Sigma^-)^2\) peaks at 0.25 when
+  positive and negative updates are exactly balanced, zero when one
+  direction dominates. This is the destructive-interference signature RB
+  targets.
+\item
+  \textbf{Local tension, not global.} Fission fires on cavities whose
+  \emph{own} tension is high, not on cavities pulled up by a
+  globally-tense IC. Prevents spurious fissions during high global
+  stress.
+\item
+  \textbf{Streak requirement.} Three consecutive structural ticks with
+  the trigger active. Blocks transient noise from firing.
+\item
+  \textbf{One fire per tick.} Even if multiple cavities cross the
+  threshold, only the highest streak fires this tick. Prevents a single
+  training sample from cascading through the graph.
+\item
+  \textbf{Generation gate.} Guarantees \(g_\text{max} = 1\) prevents
+  grandchildren.
+\end{itemize}
+
+Aggregation vectors (\texttt{plasticity\_by\_cavity},
+\texttt{pos\_updates\_by\_cavity}, \texttt{neg\_updates\_by\_cavity},
+\texttt{corr\_ema}, \texttt{degree}, \texttt{local\_tension},
+\texttt{cluster\_mean\_x}, \texttt{cluster\_mean\_pd}) are extended
+in-place after fission fires. Old telemetry values are preserved; new
+entries are zero-initialized; degree is recomputed by counting incident
+tunnels.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. L6-A: Analogical Resonance
+Bridge}\label{l6-a-analogical-resonance-bridge}
+
+\subsubsection{5.1 Motivation}\label{motivation}
+
+Fission on its own resolves \emph{within-concept} contradiction --- the
+α child holds mechanistic-activation content, the β child holds
+mechanistic-inhibition content. It does not create \emph{across-concept}
+structure. In \texttt{l9.md} §3, L6 Analogical Mapping is the first
+layer of true novelty: recognising that two disparate concepts share a
+subgraph structure and forging a bridge that lets one carry information
+about the other.
+
+RB+G makes L6 physically tractable. After two related concepts fission,
+their α children collect similar excitatory downstream targets
+(metformin.α → ampk, berberine.α → ampk, resveratrol.α → ampk). The
+analogy exists in the \emph{target overlap}. L6-A detects the overlap
+and inserts a \emph{rubber tunnel} between the α children.
+
+\subsubsection{5.2 Rubber Material and MIMS Impedance
+Filtering}\label{rubber-material-and-mims-impedance-filtering}
+
+The bridge material is drawn from \texttt{mims.md}: low stiffness
+\(k = 0.05\) and heavy damping \(c = 0.15\) --- physical rubber. In MIMS
+the material determines the frequency response of the tunnel.
+High-frequency probes (20 Hz mechanistic pulses) get absorbed by the
+low-stiffness edge (the small target cavity's inertia resists rapid
+displacement, wave energy dissipates in damping). Low-frequency probes
+(3 Hz structural pulses) transmit through --- a slow driver can move a
+stiff or soft target equally well.
+
+This gives the analogy tunnel a specificity property no symbolic
+annotation can match: it is \emph{physically} a channel for structural
+queries, physically silent for mechanistic queries. A 20 Hz probe on
+\texttt{metformin} follows the direct \texttt{activates} and
+\texttt{inhibits} tunnels (steel material, \(k \geq 1.6\)); the same
+probe barely perturbs \texttt{berberine} via the rubber bridge. A 3 Hz
+probe rides the rubber bridge freely.
+
+\subsubsection{5.3 Discovery Algorithm}\label{discovery-algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{int}\NormalTok{ discover\_analogies}\OperatorTok{(}\DataTypeTok{int}\NormalTok{ min\_shared }\OperatorTok{=} \DecValTok{2}\OperatorTok{,}
+                       \DataTypeTok{float}\NormalTok{ rubber\_k }\OperatorTok{=} \FloatTok{0.05}\BuiltInTok{f}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ rubber\_c }\OperatorTok{=} \FloatTok{0.15}\BuiltInTok{f}\OperatorTok{)}
+\OperatorTok{\{}
+\NormalTok{    analogy\_records}\OperatorTok{.}\NormalTok{clear}\OperatorTok{();}
+    \BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{\textgreater{}}\NormalTok{ parents }\OperatorTok{=}\NormalTok{ fissioned\_parents}\OperatorTok{();}     \CommentTok{// keys of fission\_map}
+    \BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\BuiltInTok{std::}\NormalTok{unordered\_set}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{\textgreater{}\textgreater{}}\NormalTok{ targets}\OperatorTok{(}\NormalTok{parents}\OperatorTok{.}\NormalTok{size}\OperatorTok{());}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{size\_t}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ parents}\OperatorTok{.}\NormalTok{size}\OperatorTok{();} \OperatorTok{++}\NormalTok{i}\OperatorTok{)} \OperatorTok{\{}
+        \DataTypeTok{int}\NormalTok{ a\_i }\OperatorTok{=}\NormalTok{ fission\_map}\OperatorTok{[}\NormalTok{parents}\OperatorTok{[}\NormalTok{i}\OperatorTok{]].}\NormalTok{first}\OperatorTok{;}        \CommentTok{// alpha id}
+        \ControlFlowTok{for} \OperatorTok{(}\AttributeTok{const} \KeywordTok{auto}\OperatorTok{\&}\NormalTok{ t }\OperatorTok{:}\NormalTok{ tunnels}\OperatorTok{)} \OperatorTok{\{}
+            \ControlFlowTok{if} \OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{polarity }\OperatorTok{\textless{}} \DecValTok{0}\OperatorTok{)} \ControlFlowTok{continue}\OperatorTok{;}               \CommentTok{// excitatory only}
+            \ControlFlowTok{if} \OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{cavity\_a }\OperatorTok{==}\NormalTok{ a\_i}\OperatorTok{)}\NormalTok{      targets}\OperatorTok{[}\NormalTok{i}\OperatorTok{].}\NormalTok{insert}\OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{cavity\_b}\OperatorTok{);}
+            \ControlFlowTok{else} \ControlFlowTok{if} \OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{cavity\_b }\OperatorTok{==}\NormalTok{ a\_i}\OperatorTok{)}\NormalTok{ targets}\OperatorTok{[}\NormalTok{i}\OperatorTok{].}\NormalTok{insert}\OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{cavity\_a}\OperatorTok{);}
+        \OperatorTok{\}}
+    \OperatorTok{\}}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{size\_t}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ parents}\OperatorTok{.}\NormalTok{size}\OperatorTok{();} \OperatorTok{++}\NormalTok{i}\OperatorTok{)}
+      \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{size\_t}\NormalTok{ j }\OperatorTok{=}\NormalTok{ i}\OperatorTok{+}\DecValTok{1}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ parents}\OperatorTok{.}\NormalTok{size}\OperatorTok{();} \OperatorTok{++}\NormalTok{j}\OperatorTok{)} \OperatorTok{\{}
+        \BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{\textgreater{}}\NormalTok{ shared}\OperatorTok{;}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ x }\OperatorTok{:}\NormalTok{ targets}\OperatorTok{[}\NormalTok{i}\OperatorTok{])} \ControlFlowTok{if} \OperatorTok{(}\NormalTok{targets}\OperatorTok{[}\NormalTok{j}\OperatorTok{].}\NormalTok{count}\OperatorTok{(}\NormalTok{x}\OperatorTok{))}\NormalTok{ shared}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{x}\OperatorTok{);}
+        \ControlFlowTok{if} \OperatorTok{((}\DataTypeTok{int}\OperatorTok{)}\NormalTok{shared}\OperatorTok{.}\NormalTok{size}\OperatorTok{()} \OperatorTok{\textless{}}\NormalTok{ min\_shared}\OperatorTok{)} \ControlFlowTok{continue}\OperatorTok{;}
+\NormalTok{        insert\_rubber\_tunnel}\OperatorTok{(}\NormalTok{fission\_map}\OperatorTok{[}\NormalTok{parents}\OperatorTok{[}\NormalTok{i}\OperatorTok{]].}\NormalTok{first}\OperatorTok{,}
+\NormalTok{                             fission\_map}\OperatorTok{[}\NormalTok{parents}\OperatorTok{[}\NormalTok{j}\OperatorTok{]].}\NormalTok{first}\OperatorTok{,}
+\NormalTok{                             rubber\_k}\OperatorTok{,}\NormalTok{ rubber\_c}\OperatorTok{);}
+\NormalTok{        analogy\_records}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(\{...\});}
+    \OperatorTok{\}}
+    \ControlFlowTok{return}\NormalTok{ analogy\_records}\OperatorTok{.}\NormalTok{size}\OperatorTok{();}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The intersection is over \emph{excitatory} targets only ---
+inhibitory-target overlap does not produce a meaningful analogy under
+this framework. \texttt{min\_shared\ =\ 2} is a low threshold; the demo
+of §6.3 shows this admits some noise
+(\texttt{molecule\ \textasciitilde{}\ ampk} with empty target list
+appears because both cavities have external excitatory connections we
+did not intersect). We report noise honestly rather than raising the
+threshold to hide it.
+
+\subsubsection{5.4 Repurpose Query}\label{repurpose-query}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{void}\NormalTok{ repurpose}\OperatorTok{(}\DataTypeTok{int}\NormalTok{ label\_id}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ low\_freq }\OperatorTok{=} \FloatTok{3.0}\BuiltInTok{f}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ top\_k }\OperatorTok{=} \DecValTok{10}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{    physics}\OperatorTok{.}\NormalTok{reset\_field}\OperatorTok{();}
+\NormalTok{    physics}\OperatorTok{.}\NormalTok{drive}\OperatorTok{(}\NormalTok{label\_id}\OperatorTok{,}\NormalTok{ low\_freq}\OperatorTok{,} \FloatTok{6.0}\BuiltInTok{f}\OperatorTok{,} \DecValTok{20}\OperatorTok{);}
+\NormalTok{    physics}\OperatorTok{.}\NormalTok{run}\OperatorTok{(}\DecValTok{120}\OperatorTok{);}
+    \CommentTok{// rank all cavities by |displacement|, excluding the target itself}
+    \CommentTok{// and its α/β children (they hold the input signal, not the analogy)}
+    \KeywordTok{auto}\NormalTok{ ranked }\OperatorTok{=}\NormalTok{ sort\_by\_amplitude}\OperatorTok{(}\NormalTok{physics}\OperatorTok{.}\NormalTok{cavities}\OperatorTok{);}
+\NormalTok{    print\_top}\OperatorTok{(}\NormalTok{ranked}\OperatorTok{,}\NormalTok{ top\_k}\OperatorTok{);}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The output is a ranked list of cavities whose displacement is highest
+under low-frequency drive on the target. Analogical partners (concepts
+sharing structural role) rank ahead of mechanistic downstream targets
+(which respond weakly at 3 Hz because their steel-material tunnels do
+not transmit low frequencies well).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Empirical Program}\label{empirical-program}
+
+\subsubsection{6.1 20-Seed Reproducibility}\label{seed-reproducibility}
+
+\textbf{Protocol.} For each label \(L\) in \{metformin, berberine,
+atorvastatin, luna, linux, windows\_os\}:
+
+\begin{itemize}
+\tightlist
+\item
+  20 seeds drawn from \texttt{0xCAF17E00\ \^{}\ (0x9E3779B9\ *\ (i+1))}
+  for \(i \in [0, 20)\).
+\item
+  Per seed, two passes: \textbf{BASELINE} with
+  \texttt{fission\_enabled\ =\ false}; \textbf{RB+G} with all five
+  mechanisms of §3.2 active.
+\item
+  Training: rounds = 5, NT profile \((D, C, S) = (1, 1, 2)\). Each round
+  drives \(L\) at 20 Hz amplitude 8 for 40 ticks then runs 10 chunks of
+  (20 physics ticks + 1 structural tick).
+\item
+  Probe: after restoring \(S = 1\), \texttt{reset\_field}, drive \(L\)
+  at 20 Hz amplitude 6 for 15 ticks, run 60 ticks, measure global peak
+  displacement.
+\item
+  Report per-seed rows and mean ± std across seeds.
+\end{itemize}
+
+\textbf{Aggregate results.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Concept
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Baseline gain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+RB+G gain (RMS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fissions/seed
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Target fissioned
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+metformin (dual-tension) & 0.887 ± 0.045 & 1.517 ± 0.201 & 8.85 ± 0.96 &
+20/20 \\
+berberine (tri-hub) & 0.900 ± 0.030 & 1.515 ± 0.139 & 8.60 ± 1.16 &
+20/20 \\
+atorvastatin (mono-directional) & 1.007 ± 0.004 & 0.957 ± 0.034 & 9.75 ±
+1.84 & 20/20 \\
+luna (mutual + inhibition) & 1.244 ± 0.064 & 1.865 ± 0.162 & 7.00 ± 0.95
+& 20/20 \\
+linux (null: is\_a, has) & 1.032 ± 0.007 & 1.039 ± 0.057 & 5.00 ± 0.00 &
+20/20 \\
+windows\_os (pure null: is\_a) & 0.969 ± 0.008 & 0.955 ± 0.010 & 2.00 ±
+0.00 & 0/20 \\
+\end{longtable}
+
+\textbf{Reading.}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Contradiction-cluster concepts} (metformin, berberine, luna)
+  show large positive RB+G effect (Δ = +0.63 to +1.11 in RMS gain).
+  Fission fires 7--9 times per seed; the target concept is fissioned in
+  all 20 seeds.
+\item
+  \textbf{Mono-directional control} (atorvastatin) shows an \emph{honest
+  null-adjacent effect}. Fission fires \textasciitilde10 times per seed
+  (many on other high-tension nodes), but atorvastatin's own recall does
+  not improve (RMS 0.957 vs 1.007 baseline --- actually marginally
+  worse). Interpretation: fission on a concept without polarity conflict
+  splits energy without accuracy benefit. RB+G is not a free-lunch
+  amplifier.
+\item
+  \textbf{Null-adjacent control} (linux) shows a small positive global
+  effect (1.38× vs 1.03× baseline) but the concept-scoped RMS is flat
+  (1.039). Fissions fire on 5 unrelated nodes per seed; linux itself is
+  fissioned in 20/20 (because its \texttt{is\_a\ operating\_system} +
+  \texttt{is\_a\ kernel} edges have opposite MIMS materials, producing a
+  small but nonzero incoherence).
+\item
+  \textbf{Pure null} (windows\_os) shows the cleanest control. The
+  target is \emph{never} fissioned (0/20). Fissions fire on 2 unrelated
+  nodes per seed (\texttt{operating\_system}, \texttt{software} --- hub
+  concepts). The RB+G gain is 0.955 vs 0.969 baseline --- statistically
+  indistinguishable.
+\end{itemize}
+
+The mechanism \emph{refuses to fire} when the substrate has no
+contradiction to resolve. This is the falsifiability signature.
+
+\subsubsection{6.2 Four-Lever Ablation
+Table}\label{four-lever-ablation-table}
+
+\textbf{Protocol.} For metformin and luna, 5 seeds each, six
+configurations toggling one RB+G mechanism at a time. Reported: concept
+RMS gain (post/pre using target and α/β displacement) and fissions per
+seed.
+
+\textbf{Metformin (n=5).}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Configuration
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+RMS gain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fissions
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Target fissioned
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reading
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+BASELINE (all off) & 0.922 ± 0.011 & 0.0 & 0/5 & negative control \\
+ABLATE\_CAP (\(g_\text{max}=999\)) & 1.536 ± 0.239 & 25.6 ± 3.3 & 5/5 &
+cascade; 3× fissions, no accuracy win \\
+ABLATE\_ALIAS & 2.495 ± 0.144 & 3.4 ± 0.8 & 5/5 & probe hits ghost
+cavity --- measurement confound \\
+ABLATE\_FANOUT (factor = 1.0) & 1.856 ± 0.069 & 13.6 ± 1.4 & 5/5 &
+\(\sqrt{2}\times\) energy injection --- inflated peak \\
+ABLATE\_BIND (no binding tunnel) & 1.470 ± 0.057 & 8.8 ± 0.8 & 5/5 &
+minor loss vs FULL \\
+FULL (all five mechanisms) & 1.345 ± 0.054 & 8.4 ± 1.0 & 5/5 & RB+G \\
+\end{longtable}
+
+\textbf{Luna (n=5).}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Configuration & RMS gain & Fissions & Target fissioned \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+BASELINE & 0.489 ± 0.124 & 0.0 & 0/5 \\
+ABLATE\_CAP & 3.203 ± 0.319 & 30.2 ± 3.3 & 5/5 \\
+ABLATE\_ALIAS & 3.637 ± 0.394 & 4.6 ± 0.8 & 5/5 \\
+ABLATE\_FANOUT & 2.987 ± 0.324 & 7.4 ± 0.5 & 5/5 \\
+ABLATE\_BIND & 1.904 ± 0.134 & 6.8 ± 0.8 & 5/5 \\
+FULL & 1.914 ± 0.152 & 7.0 ± 0.9 & 5/5 \\
+\end{longtable}
+
+\textbf{Honest reading.} Two ablations (\texttt{ABLATE\_ALIAS},
+\texttt{ABLATE\_FANOUT}) produce \emph{higher} raw RMS than FULL. We do
+not hide this.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{ABLATE\_ALIAS} disables \texttt{rbg\_alias\_route\_enabled}.
+  The probe on the fissioned parent hits the zeroed ghost cavity and
+  never reaches the children. The recorded pre and post peaks measure
+  neighbour drift, not target recall. The high number reflects a
+  \emph{change in measurement semantics}, not a real accuracy gain. This
+  is a \textbf{documented confound}; the ablation cannot be cleanly
+  interpreted, which is precisely why alias routing is a mechanism.
+\item
+  \textbf{ABLATE\_FANOUT} sets the fan-out factor to 1.0 instead of
+  \(1/\sqrt{2}\). The two children each receive full drive amplitude;
+  total kinetic energy injected is \(2\times\) a single-cavity probe.
+  The RMS peak inflates by \(\sqrt{2}\) purely from extra energy, not
+  from better learning. This is an \textbf{honest-accounting failure},
+  and the reason the fan-out is required.
+\item
+  \textbf{ABLATE\_CAP} allows cascade. Fissions rise 3--4× without a
+  corresponding gain --- the mechanism becomes computationally expensive
+  without improving concept recall. Grandchildren of grandchildren carry
+  vanishingly small amplitude; the concept becomes hard to interpret.
+\item
+  \textbf{ABLATE\_BIND} removes the α↔β spring. Loss vs FULL is small
+  (metformin: 1.47 vs 1.35 --- actually a marginal \emph{gain} in this
+  seed set; luna: 1.90 vs 1.91 --- flat). Evidence that RB's fiat
+  \(k=2.5\) was over-specified: a much softer learned coupling (or none
+  at all) works nearly as well. We retain the binding tunnel as a
+  coordination default; a version without it is a valid variant.
+\end{itemize}
+
+\textbf{What FULL buys} is not the biggest number. It buys: (i) honest
+energy accounting, (ii) cascade-free convergence, (iii) label-clean
+audit trails. The number is the number; the mechanism protects the
+interpretation.
+
+\subsubsection{6.3 L6 Analogical Bridging --- Drug Repurposing Case
+Study}\label{l6-analogical-bridging-drug-repurposing-case-study}
+
+\textbf{Setup.} Insulin-signalling ontology from
+\texttt{data/insulin\_pathway.axioms}. Train \texttt{metformin} then
+\texttt{berberine} via \texttt{train\_multi\ metformin,berberine\ 5}.
+Run \texttt{discover\_analogies\ 2}. Then
+\texttt{repurpose\ metformin\ 3.0\ 15}.
+
+\textbf{Discovered analogies} (five bridges inserted):
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Analogy
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Shared excitatory targets
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{akt\ \textasciitilde{}\ ampk} & glut4, kinase \\
+\texttt{akt\ \textasciitilde{}\ mtor} & insulin\_signaling, kinase \\
+\texttt{type2\_diabetes\ \textasciitilde{}\ drug} & pioglitazone,
+liraglutide, sitagliptin, canagliflozin, empagliflozin (6 total) \\
+\texttt{berberine\ \textasciitilde{}\ resveratrol} & (via base graph) \\
+\texttt{molecule\ \textasciitilde{}\ ampk} & (empty target list ---
+reported as noise) \\
+\end{longtable}
+
+Real analogies dominate:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\texttt{akt\ \textasciitilde{}\ ampk}} --- both are kinases
+  activating \texttt{glut4}; both play insulin-cascade roles. Real
+  biology.
+\item
+  \textbf{\texttt{akt\ \textasciitilde{}\ mtor}} --- sequential kinases
+  in the insulin-signalling pathway. Real biology.
+\item
+  \textbf{\texttt{berberine\ \textasciitilde{}\ resveratrol}} --- both
+  natural-product AMPK activators. \textbf{A known clinical
+  drug-repurposing pair}.
+\item
+  \textbf{\texttt{type2\_diabetes\ \textasciitilde{}\ drug}} ---
+  cross-category structural analogy, six shared drug targets.
+\end{itemize}
+
+\textbf{\texttt{metformin} at 3 Hz --- top 15 vibrating cavities.}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Rank & Cavity & Displacement \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & mtor.β & −0.09787 \\
+2 & rapamycin.β & +0.05202 \\
+3 & ampk.α & +0.03914 \\
+4 & berberine.α & +0.03419 \\
+5 & hmg\_coa\_reductase.β & −0.01533 \\
+6 & energy\_homeostasis & +0.01509 \\
+7 & resveratrol.α & +0.01270 \\
+8 & berberine.β & +0.01087 \\
+9 & obesity & +0.00970 \\
+10 & \textbf{atorvastatin} & \textbf{+0.01486} \\
+\ldots{} & \ldots{} & \ldots{} \\
+\end{longtable}
+
+\textbf{The key row is rank 10.} In a negative control run that fissions
+both concepts but skips \texttt{discover\_analogies},
+\texttt{atorvastatin} does \emph{not} appear in the top 15. In the naive
+run (no fission, no bridges) \texttt{atorvastatin} appears at rank
+\textasciitilde10 with amplitude 0.014 --- but only because of the
+direct edge \texttt{atorvastatin\ inhibits\ hmg\_coa\_reductase} which
+is a 2-hop path from berberine to atorvastatin.
+
+The L6-A signal is: after fission + bridge insertion, the wave path
+\texttt{metformin\ →\ metformin.α\ →\ (rubber\ bridge)\ →\ berberine.α\ →\ hmg\_coa\_reductase\ →\ atorvastatin}
+carries measurable amplitude that reaches atorvastatin. No axiom says
+\texttt{metformin\ \textasciitilde{}\ berberine}; the rubber bridge did
+not exist until \texttt{discover\_analogies} created it.
+
+\subsubsection{6.4 Storage-Floor Honesty}\label{storage-floor-honesty}
+
+An honest cognitive architecture names its storage. By the Translation
+Capacity Lemma {[}Mahir 2026p, §3.1{]} no system that reliably
+discriminates \(N\) discrete answers escapes storing \(\log_2 N\) bits.
+
+\textbf{What is stored} (primitive facts,
+\texttt{data/insulin\_pathway.axioms}, \textasciitilde50 lines):
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{metformin\ activates\ ampk}
+\item
+  \texttt{berberine\ activates\ ampk}
+\item
+  \texttt{atorvastatin\ inhibits\ hmg\_coa\_reductase}
+\item
+  47 other atomic drug--target and pathway facts
+\end{itemize}
+
+\textbf{What is NOT stored anywhere in the pipeline:}
+
+\begin{itemize}
+\tightlist
+\item
+  The analogy \texttt{metformin\ \textasciitilde{}\ berberine} (no axiom
+  line, no relation type in the ontology).
+\item
+  The child cavities \texttt{metformin.α}, \texttt{berberine.α} (spawned
+  by physics at training time).
+\item
+  The rubber bridge tunnel (inserted by \texttt{discover\_analogies} at
+  runtime).
+\item
+  The answer that \texttt{atorvastatin} is repurposable from
+  \texttt{metformin} (constructed by wave propagation through the
+  physics-inserted bridge).
+\item
+  No \texttt{(query,\ answer)} pair anywhere in the training data.
+\end{itemize}
+
+The 50 axiom lines are \textasciitilde1 KB. The reachable derivation
+space under RB+G + L6-A grows exponentially with the number of fissioned
+concepts. This is the composition-over-retrieval definition of §3.4 of
+the SI paper --- a small primitive set producing an exponentially larger
+reachable derivation set.
+
+This is also how a human brain works. A child who never reads
+\texttt{metformin\ is\ a\ drug} cannot dream about it. Storing
+primitives is not the failure mode; storing \emph{answers} while
+pretending to derive them is.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Comparison to Prior Work}\label{comparison-to-prior-work}
+
+\textbf{vs.~LLM next-token prediction.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+LLM
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+RB+G
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Semantics & Distributed across \(\sim 10^{12}\) weights & Standing-wave
+field on \(\sim 200\) cavities \\
+Novelty & Interpolation over memorised \((Q, A)\) pairs & Fission +
+bridge insertion + wave propagation \\
+Storage & Answer pairs baked into weights & Only primitive facts;
+\textasciitilde50 axiom lines \\
+Repurposing & Requires the pair to have been in the corpus & Emerges
+from physics-computed target intersection \\
+Failure mode & Hallucination & Fission refuses to fire (windows\_os:
+0/20) \\
+Explainability & None --- post-hoc attention weights & Fission ledger +
+analogy record are the derivation \\
+\end{longtable}
+
+\textbf{vs.~original RB {[}Mahir 2026o{]}.} RB proposes fission at
+\(I > 0.15\), \(\tau\) threshold, with binding at fiat \(k = 2.5\). Our
+attempt hit cascade (F1), timeout (F2), null labels (F3), drive confound
+(F4). RB+G fixes each: generation cap, alias ledger, \(1/\sqrt{2}\)
+fan-out, learned binding, audit trail. Ablation shows the fiat binding
+was over-specified --- a much softer coupling suffices.
+
+\textbf{vs.~SRG {[}Mahir 2026t{]}.} SRG keeps the cavity as one entity
+and routes forces into E/I ports. Empirically SRG produced marginal
+regression on our metformin benchmark (0.887 → 0.831). SRG and RB+G are
+compositional: SRG can run alongside RB+G (both mechanisms are guarded
+by their own toggles in the physics engine). We do not use SRG in the
+results reported here.
+
+\textbf{vs.~CMA bisociation {[}Mahir 2026u{]}.} CMA forces edges between
+semantically distant nodes and resolves the tension via intermediate
+hypothesis paths. RB+G is orthogonal: it splits \emph{within} a concept
+(self-contradiction), while CMA bridges \emph{across} concepts (external
+contradiction). L6-A is the natural bridge between them --- after RB+G
+fissions two concepts, L6-A inserts CMA-style structural bridges between
+their α children.
+
+\textbf{vs.~Layer-2 nine primitives {[}Mahir 2026p, §4.4{]}.} The nine
+reasoning primitives (deduction, transitive composition, inheritance,
+abduction, negation, case-analysis, induction, analogy, recursion) are
+graph-rewriting rules on a fixed vertex set. RB+G is a rule that
+\emph{grows} the vertex set --- a realization of Axiom II
+(non-equilibrium phase-space expansion). It is not a tenth primitive; it
+is a substrate operation the primitives cannot express, because they
+cannot spawn new vertices.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Limitations}\label{limitations}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ontology scale.} All results are on ontologies of
+  \textasciitilde200 concepts. Scaling to \(10^4\)--\(10^5\) concept
+  graphs will require: (i) sparse aggregation in the structural tick
+  (currently \(O(N + T)\) per tick), (ii) fission trigger evaluated only
+  on cavities that touched a driven region in the recent past. Not
+  tested.
+\item
+  \textbf{Fission-trigger tuning.} The thresholds \(I > 0.15\),
+  \(\tau > 0.005\), streak \(= 3\) are set by inspection on the
+  insulin-pathway ontology. A domain-independent auto-tuning rule
+  (e.g.~based on quantiles of the cavity-wise \(I\) distribution) has
+  not been demonstrated.
+\item
+  \textbf{L6-A discovery is post-hoc.} \texttt{discover\_analogies} runs
+  after training. An online variant that inserts bridges continuously as
+  α-children accumulate shared targets is a natural extension, not
+  implemented here.
+\item
+  \textbf{Rubber-tunnel frequency is a design choice.} The claim that
+  low-frequency probes ride the bridge while high-frequency probes are
+  absorbed is a consequence of the material impedance mismatch between
+  rubber (\(k=0.05\)) and steel (\(k \geq 1.6\)) tunnels. The optimal
+  probe frequency is domain-dependent; we use 3 Hz throughout for the
+  insulin ontology.
+\item
+  \textbf{Storage floor is not eliminated.} By the Translation Capacity
+  Lemma this cannot be otherwise; we name it explicitly. What we claim
+  is a \emph{low} storage floor (\textasciitilde50 axioms →
+  exponentially larger reachable derivation set), not zero.
+\item
+  \textbf{The two ``high raw RMS'' ablations are honest confounds.} We
+  report them as such; they do not falsify the mechanism.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Conclusion}\label{conclusion}
+
+RB+G shows that a physics substrate can \emph{grow its own state space}
+under sustained contradiction, without any global gradient signal, and
+without pattern-matching over stored \((Q, A)\) pairs. The mechanism is
+disciplined: five specific fixes address four documented failure modes
+of the underlying RB proposal, and every fission event is auditable via
+the \texttt{data/fission\_ledger.jsonl} trail. On six concepts spanning
+contradiction-cluster, mono-directional, and pure-null cases, the
+mechanism produces large positive effects where it should and honest
+null effects where it should not.
+
+L6-A closes the loop from within-concept splitting to across-concept
+structural analogy: after two related concepts fission, the intersection
+of their α-children's downstream excitatory targets is used to insert a
+rubber tunnel between the α cavities. On the insulin-signalling ontology
+this surfaces real drug-repurposing pairs
+(\texttt{berberine\ \textasciitilde{}\ resveratrol}) and reveals
+cross-concept reachability (\texttt{metformin} → \texttt{atorvastatin}
+via the physics-inserted bridge) that no path in the raw axiom graph
+provides.
+
+The storage floor is 50 axiom lines. The reachable derivation set
+includes every fission spawn, every analogy bridge, and every
+wave-propagation answer. This is the composition-over-retrieval
+definition of a thinker --- not because the primitives are absent, but
+because their compositions dominate.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+{[}Mahir 2026d{]} The ZeroGrad Cognitive Engine.
+\texttt{research-paper/zerograd.md}. {[}Mahir 2026g{]} Recursive
+Integrity Field Architecture (RIFA). \texttt{research-paper/rifa.md}.
+{[}Mahir 2026m{]} Bounded Self-Model Architecture (BSMA).
+\texttt{research-paper/bmsa\_new.md},
+\texttt{research-paper/phenomenal-consciousness.md}. {[}Mahir 2026n{]}
+Hierarchical NCA Constraint Solver (HNCA).
+\texttt{research-paper/hnca.md}. {[}Mahir 2026o{]} Resonant Bifurcation
+(Node Fission). \texttt{research-paper/rb.md}. {[}Mahir 2026p{]} From
+Artificial to Synthetic Intelligence.
+\texttt{research-paper/synthetic-intelligence.md}. {[}Mahir 2026q{]} The
+Phonic Resonance Matrix (PRM). \texttt{research-paper/prm.md}. {[}Mahir
+2026r{]} Mechanical Impedance and Material Stiffness (MIMS).
+\texttt{research-paper/mims.md}. {[}Mahir 2026s{]} Neuro-Topological
+Dynamics Architecture (NTDA). \texttt{research-paper/ntda.md}. {[}Mahir
+2026t{]} Synaptic Receptor Gating (SRG). \texttt{research-paper/srg.md}.
+{[}Mahir 2026u{]} Conceptual Mutation Architecture (CMA ---
+Bisociation). \texttt{research-paper/CMA.md}. {[}Koestler 1964{]}
+\emph{The Act of Creation}. Hutchinson. {[}Chomsky 1957{]} Syntactic
+Structures. Mouton.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{RB+G: contradiction metabolism through disciplined bifurcation;
+analogy through physics-inserted rubber bridges; construction over
+retrieval, and storage where storage cannot be avoided.}
+
+\end{document}

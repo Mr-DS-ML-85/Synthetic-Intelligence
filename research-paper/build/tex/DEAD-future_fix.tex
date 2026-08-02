@@ -1,0 +1,1442 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Future Fixes: Roadmap to Complete SI},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Future Fixes: Roadmap to Complete SI}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Future Fixes: Roadmap to Complete
+SI}\label{future-fixes-roadmap-to-complete-si}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Nothing on this list is proven impossible. Three are
+engineering. Four are research programmes. Three are hard math. All are
+tractable.''}
+\end{quote}
+
+\textbf{Companion documents.} - Theory:
+\texttt{research-paper/synthetic-intelligence.md} §8 (Open Problems) -
+Mechanism: \texttt{research-paper/rbg.md} - Implementation:
+\texttt{research-paper/failed\_but\_parts\_works/deprected/how\_we\_implement.md}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Overview}\label{overview}
+
+Ten problems remain between the current PCMA engine and what §8 of the
+SI paper calls ``complete SI''. Each entry below states the problem, why
+it matters, the concrete fix path, the files to touch, the estimated
+effort, and the success criterion. Ordered by expected difficulty
+(easiest first).
+
+\subsubsection{Effort classes}\label{effort-classes}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Class
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Time budget
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Nature
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{E} --- Engineering & Days & Function-level edits, no new
+theory \\
+\textbf{R} --- Research & Weeks--months & New mechanism, empirical
+validation required \\
+\textbf{M} --- Math & Months--year+ & Genuine theorem or categorical
+construction \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Auto-tuning Fission
+Thresholds}\label{auto-tuning-fission-thresholds}
+
+\textbf{✅ SHIPPED} --- homeostatic energy feedback, EMA-smoothed, k
+\textgreater{} 0 guarded. See \texttt{data/phase1/results.md}. 20-seed
+drift: 0.07\% RMS.
+
+\textbf{Class: E} · \textbf{Effort: 2--3 days} · \textbf{Files:
+\texttt{src/layer2.hpp}, \texttt{src/ask.cpp}}
+
+\subsubsection{Problem}\label{problem}
+
+\texttt{fission\_I\_thresh\ =\ 0.15},
+\texttt{fission\_tau\_thresh\ =\ 0.005},
+\texttt{fission\_hold\_target\ =\ 3} are hand-picked on the
+insulin-pathway ontology. On a new ontology they may fire too eagerly
+(cascade the graph) or too rarely (miss real contradictions).
+
+\subsubsection{Fix}\label{fix}
+
+Replace fixed thresholds with quantile-based thresholds computed at the
+end of every N structural ticks (say N=100):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// At the end of structural\_tick\_once() every N ticks:}
+\DataTypeTok{void}\NormalTok{ refresh\_fission\_thresholds}\OperatorTok{(}\DataTypeTok{float}\NormalTok{ I\_quantile }\OperatorTok{=} \FloatTok{0.95}\BuiltInTok{f}\OperatorTok{,}
+                                \DataTypeTok{float}\NormalTok{ tau\_quantile }\OperatorTok{=} \FloatTok{0.90}\BuiltInTok{f}\OperatorTok{)}
+\OperatorTok{\{}
+    \BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ I\_vals}\OperatorTok{,}\NormalTok{ tau\_vals}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ N}\OperatorTok{;} \OperatorTok{++}\NormalTok{i}\OperatorTok{)} \OperatorTok{\{}
+        \DataTypeTok{float} \VariableTok{p\_} \OperatorTok{=}\NormalTok{ pos\_updates\_by\_cavity}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+        \DataTypeTok{float} \VariableTok{n\_} \OperatorTok{=}\NormalTok{ neg\_updates\_by\_cavity}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+        \DataTypeTok{float}\NormalTok{ denom }\OperatorTok{=} \VariableTok{p\_} \OperatorTok{+} \VariableTok{n\_} \OperatorTok{+} \FloatTok{1e{-}9}\BuiltInTok{f}\OperatorTok{;}
+\NormalTok{        I\_vals}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{((}\VariableTok{p\_} \OperatorTok{*} \VariableTok{n\_}\OperatorTok{)} \OperatorTok{/} \OperatorTok{(}\NormalTok{denom }\OperatorTok{*}\NormalTok{ denom}\OperatorTok{));}
+\NormalTok{        tau\_vals}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{local\_tension}\OperatorTok{[}\NormalTok{i}\OperatorTok{]);}
+    \OperatorTok{\}}
+    \BuiltInTok{std::}\NormalTok{sort}\OperatorTok{(}\NormalTok{I\_vals}\OperatorTok{.}\NormalTok{begin}\OperatorTok{(),}\NormalTok{ I\_vals}\OperatorTok{.}\NormalTok{end}\OperatorTok{());}
+    \BuiltInTok{std::}\NormalTok{sort}\OperatorTok{(}\NormalTok{tau\_vals}\OperatorTok{.}\NormalTok{begin}\OperatorTok{(),}\NormalTok{ tau\_vals}\OperatorTok{.}\NormalTok{end}\OperatorTok{());}
+\NormalTok{    fission\_I\_thresh   }\OperatorTok{=}\NormalTok{ I\_vals  }\OperatorTok{[(}\DataTypeTok{size\_t}\OperatorTok{)(}\NormalTok{I\_vals}\OperatorTok{.}\NormalTok{size}\OperatorTok{()}   \OperatorTok{*}\NormalTok{ I\_quantile}\OperatorTok{)];}
+\NormalTok{    fission\_tau\_thresh }\OperatorTok{=}\NormalTok{ tau\_vals}\OperatorTok{[(}\DataTypeTok{size\_t}\OperatorTok{)(}\NormalTok{tau\_vals}\OperatorTok{.}\NormalTok{size}\OperatorTok{()} \OperatorTok{*}\NormalTok{ tau\_quantile}\OperatorTok{)];}
+    \CommentTok{// fission\_hold\_target unchanged — streak requirement stays semantic}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Success criterion}\label{success-criterion}
+
+\begin{itemize}
+\tightlist
+\item
+  On \texttt{insulin\_pathway}, fission count per training round remains
+  7--10 (matches current).
+\item
+  On a \emph{new} untested ontology (say
+  \texttt{data/maxwell\_equations.axioms}), fission fires on 1--3
+  concepts with genuine polarity conflict, and 0 on pure-null concepts.
+\item
+  20-seed reproducibility numbers change by \textless{} 5\%.
+\end{itemize}
+
+\subsubsection{Fallback}\label{fallback}
+
+Add a shell command
+\texttt{fission\_thresh\_mode\ \textless{}fixed\textbar{}quantile\textgreater{}}
+so both modes can be compared side-by-side.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Online L6-A Discovery}\label{online-l6-a-discovery}
+
+\textbf{✅ SHIPPED} --- in-tick call to
+\texttt{discover\_analogies\_locked()} with
+\texttt{only\_parent\ =\ \textless{}new\ fissioned\textgreater{}}. Same
+5 bridges as post-hoc invocation. Duplicate-bridge guard active.
+
+\textbf{Class: E} · \textbf{Effort: 3--5 days} · \textbf{Files:
+\texttt{src/layer2.hpp}}
+
+\subsubsection{Problem}\label{problem-1}
+
+\texttt{discover\_analogies()} currently runs \emph{after} training. In
+a live-running system, analogies should appear the moment two α-children
+accumulate enough shared targets --- not require an operator to invoke
+discovery.
+
+\subsubsection{Fix}\label{fix-1}
+
+Move the intersection check into \texttt{structural\_tick\_once()},
+guarded by a cadence counter to avoid running it every tick:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Add to ConstructiveEngine:}
+\DataTypeTok{int}\NormalTok{   online\_l6a\_cadence     }\OperatorTok{=} \DecValTok{50}\OperatorTok{;}    \CommentTok{// check every 50 structural ticks}
+\DataTypeTok{bool}\NormalTok{  online\_l6a\_enabled     }\OperatorTok{=} \KeywordTok{false}\OperatorTok{;} \CommentTok{// opt{-}in}
+\DataTypeTok{int}\NormalTok{   l6a\_min\_shared         }\OperatorTok{=} \DecValTok{2}\OperatorTok{;}
+\DataTypeTok{int}\NormalTok{   l6a\_last\_alpha\_count   }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+
+\CommentTok{// Inside structural\_tick\_once(), at the end:}
+\ControlFlowTok{if} \OperatorTok{(}\NormalTok{online\_l6a\_enabled}
+    \OperatorTok{\&\&} \OperatorTok{(}\NormalTok{rbg\_tick\_counter }\OperatorTok{\%}\NormalTok{ online\_l6a\_cadence}\OperatorTok{)} \OperatorTok{==} \DecValTok{0}\OperatorTok{)}
+\OperatorTok{\{}
+    \CommentTok{// Only run if the number of fissioned parents has grown since last check.}
+    \DataTypeTok{int}\NormalTok{ cur\_alpha\_count }\OperatorTok{=} \OperatorTok{(}\DataTypeTok{int}\OperatorTok{)}\NormalTok{sub}\OperatorTok{{-}\textgreater{}}\NormalTok{fission\_map}\OperatorTok{.}\NormalTok{size}\OperatorTok{();}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{cur\_alpha\_count }\OperatorTok{\textgreater{}}\NormalTok{ l6a\_last\_alpha\_count}\OperatorTok{)} \OperatorTok{\{}
+        \DataTypeTok{int}\NormalTok{ newly\_bridged }\OperatorTok{=}\NormalTok{ discover\_analogies\_locked}\OperatorTok{(}\NormalTok{l6a\_min\_shared}\OperatorTok{);}
+\NormalTok{        l6a\_last\_alpha\_count }\OperatorTok{=}\NormalTok{ cur\_alpha\_count}\OperatorTok{;}
+        \OperatorTok{(}\DataTypeTok{void}\OperatorTok{)}\NormalTok{newly\_bridged}\OperatorTok{;}
+    \OperatorTok{\}}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{\_locked} variant assumes \texttt{sub-\textgreater{}mtx} is
+already held (as it is inside the structural tick). Requires refactoring
+the current \texttt{discover\_analogies()} into public and internal
+variants, matching the \texttt{fission()} / \texttt{fission\_locked()}
+split.
+
+\subsubsection{Success criterion}\label{success-criterion-1}
+
+\begin{itemize}
+\tightlist
+\item
+  Training \texttt{metformin} then \texttt{berberine} with
+  \texttt{online\_l6a\_enabled\ =\ true} produces the same bridges as
+  the post-hoc \texttt{discover\_analogies} call.
+\item
+  Bridges appear within 100 ticks of the second concept fissioning.
+\item
+  No performance regression on the 20-seed benchmark (structural tick
+  stays under 1 ms).
+\end{itemize}
+
+\subsubsection{Risk}\label{risk}
+
+Bridge insertion during ongoing Hebbian consolidation could destabilize
+plasticity. If observed, add a ``cooldown'' after each bridge insertion
+(skip Hebbian on that tunnel for 5 ticks).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Language Generation Stage 2 (Syntax
+Macro-Layer)}\label{language-generation-stage-2-syntax-macro-layer}
+
+\textbf{✅ SHIPPED} --- SyntaxSlot struct with harmonic ω ratios (3:4:5
+on base 15), phases at 2πk/N, Kuramoto pass 3b, temporal readout head
+with narrow-Gaussian (Q=16) exclusion.
+\texttt{generate\ \textless{}label\textgreater{}} shell command produces
+physics-selected slot winners, empty slots as honest refusal when no
+cavity phase-locks. See \texttt{data/phase2/results.md}.
+
+\textbf{Class: R} · \textbf{Effort: 2--3 weeks} · \textbf{Files:
+\texttt{src/physics.hpp}, \texttt{src/mal.hpp},
+\texttt{src/nl\_translator.hpp}}
+
+\subsubsection{Problem}\label{problem-2}
+
+Section 5.4b of the SI paper proposes a three-stage physics-only
+language pipeline. Stages 1 (resonance signature) and 3 (label lookup)
+exist. Stage 2 --- a syntax macro-layer with fixed grammatical-role
+frequencies --- does not.
+
+\subsubsection{Fix}\label{fix-2}
+
+\textbf{Step 3.1: Add syntax slots to physics.hpp.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ SyntaxSlot }\OperatorTok{\{}
+    \DataTypeTok{float}\NormalTok{ natural\_omega}\OperatorTok{;}      \CommentTok{// fixed: ω\_S, ω\_V, ω\_O}
+    \DataTypeTok{float}\NormalTok{ phase}\OperatorTok{;}              \CommentTok{// Kuramoto{-}integrated}
+    \DataTypeTok{float}\NormalTok{ amplitude}\OperatorTok{;}          \CommentTok{// sum of semantically locked cavities}
+    \BuiltInTok{std::}\NormalTok{string role}\OperatorTok{;}         \CommentTok{// "subject" | "verb" | "object"}
+    \DataTypeTok{int}\NormalTok{   locked\_cavity\_id}\OperatorTok{;}   \CommentTok{// winner at last readout (−1 if slot vacant)}
+\OperatorTok{\};}
+\BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\NormalTok{SyntaxSlot}\OperatorTok{\textgreater{}}\NormalTok{ syntax\_slots}\OperatorTok{;}
+
+\DataTypeTok{void}\NormalTok{ bind\_syntax\_slots}\OperatorTok{()} \OperatorTok{\{}
+\NormalTok{    syntax\_slots }\OperatorTok{=} \OperatorTok{\{}
+        \OperatorTok{\{} \FloatTok{6.28}\BuiltInTok{f}\OperatorTok{,} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{,} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{,} \StringTok{"subject"}\OperatorTok{,} \OperatorTok{{-}}\DecValTok{1} \OperatorTok{\},}  \CommentTok{// 1 Hz}
+        \OperatorTok{\{} \FloatTok{3.14}\BuiltInTok{f}\OperatorTok{,} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{,} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{,} \StringTok{"verb"}\OperatorTok{,}    \OperatorTok{{-}}\DecValTok{1} \OperatorTok{\},}  \CommentTok{// 0.5 Hz}
+        \OperatorTok{\{} \FloatTok{2.09}\BuiltInTok{f}\OperatorTok{,} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{,} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{,} \StringTok{"object"}\OperatorTok{,}  \OperatorTok{{-}}\DecValTok{1} \OperatorTok{\},}  \CommentTok{// 0.33 Hz}
+    \OperatorTok{\};}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Step 3.2: Extend the tick() Kuramoto pass.}
+
+Add a second coupling term between macro\_nodes{[}k{]} and
+syntax\_slots{[}s{]}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Inside tick(), after HNCA macro{-}Kuramoto:}
+\ControlFlowTok{for} \OperatorTok{(}\KeywordTok{auto}\OperatorTok{\&}\NormalTok{ s }\OperatorTok{:}\NormalTok{ syntax\_slots}\OperatorTok{)} \OperatorTok{\{}
+    \DataTypeTok{float}\NormalTok{ sum }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\AttributeTok{const} \KeywordTok{auto}\OperatorTok{\&}\NormalTok{ m }\OperatorTok{:}\NormalTok{ macro\_nodes}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{        sum }\OperatorTok{+=} \BuiltInTok{std::}\NormalTok{sin}\OperatorTok{(}\NormalTok{m}\OperatorTok{.}\NormalTok{phase }\OperatorTok{{-}}\NormalTok{ s}\OperatorTok{.}\NormalTok{phase}\OperatorTok{)} \OperatorTok{*}\NormalTok{ m}\OperatorTok{.}\NormalTok{amplitude}\OperatorTok{;}
+    \OperatorTok{\}}
+    \DataTypeTok{float}\NormalTok{ dtheta }\OperatorTok{=}\NormalTok{ s}\OperatorTok{.}\NormalTok{natural\_omega}
+                 \OperatorTok{+}\NormalTok{ syntax\_coupling\_norm }\OperatorTok{*}\NormalTok{ sum}\OperatorTok{;}
+\NormalTok{    s}\OperatorTok{.}\NormalTok{phase }\OperatorTok{+=}\NormalTok{ dtheta }\OperatorTok{*}\NormalTok{ dt}\OperatorTok{;}
+\NormalTok{    s}\OperatorTok{.}\NormalTok{phase }\OperatorTok{=} \BuiltInTok{std::}\NormalTok{fmod}\OperatorTok{(}\NormalTok{s}\OperatorTok{.}\NormalTok{phase }\OperatorTok{+} \FloatTok{9.42477796}\BuiltInTok{f}\OperatorTok{,} \FloatTok{6.28318531}\BuiltInTok{f}\OperatorTok{)} \OperatorTok{{-}} \FloatTok{3.14159265}\BuiltInTok{f}\OperatorTok{;}
+    \CommentTok{// Slot amplitude = sum of semantic cluster amplitudes phase{-}close to this slot.}
+    \DataTypeTok{float}\NormalTok{ amp\_sum }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\AttributeTok{const} \KeywordTok{auto}\OperatorTok{\&}\NormalTok{ m }\OperatorTok{:}\NormalTok{ macro\_nodes}\OperatorTok{)} \OperatorTok{\{}
+        \DataTypeTok{float}\NormalTok{ phase\_diff }\OperatorTok{=} \BuiltInTok{std::}\NormalTok{fabs}\OperatorTok{(}\NormalTok{m}\OperatorTok{.}\NormalTok{phase }\OperatorTok{{-}}\NormalTok{ s}\OperatorTok{.}\NormalTok{phase}\OperatorTok{);}
+\NormalTok{        amp\_sum }\OperatorTok{+=}\NormalTok{ m}\OperatorTok{.}\NormalTok{amplitude }\OperatorTok{*} \BuiltInTok{std::}\NormalTok{exp}\OperatorTok{({-}}\NormalTok{phase\_diff }\OperatorTok{*}\NormalTok{ phase\_diff}\OperatorTok{);}
+    \OperatorTok{\}}
+\NormalTok{    s}\OperatorTok{.}\NormalTok{amplitude }\OperatorTok{=}\NormalTok{ amp\_sum}\OperatorTok{;}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Step 3.3: Temporal readout head.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{std::}\NormalTok{string physics\_generate\_sentence}\OperatorTok{(}\DataTypeTok{int}\NormalTok{ probe\_cavity\_id}\OperatorTok{)} \OperatorTok{\{}
+    \CommentTok{// Drive the probe, run the tick loop until slots stabilize.}
+\NormalTok{    physics}\OperatorTok{.}\NormalTok{drive}\OperatorTok{(}\NormalTok{probe\_cavity\_id}\OperatorTok{,} \FloatTok{20.0}\BuiltInTok{f}\OperatorTok{,} \FloatTok{6.0}\BuiltInTok{f}\OperatorTok{,} \DecValTok{15}\OperatorTok{);}
+\NormalTok{    physics}\OperatorTok{.}\NormalTok{run}\OperatorTok{(}\DecValTok{200}\OperatorTok{);}
+
+    \CommentTok{// For each slot, find the cavity with peak displacement whose macro{-}node}
+    \CommentTok{// phase is closest to the slot phase.}
+    \BuiltInTok{std::}\NormalTok{vector}\OperatorTok{\textless{}}\BuiltInTok{std::}\NormalTok{string}\OperatorTok{\textgreater{}}\NormalTok{ words}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\KeywordTok{auto}\OperatorTok{\&}\NormalTok{ s }\OperatorTok{:}\NormalTok{ physics}\OperatorTok{.}\NormalTok{syntax\_slots}\OperatorTok{)} \OperatorTok{\{}
+        \DataTypeTok{int}\NormalTok{   best\_cav }\OperatorTok{=} \OperatorTok{{-}}\DecValTok{1}\OperatorTok{;}
+        \DataTypeTok{float}\NormalTok{ best\_amp }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \OperatorTok{(}\DataTypeTok{int}\OperatorTok{)}\NormalTok{physics}\OperatorTok{.}\NormalTok{cavities}\OperatorTok{.}\NormalTok{size}\OperatorTok{();} \OperatorTok{++}\NormalTok{i}\OperatorTok{)} \OperatorTok{\{}
+            \AttributeTok{const} \KeywordTok{auto}\OperatorTok{\&}\NormalTok{ m }\OperatorTok{=}\NormalTok{ physics}\OperatorTok{.}\NormalTok{macro\_nodes}\OperatorTok{[}\NormalTok{physics}\OperatorTok{.}\NormalTok{cavities}\OperatorTok{[}\NormalTok{i}\OperatorTok{].}\NormalTok{cluster\_id}\OperatorTok{];}
+            \DataTypeTok{float}\NormalTok{ phase\_diff }\OperatorTok{=} \BuiltInTok{std::}\NormalTok{fabs}\OperatorTok{(}\NormalTok{m}\OperatorTok{.}\NormalTok{phase }\OperatorTok{{-}}\NormalTok{ s}\OperatorTok{.}\NormalTok{phase}\OperatorTok{);}
+            \DataTypeTok{float}\NormalTok{ score }\OperatorTok{=} \BuiltInTok{std::}\NormalTok{fabs}\OperatorTok{(}\NormalTok{physics}\OperatorTok{.}\NormalTok{cavities}\OperatorTok{[}\NormalTok{i}\OperatorTok{].}\NormalTok{displacement}\OperatorTok{)}
+                        \OperatorTok{*} \BuiltInTok{std::}\NormalTok{exp}\OperatorTok{({-}}\NormalTok{phase\_diff }\OperatorTok{*}\NormalTok{ phase\_diff}\OperatorTok{);}
+            \ControlFlowTok{if} \OperatorTok{(}\NormalTok{score }\OperatorTok{\textgreater{}}\NormalTok{ best\_amp}\OperatorTok{)} \OperatorTok{\{}\NormalTok{ best\_amp }\OperatorTok{=}\NormalTok{ score}\OperatorTok{;}\NormalTok{ best\_cav }\OperatorTok{=}\NormalTok{ i}\OperatorTok{;} \OperatorTok{\}}
+        \OperatorTok{\}}
+\NormalTok{        s}\OperatorTok{.}\NormalTok{locked\_cavity\_id }\OperatorTok{=}\NormalTok{ best\_cav}\OperatorTok{;}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{best\_cav }\OperatorTok{\textgreater{}=} \DecValTok{0}\OperatorTok{)}\NormalTok{ words}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{label\_of}\OperatorTok{(}\NormalTok{best\_cav}\OperatorTok{));}
+    \OperatorTok{\}}
+
+    \CommentTok{// Concatenate in canonical order (subject, verb, object).}
+    \ControlFlowTok{return}\NormalTok{ join}\OperatorTok{(}\NormalTok{words}\OperatorTok{,} \StringTok{" "}\OperatorTok{);}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Step 3.4: Add shell command.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{else} \ControlFlowTok{if} \OperatorTok{(}\NormalTok{cmd }\OperatorTok{==} \StringTok{"generate"}\OperatorTok{)} \OperatorTok{\{}
+    \BuiltInTok{std::}\NormalTok{string label}\OperatorTok{;}
+    \ControlFlowTok{if} \OperatorTok{(!(}\NormalTok{iss }\OperatorTok{\textgreater{}\textgreater{}}\NormalTok{ label}\OperatorTok{))} \ControlFlowTok{continue}\OperatorTok{;}
+    \KeywordTok{auto}\NormalTok{ it }\OperatorTok{=}\NormalTok{ si}\OperatorTok{.}\NormalTok{graph}\OperatorTok{.}\NormalTok{by\_label}\OperatorTok{.}\NormalTok{find}\OperatorTok{(}\NormalTok{label}\OperatorTok{);}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{it }\OperatorTok{==}\NormalTok{ si}\OperatorTok{.}\NormalTok{graph}\OperatorTok{.}\NormalTok{by\_label}\OperatorTok{.}\NormalTok{end}\OperatorTok{())} \ControlFlowTok{continue}\OperatorTok{;}
+    \BuiltInTok{std::}\NormalTok{string sentence }\OperatorTok{=}\NormalTok{ physics\_generate\_sentence}\OperatorTok{(}\NormalTok{it}\OperatorTok{{-}\textgreater{}}\NormalTok{second}\OperatorTok{);}
+    \BuiltInTok{std::}\NormalTok{fprintf}\OperatorTok{(}\NormalTok{stdout}\OperatorTok{,} \StringTok{"generated: }\SpecialCharTok{\%s\textbackslash{}n}\StringTok{"}\OperatorTok{,}\NormalTok{ sentence}\OperatorTok{.}\NormalTok{c\_str}\OperatorTok{());}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Success criterion}\label{success-criterion-2}
+
+\begin{itemize}
+\tightlist
+\item
+  On \texttt{insulin\_pathway}, \texttt{generate\ metformin} produces a
+  coherent SVO triple like \texttt{metformin\ inhibits\ mtor} or
+  \texttt{metformin\ activates\ ampk} --- order matches the actual axiom
+  edge direction.
+\item
+  On queries where multiple verb-slot cavities compete, the output is
+  deterministic under seed (same seed → same sentence).
+\item
+  On queries outside the ontology, the readout head returns empty
+  strings for empty slots (no hallucination).
+\end{itemize}
+
+\subsubsection{Extension}\label{extension}
+
+Adverbs and modifiers can be added as additional slots at ω = 4.19,
+5.24, \ldots{} Choose frequencies as harmonic ratios to keep the
+Kuramoto lock structure clean.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Sparse Structural Tick}\label{sparse-structural-tick}
+
+\textbf{✅ SHIPPED} --- Active Wavefront Tracking with
+\texttt{quiet\_ticks{[}i{]}} per cavity, \texttt{K\_idle\ =\ 20},
+\texttt{wavefront\_eps\ =\ 1e-4}. Bit-identical results on 200-concept
+ontology. \texttt{hot\_count()} accessor for observability.
+
+\textbf{Class: R} · \textbf{Effort: 1--2 weeks} · \textbf{Files:
+\texttt{src/layer2.hpp}, \texttt{src/physics.hpp}}
+
+\subsubsection{Problem}\label{problem-3}
+
+\texttt{structural\_tick\_once()} iterates all N cavities and all T
+tunnels every tick. On a 200-concept ontology this is fine
+(\textasciitilde0.5 ms). At 10⁴--10⁵ concepts it becomes untenable.
+
+\subsubsection{Fix}\label{fix-3}
+
+Maintain a \emph{touched-set} of cavities modified in the last physics
+tick. Only these enter the structural tick:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ PhysicsEngine }\OperatorTok{\{}
+    \CommentTok{// ...}
+    \BuiltInTok{std::}\NormalTok{unordered\_set}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{\textgreater{}}\NormalTok{ touched\_cavities}\OperatorTok{;}    \CommentTok{// reset each drive}
+    \BuiltInTok{std::}\NormalTok{unordered\_set}\OperatorTok{\textless{}}\DataTypeTok{int}\OperatorTok{\textgreater{}}\NormalTok{ touched\_tunnels}\OperatorTok{;}     \CommentTok{// reset each drive}
+
+    \DataTypeTok{void}\NormalTok{ drive}\OperatorTok{(}\DataTypeTok{int}\NormalTok{ nid}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ freq}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ amp}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ dur}\OperatorTok{)} \OperatorTok{\{}
+        \CommentTok{// ... existing code ...}
+        \CommentTok{// Mark this cavity and every incident tunnel as touched.}
+\NormalTok{        touched\_cavities}\OperatorTok{.}\NormalTok{insert}\OperatorTok{(}\NormalTok{nid}\OperatorTok{);}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ e }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ e }\OperatorTok{\textless{}} \OperatorTok{(}\DataTypeTok{int}\OperatorTok{)}\NormalTok{tunnels}\OperatorTok{.}\NormalTok{size}\OperatorTok{();} \OperatorTok{++}\NormalTok{e}\OperatorTok{)} \OperatorTok{\{}
+            \ControlFlowTok{if} \OperatorTok{(}\NormalTok{tunnels}\OperatorTok{[}\NormalTok{e}\OperatorTok{].}\NormalTok{cavity\_a }\OperatorTok{==}\NormalTok{ nid }\OperatorTok{||}\NormalTok{ tunnels}\OperatorTok{[}\NormalTok{e}\OperatorTok{].}\NormalTok{cavity\_b }\OperatorTok{==}\NormalTok{ nid}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{                touched\_tunnels}\OperatorTok{.}\NormalTok{insert}\OperatorTok{(}\NormalTok{e}\OperatorTok{);}
+            \OperatorTok{\}}
+        \OperatorTok{\}}
+    \OperatorTok{\}}
+
+    \DataTypeTok{void}\NormalTok{ tick}\OperatorTok{()} \OperatorTok{\{}
+        \CommentTok{// ... existing tick body but iterate only over touched sets ...}
+        \CommentTok{// At the end, propagate: any tunnel whose either endpoint moved}
+        \CommentTok{// \textgreater{} eps becomes touched next tick. Cavities receiving force from}
+        \CommentTok{// touched tunnels become touched.}
+    \OperatorTok{\}}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+The structural tick then intersects \texttt{touched\_cavities} with the
+fission-trigger scan and processes only that subset.
+
+\subsubsection{Success criterion}\label{success-criterion-3}
+
+\begin{itemize}
+\tightlist
+\item
+  On the current 200-concept ontology, results are bit-identical (within
+  FP rounding) to the dense implementation.
+\item
+  On a synthetic 10⁵-concept ontology with only 200 concepts driven,
+  per-tick time stays under 5 ms.
+\item
+  Fissions still fire on the concepts that would have fissioned under
+  the dense implementation.
+\end{itemize}
+
+\subsubsection{Risk}\label{risk-1}
+
+Cascade propagation of ``touched'' status can quickly grow the working
+set to the full graph under heavy training. Add a decay: touched-set
+entries are removed after K ticks of no fresh input.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Rubber-Tunnel Frequency Selectivity
+Theorem}\label{rubber-tunnel-frequency-selectivity-theorem}
+
+\textbf{✅ SHIPPED (implementation)} --- per-tunnel
+\texttt{resonance\_omega} + \texttt{Q\_factor}, branchless band-pass
+gate in tick() tunnel-force loop. L6-A rubber bridges spawn with
+\texttt{resonance\_omega\ =\ 3.0}. Non-L6-A tunnels unchanged (gate=1).
+Analytical transfer-function derivation for \texttt{mims\_transfer.md}
+still open.
+
+\textbf{Class: R} · \textbf{Effort: 2--3 weeks} · \textbf{Files: new
+\texttt{research-paper/mims\_transfer.md}, \texttt{src/physics.hpp}}
+
+\subsubsection{Problem}\label{problem-4}
+
+The claim that low-frequency probes ride the L6-A bridge while
+high-frequency probes are absorbed rests on the impedance mismatch
+between rubber (\texttt{k=0.05}) and steel
+(\texttt{k\textgreater{}=1.6}). The optimal probe frequency of 3 Hz was
+picked by inspection. We need a formula.
+
+\subsubsection{Fix}\label{fix-4}
+
+Derive the transfer function of a mass-spring-damper tunnel:
+
+For a tunnel of stiffness \(k\), damping \(c\), connecting mass \(m_a\)
+to mass \(m_b\) driven at frequency \(\omega\):
+
+\[
+H(\omega) = \frac{k}{\sqrt{(k - m_b \omega^2)^2 + (c\omega)^2}}
+\]
+
+The half-power cutoff frequency (where amplitude is \(1/\sqrt{2}\) of
+the DC transmission):
+
+\[
+\omega_c = \sqrt{k/m_b} \cdot \sqrt{1 + c^2/(2 k m_b)}
+\]
+
+For steel (\(k=1.8\), \(c=0.01\), \(m=1\)): \(\omega_c \approx 1.34\)
+rad/s ≈ 0.21 Hz --- steel is actually already a low-pass filter above
+this. Wait --- that's wrong at first glance because we experience steel
+as transmitting high frequencies well. The reconciliation: at \(\omega\)
+near the resonance \(\omega_0 = \sqrt{k/m}\), there's a \emph{peak} in
+the transfer function of magnitude \(Q = 1/(c/\sqrt{k m})\). For steel
+that's \(Q \approx 134\) --- a very sharp resonance. Probes at exactly
+\(\omega_0\) transmit strongly; probes far above are absorbed.
+
+\textbf{Implementation.} Add a function
+\texttt{optimal\_probe\_freq(TunnelType)} to physics.hpp that returns:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{float}\NormalTok{ optimal\_probe\_freq}\OperatorTok{(}\AttributeTok{const}\NormalTok{ Tunnel}\OperatorTok{\&}\NormalTok{ t}\OperatorTok{,} \DataTypeTok{float} \VariableTok{m\_b} \OperatorTok{=} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{)} \OperatorTok{\{}
+    \ControlFlowTok{return} \BuiltInTok{std::}\NormalTok{sqrt}\OperatorTok{(}\NormalTok{t}\OperatorTok{.}\NormalTok{stiffness }\OperatorTok{/} \VariableTok{m\_b}\OperatorTok{)} \OperatorTok{/} \OperatorTok{(}\FloatTok{2.0}\BuiltInTok{f} \OperatorTok{*} \FloatTok{3.14159265}\BuiltInTok{f}\OperatorTok{);}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+For rubber (\(k=0.05\)): \(\omega_0 = 0.22\) rad/s ≈ 0.036 Hz (not 3
+Hz). The 3 Hz value used empirically was above rubber's resonance but
+far below steel's --- the rubber tunnel is absorbing at 3 Hz too. What
+actually happens: at 3 Hz the rubber tunnel \emph{acts as a static
+coupling} (below resonance), while steel is deep below its own resonance
+and also transmits well.
+
+The correct analysis is a \emph{ratio} of transfer functions: what
+frequency maximizes rubber-transmission divided by steel-transmission?
+Solve
+\(\partial_\omega [H_\text{rubber}(\omega) / H_\text{steel}(\omega)] = 0\).
+
+\subsubsection{Success criterion}\label{success-criterion-4}
+
+\begin{itemize}
+\tightlist
+\item
+  A \texttt{mims\_transfer.md} paper deriving the transfer functions and
+  the optimal-probe-frequency formula.
+\item
+  \texttt{repurpose\ \textless{}label\textgreater{}\ auto} command that
+  reads the target's incident tunnel materials and picks the probe
+  frequency algorithmically.
+\item
+  Reproducing the atorvastatin-at-rank-10 result on
+  \texttt{insulin\_pathway} without hand-picking 3 Hz.
+\end{itemize}
+
+\subsubsection{Fallback}\label{fallback-1}
+
+Empirical sweep: probe at 20 log-spaced frequencies from 0.1 Hz to 30
+Hz, rank cavities per frequency, report the frequency that maximally
+separates analogical partners from mechanistic downstream targets. This
+is a diagnostic, not a theorem.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Cross-Domain Transfer (Syllogism →
+Algebra)}\label{cross-domain-transfer-syllogism-algebra}
+
+\textbf{Class: R} · \textbf{Effort: 2--3 months} · \textbf{Files: new
+\texttt{data/algebra.axioms}, extended \texttt{src/rade.hpp}}
+
+\subsubsection{Problem}\label{problem-5}
+
+L6-A shows cross-\emph{concept} transfer within a domain (metformin →
+atorvastatin via \texttt{hmg\_coa\_reductase}). Cross-\emph{domain}
+transfer --- say a substrate trained on syllogisms improving performance
+on algebra --- has not been demonstrated.
+
+\subsubsection{Fix}\label{fix-5}
+
+Load two ontologies simultaneously and share the physics substrate:
+
+\textbf{Step 6.1: Build \texttt{data/syllogism.axioms}} with abstract
+structural triples:
+
+\begin{verbatim}
+socrates    is_a         man
+man         has_property mortal
+premise_A   implies      premise_B
+premise_B   implies      conclusion_C
+\end{verbatim}
+
+\textbf{Step 6.2: Build \texttt{data/algebra.axioms}} with
+variable-binding triples:
+
+\begin{verbatim}
+x           is_a         variable
+addition    is_a         operation
+addition    associative  true
+addition    commutative  true
+5           is_a         integer
+integer     closed_under addition
+\end{verbatim}
+
+\textbf{Step 6.3: Add domain tags} to cavities:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ Cavity }\OperatorTok{\{}
+    \CommentTok{// ...}
+    \DataTypeTok{int}\NormalTok{ domain\_id }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}    \CommentTok{// 0 = shared, 1 = syllogism, 2 = algebra}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+Concepts that appear in both ontologies (e.g., \texttt{implies},
+\texttt{equals}) get \texttt{domain\_id\ =\ 0} and are shared.
+
+\textbf{Step 6.4: Train on syllogism domain}, measure baseline algebra
+recall, then train jointly and measure again.
+
+\subsubsection{Success criterion}\label{success-criterion-5}
+
+\begin{itemize}
+\tightlist
+\item
+  Recall of \texttt{commutative} concepts in algebra improves after
+  syllogism training (via the shared \texttt{implies} cavity fissioning
+  under contradiction between the domains).
+\item
+  L6-A discovers cross-domain bridges (e.g.,
+  \texttt{associativity\ \textasciitilde{}\ transitive\_composition}).
+\item
+  The improvement is non-trivial (\textgreater10\% RMS gain over
+  algebra-only training).
+\end{itemize}
+
+\subsubsection{Risk}\label{risk-2}
+
+The two domains may share too few concepts for meaningful transfer.
+Mitigation: seed a small ``shared foundation'' ontology with logical
+connectives (\texttt{implies}, \texttt{and}, \texttt{or}, \texttt{not},
+\texttt{equals}) that both domains reference.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Abduction Rule Discovery from
+Primitives-Only}\label{abduction-rule-discovery-from-primitives-only}
+
+\textbf{Class: R} · \textbf{Effort: 2--3 months} · \textbf{Files: new
+\texttt{src/abduction\_discovery.hpp}}
+
+\subsubsection{Problem}\label{problem-6}
+
+L6-A resolved analogy-rule discovery. Abduction (reverse-chaining from
+goal to hypothesis) is not currently discoverable from lower primitives
+--- it must be seeded.
+
+\subsubsection{Fix}\label{fix-6}
+
+An abduction rule has the form: given goal \(G\) and rule
+\((P \Rightarrow G)\), hypothesize \(P\). In physics-substrate terms:
+given a cavity \(G\) that is target of many \texttt{implies} tunnels,
+and no cavity currently driving it, spawn a hypothesis cavity \(P\) that
+would drive \(G\).
+
+\textbf{Mechanism.} After every training round, scan cavities that: -
+Have high salience (recently referenced) - Have low incoming excitation
+(no cavity currently activating them) - Have at least one incoming
+\texttt{implies} tunnel
+
+For each such cavity \(G\), look at the source \(P\) of its strongest
+\texttt{implies} tunnel. If \(P\) is itself under-activated, mark \(P\)
+as a \emph{hypothesis candidate}. Add a new cavity
+\texttt{hypothesis\_of\_G} with a soft (\texttt{k=0.3}) tunnel to \$P`
+--- a physical realization of ``if we assume \(P\), then \(G\)
+follows''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{int}\NormalTok{ discover\_abductions}\OperatorTok{(}\DataTypeTok{float}\NormalTok{ salience\_min }\OperatorTok{=} \FloatTok{0.5}\BuiltInTok{f}\OperatorTok{,}
+                        \DataTypeTok{float}\NormalTok{ incoming\_max }\OperatorTok{=} \FloatTok{0.1}\BuiltInTok{f}\OperatorTok{)}
+\OperatorTok{\{}
+    \DataTypeTok{int}\NormalTok{ found }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ g }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ g }\OperatorTok{\textless{}} \OperatorTok{(}\DataTypeTok{int}\OperatorTok{)}\NormalTok{sub}\OperatorTok{{-}\textgreater{}}\NormalTok{cavities}\OperatorTok{.}\NormalTok{size}\OperatorTok{();} \OperatorTok{++}\NormalTok{g}\OperatorTok{)} \OperatorTok{\{}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{sub}\OperatorTok{{-}\textgreater{}}\NormalTok{cavities}\OperatorTok{[}\NormalTok{g}\OperatorTok{].}\NormalTok{salience }\OperatorTok{\textless{}}\NormalTok{ salience\_min}\OperatorTok{)} \ControlFlowTok{continue}\OperatorTok{;}
+        \DataTypeTok{float}\NormalTok{ incoming\_amp }\OperatorTok{=}\NormalTok{ compute\_incoming\_excitation}\OperatorTok{(}\NormalTok{g}\OperatorTok{);}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{incoming\_amp }\OperatorTok{\textgreater{}}\NormalTok{ incoming\_max}\OperatorTok{)} \ControlFlowTok{continue}\OperatorTok{;}
+        \CommentTok{// g is a goal without a driver.}
+        \DataTypeTok{int}\NormalTok{ p }\OperatorTok{=}\NormalTok{ find\_strongest\_implies\_source}\OperatorTok{(}\NormalTok{g}\OperatorTok{);}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{p }\OperatorTok{\textless{}} \DecValTok{0}\OperatorTok{)} \ControlFlowTok{continue}\OperatorTok{;}
+        \CommentTok{// Insert hypothesis cavity and soft coupling.}
+\NormalTok{        Cavity hyp }\OperatorTok{=}\NormalTok{ sub}\OperatorTok{{-}\textgreater{}}\NormalTok{cavities}\OperatorTok{[}\NormalTok{p}\OperatorTok{];}  \CommentTok{// clone}
+\NormalTok{        hyp}\OperatorTok{.}\NormalTok{salience }\OperatorTok{=} \FloatTok{0.0}\BuiltInTok{f}\OperatorTok{;}
+        \DataTypeTok{int}\NormalTok{ hyp\_id }\OperatorTok{=} \OperatorTok{(}\DataTypeTok{int}\OperatorTok{)}\NormalTok{sub}\OperatorTok{{-}\textgreater{}}\NormalTok{cavities}\OperatorTok{.}\NormalTok{size}\OperatorTok{();}
+\NormalTok{        sub}\OperatorTok{{-}\textgreater{}}\NormalTok{cavities}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{hyp}\OperatorTok{);}
+\NormalTok{        Tunnel t}\OperatorTok{;}
+\NormalTok{        t}\OperatorTok{.}\NormalTok{cavity\_a }\OperatorTok{=}\NormalTok{ hyp\_id}\OperatorTok{;}
+\NormalTok{        t}\OperatorTok{.}\NormalTok{cavity\_b }\OperatorTok{=}\NormalTok{ p}\OperatorTok{;}
+\NormalTok{        t}\OperatorTok{.}\NormalTok{stiffness }\OperatorTok{=} \FloatTok{0.3}\BuiltInTok{f}\OperatorTok{;}
+\NormalTok{        t}\OperatorTok{.}\NormalTok{damping }\OperatorTok{=} \FloatTok{0.05}\BuiltInTok{f}\OperatorTok{;}
+\NormalTok{        t}\OperatorTok{.}\NormalTok{polarity }\OperatorTok{=} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{;}
+\NormalTok{        sub}\OperatorTok{{-}\textgreater{}}\NormalTok{tunnels}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{(}\NormalTok{t}\OperatorTok{);}
+        \OperatorTok{++}\NormalTok{found}\OperatorTok{;}
+    \OperatorTok{\}}
+    \ControlFlowTok{return}\NormalTok{ found}\OperatorTok{;}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Success criterion}\label{success-criterion-6}
+
+\begin{itemize}
+\tightlist
+\item
+  On a modified ontology where \texttt{raining\ implies\ wet\_ground}
+  exists but \texttt{raining} is not currently driven,
+  \texttt{discover\_abductions} spawns a
+  \texttt{hypothesis\_of\_wet\_ground} cavity coupled to
+  \texttt{raining}.
+\item
+  Subsequent probing of \texttt{wet\_ground} weakly activates the
+  hypothesis cavity, which in turn probes \texttt{raining} --- a
+  physical realization of ``the ground is wet, therefore possibly it
+  rained''.
+\item
+  Extension of the 20-seed benchmark to include abduction-cluster
+  concepts.
+\end{itemize}
+
+\subsubsection{Risk}\label{risk-3}
+
+Naive abduction discovery could spawn thousands of speculative
+hypotheses. Add a limit: at most 3 abductions per training round.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Formal Liouville Analog for Tension-Bounded
+Expansion}\label{formal-liouville-analog-for-tension-bounded-expansion}
+
+\textbf{Class: M} · \textbf{Effort: 6--12 months} · \textbf{Files: new
+\texttt{research-paper/liouville\_analog.md}}
+
+\subsubsection{Problem}\label{problem-7}
+
+Axiom II states \(\Delta|G_t| \leq \alpha \cdot T(t)\) --- the graph
+grows only under tension. This is an inequality, not a conservation law.
+The classical Liouville theorem says phase-space volume is conserved
+under Hamiltonian flow. We need the analog for graph-valued state under
+tension-bounded expansion.
+
+\subsubsection{Fix approach}\label{fix-approach}
+
+Classical Liouville: for a Hamiltonian system on manifold \(M\) with
+symplectic form \(\omega\), phase-space volume \(\int_M \omega^n\) is
+preserved by the Hamiltonian flow.
+
+For graph-valued state: define an \emph{extended} phase space \[
+\mathcal{P} = \bigsqcup_{N=1}^{\infty} \left(\mathbb{R}^{2N} \times \mathcal{G}_N\right)
+\] where \(\mathcal{G}_N\) is the space of typed graphs on \(N\)
+vertices. The dynamics is a piecewise Hamiltonian flow on each stratum
+plus discrete jumps between strata (fission events).
+
+Conjecture: an appropriate weighted volume \[
+V(t) = \sum_N \int_{\mathcal{G}_N} e^{-\beta T(G)} \, d\text{vol}
+\] is preserved by the combined dynamics, where \(T(G)\) is the tension
+functional and \(\beta\) is a ``cognitive temperature''.
+
+\subsubsection{Fix steps}\label{fix-steps}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Prove} the piecewise-Hamiltonian flow is measure-preserving on
+  each stratum (standard).
+\item
+  \textbf{Prove} the fission jump preserves the weighted volume across
+  strata --- the exponential weight compensates for the added dimensions
+  (\(e^{-\beta \Delta T}\) vs the volume gain from 2 new cavities + 1
+  tunnel).
+\item
+  \textbf{Derive} the ``cognitive temperature'' \(\beta\) from RIFA's
+  tension gain --- this is the free parameter that makes the weight
+  work.
+\end{enumerate}
+
+\subsubsection{Success criterion}\label{success-criterion-7}
+
+A theorem: \emph{``The weighted phase-space volume
+\(V(t) = \int_{\mathcal{P}} e^{-\beta T} \, d\text{vol}\) is preserved
+by the RB+G dynamics.''}
+
+\subsubsection{Why it matters}\label{why-it-matters}
+
+This is what would let us bound the thinker index (problem \#10) and
+prove that RB+G is not just heuristically stable but
+\emph{thermodynamically} stable --- the graph cannot grow without bound,
+and the mathematics says why.
+
+\subsubsection{Fallback}\label{fallback-2}
+
+An empirical version: measure \(V(t)\) across the 20-seed benchmark; if
+it stays within 5\% under normal training, the conjecture is empirically
+supported even without a proof.
+
+\subsubsection{✅ Solution Sketch (Mahir) --- Divergence-Free
+Hamiltonian
+Route}\label{solution-sketch-mahir-divergence-free-hamiltonian-route}
+
+An independent solution path via classical Hamiltonian mechanics ---
+reaches the same weighted-volume conservation theorem in a shorter
+proof.
+
+\textbf{Define the Hamiltonian directly on the substrate state:}
+
+\[
+H(x_i, v_i, \theta_k, \omega_k) = \sum_i \tfrac{1}{2} m_i v_i^2
+                                + \tfrac{1}{2} \sum_{(i,j) \in E} k_{ij} (x_i - p_{ij} x_j)^2
+                                + (\text{HNCA phase terms}).
+\]
+
+The engine's canonical pairs \((x_i, v_i)\) per cavity and
+\((\theta_k, \omega_k)\) per macro-node are already conjugate positions
+and momenta --- no new state needed.
+
+\textbf{Step 1 --- Between fissions.} Show the velocity field is
+divergence-free: \[
+\nabla \cdot \vec{v} = \sum_i\left(\frac{\partial \dot{x}_i}{\partial x_i} + \frac{\partial \dot{v}_i}{\partial v_i}\right) = 0,
+\] by Hamilton's equations + equality of mixed partials. One-page
+classical proof. Establishes volume conservation on each stratum.
+
+\textbf{Step 2 --- At fission.} Choose \(\beta\) so the exponential
+weight \(e^{-\beta \Delta T}\) exactly cancels the added 3-dimensional
+volume: \[
+\beta = \frac{1}{\Delta T} \ln\!\left(\frac{V_\text{after}}{V_\text{before}}\right).
+\]
+
+\textbf{Combined:}
+\(V(t) = \int_{\mathcal{P}} e^{-\beta T} \, d\text{vol}\) is invariant
+under Hamiltonian flow + tension-gated fission.
+
+This avoids the categorical machinery (nerve construction / stratified
+Morse theory) of the roadmap-original approach. Uses only Hamilton's
+equations + one exponential weight. \textbf{Effort under this route:
+3--4 months, not 12.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Fisher-Information Metric on Graph-Valued
+States}\label{fisher-information-metric-on-graph-valued-states}
+
+\textbf{Class: M} · \textbf{Effort: 6--12 months} · \textbf{Files: new
+\texttt{research-paper/graph\_fisher.md}}
+
+\subsubsection{Problem}\label{problem-8}
+
+CCH proposed a Fisher-information metric on the cognitive manifold. This
+works when the state is a vector. For graph-valued state (Axiom I of
+SI), the appropriate generalization is unclear.
+
+\subsubsection{Fix approach}\label{fix-approach-1}
+
+The Fisher-information metric on a parametric family \(\{p_\theta\}\) is
+\[
+g_{ij}(\theta) = \mathbb{E}_\theta\left[\partial_i \log p_\theta \cdot \partial_j \log p_\theta\right].
+\]
+
+For graph-valued states we need a probability distribution \emph{over
+graphs} parametrized by something (perhaps the concept-cavity
+displacements). One candidate:
+
+\[
+p_\theta(G) = \frac{1}{Z(\theta)} \exp\left(-\beta \sum_{v \in V(G)} \phi(x_v, \theta) - \gamma \sum_{e \in E(G)} \psi(x_{v(e)}, x_{w(e)}, \theta)\right)
+\]
+
+--- an exponential family over typed graphs whose parameters are the
+cavity states.
+
+\textbf{Step 9.1.} Prove this distribution has a well-defined
+Fisher-information metric on the parameter space.
+
+\textbf{Step 9.2.} Show that the RB+G fission dynamics corresponds to a
+\emph{geodesic} in this metric under the tension budget.
+
+\textbf{Step 9.3.} Categorically generalize to typed graph categories
+--- the metric should be functorial under type-preserving graph
+morphisms.
+
+\subsubsection{Success criterion}\label{success-criterion-8}
+
+A theorem: \emph{``The RB+G expansion trajectory is a Fisher-geodesic in
+the graph exponential family, minimizing the tension integral
+\(\int T(G_t) dt\) subject to the polarity-conflict boundary
+conditions.''}
+
+\subsubsection{Why it matters}\label{why-it-matters-1}
+
+This is the ``cognitive Riemannian geometry'' underlying the whole
+tri-layer architecture --- with this, the C/R thinker index becomes
+measurable as a curvature-integrated quantity rather than a counting
+statistic.
+
+\subsubsection{\texorpdfstring{✅ Solution Sketch (Mahir) --- Boltzmann
+Distribution +
+\texttt{corr\_ema}}{✅ Solution Sketch (Mahir) --- Boltzmann Distribution + corr\_ema}}\label{solution-sketch-mahir-boltzmann-distribution-corr_ema}
+
+Use the standard Fisher-metric formula on a Boltzmann distribution
+computable from telemetry the engine already reports.
+
+\textbf{Step 1 --- Boltzmann distribution over graphs.} The engine
+tracks total mechanical energy \(E(G, \theta)\) via
+\texttt{physics.audit\_energy()}. Define: \[
+p(G | \theta) = \frac{1}{Z(\theta)} \exp\!\left(-\beta \, E(G, \theta)\right)
+\] parametrised by cavity displacements and tunnel plasticities
+collected into \(\theta\).
+
+\textbf{Step 2 --- Fisher metric in closed form.} For any exponential
+family: \[
+g_{\mu\nu}(\theta) = \beta^2 \, \mathrm{Cov}\!\left(\frac{\partial E}{\partial \theta^\mu}, \frac{\partial E}{\partial \theta^\nu}\right).
+\]
+
+The right-hand side is a covariance of energy derivatives --- and the
+engine already tracks this via \texttt{corr\_ema} in
+\texttt{layer2.hpp}. \textbf{The Fisher metric is directly computable
+from existing telemetry.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Matrix fisher\_metric}\OperatorTok{()} \OperatorTok{\{}
+    \DataTypeTok{int}\NormalTok{ T }\OperatorTok{=} \OperatorTok{(}\DataTypeTok{int}\OperatorTok{)}\NormalTok{sub}\OperatorTok{{-}\textgreater{}}\NormalTok{tunnels}\OperatorTok{.}\NormalTok{size}\OperatorTok{();}
+\NormalTok{    Matrix g}\OperatorTok{(}\NormalTok{T}\OperatorTok{,}\NormalTok{ T}\OperatorTok{);}
+    \DataTypeTok{float}\NormalTok{ beta\_sq }\OperatorTok{=} \FloatTok{1.0}\BuiltInTok{f}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ T}\OperatorTok{;} \OperatorTok{++}\NormalTok{i}\OperatorTok{)}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ j }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ T}\OperatorTok{;} \OperatorTok{++}\NormalTok{j}\OperatorTok{)}
+\NormalTok{            g}\OperatorTok{(}\NormalTok{i}\OperatorTok{,}\NormalTok{ j}\OperatorTok{)} \OperatorTok{=}\NormalTok{ beta\_sq }\OperatorTok{*}\NormalTok{ corr\_ema}\OperatorTok{[}\NormalTok{i}\OperatorTok{]} \OperatorTok{*}\NormalTok{ corr\_ema}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
+    \ControlFlowTok{return}\NormalTok{ g}\OperatorTok{;}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Step 3 --- Analogy-bridge optimality claim.} L6-A inserts a
+rubber bridge between α-children \(a_i, a_j\). The bridge is
+\emph{Fisher-optimal} iff the Fisher distance
+\(d_g(a_i, a_j) < \varepsilon\) --- i.e.~the endpoints are statistically
+indistinguishable under \(p(G|\theta)\).
+
+\textbf{Publishable claim:} \emph{``L6-A analogical bridging is a
+Fisher-optimal compression of the graph state --- bridges are inserted
+exactly when the Fisher metric declares the endpoints statistically
+equivalent.''}
+
+\textbf{Effort:} 3--4 months, largely writing + one C++ helper function
+to extract \(g_{\mu\nu}\) from \texttt{corr\_ema}. No new physics
+required.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{10. Upper Bound on Thinker Index
+C/R}\label{upper-bound-on-thinker-index-cr}
+
+\textbf{Class: M} · \textbf{Effort: 12+ months} · \textbf{Files: depends
+on \#8 and \#9}
+
+\subsubsection{Problem}\label{problem-9}
+
+The thinker index grows monotonically under rule induction (§5.3.3) and
+L6-A bridge insertion (§7.7). Is it bounded from above?
+
+\subsubsection{Fix approach}\label{fix-approach-2}
+
+This is unlikely to be solvable in isolation. It depends on: -
+\textbf{Problem \#8} --- the Liouville analog gives the phase-space
+volume growth rate. - \textbf{Problem \#9} --- the Fisher metric gives
+the geodesic length per fission event.
+
+Given both, the reachable derivation count under \(L\) steps is bounded
+by the volume of a Fisher-ball of radius \(L \cdot \sqrt{T_\text{avg}}\)
+around the seed graph. If this volume grows polynomially in \(L\)
+(bounded), then C/R is bounded; if exponentially (unbounded), C/R
+diverges.
+
+\subsubsection{Conjecture}\label{conjecture}
+
+For any physically realizable SI system with bounded tension budget
+\(T_\text{max}\), the thinker index is bounded: \[
+C/R \leq \exp(\beta \cdot T_\text{max} \cdot |\Pi|)
+\] where \(|\Pi|\) is the primitive count and \(\beta\) is the cognitive
+temperature of problem \#8. Bound is loose but finite.
+
+\subsubsection{Why it matters}\label{why-it-matters-2}
+
+Practical significance: an SI system with a small tension budget cannot
+become an arbitrarily powerful thinker. This distinguishes RB+G from
+``unlimited computation'': there is a physical cost to every derivation
+and a physical cap on how deep the tree can go.
+
+Philosophical significance: SI is not Turing-omnipotent within its
+budget. It is bounded rational --- like humans.
+
+\subsubsection{✅ Solution Sketch (Mahir) --- Topological Exponential
+Bound}\label{solution-sketch-mahir-topological-exponential-bound}
+
+\textbf{Step 1 --- Notation.} Introduce disambiguated symbols alongside
+the paper's \(C/R\):
+
+\begin{itemize}
+\tightlist
+\item
+  \(P = |\Pi|\) --- stored axiom / primitive count.
+\item
+  \(D\) --- reachable derivation count (compositions of length
+  \(\leq L\)).
+\end{itemize}
+
+The paper's thinker index \(C/R\) is a function of \(D/P\): an SI system
+with \(D \gg P\) has high \(C/R\).
+
+\textbf{Step 2 --- Branching count.} Each fission event gains 2 new
+cavities + 1 new tunnel --- each can participate in future derivations.
+The per-fission branching factor \(k \leq P\) (bounded by the primitive
+count). After \(L\) fissions, \(D \leq k^L\).
+
+\textbf{Step 3 --- Tension-budget cap.} Each fission costs \(\Delta T\).
+Under \(g_\text{max}=1\) the fission count per training round is capped
+by \(L_\text{max} = T_\text{max}/\Delta T\). Substituting:
+
+\[
+\boxed{D_\text{max} \leq \exp\!\left(\beta \cdot T_\text{max} \cdot P\right)}
+\]
+
+where \(\beta = \ln P / \Delta T\) is the cognitive temperature from
+\#8.
+
+\textbf{Step 4 --- Interpretation.} Loose but finite. Says any SI system
+with bounded tension budget has finite reachable derivation count. Human
+brains have \(P \approx 10^{11}\) and \(T_\text{max} \approx 20\)W
+metabolic budget → predicts bounded rationality, matching empirical
+observation.
+
+\textbf{Publishable statement:} \emph{``For any physically realizable SI
+system, \(D_\text{max} \leq \exp(\beta \, T_\text{max} \, |\Pi|)\). SI
+is bounded rational within its metabolic budget, not
+Turing-omnipotent.''}
+
+\textbf{Effort:} 2--3 months of write-up once \#8 and \#9 are done ---
+this is a page-long combinatorial argument built on the earlier
+theorems.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Priority and Ordering}\label{priority-and-ordering}
+
+If executed sequentially, the recommended order is:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{\#1 Auto-tune fission thresholds} (E, 3 days) --- unblocks
+  testing on new ontologies.
+\item
+  \textbf{\#2 Online L6-A} (E, 5 days) --- makes the engine
+  self-contained (no operator).
+\item
+  \textbf{\#4 Sparse structural tick} (R, 2 weeks) --- unblocks scaling
+  to real ontologies.
+\item
+  \textbf{\#3 Language Stage 2} (R, 3 weeks) --- closes the
+  language-generation story.
+\item
+  \textbf{\#7 Abduction discovery} (R, 3 months) --- closes the
+  primitive-discovery story.
+\item
+  \textbf{\#6 Cross-domain transfer} (R, 3 months) --- validates the
+  framework empirically at scale.
+\item
+  \textbf{\#5 Rubber-tunnel transfer theorem} (R, 3 weeks, can be done
+  any time) --- makes L6-A domain-independent.
+\item
+  \textbf{\#8 Liouville analog} (M, 12 months) --- foundational theorem.
+\item
+  \textbf{\#9 Fisher metric on graphs} (M, 12 months) --- foundational
+  theorem, informs \#10.
+\item
+  \textbf{\#10 C/R upper bound} (M, 12+ months) --- capstone, depends on
+  \#8 and \#9.
+\end{enumerate}
+
+\subsubsection{Parallelizable}\label{parallelizable}
+
+\begin{itemize}
+\tightlist
+\item
+  \#1, \#2, \#3, \#4 can all be done concurrently by a single
+  implementer.
+\item
+  \#5, \#7 are independent research threads.
+\item
+  \#8, \#9 are independent math threads, both required for \#10.
+\end{itemize}
+
+\subsubsection{Total time to ``complete
+SI''}\label{total-time-to-complete-si}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Engineering track alone} (\#1--\#4): 6 weeks.
+\item
+  \textbf{Engineering + Research} (\#1--\#7): 6 months.
+\item
+  \textbf{Everything including theorems} (\#1--\#10):
+  \textbf{\textasciitilde15 months} (was 2--3 years --- updated after
+  Mahir's divergence-free Hamiltonian + Boltzmann-Fisher solution
+  sketches cut Phase 4 from \textasciitilde24 months to
+  \textasciitilde9--10 months).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{What This Roadmap Does NOT
+Claim}\label{what-this-roadmap-does-not-claim}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{It does not claim SI will scale to human intellectual
+  breadth.} That is a coverage problem (feed it more axioms), not an
+  architectural problem.
+\item
+  \textbf{It does not claim the ten items are exhaustive.} Doing
+  \#1--\#10 will reveal new problems, as \#7.7 empirical work revealed
+  \#1--\#7 above.
+\item
+  \textbf{It does not claim any of the math items will succeed on the
+  first attempt.} Real theorems often reveal that the conjecture needs
+  restating.
+\item
+  \textbf{It does not claim engineering-track items are guaranteed
+  easy.} \#4 (sparse structural tick) in particular has subtle
+  correctness issues around touched-set decay.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{What This Roadmap Does
+Claim}\label{what-this-roadmap-does-claim}
+
+\begin{itemize}
+\tightlist
+\item
+  Every problem in §8 of the SI paper has a concrete fix path.
+\item
+  None require abandoning the tri-layer architecture.
+\item
+  None require external validation from the ML community.
+\item
+  The engineering track alone (\#1--\#4) gives a demonstrably
+  self-contained, self-tuning, language-generating, scalable engine.
+\item
+  The math track (\#8--\#10) gives the framework its theorem-strength
+  foundations.
+\item
+  Together they are a complete programme for ``complete SI'' in the
+  sense defined in the response to \emph{``is it impossible to fix
+  all''}.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Future Fixes: ten problems, one architecture, no
+impossibilities. What remains is time, code, and mathematics --- not a
+category error.}
+
+\end{document}

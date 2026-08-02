@@ -1,0 +1,637 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={PRM: The Phonic Resonance Matrix --- Concepts as Resonant Cavities and Inference as Wave Propagation},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{PRM: The Phonic Resonance Matrix --- Concepts as Resonant
+Cavities and Inference as Wave Propagation}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{PRM: The Phonic Resonance Matrix --- Concepts as Resonant
+Cavities and Inference as Wave
+Propagation}\label{prm-the-phonic-resonance-matrix-concepts-as-resonant-cavities-and-inference-as-wave-propagation}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Inhibition is not an \texttt{if} statement. It is two waves
+arriving out of phase.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+We specify a substrate in which a concept is not an identifier, a token
+or an embedding, but a \textbf{physical resonant cavity} with mass,
+displacement and velocity. Relations are not pointers but
+\textbf{tunnels} that transmit mechanical force between cavities.
+Inference is not search but \textbf{wave propagation}, and the answer to
+a query is whichever cavity is vibrating hardest once the field has
+settled.
+
+The architecture's distinguishing property is that several capabilities
+usually requiring explicit algorithms become consequences of the medium.
+Inhibition is destructive interference rather than a conditional.
+Multi-constraint search is two wavefronts colliding rather than a set
+intersection. Structural analogy is sympathetic resonance between
+cavities that share a harmonic ratio and no edge at all.
+
+Section 7 reports what was measured and what remains an argument from
+mechanism, including one claim in the original formulation that does not
+survive scrutiny.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. The Substrate}\label{the-substrate}
+
+Concepts are \textbf{resonant volumes}. Each cavity carries a mass, a
+displacement \(x\), a velocity \(v\), and a natural frequency determined
+by its physical parameters. In the acoustic reading, a large cavity has
+a low resonant frequency and a small one a high frequency.
+
+Relations are \textbf{physical tunnels} --- channels connecting
+cavities, not references. Two polarities exist:
+
+\begin{itemize}
+\tightlist
+\item
+  An \textbf{excitatory} tunnel transmits displacement directly,
+  producing sympathetic resonance in the target cavity.
+\item
+  An \textbf{inhibitory} tunnel inverts phase by \(180^\circ\), so its
+  contribution actively cancels vibration at the target.
+\end{itemize}
+
+The design commitment is that the state of a concept is its \emph{actual
+mechanical state}, not a value standing for one.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Dynamics}\label{dynamics}
+
+The tick integrates Hooke's law and Newton's second law across every
+tunnel:
+
+\[
+F \;=\; k\,(x_a \cdot p - x_b)\;-\;c\,(v_a - v_b)
+\]
+
+\[
+v \;\mathrel{+}=\; \frac{F}{m}\,\Delta t,
+\qquad
+x \;\mathrel{+}=\; v\,\Delta t
+\]
+
+where \(k\) is tunnel stiffness, \(c\) damping, \(p \in \{+1,-1\}\)
+polarity, and forces are applied equal and opposite to the two
+endpoints.
+
+A query is an injected driving force rather than a string. Reading the
+result means observing which cavities have the largest displacement
+after the field settles --- the physical analogue of placing pressure
+sensors in the pipes and seeing which are shaking.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Why Inhibition Requires No
+Logic}\label{why-inhibition-requires-no-logic}
+
+In a conventional implementation, negation is a branch: \emph{if the
+relation is inhibitory, subtract instead of add.} Here the polarity term
+\(p\) sits inside the force expression, so an inhibitory tunnel produces
+a \(180^\circ\)-shifted contribution by arithmetic alone.
+
+The consequence is architectural rather than aesthetic. Because
+inhibition is multiplication by \(-1\) rather than a conditional, the
+update path contains no branch on relation semantics --- which is what
+permits the whole tick to be expressed as scalar arithmetic and
+saturating nonlinearities, with no control flow that depends on what a
+relation \emph{means}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Emergent Capabilities}\label{emergent-capabilities}
+
+These are the paper's substantive claims: behaviours obtained from
+propagation rather than from an algorithm written to produce them.
+
+\subsubsection{4.1 Constructive interference as multi-constraint
+search}\label{constructive-interference-as-multi-constraint-search}
+
+Drive two cavities simultaneously --- say \texttt{type\_2\_diabetes} and
+\texttt{autophagy}.
+
+A graph search attempts to trace a literal edge path between them and
+fails if none exists. The matrix instead radiates waves outward from
+both. The wavefronts split, reflect, and meet. At a distant cavity ---
+\texttt{mtor} --- the two arrive \textbf{in phase}, amplitudes add, and
+that cavity spikes.
+
+The system did not know \texttt{mtor} was the bridge and did not search
+for it. It vibrated because it sits at the geometric intersection where
+two independent wavefronts collided. The conjunction was computed by the
+medium.
+
+\subsubsection{4.2 Sympathetic resonance as structural
+analogy}\label{sympathetic-resonance-as-structural-analogy}
+
+Strike a 440 Hz tuning fork and a nearby string tuned to 880 Hz begins
+to sound, with no mechanical connection between them.
+
+If cavity parameters reflect structural properties, then energy injected
+into one structure can excite another that shares a harmonic ratio
+\textbf{and has no connecting edge}. That is a structural analogy --- a
+repurposing candidate --- found through harmonics rather than traversal.
+
+\subsubsection{4.3 Standing waves as attractor
+discovery}\label{standing-waves-as-attractor-discovery}
+
+Run the tick for a few thousand iterations and kinetic energy settles
+into a standing wave: some cavities become nodes of near-zero motion
+through destructive interference, others antinodes of maximum vibration.
+
+Standing wave patterns are \textbf{computationally irreducible}: one
+cannot predict where the pattern forms by inspecting the rules; the
+simulation must be run. When the field settles, it has resolved the
+equilibrium of a large number of competing constraints simultaneously,
+and the high-amplitude cavities are the result.
+
+\subsubsection{4.4 Detecting this without a
+classifier}\label{detecting-this-without-a-classifier}
+
+Novelty is observed rather than classified. After the field settles,
+scan for cavities with high amplitude that were \textbf{not} directly
+driven:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// After the wave has propagated, find the novelty}
+\ControlFlowTok{for} \OperatorTok{(}\AttributeTok{const} \KeywordTok{auto}\OperatorTok{\&}\NormalTok{ cavity }\OperatorTok{:}\NormalTok{ cavities}\OperatorTok{)} \OperatorTok{\{}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{cavity}\OperatorTok{.}\NormalTok{displacement }\OperatorTok{\textgreater{}}\NormalTok{ THRESHOLD}\OperatorTok{)} \OperatorTok{\{}
+        \ControlFlowTok{if} \OperatorTok{(!}\NormalTok{was\_injected}\OperatorTok{(}\NormalTok{cavity}\OperatorTok{.}\NormalTok{id}\OperatorTok{))} \OperatorTok{\{}
+            \CommentTok{// A cavity is vibrating that we never excited directly:}
+            \CommentTok{// an emergent resonance point.}
+\NormalTok{            report}\OperatorTok{(}\NormalTok{cavity}\OperatorTok{.}\NormalTok{physical\_label}\OperatorTok{,}\NormalTok{ cavity}\OperatorTok{.}\NormalTok{displacement}\OperatorTok{);}
+        \OperatorTok{\}}
+    \OperatorTok{\}}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+There is no \texttt{if}/\texttt{else} classifier deciding what counts as
+interesting. The condition is \emph{energy arrived here and we did not
+put it here}, which is a statement about the field rather than about a
+category.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Position Against Pattern
+Matching}\label{position-against-pattern-matching}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Property
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Neural / graph search
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+PRM
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Concept state & activation value or embedding & physical displacement
+and velocity \\
+Inhibition & a rule or conditional & mechanical cancellation of opposed
+waves \\
+Reachability & programmed paths or learned weights & radiated energy;
+waves collide unprogrammed \\
+Multi-constraint & explicit set intersection & interference of two
+wavefronts \\
+Analogy & similarity metric over representations & sympathetic resonance
+at harmonic ratio \\
+Output & argmax over scores & whichever cavity is physically shaking \\
+\end{longtable}
+
+The claim is that energy in a physical medium \textbf{radiates} rather
+than following single logical lines, and that novelty arises from the
+unprogrammed collisions of those radiating waves.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Implementation Note}\label{implementation-note}
+
+The substrate is a one-dimensional wave simulator of the kind used in
+game audio and fluid engines --- tension, mass and displacement
+integrated directly. No tensor library, no autodiff, and no
+linear-algebra framework is involved, because nothing in §2 is a matrix
+operation.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. What Was Measured, and What Was
+Overstated}\label{what-was-measured-and-what-was-overstated}
+
+\textbf{Implemented and load-bearing.} Cavities with mass, displacement
+and velocity; polarity-carrying tunnels; the force integration of §2;
+and amplitude readout are the Layer-1 substrate of the current engine
+(\texttt{struct\ Cavity}, \texttt{physics.hpp}). The branchless property
+of §3 holds: the tick contains one guard branch and no conditional on
+relation type.
+
+\textbf{Measured.} Attractor settling (§4.3) and the undriven-cavity
+novelty probe (§4.4) run and produce results. Multi-source interference
+(§4.1) occurs and drives the analogical bridging mechanism reported
+separately with 20-seed reproducibility data.
+
+\textbf{Overstated in the original formulation.} Section 4.2's
+sympathetic resonance was presented as though cavity volume already
+encoded real structural properties. It does not. Cavity parameters are
+derived from graph position and relation fan-out, \textbf{not} from
+molecular structure, so the harmonic ratio between two cavities carries
+no independent structural information about the entities they denote.
+The mechanism is sound; the specific claim that it discovers
+\emph{chemical} analogies without edges is unsupported by anything
+implemented, and analogical bridging in the current engine works through
+shared-target intersection rather than harmonics.
+
+\textbf{Not implemented.} The literal acoustic framing --- transducers,
+piezoelectric sensors, physical pipes --- is expository. The substrate
+is a numerical simulation, and no claim is made that a physical acoustic
+device was built.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Limitations}\label{limitations}
+
+\textbf{Settling is assumed.} Section 4.3 assumes the field reaches a
+standing wave. A driven system may instead lock into a ground state and
+refuse to leave, which was later observed as a real failure mode
+requiring a dedicated escape mechanism.
+
+\textbf{Amplitude is not relevance.} High displacement means energy
+arrived, which is not the same as being an answer. A highly-connected
+hub accumulates energy from every direction; this required a separate
+thermodynamic mechanism to suppress ubiquitous participants.
+
+\textbf{Cost scales with the field, not the query.} Every tick
+integrates every tunnel, so a query costs the same whether it touches
+three concepts or three thousand. At large ontology sizes this
+dominates, and sparse iteration over only the active wavefront is the
+necessary and currently incomplete remedy.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Conclusion}\label{conclusion}
+
+PRM's contribution is the identification of a representation in which
+several operations normally requiring algorithms are instead
+consequences of propagation: inhibition as phase inversion, conjunction
+as interference, and constraint resolution as settling.
+
+The parts that survived are those making no assumption about what the
+cavities \emph{denote} --- the dynamics, the polarity treatment, the
+readout. The part that did not survive assumed cavity parameters encoded
+external structure they were never given, which is a useful reminder
+that a physical metaphor stops being explanatory exactly where the
+physics stops being connected to the domain.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Mahir, I. \emph{MIMS: Mechanical Impedance and Material Stiffness.}
+  --- the material table parameterising these tunnels.
+\item
+  Mahir, I. \emph{HNCA: Hierarchical Neural Constraint Architecture.}
+  --- the macro-layer wrapping these cavities into frequency-separated
+  regions.
+\item
+  Mahir, I. \emph{RB+G: Gated Recursive Bifurcation with Analogical
+  Bridging.} --- the mechanism that actually performs analogical
+  discovery.
+\item
+  Mahir, I. \emph{From Artificial to Synthetic Intelligence.} §5.4c.
+\item
+  Implementation: \texttt{src/physics.hpp} (\texttt{struct\ Cavity},
+  \texttt{struct\ Tunnel}, \texttt{tick()}).
+\end{itemize}
+
+\end{document}

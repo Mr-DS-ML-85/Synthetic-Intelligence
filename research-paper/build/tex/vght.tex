@@ -1,0 +1,677 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Voltage-Gated Harmonic Topology (VGHT)},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Voltage-Gated Harmonic Topology (VGHT)}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Voltage-Gated Harmonic Topology
+(VGHT)}\label{voltage-gated-harmonic-topology-vght}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\emph{A three-mechanism physical substrate for domain-orthogonal
+cognition with sparse cross-domain analogical bridging and avalanche
+suppression, built entirely from scalar field dynamics --- no rules, no
+templates, no domain metadata.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{0. Motivation}\label{motivation}
+
+The Continuous Morphological Dynamics (CMD) substrate --- thermodynamic
+habituation, byte-wave sensory injection, phase-locked syntax emission
+--- produces coherent, non-templated output but exhibits two coupled
+failure modes:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Domain leakage.} In the shared-oscillator field, a driven
+  medical concept can transfer energy into unrelated conceptual clusters
+  (e.g., gaming, legal, code) whenever their macro-node phases happen to
+  align. The reader observes a medical prompt producing a legal-sounding
+  word in the verb slot, or the middle word of a coherent triple
+  stepping outside the input's semantic neighborhood.
+\item
+  \textbf{Polymath rigidity.} The dual failure --- with sufficient
+  emission-floor thresholds, the substrate becomes strictly
+  domain-locked, unable to draw analogical parallels between
+  distantly-related concepts even when the graph explicitly supports
+  them through L6-A analogical bridges.
+\end{enumerate}
+
+The Continuous Morphological Dynamics literature treats these two
+failures as separate tuning problems (emission floor, wavefront gate,
+cluster-energy depletion). Voltage-Gated Harmonic Topology (VGHT)
+resolves both under a single physical postulate: \emph{domains are
+orthogonal frequency bands, and bridges between them are voltage-gated
+channels that only conduct under simultaneous high-amplitude resonance.}
+Domain isolation and polymath bridging cease to be competing objectives;
+they become a single dynamical regime with a single parameter,
+θ\_critical, the tunneling threshold.
+
+The mechanism is inspired by three well-understood physical analogs:
+mode-orthogonal spectral separation in coupled-oscillator networks,
+voltage-gated ion channels in biological neurons (in particular the
+sigmoidal open probability of the NMDA receptor with respect to membrane
+potential), and the GABAergic global inhibitory tone that suppresses
+run-away excitation in cortical circuits. None of the three requires an
+explicit ``domain tag'' or a rule dispatcher; each is a continuous
+scalar update evaluated once per tick.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Architecture}\label{architecture}
+
+Let the cavity population be indexed by \texttt{i\ ∈\ {[}0,\ N)},
+partitioned into macro-clusters \texttt{C\_1,\ C\_2,\ ...} by the
+connected components of the tunnel graph (union-find at bind time; the
+same clustering used by HNCA). Let a slot layer of \texttt{S} phase
+oscillators sit above the macro layer as in CMD phase-locked emission.
+
+\subsubsection{1.1 Domain Sub-Bands}\label{domain-sub-bands}
+
+Each macro-cluster \texttt{C\_k} receives a \emph{base natural
+frequency} drawn from a discrete band-bank:
+
+\begin{verbatim}
+ω_k = ω_base(k mod B) + jitter(k)
+\end{verbatim}
+
+where \texttt{B} is the number of orthogonal bands (default
+\texttt{B\ =\ 6}) and \texttt{ω\_base} is a fixed evenly-spaced ladder
+in the range \texttt{{[}ω\_lo,\ ω\_hi{]}},
+e.g.~\texttt{{[}8,\ 32{]}\ rad/s} giving band centres at
+\texttt{\{8,\ 12,\ 16,\ 20,\ 24,\ 28\}}. The jitter is a small in-band
+perturbation (±0.5 rad/s) drawn deterministically from the cluster id,
+ensuring reproducibility across seeds while still breaking degeneracy
+inside a band.
+
+The verb-material ω-boost from prior CMD work becomes an \emph{in-band
+shift} rather than a cross-band jump:
+
+\begin{verbatim}
+ω_k ← (1 − p_k)·ω_k + p_k·ω_verb_offset(k)
+\end{verbatim}
+
+where \texttt{p\_k\ ∈\ {[}0,\ 1{]}} is the verb-material share of
+cluster \texttt{k}'s internal edges
+(\texttt{verb\_pull\_for(rel)\ /\ \textbar{}internal\ edges\textbar{}}),
+and \texttt{ω\_verb\_offset(k)} is the \emph{upper edge} of cluster
+\texttt{k}'s home band --- so verb-heavy clusters rise to the top of
+their band without colliding with a neighbouring band. This preserves
+both the domain orthogonality of Sub-Bands and the verb-slot phase-lock
+property from the prior implementation.
+
+\textbf{Consequence.} Two clusters in different bands share almost no
+common Kuramoto phase drift, because their \texttt{ω} differs by at
+least a band-width and the coupling terms
+\texttt{sin(θ\_j\ −\ θ\_i)·A\_j} average to zero over any window longer
+than the beat period. Domain interference during ordinary conversation
+is suppressed by frequency orthogonality alone --- no relation table, no
+cluster tag, no rule.
+
+\subsubsection{1.2 Voltage-Gated L6-A
+Tunnels}\label{voltage-gated-l6-a-tunnels}
+
+L6-A tunnels are the analogical bridges discovered by structural
+resonance between cross-cluster pairs (Phase 1.3 online-L6A-discovery of
+the CMD line of work). In VGHT, every \emph{inter-cluster} tunnel ---
+and every tunnel discovered by L6-A regardless of cluster membership ---
+is marked \emph{voltage-gated}. Its force is scaled at every tick by a
+sigmoidal conductance:
+
+\begin{verbatim}
+C(A_a, A_b) = C_max · σ(κ · (A_a · A_b − θ_critical))
+\end{verbatim}
+
+where \texttt{A\_a\ =\ \textbar{}x\_a\textbar{}} and
+\texttt{A\_b\ =\ \textbar{}x\_b\textbar{}} are the instantaneous
+displacements of the two endpoint cavities, \texttt{σ} is the logistic
+function, \texttt{κ} is a steepness parameter (default \texttt{12}), and
+\texttt{θ\_critical} is the tunneling threshold (default \texttt{0.05}
+in the field's natural units). \texttt{C\_max\ =\ 1}.
+
+The force delivered to endpoints is scaled elementwise by \texttt{C}:
+
+\begin{verbatim}
+F_a ← F_a · C(A_a, A_b)
+F_b ← F_b · C(A_a, A_b)
+\end{verbatim}
+
+\textbf{Consequence.} When either endpoint is quiescent,
+\texttt{A\_a\ ·\ A\_b\ ≈\ 0}, \texttt{C\ ≈\ σ(−κθ\_critical)\ ≈\ 0}, and
+the bridge presents effectively infinite resistance. The two clusters
+exchange no energy. When both endpoints are simultaneously excited to a
+level whose product exceeds \texttt{θ\_critical}, \texttt{C\ →\ 1}
+sharply and the bridge conducts fully. This is the
+resonant/quantum-tunneling analog explicitly identified in the
+motivating architecture: the door opens only when the room on both sides
+is loud enough to make the door irrelevant.
+
+Because both endpoints must resonate at once, spurious cross-domain
+leakage --- a stray phase alignment on one side of a bridge --- cannot
+open the channel. Only genuine dual excitation, produced by an input
+whose structural resonance actually spans two domains, does so. This is
+the polymath spark.
+
+\subsubsection{1.3 Global Viscosity (GABA
+analog)}\label{global-viscosity-gaba-analog}
+
+The system tracks its total kinetic energy each tick:
+
+\begin{verbatim}
+E_total = ½ Σ_i m_i · v_i²
+\end{verbatim}
+
+An effective friction coefficient is derived as a saturating function of
+\texttt{E\_total}:
+
+\begin{verbatim}
+μ_eff = μ_0 + k_avalanche · (1 − exp(−E_total / E_scale))
+\end{verbatim}
+
+with defaults \texttt{k\_avalanche\ =\ 0.10}, \texttt{E\_scale\ =\ 5.0}.
+\texttt{μ\_eff} replaces the constant friction in the cavity
+velocity-decay step and in the tunnel-damping term of that tick.
+
+\textbf{Consequence.} Under normal, sparse activation \texttt{E\_total}
+is small, \texttt{μ\_eff\ ≈\ μ\_0}, and the field evolves as before.
+Under an avalanche --- many nodes firing simultaneously through spurious
+phase alignment --- \texttt{E\_total} rises rapidly, \texttt{μ\_eff}
+saturates toward \texttt{μ\_0\ +\ k\_avalanche}, and the excess kinetic
+energy is dissipated in the same tick. Only the field components whose
+amplitudes are large enough to overcome the elevated friction survive;
+the noise floor is damped out. This is the physical analog of GABAergic
+inhibitory tone.
+
+Unlike the raw \texttt{exp(E\_total)} formulation, the bounded
+\texttt{1\ −\ exp(−E\_total\ /\ E\_scale)} form cannot diverge,
+guaranteeing numerical stability under any input, however extreme.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Interaction of the Three
+Mechanisms}\label{interaction-of-the-three-mechanisms}
+
+The three mechanisms are not independent tuning knobs; they are coupled
+by design.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Sub-Bands} determine which cavities \emph{can} phase-lock
+  together in the absence of external excitation. Same-band cavities
+  freely couple; cross-band cavities decouple by frequency alone.
+\item
+  \textbf{Voltage-gated bridges} re-establish cross-band coupling ---
+  but only when both endpoints are already excited to a level that
+  represents genuine resonance with the input. Without such excitation,
+  the bridge is inert regardless of the graph's connectivity.
+\item
+  \textbf{Global viscosity} suppresses false excitation. When a spurious
+  cascade begins to raise \texttt{E\_total}, μ\_eff rises and the
+  cascade dies before it can meet the
+  \texttt{A\_a\ ·\ A\_b\ \textgreater{}\ θ\_critical} condition needed
+  to open any bridge.
+\end{itemize}
+
+The joint regime is: \emph{within-band coupling is free and continuous,
+cross-band coupling is possible but expensive, and pathological
+cross-band cascades are physically forbidden by dissipation.} Domain
+isolation and polymath bridging cease to be tradeoffs.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Physical Interpretation}\label{physical-interpretation}
+
+Each of the three mechanisms has a direct biological analog and an
+independent literature suggesting the same functional role.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Frequency-band orthogonality} appears in cortical cognition as
+  the observation that different cognitive processes (attention, working
+  memory, motor planning) show distinguishable EEG band signatures (α,
+  β, γ). Cortical microcircuits couple preferentially within-band, and
+  cross-band coupling is a marker of deliberate binding (theta-gamma
+  phase-amplitude coupling).
+\item
+  \textbf{Voltage-gated channels} are the mechanism by which NMDA
+  receptors implement coincidence detection: their conductance is
+  sigmoidal in the product of presynaptic glutamate release and
+  postsynaptic depolarization, mirroring
+  \texttt{C(A\_a,\ A\_b)\ =\ σ(A\_a\ ·\ A\_b\ −\ θ)} structurally.
+\item
+  \textbf{GABAergic inhibition} provides the global tone that keeps
+  cortical excitability in the sparse-firing regime. Loss of GABAergic
+  inhibition produces exactly the avalanche pattern VGHT's viscosity
+  term suppresses: dense synchronous firing across unrelated cortical
+  areas, the neural correlate of a seizure.
+\end{enumerate}
+
+VGHT does not claim to be a model of any of these biological mechanisms.
+It claims that a substrate exhibiting the \emph{dynamical signatures} of
+all three simultaneously --- with only three scalar parameters ---
+provides the minimum architectural surface area on which
+domain-orthogonal cognition with sparse analogical bridging is a stable
+regime, rather than an accidental artifact of parameter tuning.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Implementation Contract}\label{implementation-contract}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{No if/else branches} in the tick loop that inspect a relation
+  label, a domain tag, or a cluster identifier. All three mechanisms are
+  pure scalar arithmetic on existing per-cavity or per-tunnel fields.
+\item
+  \textbf{No new I/O boundary code} for domain metadata. Sub-Bands are
+  assigned at bind time from cluster id, computed by the union-find that
+  HNCA already runs. Voltage gating is a per-tunnel flag set once at
+  bind for cross-cluster tunnels (and for any L6-A tunnel regardless of
+  cluster membership). Viscosity is derived each tick from the same
+  \texttt{total\_kinetic} accumulator already maintained for the RIFA IC
+  pass.
+\item
+  \textbf{All defaults ON.} VGHT is not a feature flag. The three
+  mechanisms are the substrate's normal dynamics.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Parameters}\label{parameters}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Symbol & Default & Meaning \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{B} & 6 & Number of domain sub-bands \\
+\texttt{ω\_lo}, \texttt{ω\_hi} & 8, 32 rad/s & Band ladder range \\
+\texttt{κ} & 12 & Voltage-gate steepness \\
+\texttt{θ\_critical} & 0.05 & Voltage-gate tunneling threshold \\
+\texttt{k\_avalanche} & 0.10 & Peak added friction under avalanche \\
+\texttt{E\_scale} & 5.0 & Kinetic-energy saturation scale \\
+\end{longtable}
+
+These are the only knobs. All other quantities are derived.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Expected Empirical
+Signature}\label{expected-empirical-signature}
+
+A VGHT-enabled substrate is expected to show:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Single-domain prompts} produce single-domain phase-lock
+  emissions with no cross-domain leakage into any slot, even after many
+  turns of a single-domain conversation. The wavefront gate and the
+  sub-band orthogonality are jointly responsible.
+\item
+  \textbf{Cross-domain prompts} --- where the input drives cavities in
+  two different bands to simultaneous high amplitude --- open the
+  voltage-gated bridges between those bands within a few ticks,
+  producing a genuine polymath emission that spans domains.
+\item
+  \textbf{Injection of a single garbage or nonsense token} produces at
+  worst its own auto-spawned label in output; the avalanche suppressor
+  prevents its stray phase drift from recruiting unrelated cavities.
+\item
+  \textbf{Latency to cross-domain emission} is measurable: it should
+  correspond to the time required for the voltage-gate sigmoid to
+  saturate under paired excitation, i.e., a few tens of ticks. This
+  latency is the phenomenological signature of the polymath spark and is
+  measurable with the existing readout infrastructure.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Relation to Prior CMD
+Work}\label{relation-to-prior-cmd-work}
+
+VGHT subsumes and refines three earlier CMD components without
+discarding them.
+
+\begin{itemize}
+\tightlist
+\item
+  Phase 2.2 rubber-tunnel band-pass filters are a special case of
+  voltage-gated tunnels with \texttt{θ\_critical\ =\ 0} (always
+  conducting) and a Gaussian gate on \texttt{ω} alone. VGHT's sigmoidal
+  amplitude gate is strictly more expressive.
+\item
+  Phase 3.1 multi-ontology substrates rely on manually loaded disjoint
+  axiom files to achieve domain separation. VGHT achieves the same
+  isolation from a single ontology by frequency orthogonality alone, and
+  further allows analogical bridging without touching the ontology.
+\item
+  The cluster-energy depletion term in phase-locked emission remains a
+  fallback for the readout stage. When VGHT is fully active, its
+  contribution to output diversity is redundant with the sub-band
+  separation.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Failure Modes}\label{failure-modes}
+
+The design has three known failure modes worth documenting explicitly.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  If the cluster count is less than \texttt{B}, some bands go unused,
+  which is harmless but wastes spectral capacity.
+\item
+  If \texttt{θ\_critical} is set too high, cross-domain bridges never
+  open even for well-posed polymath prompts. If set too low, the system
+  reduces to the pre-VGHT shared-oscillator field.
+\item
+  If \texttt{k\_avalanche} is set too high, meaningful large-amplitude
+  emissions are damped alongside noise; the system becomes
+  under-expressive. Empirical tuning against a held-out prompt set is
+  suggested.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Summary}\label{summary}
+
+VGHT closes the domain-isolation / polymath-bridging tradeoff by mapping
+domains to orthogonal frequency bands, making cross-domain bridges
+voltage-gated by joint amplitude resonance, and adding a global
+energy-dependent viscosity that dissipates avalanches before they can
+spuriously open bridges. All three mechanisms are scalar physics with a
+total of six parameters. The tick loop remains free of if/else on
+relations, domain tags, or cluster identifiers. The result is a
+substrate that is simultaneously domain-locked in default operation and
+polymath-capable when its input carries structural resonance across
+bands --- the physical realization of the intuition that a polymath is
+not a system that mixes domains randomly, but one whose domains are
+ordinarily silent to each other and speak only when the same underlying
+pattern excites both.
+
+\end{document}

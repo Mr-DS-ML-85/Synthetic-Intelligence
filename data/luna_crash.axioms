@@ -1,0 +1,47 @@
+# luna_crash.axioms — Terra/Luna ecosystem ontology for the 2022 May
+# de-peg stress test.  Encodes the mint/burn algorithmic-stablecoin
+# feedback loop and the yield-sink concentration of demand at Anchor
+# Protocol.  Polarities are set by relation type in physics.hpp
+# (activates → excitatory +1, inhibits → −1). The engine is expected
+# to flip polarity of the luna⇄ust activation edges when the death-
+# spiral emerges (P5b Splitting).
+
+# --- top-level typing ---
+luna                is_a          cryptocurrency
+ust                 is_a          algorithmic_stablecoin
+anchor_protocol     is_a          defi_protocol
+terra_ecosystem     is_a          blockchain_ecosystem
+market_confidence   is_a          macroeconomic_variable
+volatility          is_a          macroeconomic_variable
+btc_reserve         is_a          collateral
+
+# --- ecosystem membership ---
+luna                part_of       terra_ecosystem
+ust                 part_of       terra_ecosystem
+anchor_protocol     part_of       terra_ecosystem
+
+# --- the algorithmic peg (mint/burn arbitrage) ---
+# Minting UST burns $1 of LUNA; redeeming UST mints $1 of LUNA.
+# Pre-crash: both prices activate each other via the peg.
+luna                activates     ust
+ust                 activates     luna
+luna                binds_to      ust
+
+# --- anchor's yield concentrates UST demand ---
+anchor_protocol     activates     ust
+anchor_protocol     activates     ust_demand
+
+# --- BTC reserve backing (LFG bought BTC as collateral in early 2022) ---
+btc_reserve         activates     market_confidence
+btc_reserve         activates     ust
+
+# --- confidence dynamics ---
+market_confidence   activates     luna
+market_confidence   activates     ust
+volatility          inhibits      market_confidence
+
+# --- crash mechanism nodes ---
+death_spiral        is_a          positive_feedback_loop
+death_spiral        inhibits      market_confidence
+death_spiral        inhibits      luna
+death_spiral        inhibits      ust

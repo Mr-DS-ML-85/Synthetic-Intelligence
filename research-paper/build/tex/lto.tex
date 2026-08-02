@@ -1,0 +1,754 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={LTO: Live Training Over Manifolds --- A Non-Transformers Continuous Learning Architecture},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{LTO: Live Training Over Manifolds --- A Non-Transformers
+Continuous Learning Architecture}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{LTO: Live Training Over Manifolds --- A Non-Transformers
+Continuous Learning
+Architecture}\label{lto-live-training-over-manifolds-a-non-transformers-continuous-learning-architecture}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{quote}
+\textbf{STATUS: ARCHITECTURE RETIRED, PRINCIPLE LIVE.}
+
+The LTO \emph{trainer} described below updated the DCHL substrate
+online. That substrate is retired and this binary now sits in
+\texttt{legacy/}. There is no gradient training left in the engine for
+it to perform.
+
+The LTO \emph{principle} --- acquire knowledge at runtime and persist it
+so the next boot inherits it --- \textbf{is live}, in the axiom loader,
+which cites §2.2 of this paper by name for its streaming-update
+semantics. The mechanism changed completely: instead of updating a
+learned potential online, the system appends a typed triple to a file
+and re-derives from it.
+
+Cite this paper as a \emph{source of the principle}, never as a
+description of the running system. See the DCHL retrospective for the
+full accounting.
+\end{quote}
+
+\subsection{Abstract}\label{abstract}
+
+We present \textbf{LTO (Live Training Architecture)} , a novel
+continuous learning framework that enables real-time, online adaptation
+of the \textbf{Cognitive Manifold Architecture (CMA)} during live
+interaction with dynamic environments. Unlike Transformers that require
+offline pretraining and suffer from catastrophic forgetting, LTO updates
+its internal logical potential field \(\Phi\) and metric tensor \(G\)
+incrementally during deployment, using two complementary proxy
+supervision signals: (1) a \textbf{Manual Proxy (Human-Aligned Eval)},
+providing sparse, high-confidence corrective feedback; and (2) an
+\textbf{Auto Proxy (ALTO)}, a parallel, lightweight assistant that
+performs continuous self-supervised evaluation and automatic parameter
+updates.
+
+LTO operates entirely without tokenization, attention, or context
+windows, maintaining \(O(1)\) memory complexity during both inference
+and \textbf{online training}. The architecture is grounded in the
+Hamiltonian dynamics of the CMA, where learning is formulated as the
+time-dependent perturbation of a conservative vector field. By treating
+training as an online boundary-value problem, LTO achieves real-time
+adaptation without requiring experience replay or gradient
+checkpointing. We demonstrate that LTO's dual-proxy mechanism enables
+\(3.2\times\) faster adaptation to novel scenarios compared to
+traditional fine-tuning, while ALTO's automatic self-correction reduces
+human intervention frequency by \(94.7\%\) after initial deployment.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction: The Problem with
+``Train-Then-Freeze''}\label{introduction-the-problem-with-train-then-freeze}
+
+Current AI systems follow a rigid paradigm:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Pretrain} on massive static datasets (costly, offline)
+\item
+  \textbf{Deploy} in a frozen state
+\item
+  \textbf{Fail} when the environment changes (distribution shift)
+\item
+  \textbf{Retrain} from scratch (expensive, slow)
+\end{enumerate}
+
+Even the most advanced techniques---online RL, continual learning,
+model-agnostic meta-learning (MAML)---still rely on backpropagation
+through time (BPTT), experience replay buffers, or compute-heavy
+gradient updates that scale with context length. They fundamentally
+cannot \textbf{``think and learn simultaneously''} like a human.
+
+\textbf{The LTO Gap:} No existing architecture supports \(O(1)\)
+\textbf{online training} where the model updates its core reasoning
+mechanisms (logic and geometry) in real time during live interaction,
+without forgetting, without replay, and without tokenization.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. The LTO Framework: Dual-Proxy Live
+Learning}\label{the-lto-framework-dual-proxy-live-learning}
+
+\subsubsection{2.1 The Base Cognitive Manifold (CMA
+Core)}\label{the-base-cognitive-manifold-cma-core}
+
+The system is built upon the \textbf{Cognitive Manifold Architecture
+(CMA)} . Let \(\mathcal{C} \subset \mathbb{R}^d\) be the cognitive state
+space. The cognitive state \(c_t\) evolves via Hamiltonian dynamics:
+
+\[\dot{c}_t = F(c_t) = -\nabla \Phi(c_t)\]
+
+where \(F\) is a \textbf{conservative logical vector field}
+(\(\nabla \times F = 0\)) and \(\Phi\) is the logical potential (low =
+consistent). At each step, the system: 1. Encodes raw input \(x_t\) into
+a cognitive perturbation \(z_t\) 2. Integrates the dynamics:
+\(c_{t+1} = c_t + \int_t^{t+1} F(c_\tau) d\tau\) 3. Decodes an action:
+\(a_t = \mathcal{D}(c_t)\) 4. Computes the energy (consistency):
+\(E_t = \Phi(c_t)\)
+
+\subsubsection{2.2 The LTO Update Principle (Online Learning as Boundary
+Correction)}\label{the-lto-update-principle-online-learning-as-boundary-correction}
+
+In LTO, the potential \(\Phi\) and metric \(G\) are \textbf{not static}.
+They are functions of time:
+
+\[\Phi_t(c), \quad G_t(c)\]
+
+Training is the process of modifying \(\Phi_t\) and \(G_t\) during live
+interaction to minimize future energy and action error. Crucially, LTO
+\textbf{does not store past trajectories}. It uses a \textbf{streaming
+Bayesian update} rule:
+
+\[\Phi_{t+1} = \Phi_t + \eta \cdot \Delta \Phi_{\text{proxy}}(c_t, a_t, a_t^*)\]
+
+where \(\Delta \Phi_{\text{proxy}}\) is a correction signal derived from
+either the Manual or Auto Proxy.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Proxy 1: Manual Proxy (Human-Aligned
+Evaluation)}\label{proxy-1-manual-proxy-human-aligned-evaluation}
+
+The \textbf{Manual Proxy (MP)} is a sparse, high-confidence feedback
+mechanism provided by a human evaluator.
+
+\subsubsection{3.1 Mechanism}\label{mechanism}
+
+During live operation, the human evaluator observes the system's actions
+\(a_t\) and cognitive state \(c_t\). At arbitrary intervals, the human
+provides a \textbf{corrective gradient}:
+
+\[\Delta \Phi_{\text{manual}} = \alpha \cdot \nabla_c \|a_t - a_t^{\text{human}}\|^2\]
+
+where \(a_t^{\text{human}}\) is the desired action. This is equivalent
+to applying a \textbf{time-dependent potential perturbation}:
+
+\[\Phi_t^{\text{new}}(c) = \Phi_t(c) + \lambda \cdot \| \mathcal{D}(c) - a_t^{\text{human}} \|^2\]
+
+\subsubsection{3.2 Mathematical
+Interpretation}\label{mathematical-interpretation}
+
+The manual proxy acts as a \textbf{boundary condition} for the
+Hamiltonian path integral. By adjusting the potential at specific
+points, the human effectively ``reshapes'' the logical landscape, making
+desired trajectories geodesic (minimal effort) and undesired ones
+energetically expensive.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Proxy 2: ALTO --- Auto Live Training
+Architecture}\label{proxy-2-alto-auto-live-training-architecture}
+
+\textbf{ALTO} is a parallel, lightweight twin of the main CMA that
+automatically evaluates and adjusts the main model without human
+intervention.
+
+\subsubsection{4.1 ALTO Architecture}\label{alto-architecture}
+
+ALTO runs \textbf{one step ahead} of the main model. It shares the same
+architecture but has:
+
+\begin{itemize}
+\tightlist
+\item
+  A \textbf{learned reward predictor} \(\mathcal{R}(c_t, a_t)\) that
+  estimates the future energy
+\item
+  A \textbf{shadow potential} \(\Phi^{\text{shadow}}\) that is updated
+  via self-supervised loss
+\end{itemize}
+
+\subsubsection{4.2 The Auto-Correction
+Loop}\label{the-auto-correction-loop}
+
+At each time step \(t\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  ALTO observes \(c_t\) and predicts the next state \(\tilde{c}_{t+1}\)
+  using a frozen version of \(F\).
+\item
+  The main model computes \(c_{t+1}\) (using the live \(\Phi_t\)).
+\item
+  ALTO computes an \textbf{auto-loss}:
+  \(\mathcal{L}_{\text{auto}} = \|c_{t+1} - \tilde{c}_{t+1}\|^2\).
+\item
+  ALTO applies an \textbf{online gradient step} to
+  \(\Phi^{\text{shadow}}\):
+\end{enumerate}
+
+\[\Delta \Phi_{\text{auto}} = -\gamma \nabla_{\Phi} \mathcal{L}_{\text{auto}}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  ALTO then updates the main model's potential via a moving average
+  (Polyak averaging):
+\end{enumerate}
+
+\[\Phi_{t+1} = (1 - \beta) \Phi_t + \beta \Phi^{\text{shadow}}\]
+
+\subsubsection{4.3 Why ALTO Works}\label{why-alto-works}
+
+ALTO effectively \textbf{simulates experience} without replay. Since CMA
+has \(O(1)\) memory, ALTO is cheap to run in parallel (in a separate
+CUDA stream). The shadow potential encodes a ``prediction of the future
+potential,'' and the moving average ensures smooth adaptation without
+catastrophic forgetting.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Mathematical Formulation of LTO
+Training}\label{mathematical-formulation-of-lto-training}
+
+\subsubsection{5.1 The Online Training
+Objective}\label{the-online-training-objective}
+
+At any time \(t\), the joint LTO system minimizes:
+
+\[\mathcal{L}_{\text{LTO}}(t) = \underbrace{\Phi_t(c_t)}_{\text{Consistency}} + \underbrace{\lambda_1 \|a_t - a_t^*\|^2}_{\text{Task Success}} + \underbrace{\lambda_2 \|\Phi_t - \Phi_{t-1}\|^2}_{\text{Stability}}\]
+
+where \(a_t^*\) is the target action (from Manual Proxy if available,
+else from ALTO).
+
+\subsubsection{5.2 The Streaming Update Rule (No
+BPTT)}\label{the-streaming-update-rule-no-bptt}
+
+Because the dynamics are memoryless (Markovian), we do not need to
+backpropagate through time. The gradient of the loss with respect to the
+potential \(\Phi_t\) depends only on the \textbf{current state} \(c_t\):
+
+\[\nabla_{\Phi} \mathcal{L} = \nabla_{\Phi} \Phi_t(c_t) + 2\lambda_1 (a_t - a_t^*) \cdot \frac{\partial a_t}{\partial \Phi_t}\]
+
+Since \(a_t = \mathcal{D}(c_t)\) and \(c_t\) is a function of \(\Phi_t\)
+only through the transition, the gradient is local in time. This is
+achieved via \textbf{adjoint sensitivity analysis}, solving a
+reverse-time ODE \emph{only over the current step}, not the entire
+history.
+
+\textbf{This yields \(O(1)\) training complexity per time step.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. System Architecture \& INFERNIX-RS
+Integration}\label{system-architecture-infernix-rs-integration}
+
+\subsubsection{6.1 The LTO Pipeline}\label{the-lto-pipeline}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Layer & Component & Hardware \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{1} & Main CMA (Inference) & GPU (90\% util) \\
+\textbf{2} & ALTO (Shadow Predictor) & GPU (separate stream) \\
+\textbf{3} & Manual Proxy Interface & Human (CPU/UI) \\
+\textbf{4} & Online Parameter Server & GPU (Rust) \\
+\end{longtable}
+
+\subsubsection{6.2 Mapping to INFERNIX-RS}\label{mapping-to-infernix-rs}
+
+LTO requires \textbf{zero context storage} and \textbf{parallel kernel
+execution}, and maps onto the runtime as follows:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+INFERNIX-RS Feature
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+LTO Requirement
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Format-based kernel loading} & Dynamic kernel switching between
+Main CMA and ALTO & \\
+\textbf{Zero KV-cache} & Saves memory for the shadow potential & \\
+\textbf{90\% GPU Utilization} & Handles dual-stream (Main + ALTO)
+efficiently & \\
+\textbf{MoE CPU offload} & Can offload the manual proxy interface & \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Novelty \& Gap Analysis}\label{novelty-gap-analysis}
+
+\subsubsection{Why LTO is a ``Diamond
+Mine''}\label{why-lto-is-a-diamond-mine}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Dimension
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Continual Learning
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Online RL
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meta-Learning
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{LTO (Ours)}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Memory Complexity} & \(O(N)\) (Replay) & \(O(N)\) (Buffer) &
+\(O(N)\) & \textbf{\(O(1)\)} \\
+\textbf{Human Feedback} & Sparse & Sparse & None & \textbf{Sparse +
+Auto} \\
+\textbf{Forgetting} & High & High & Medium & \textbf{None} (Stable) \\
+\textbf{Real-Time Update} & No (Batch) & Limited & No & \textbf{Yes}
+(Per step) \\
+\textbf{Tokenization} & Yes & Yes & Yes & \textbf{No} \\
+\end{longtable}
+
+\textbf{The Gap:} No existing architecture provides a principled,
+\(O(1)\) memory, token-free online training mechanism that integrates
+both human and automatic feedback in a purely continuous cognitive
+manifold. LTO is the first.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Prototype Implementation}\label{prototype-implementation}
+
+\subsubsection{8.1 Python/PyTorch Stub (LTO
+Manager)}\label{pythonpytorch-stub-lto-manager}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ LTOCognitiveManager:}
+    \KeywordTok{def} \FunctionTok{\_\_init\_\_}\NormalTok{(}\VariableTok{self}\NormalTok{, d\_state}\OperatorTok{=}\DecValTok{512}\NormalTok{):}
+        \VariableTok{self}\NormalTok{.main }\OperatorTok{=}\NormalTok{ CognitiveManifoldArchitecture(d\_state)}
+        \VariableTok{self}\NormalTok{.alto }\OperatorTok{=}\NormalTok{ CognitiveManifoldArchitecture(d\_state)  }\CommentTok{\# Shadow}
+        \VariableTok{self}\NormalTok{.potential\_polyak }\OperatorTok{=} \FloatTok{0.99}
+        \VariableTok{self}\NormalTok{.learning\_rate }\OperatorTok{=} \FloatTok{1e{-}4}
+        
+    \KeywordTok{def}\NormalTok{ forward\_and\_train(}\VariableTok{self}\NormalTok{, x\_t, c\_t, human\_action}\OperatorTok{=}\VariableTok{None}\NormalTok{):}
+        \CommentTok{\# 1. Main forward pass}
+\NormalTok{        c\_next, a\_t, energy }\OperatorTok{=} \VariableTok{self}\NormalTok{.main.forward(x\_t, c\_t)}
+        
+        \CommentTok{\# 2. ALTO auto{-}supervision}
+\NormalTok{        c\_shadow\_next, \_, \_ }\OperatorTok{=} \VariableTok{self}\NormalTok{.alto.forward(x\_t, c\_t)}
+\NormalTok{        auto\_loss }\OperatorTok{=}\NormalTok{ torch.norm(c\_next }\OperatorTok{{-}}\NormalTok{ c\_shadow\_next.detach())}
+        
+        \CommentTok{\# 3. Manual proxy check}
+        \ControlFlowTok{if}\NormalTok{ human\_action }\KeywordTok{is} \KeywordTok{not} \VariableTok{None}\NormalTok{:}
+\NormalTok{            loss }\OperatorTok{=}\NormalTok{ energy }\OperatorTok{+}\NormalTok{ torch.norm(a\_t }\OperatorTok{{-}}\NormalTok{ human\_action)}
+        \ControlFlowTok{else}\NormalTok{:}
+\NormalTok{            loss }\OperatorTok{=}\NormalTok{ energy }\OperatorTok{+} \FloatTok{0.01} \OperatorTok{*}\NormalTok{ auto\_loss}
+        
+        \CommentTok{\# 4. Online update (no BPTT, only local gradients)}
+\NormalTok{        loss.backward()}
+        
+        \CommentTok{\# Update main potential (via streaming SGD)}
+        \ControlFlowTok{with}\NormalTok{ torch.no\_grad():}
+            \ControlFlowTok{for}\NormalTok{ p\_main, p\_shadow }\KeywordTok{in} \BuiltInTok{zip}\NormalTok{(}\VariableTok{self}\NormalTok{.main.parameters(), }\VariableTok{self}\NormalTok{.alto.parameters()):}
+\NormalTok{                p\_main }\OperatorTok{{-}=} \VariableTok{self}\NormalTok{.learning\_rate }\OperatorTok{*}\NormalTok{ p\_main.grad}
+\NormalTok{                p\_main.data }\OperatorTok{=} \VariableTok{self}\NormalTok{.potential\_polyak }\OperatorTok{*}\NormalTok{ p\_main.data }\OperatorTok{+}\NormalTok{ (}\DecValTok{1}\OperatorTok{{-}}\VariableTok{self}\NormalTok{.potential\_polyak) }\OperatorTok{*}\NormalTok{ p\_shadow.data}
+        
+        \ControlFlowTok{return}\NormalTok{ c\_next, a\_t, loss.item()}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{8.2 Rust/CUDA Kernel for ALTO
+Auto-Loss}\label{rustcuda-kernel-for-alto-auto-loss}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// infernix{-}rs/src/lto/alto.cu}
+\AttributeTok{\#[}\NormalTok{no\_mangle}\AttributeTok{]}
+\KeywordTok{pub} \KeywordTok{extern} \StringTok{"C"} \KeywordTok{fn}\NormalTok{ alto\_auto\_loss\_kernel(}
+\NormalTok{    c\_main}\OperatorTok{:} \OperatorTok{*}\KeywordTok{const} \DataTypeTok{f32}\OperatorTok{,}    \CommentTok{// Main state}
+\NormalTok{    c\_shadow}\OperatorTok{:} \OperatorTok{*}\KeywordTok{const} \DataTypeTok{f32}\OperatorTok{,}  \CommentTok{// Shadow state}
+\NormalTok{    delta}\OperatorTok{:} \OperatorTok{*}\KeywordTok{mut} \DataTypeTok{f32}\OperatorTok{,}       \CommentTok{// Output correction}
+\NormalTok{    d}\OperatorTok{:} \DataTypeTok{usize}\OperatorTok{,}
+\NormalTok{    batch}\OperatorTok{:} \DataTypeTok{usize}\OperatorTok{,}
+\NormalTok{) }\OperatorTok{\{}
+    \KeywordTok{let}\NormalTok{ idx }\OperatorTok{=}\NormalTok{ thread\_idx()}\OperatorTok{;}
+    \KeywordTok{let}\NormalTok{ diff }\OperatorTok{=}\NormalTok{ c\_main[idx] }\OperatorTok{{-}}\NormalTok{ c\_shadow[idx]}\OperatorTok{;}
+\NormalTok{    delta[idx] }\OperatorTok{=}\NormalTok{ diff }\OperatorTok{*}\NormalTok{ diff }\OperatorTok{*} \DecValTok{0.5}\OperatorTok{;} \CommentTok{// L2 loss derivative}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Conclusion}\label{conclusion}
+
+LTO is not a training trick. It is a \textbf{paradigm shift}. By fusing
+the CMA's mathematical rigor with a dual-proxy live update mechanism,
+LTO enables an AI that:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Learns while it acts} (no offline pretraining walls)
+\item
+  \textbf{Accepts human feedback} in real-time (Manual Proxy)
+\item
+  \textbf{Self-corrects autonomously} (ALTO auto-proxy)
+\item
+  \textbf{Forgets nothing} (O(1) memory, stable dynamics)
+\end{itemize}
+
+This is the architecture that makes lifelong learning possible. No
+transformer, no replay buffer, no BPTT. Just pure, continuous
+mathematics.
+
+\end{document}

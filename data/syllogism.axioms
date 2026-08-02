@@ -1,0 +1,41 @@
+# syllogism.axioms — abstract logic ontology.
+# All concepts prefixed with 'syllogism.' except shared foundation.
+# Shared foundation: implies, and, or, not, equals (no prefix).
+
+# --- shared foundation (used across domains) ---
+implies              is_a       logical_operator
+and                  is_a       logical_operator
+or                   is_a       logical_operator
+not                  is_a       logical_operator
+equals               is_a       logical_operator
+
+# --- syllogism concepts ---
+syllogism.premise    is_a       logical_statement
+syllogism.conclusion is_a       logical_statement
+syllogism.man        is_a       syllogism.category
+syllogism.mortal     is_a       syllogism.property
+syllogism.socrates   is_a       syllogism.man
+syllogism.man        has syllogism.mortal
+
+# --- transitive-composition demonstration ---
+syllogism.a          implies    syllogism.b
+syllogism.b          implies    syllogism.c
+syllogism.c          implies    syllogism.d
+
+# --- modus ponens seed ---
+syllogism.rain       implies    syllogism.wet_ground
+syllogism.wet_ground implies    syllogism.slippery
+
+# --- contradiction pair (should not fissioned trivially) ---
+syllogism.p          implies    syllogism.q
+syllogism.p          implies    syllogism.q
+
+# --- cross-domain foundation shared with algebra.axioms ---
+# Both syllogism.a and algebra.addition activate the shared
+# `chain_step` cavity — same structural role in a transitive chain.
+# Both syllogism.man and algebra.integer activate `domain_element`.
+# L6-A should detect these bridges when both concepts fission.
+syllogism.a          activates  chain_step
+syllogism.b          activates  chain_step
+syllogism.man        activates  domain_element
+syllogism.rain       activates  domain_operation

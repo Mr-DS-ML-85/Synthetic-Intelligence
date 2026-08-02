@@ -1,0 +1,38 @@
+# algebra.axioms — abstract algebra ontology.
+# All concepts prefixed with 'algebra.' except shared foundation
+# (implies, equals — which are already in syllogism.axioms).
+
+# --- algebra operators ---
+algebra.addition       is_a       algebra.operation
+algebra.multiplication is_a       algebra.operation
+algebra.subtraction    is_a       algebra.operation
+
+# --- properties as structural facts ---
+algebra.addition       has        algebra.commutativity
+algebra.addition       has        algebra.associativity
+algebra.multiplication has        algebra.commutativity
+algebra.multiplication has        algebra.associativity
+
+# --- integer domain ---
+algebra.integer        is_a       algebra.number
+algebra.integer        has        algebra.closed_under_addition
+algebra.integer        has        algebra.closed_under_multiplication
+
+# --- transitive chain (structurally parallel to syllogism.a→b→c→d) ---
+algebra.x              implies    algebra.y
+algebra.y              implies    algebra.z
+algebra.z              implies    algebra.w
+
+# --- polarity-conflict cluster: distributivity is asserted AND
+# --- has one inhibitory relation to non-commutativity ---
+algebra.multiplication activates  algebra.distributivity
+algebra.distributivity inhibits   algebra.non_commutative_ring
+
+# --- cross-domain foundation shared with syllogism.axioms ---
+# Both algebra.addition and syllogism.a activate the shared
+# `chain_step` cavity — they play the same structural role in a
+# transitive-composition chain. L6-A should detect this bridge.
+algebra.addition       activates  chain_step
+algebra.multiplication activates  chain_step
+algebra.integer        activates  domain_element
+algebra.addition       activates  domain_operation

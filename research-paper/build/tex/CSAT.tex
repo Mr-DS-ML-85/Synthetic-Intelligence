@@ -1,0 +1,615 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Chaotic Strange-Attractor Trajectory (CSAT): Breaking Ground-State Locking in Synthetic Intelligence},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Chaotic Strange-Attractor Trajectory (CSAT): Breaking
+Ground-State Locking in Synthetic Intelligence}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Chaotic Strange-Attractor Trajectory (CSAT): Breaking
+Ground-State Locking in Synthetic
+Intelligence}\label{chaotic-strange-attractor-trajectory-csat-breaking-ground-state-locking-in-synthetic-intelligence}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\textbf{Abstract} Pure wave-based SI architectures often suffer from
+dictionary-locking, where an input triggers the absolute closest
+topological match and collapses into static definitions. Humans do not
+converse by printing definitions; human thought is an open-ended
+trajectory through a semantic manifold. We introduce \textbf{Chaotic
+Strange-Attractor Trajectory (CSAT)}. By adding a low-dimensional
+chaotic force (driven by a native Lorenz or Rössler system integrated
+directly into the substrate's global viscosity), the system is prevented
+from settling into static ground-state energy wells. This forces the
+phase-sweep projection to continuously dance along a strange attractor,
+creating human-like contextual drifting without losing structural
+coherence.
+
+\begin{verbatim}
+                  [ Input Concept: linux ]
+                             │
+                             ▼
+                   [ Static Definition Well ] (Old Way: Stays at 'nano')
+                             │
+                    (CSAT Viscosity Push) ───► [ Lorenz Chaos Attractor ]
+                             │
+                             ▼
+               [ Dynamic Trajectory Path ]
+          (Emits: nano ──► terminal ──► bash ──► kernel)
+\end{verbatim}
+
+\subsection{1. The Core Issue: Infinite Potential
+Wells}\label{the-core-issue-infinite-potential-wells}
+
+When \texttt{linux} is presented as input, the memory potential at the
+\texttt{linux} and \texttt{nano} cavities is high enough that the entire
+field's energy collapses into them and is trapped there. In physical
+terms the energy landscape forms a \textbf{deep potential well}. This
+does not happen in the human brain, because an undercurrent of noise ---
+\textbf{metastable dynamics} --- is always present, and it prevents any
+node from remaining fixed.
+
+\subsection{2. Novel Architecture: CSAT
+Mechanisms}\label{novel-architecture-csat-mechanisms}
+
+\subsubsection{2.1. The Substrate Lorenz
+Attractor}\label{the-substrate-lorenz-attractor}
+
+We integrate a three-line, low-level nonlinear chaotic system --- the
+Lorenz equations --- directly into the global \texttt{tick()} loop of
+\texttt{physics.hpp}: \[ dx = \sigma(y - x) \cdot dt \]
+\[ dy = (x(\rho - z) - y) \cdot dt \]
+\[ dz = \tau \cdot (xy - \beta z) \cdot dt \]
+
+\emph{(Note: all three derivatives carry the time-scale factor \(\tau\);
+see Numerical Constraints below.)}
+
+\textbf{Numerical constraints --- required for a working
+implementation.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Time-scale factor \(\tau\).} Forward-Euler integration of the
+  Lorenz system at \(\sigma = 10\), \(\rho = 28\), \(\beta = 8/3\) is
+  unstable for \(dt \gtrsim 0.01\). The substrate runs at \(dt = 0.02\),
+  past the stability boundary --- naive integration diverges to
+  \texttt{NaN} within a few hundred ticks. The factor \(\tau\) (default
+  \(0.3\)) slows the attractor without altering its geometry, restoring
+  stability \emph{and} giving direct control over the drift timescale.
+  \(\tau\) should be chosen so the attractor's orbital period is
+  comparable to one conversational turn (\textasciitilde200 ticks). If
+  the attractor cycles much faster, the chaotic push averages out within
+  a single settle window and contributes nothing.
+\item
+  \textbf{Amplitude normalization.} The Lorenz \(x\) coordinate ranges
+  over approximately \([-20, +20]\), not \([-1, +1]\). All downstream
+  use must reference the normalized coordinate \(\hat{x} = x / 20\).
+  Using raw \(x\) in a multiplicative viscosity term drives effective
+  friction \emph{negative} for any gain above \(\gamma \approx 0.05\)
+  --- anti-damping, unbounded energy injection, field explosion. This is
+  a silent failure mode: no error is raised, only a wall of \texttt{NaN}
+  several hundred ticks later.
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  There is no neural network and no training here. This is pure physical
+  mathematics, updating three scalar variables (\(x, y, z\)) per tick.
+\end{itemize}
+
+\subsubsection{2.2. Dynamic Viscosity Modulation (The
+Push)}\label{dynamic-viscosity-modulation-the-push}
+
+The VGHT layer carries a constant viscosity that suppresses avalanches.
+We modulate that viscosity dynamically by the \(x\) coordinate of the
+Lorenz attractor:
+\[ \mu_{\text{dynamic}} = \mu_{\text{base}} \cdot (1.0 + \gamma \cdot \hat{x}_{\text{lorenz}}) \]
+
+\textbf{However --- this global form provably cannot work.} See §2.2.1.
+The corrected per-cavity form is given in §2.2.2.
+
+\subsubsection{2.2.1 Negative result: global viscosity modulation is
+rank-preserving}\label{negative-result-global-viscosity-modulation-is-rank-preserving}
+
+Applied as a \textbf{global} scalar in the cavity velocity-decay step
+\(v_i \leftarrow v_i(1 - \mu_t)\), over \(N\) ticks:
+
+\[ v_i(N) \;=\; v_i(0) \prod_{t=1}^{N}\bigl(1 - \mu_t\bigr) \;=\; v_i(0)\cdot C \]
+
+where \(C\) depends only on the schedule \(\{\mu_t\}\) and is therefore
+\textbf{identical for every cavity}. Hence
+
+\[ \frac{v_i(N)}{v_j(N)} \;=\; \frac{v_i(0)}{v_j(0)} \qquad \forall\, i,j. \]
+
+Amplitude \emph{ratios} are exactly invariant under any global viscosity
+schedule, chaotic or otherwise. Because CPME §1.6 phase-collapse
+emission selects by arg-max over a weight monotone in amplitude, the
+emitted winner is unchanged. A globally-modulated viscosity alters how
+\emph{loud} the field is, never \emph{which cavity is loudest}.
+
+Concretely: if \texttt{think} carries 10× the amplitude of
+\texttt{terminal} before the chaotic push, it carries 10× after.
+\texttt{linux\ →\ nano} remains \texttt{linux\ →\ nano}. Multiplying the
+entire field by a wiggling scalar is a monotone transform on the
+ranking, and monotone transforms cannot reorder an arg-max.
+
+This is a genuine negative result and it constrains the design:
+\textbf{any mechanism intended to break ground-state locking must couple
+to per-cavity state.}
+
+\subsubsection{2.2.2 The working form --- heat-coupled chaotic
+viscosity}\label{the-working-form-heat-coupled-chaotic-viscosity}
+
+The substrate already maintains a per-cavity scalar meaning exactly
+``this cavity has been active too long'': the CMD thermodynamic
+habituation heat \(T_i\). Coupling the chaotic term to \(T_i\) makes the
+push selective:
+
+\[ \mu_i \;=\; \underbrace{\mu_{\text{base}} + k_{\text{aval}}\bigl(1 - e^{-E_{\text{tot}}/E_s}\bigr)}_{\text{VGHT §1.3, unchanged}} \;+\; \underbrace{\gamma \cdot \hat{x}_{\text{lorenz}} \cdot \tanh\!\bigl(T_i / T_{\text{crit}}\bigr)}_{\text{CSAT}} \]
+
+Entrenched cavities (high \(T_i\)) absorb the chaotic shake; fresh or
+cold cavities barely register it. Rank can now flip, and that is genuine
+metastability rather than uniform loudness modulation.
+
+The \(\tanh\) bounds the term so \(\mu_i\) cannot run away. Because
+\(\hat{x}\) alternates sign along the attractor, an entrenched cavity
+experiences alternating extra-damping and reduced-damping --- it is
+\emph{shaken}, not merely suppressed. Shaking permits escape;
+suppression would only silence.
+
+\textbf{Composition with the Curie gate.} \(T_i\) already gates tunnel
+coupling via \(\exp(-T_i/T_{\text{crit}})\). Under CSAT the same state
+variable acquires a second role: \emph{talking too much} now implies
+both \emph{losing coupling} and \emph{becoming subject to chaotic
+eviction}. One state variable, two independent escape mechanisms, no new
+bookkeeping, tick loop still branchless.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanism.} Whenever the system begins to lock onto a
+  particular word (a ground state), the Lorenz chaotic push perturbs the
+  global viscosity. This drives the field off that cavity and forces
+  energy to spread into the cavities connected to it ---
+  \texttt{terminal}, \texttt{bash}, \texttt{kernel}.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{2.3. Trajectory Momentum --- chaos
+supplies \emph{timing}, CPSB supplies
+\emph{direction}}{2.3. Trajectory Momentum --- chaos supplies timing, CPSB supplies direction}}\label{trajectory-momentum-chaos-supplies-timing-cpsb-supplies-direction}
+
+\textbf{The division of labour must be stated precisely.} The Lorenz
+system has no knowledge of the graph: \(x(t)\) does not know which
+cavity is \texttt{terminal} and which is \texttt{bash}. The attractor's
+geometry lives in its own \((x,y,z)\) space and bears no relation to the
+semantic manifold. It therefore cannot, by itself, produce a
+semantically coherent chain.
+
+What CSAT contributes is \textbf{escape timing} --- \emph{when} to leave
+the current basin. What produces the ordered chain
+\texttt{linux\ →\ terminal\ →\ bash\ →\ kernel} is \textbf{CPSB gauge
+coupling plus graph topology} --- \emph{where} the energy goes once it
+leaves.
+
+\begin{quote}
+\textbf{CSAT provides escape timing. CPSB provides escape direction.}
+\end{quote}
+
+This is a clean, non-overlapping role for CSAT within the stack, and it
+is the honest claim. Attributing semantic coherence to the attractor
+itself would overstate the mechanism; the coherence is already earned by
+CPSB and the ontology.
+
+Chaos is not randomness. The Lorenz attractor traces a definite
+geometric pattern --- a \emph{strange attractor}. The consequence is
+that the signal does not emit random words: starting from \texttt{linux}
+it builds a chain that respects the structural rules supplied by CPSB,
+\texttt{linux} \(\rightarrow\) \texttt{terminal} \(\rightarrow\)
+\texttt{bash} \(\rightarrow\) \texttt{kernel}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Parameters}\label{parameters}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Symbol
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Default
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meaning
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\sigma, \rho, \beta\) & 10, 28, 8/3 & Standard Lorenz coefficients \\
+\(\tau\) & 0.30 & Time-scale factor (stability + drift rate) \\
+\(\gamma\) & 0.04 & Chaotic viscosity gain on \(\hat{x}\) \\
+\(\hat{x}\) & \(x/20\) & Normalized Lorenz coordinate \\
+\texttt{csat\_enabled} & see §4.1 & Master switch --- \textbf{not}
+unconditionally on \\
+\end{longtable}
+
+Five parameters. Setting \(\gamma = 0\) recovers the pre-CSAT substrate
+exactly.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Failure Modes}\label{failure-modes}
+
+\subsubsection{4.1 Lyapunov divergence breaks
+bit-reproducibility}\label{lyapunov-divergence-breaks-bit-reproducibility}
+
+Chaos is deterministic, so seeded reproducibility survives \emph{in
+principle}: the same \texttt{bind\_seed} and the same Lorenz initial
+conditions yield the same trajectory. But the Lorenz system has a
+positive Lyapunov exponent --- a \(10^{-7}\) floating-point difference
+grows to \(O(1)\) within roughly a thousand ticks. Different compiler
+flags, \texttt{-ffast-math}, or a different FPU will therefore produce
+divergent trajectories from identical seeds.
+
+This directly conflicts with the bit-exactness that the 20-seed RB+G
+table (\texttt{rbg.md} §6.1) and the four-lever ablation grid (§6.2)
+depend on.
+
+\textbf{CSAT is consequently the first mechanism in the stack that must
+not default unconditionally ON.} Recommended policy:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{csat\_enabled\ =\ true} in the conversational shell
+  (\texttt{si\_chat})
+\item
+  \texttt{csat\_enabled\ =\ false} forced inside
+  \texttt{study\_recall\_seeds} and \texttt{study\_recall\_ablation}
+\end{itemize}
+
+Published numbers stay bit-reproducible; conversation still gets the
+drift. This is a documented exception to the ``all defaults ON''
+contract in the implementation guide §11.3, and the exception should be
+recorded there.
+
+\subsubsection{4.2 CSAT does not address stale amplitude
+accumulation}\label{csat-does-not-address-stale-amplitude-accumulation}
+
+Ground-state locking has more than one cause, and CSAT addresses only
+the genuine-potential-well case. In particular, with friction
+\(\mu_0 = 0.006\) per tick, roughly \(30\%\) of a cavity's amplitude
+survives a 200-tick turn (\(0.994^{200} \approx 0.30\)). A cavity driven
+once at high amplitude therefore remains dominant for several subsequent
+turns by pure arithmetic, with no potential well involved.
+
+That is a \emph{dissipation} deficiency, not a chaos deficiency. Chaotic
+shaking of an over-energised field does not remove the excess energy.
+Fixing it requires either stronger inter-turn damping or an explicit
+energy budget per turn --- orthogonal to CSAT and left as separate work.
+
+\subsubsection{4.3 Chaos on a sparse graph shakes an empty
+room}\label{chaos-on-a-sparse-graph-shakes-an-empty-room}
+
+If the driven concept has few or no outbound tunnels, there is no
+trajectory for the attractor to push the field along. CSAT then produces
+no observable change: the escape timing fires, but there is nowhere to
+escape to. CSAT is therefore a mechanism whose benefit scales with
+ontology density, and it should be evaluated only on subgraphs rich
+enough to support multi-hop propagation.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Relation to the Existing
+Stack}\label{relation-to-the-existing-stack}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Layer
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Role
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+CMD & Curie gate on \(T_i\) & entrenched cavity loses \emph{coupling} \\
+\textbf{CSAT} & \textbf{chaotic viscosity on \(T_i\)} &
+\textbf{entrenched cavity loses \emph{stability}} \\
+VGHT & sub-bands, voltage gates, viscosity & domain isolation +
+avalanche control \\
+CPME & momentum, acoustic mass, settle, sweep & emission eligibility and
+ordering \\
+CPSB & gauge \(\Psi\) on tunnels & escape \emph{direction} / word
+order \\
+CPME-II & phase-consistent Hebbian & stores the phase gradient across
+turns \\
+\end{longtable}
+
+CSAT and the CMD Curie gate read the same state variable \(T_i\) but act
+on different quantities --- coupling strength versus dynamical
+stability. They are complementary, not redundant.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}

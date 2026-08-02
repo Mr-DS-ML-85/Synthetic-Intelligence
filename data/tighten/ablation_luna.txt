@@ -1,0 +1,42 @@
+
+[study_recall_ablation] label=luna rounds=5 n_seeds=5
+cfg | seed | pre | post | rms_gain | n_fissions
+BASELINE       | 0x54c607b9 | 0.05621 | 0.06786 | 0.508x | 0
+ABLATE_CAP     | 0x54c607b9 | 0.05621 | 0.19592 | 3.095x | 28 [tfiss]
+ABLATE_ALIAS   | 0x54c607b9 | 0.05621 | 0.27708 | 3.485x | 4 [tfiss]
+ABLATE_FANOUT  | 0x54c607b9 | 0.05621 | 0.22573 | 2.864x | 7 [tfiss]
+ABLATE_BIND    | 0x54c607b9 | 0.05621 | 0.14319 | 1.852x | 7 [tfiss]
+FULL           | 0x54c607b9 | 0.05621 | 0.14707 | 1.864x | 7 [tfiss]
+BASELINE       | 0xf69f8d72 | 0.05649 | 0.07212 | 0.335x | 0
+ABLATE_CAP     | 0xf69f8d72 | 0.05649 | 0.23060 | 3.584x | 31 [tfiss]
+ABLATE_ALIAS   | 0xf69f8d72 | 0.05649 | 0.32612 | 4.082x | 4 [tfiss]
+ABLATE_FANOUT  | 0xf69f8d72 | 0.05649 | 0.27402 | 3.435x | 8 [tfiss]
+ABLATE_BIND    | 0xf69f8d72 | 0.05649 | 0.16566 | 2.098x | 7 [tfiss]
+FULL           | 0xf69f8d72 | 0.05649 | 0.16939 | 2.122x | 8 [tfiss]
+BASELINE       | 0x1057132b | 0.05553 | 0.07633 | 0.377x | 0
+ABLATE_CAP     | 0x1057132b | 0.05553 | 0.22894 | 3.571x | 33 [tfiss]
+ABLATE_ALIAS   | 0x1057132b | 0.05553 | 0.32377 | 4.123x | 6 [tfiss]
+ABLATE_FANOUT  | 0x1057132b | 0.05553 | 0.25835 | 3.296x | 7 [tfiss]
+ABLATE_BIND    | 0x1057132b | 0.05553 | 0.15559 | 2.019x | 6 [tfiss]
+FULL           | 0x1057132b | 0.05553 | 0.16114 | 2.056x | 6 [tfiss]
+BASELINE       | 0xb22c98e4 | 0.05808 | 0.07077 | 0.545x | 0
+ABLATE_CAP     | 0xb22c98e4 | 0.05808 | 0.19312 | 2.953x | 25 [tfiss]
+ABLATE_ALIAS   | 0xb22c98e4 | 0.05808 | 0.27311 | 3.325x | 4 [tfiss]
+ABLATE_FANOUT  | 0xb22c98e4 | 0.05808 | 0.22388 | 2.752x | 7 [tfiss]
+ABLATE_BIND    | 0xb22c98e4 | 0.05808 | 0.14418 | 1.808x | 6 [tfiss]
+FULL           | 0xb22c98e4 | 0.05808 | 0.14714 | 1.808x | 6 [tfiss]
+BASELINE       | 0xdde41e9d | 0.05606 | 0.07106 | 0.681x | 0
+ABLATE_CAP     | 0xdde41e9d | 0.05606 | 0.17760 | 2.810x | 34 [tfiss]
+ABLATE_ALIAS   | 0xdde41e9d | 0.05606 | 0.25117 | 3.168x | 5 [tfiss]
+ABLATE_FANOUT  | 0xdde41e9d | 0.05606 | 0.20217 | 2.591x | 8 [tfiss]
+ABLATE_BIND    | 0xdde41e9d | 0.05606 | 0.13192 | 1.740x | 8 [tfiss]
+FULL           | 0xdde41e9d | 0.05606 | 0.13398 | 1.719x | 8 [tfiss]
+
+AGGREGATE luna [n=5]:
+  cfg            | rms_gain (mean±std) | fissions (mean±std) | target_fissioned
+  BASELINE       | 0.4893 ± 0.1239    | 0.00 ± 0.00      | 0/5
+  ABLATE_CAP     | 3.2027 ± 0.3192    | 30.20 ± 3.31      | 5/5
+  ABLATE_ALIAS   | 3.6366 ± 0.3935    | 4.60 ± 0.80      | 5/5
+  ABLATE_FANOUT  | 2.9873 ± 0.3236    | 7.40 ± 0.49      | 5/5
+  ABLATE_BIND    | 1.9035 ± 0.1340    | 6.80 ± 0.75      | 5/5
+  FULL           | 1.9137 ± 0.1520    | 7.00 ± 0.89      | 5/5

@@ -1,0 +1,724 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Constructive Language Locking --- Separating Cognitive Freedom from Linguistic Protocol},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Constructive Language Locking --- Separating Cognitive Freedom
+from Linguistic Protocol}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Constructive Language Locking --- Separating Cognitive Freedom
+from Linguistic
+Protocol}\label{constructive-language-locking-separating-cognitive-freedom-from-linguistic-protocol}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{quote}
+Why grammar cannot be discovered by physics, and what to do instead.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Contents of This Volume}\label{contents-of-this-volume}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\#
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+File
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & Constructive Language Locking (CLL): Separating Cognitive Freedom
+from Linguistic Protocol & \texttt{cll.md} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\subsection{Constructive Language Locking (CLL): Separating Cognitive
+Freedom from Linguistic
+Protocol}\label{constructive-language-locking-cll-separating-cognitive-freedom-from-linguistic-protocol}
+
+\begin{quote}
+\emph{``Grammar is not a law of nature awaiting discovery. It is a
+protocol two people agreed to. Confusing the two is why physics-based
+language generation has failed.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Abstract}\label{abstract}
+
+Wave-based cognitive substrates have repeatedly failed to produce
+grammatical natural language, and the field's response has been to
+abandon the mechanical problem in favour of a statistical one:
+\(P(w_n \mid w_1 \ldots w_{n-1})\). We argue this was a false dilemma
+created by a category error. Cognition and language are different kinds
+of process --- one \emph{discovers}, the other \emph{transmits} --- and
+attempting to derive grammar from field dynamics conflates a
+communication protocol with a physical phenomenon. We propose
+\textbf{Constructive Language Locking (CLL)}: the cognitive substrate
+remains entirely unconstrained and constructive, while surface
+realisation is delegated to \emph{isolated language clusters} holding
+fixed, deterministic grammatical rules. The core loses no flexibility
+because no grammar rule ever enters it; the output gains exact,
+non-hallucinating surface form because nothing is sampled. We show the
+architecture emits one cognitive state into English, Bengali and
+Banglish from a single triple, at \(O(1)\) lookup cost, with zero
+learned parameters.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{1. The Category Error}\label{the-category-error}
+
+\paragraph{1.1 Two Processes, Wrongly
+Merged}\label{two-processes-wrongly-merged}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Cognition
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Language
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Purpose & discover what is true & transmit what is held \\
+Requires & novelty, experiment, resonance, oracle validation & a fixed
+protocol both parties know \\
+Bound by fixed rules? & never --- that would cripple it & entirely ---
+that is what it \emph{is} \\
+Failure mode & stagnation & unintelligibility \\
+Correct source & physics & convention \\
+\end{longtable}
+
+English SVO is not a fact about the universe. It is a convention;
+Bengali SOV encodes identical cognitive content under a different one.
+No experiment discovers that English places verbs medially, because
+there is nothing there to discover --- only something to \emph{agree}.
+
+\paragraph{1.2 Why This Killed Physics-Based
+Generation}\label{why-this-killed-physics-based-generation}
+
+Earlier work in this lineage (\texttt{synthetic-intelligence.md} §5.4b,
+\texttt{mrs.md}) attempted to derive word ordering from field dynamics:
+syntax slots with fixed natural frequencies, phase-locked readout, gauge
+offsets enforcing subject-before-object. The concept-level ordering
+partially succeeded. The \emph{byte}-level emission babbled.
+
+The diagnosis was repeatedly treated as a tuning problem. It was not.
+Asking a resonance field to discover that English uses articles is
+asking it to derive a convention from a phenomenon. There is no gradient
+to follow because there is no fact of the matter.
+
+\textbf{The field ran to language models for the same reason.} The
+statistical shortcut is not a theory of language production; it is what
+remains once the mechanical problem is abandoned. A next-token
+distribution requires no account of \emph{why} one word follows another,
+only a count of how often it did. It works spectacularly, and it
+forecloses the question.
+
+CLL claims the mechanical route was never seriously attempted because
+the problem was mis-stated, not because it is closed.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{2. The Locking Principle}\label{the-locking-principle}
+
+\textbf{Definition (Constructive Language Locking).} A cognitive
+architecture satisfies CLL when:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Core freedom.} No grammatical rule appears anywhere in the
+  cognitive substrate. Its dynamics, novelty mechanisms, and structural
+  operations are identical whether the output language is English,
+  Bengali, or none.
+\item
+  \textbf{Protocol determinism.} Surface realisation is a total function
+  from (cognitive state, language cluster) to string. The same input
+  always yields byte-identical output. Nothing is sampled.
+\item
+  \textbf{Isolation.} Language clusters may be added, removed, or
+  replaced without modifying the core. Their number does not affect
+  cognitive capability.
+\end{enumerate}
+
+The name records the asymmetry: cognition stays \textbf{constructive}
+(free to build), while language is \textbf{locked} (fixed to a
+protocol).
+
+\textbf{Corollary (No cognitive degradation).} Because (1) forbids
+grammar in the core, adding a language cluster cannot reduce cognitive
+flexibility. This is a structural guarantee, not an empirical claim.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. Architecture}\label{architecture}
+
+\begin{verbatim}
+   [ Core SI Physics Substrate ]
+     resonance, phase-locking, fission, L6-A bridging,
+     thermodynamic discovery, oracle validation
+                  |
+                  |  emits raw concept triples
+                  |  (subject, relation, object)
+                  v
+   [ Isolated Language Clusters ]
+     +- English   : SVO grid, articles, 3sg agreement
+     +- Bengali   : SOV grid, no articles, danda terminator
+     +- Banglish  : SOV grid, Latin script, strict transliteration
+                  |
+                  v
+          human-readable stream
+\end{verbatim}
+
+The interface between the layers is deliberately narrow: a triple of
+graph labels plus a relation identifier. Nothing linguistic crosses
+upward, and nothing cognitive crosses downward.
+
+\paragraph{3.1 Cluster Contents}\label{cluster-contents}
+
+A language cluster is \textbf{data, not code}:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Component
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Role
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Size
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Word order & SVO / SOV / VSO & \textasciitilde2 bits \\
+Relation lexicalisation & \texttt{part\_of} → ``is part of'' & 1 row per
+relation \\
+Determiner policy & per-construction, not per-language & 1 flag per
+relation \\
+Morphology rules & agreement, plural, conjugation & 1 rule per
+pattern \\
+Transliteration map & তুমি ↔ tumi & 1 row per word pair \\
+Terminator & \texttt{.} / \texttt{।} & 1 char \\
+\end{longtable}
+
+Adding a language means adding a table. The substrate is never touched.
+
+\paragraph{3.2 Realisation}\label{realisation}
+
+Given triple \((s, r, o)\) and cluster \(L\):
+
+\[
+\text{realise}_L(s,r,o) = \Pi_L\bigl(\lambda_L(s),\; \rho_L(r),\; \delta_L(r, o)\bigr)
+\]
+
+where \(\lambda_L\) is concept surface form (transliteration if any),
+\(\rho_L\) is relation lexicalisation, \(\delta_L\) applies determiner
+policy conditioned on the \emph{construction} \(r\), and \(\Pi_L\)
+permutes by word order. Every component is a table lookup or a fixed
+string operation. The function is total and deterministic.
+
+\paragraph{3.3 Measured Output}\label{measured-output}
+
+One cognitive state, three protocols (\texttt{src/lang.hpp}):
+
+\begin{verbatim}
+(biology, is_a, science)      en: Biology is a science.
+                              bn: Biology science একটি।
+                              bl: Biology science ekta.
+
+(metformin, inhibits, mtor)   en: Metformin inhibits mtor.
+                              bn: Metformin mtor বাধা দেয়।
+                              bl: Metformin mtor badha dey.
+
+(drive, precedes, tick)       en: Drive must run before tick.
+                              bn: Drive tick আগে চলে।
+                              bl: Drive tick age chole.
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. A Defect That Testing Disproved
+Immediately}\label{a-defect-that-testing-disproved-immediately}
+
+The first implementation treated determiner insertion as a
+\textbf{global language property} --- ``English uses articles'' --- and
+produced:
+
+\begin{quote}
+\emph{``Biology is a the science.''}
+\end{quote}
+
+Whether an object takes a determiner is not a property of the language.
+It belongs to the \textbf{construction}: \texttt{is\_a} already supplies
+its own article; proper nouns take none. The policy is now a
+per-relation flag.
+
+This is recorded because it establishes the shape of all remaining work
+in this layer. Real grammar exceeds word order, and each additional rule
+is discovered by \emph{testing against a speaker's judgement}, not by
+gradient descent. Every one is deterministic data.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. Transliteration as Strict
+Relation}\label{transliteration-as-strict-relation}
+
+Code-switching is where language models fail most visibly and CLL
+succeeds most cleanly. The mapping
+
+\[
+\texttt{tumi} \;\xleftrightarrow{\;\text{REL\_PHONETIC\_EQUIV}\;}\; \texttt{তুমি}
+\]
+
+is a \textbf{strict static relation}, not a probable correspondence.
+There is no distribution over spellings, so there is no drift. A
+language model generating Banglish must sample each character sequence
+and will produce \emph{tumi}, \emph{tomi}, \emph{tumii} across a single
+document. CLL cannot, because nothing is sampled.
+
+This generalises to dialect: Sylheti, Chittagonian and standard Bengali
+differ in phonotactic mapping while sharing cognitive content. Swapping
+the transliteration table swaps the dialect. The thought is unchanged.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{6. Cost Accounting}\label{cost-accounting}
+
+CLL introduces \textbf{no hidden cost} and must be honest about the cost
+it does introduce.
+
+The Translation Capacity Lemma (\texttt{synthetic-intelligence.md} §3.1)
+proves that discriminating \(N\) semantic outcomes requires \(\log_2 N\)
+bits somewhere. Layer 3 already pays this by storing label strings. CLL
+adds:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Addition
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Cost
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Category
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Word order & 2 bits per language & protocol \\
+Relation lexicalisation & \(O(|\mathcal{R}|)\) rows per language &
+protocol \\
+Transliteration & \(O(|\text{lexicon}|)\) rows per script & protocol \\
+\end{longtable}
+
+All are Layer-3 protocol cost, explicitly named. \textbf{None is
+intelligence.} A word-order constant does not help the system reason; it
+helps the system be understood.
+
+Critically, the cost is \(O(|\mathcal{R}|)\) in the number of
+\emph{relations}, not \(O(N^2)\) in concept pairs --- because grammar
+generalises over relation types, which is exactly what makes it a
+protocol rather than a lookup table of sentences.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{7. Comparison}\label{comparison}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Property
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Language model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+CLL
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Grammar source & inferred from token co-occurrence & stated
+convention \\
+Sequencing & argmax over learned distribution & table permutation \\
+Surface form stability & sampled --- drifts & exact --- cannot drift \\
+New language & retrain or scale & add a table \\
+Dialect switch & prompt and hope & swap transliteration map \\
+Cost per sentence & GPU forward pass & hash lookup + concat \\
+Failure mode & fluent hallucination & explicit gap \\
+Cognitive coupling & grammar entangled in weights & zero --- core
+untouched \\
+\end{longtable}
+
+The last row is the load-bearing one. In a language model, grammatical
+competence and world knowledge occupy the same parameters and cannot be
+separated. Under CLL they are different files.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{8. What Remains Open}\label{what-remains-open}
+
+CLL solves \emph{protocol}. It does not solve \emph{morphological
+productivity}.
+
+\textbf{Solved.} Word order, determiner policy, relation lexicalisation,
+script and transliteration, terminator conventions, dialect swap.
+
+\textbf{Deterministic but unwritten.} Subject-verb agreement
+(\emph{studies}, not \emph{study}); pluralisation; Bengali verb
+conjugation by person and honorific (তুমি / আপনি / তুই); case marking
+under free word order; multi-triple discourse with pronoun resolution.
+All are tables. None needs ML. They are labour, not research.
+
+\textbf{Genuinely open.} Producing the bytes of a word \textbf{not in
+the lexicon} --- inflecting an unseen stem, coining a compound. This is
+the residual of the emission problem (\texttt{synthetic-intelligence.md}
+§8.5), and CLL narrows it rather than solving it: for any word already
+in Layer 3, no byte synthesis is required at all. The open problem is
+morphological \emph{productivity}, not speech.
+
+\textbf{Not attempted.} Prosody, register, politeness gradation beyond
+pronoun choice, and anything requiring modelling the listener.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{9. Failure Modes}\label{failure-modes}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Protocol drift from reality.} A hand-written grammar table can
+  be simply wrong about the language. There is no gradient to correct it
+  --- only a native speaker. This is a genuine disadvantage relative to
+  corpus-fitted models, and the correct mitigation is a held-out
+  judgement set per language, not more rules.
+\item
+  \textbf{Coverage cliff.} A relation with no lexicalisation entry falls
+  back to rendering its identifier. The output stays intelligible but
+  degrades visibly. This is preferable to inventing a form, but it is a
+  cliff rather than a slope.
+\item
+  \textbf{The template ceiling.} Single-triple realisation cannot
+  produce subordination, relative clauses, or discourse cohesion.
+  Extending to multi-triple output requires a discourse layer that does
+  not yet exist, and it is not obvious that it remains purely tabular.
+\item
+  \textbf{False economy on free-word-order languages.} Bengali permits
+  reordering because case marking carries role. A fixed SOV template is
+  an approximation that will read stiffly, and the fix is case
+  morphology --- item (2) of §8, not a new mechanism.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{10. Summary}\label{summary}
+
+Physics-based language generation failed because it asked a resonance
+field to discover a convention. Constructive Language Locking separates
+the two: cognition remains fully constructive and unconstrained, while
+surface realisation is a deterministic protocol held in isolated,
+swappable language clusters.
+
+The core loses nothing --- a structural guarantee, since no grammar rule
+enters it. The output gains exactness that sampling architectures cannot
+have. And the mechanism costs a table per language against a GPU forward
+pass per sentence.
+
+The remaining hard problem is smaller and better specified than before:
+not \emph{how does a field speak}, but \emph{how does a field inflect a
+word it has never seen}.
+
+\end{document}

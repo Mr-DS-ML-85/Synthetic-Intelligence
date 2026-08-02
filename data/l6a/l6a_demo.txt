@@ -1,0 +1,57 @@
+fission=on I>0.150 τ>0.0050 hold=3 g_max=1
+trained metformin | new_fissions=10 | total_fissions=10
+trained berberine | new_fissions=3 | total_fissions=13
+fissions=13
+  resveratrol [id=174 gen=0] → α=240 β=241
+  akt [id=135 gen=0] → α=238 β=239
+  molecule [id=128 gen=0] → α=236 β=237
+  rapamycin [id=173 gen=0] → α=234 β=235
+  drug [id=166 gen=0] → α=226 β=227
+  hypercholesterolemia [id=163 gen=0] → α=232 β=233
+  ampk [id=137 gen=0] → α=224 β=225
+  hmg_coa_reductase [id=149 gen=0] → α=228 β=229
+  mtor [id=136 gen=0] → α=222 β=223
+  berberine [id=172 gen=0] → α=220 β=221
+  type2_diabetes [id=158 gen=0] → α=218 β=219
+  atorvastatin [id=178 gen=0] → α=230 β=231
+  metformin [id=165 gen=0] → α=216 β=217
+discovered 5 analogy bridges (min_shared=2 k=0.050 c=0.150)
+analogy | molecule ~ ampk | shared_targets=2 | α_a=236 α_b=224 | targets:
+analogy | akt ~ mtor | shared_targets=2 | α_a=238 α_b=222 | targets: insulin_signaling kinase
+analogy | akt ~ ampk | shared_targets=2 | α_a=238 α_b=224 | targets: glut4 kinase
+analogy | type2_diabetes ~ drug | shared_targets=6 | α_a=218 α_b=226 | targets: pioglitazone liraglutide sitagliptin canagliflozin empagliflozin
+analogy | berberine ~ resveratrol | shared_targets=2 | α_a=220 α_b=240 | targets:
+
+[repurpose metformin at 3.0Hz]
+  mtor                             | x=-0.09787 | cav=223
+  rapamycin                        | x=+0.05202 | cav=235
+  ampk                             | x=+0.03914 | cav=225
+  berberine                        | x=+0.03419 | cav=221
+  hmg_coa_reductase                | x=-0.01533 | cav=229
+  energy_homeostasis               | x=+0.01509 | cav=153
+  resveratrol                      | x=+0.01270 | cav=240
+  berberine                        | x=+0.01087 | cav=220
+  obesity                          | x=+0.00970 | cav=162
+  insulin_resistance               | x=+0.00904 | cav=160
+  hyperglycemia                    | x=+0.00894 | cav=161
+  glut4                            | x=+0.00885 | cav=138
+  glucose_uptake                   | x=+0.00822 | cav=151
+  empagliflozin                    | x=+0.00686 | cav=167
+  canagliflozin                    | x=+0.00685 | cav=168
+
+[repurpose berberine at 3.0Hz]
+  hmg_coa_reductase                | x=-0.06808 | cav=229
+  ampk                             | x=+0.05716 | cav=225
+  mtor                             | x=-0.05349 | cav=223
+  atorvastatin                     | x=+0.04903 | cav=231
+  rapamycin                        | x=+0.03550 | cav=235
+  metformin                        | x=+0.03408 | cav=217
+  energy_homeostasis               | x=+0.01787 | cav=153
+  molecule                         | x=+0.01565 | cav=236
+  resveratrol                      | x=+0.01343 | cav=240
+  glut4                            | x=+0.01215 | cav=138
+  metformin                        | x=+0.01093 | cav=216
+  glucose_uptake                   | x=+0.00905 | cav=151
+  ampk                             | x=+0.00721 | cav=224
+  kinase                           | x=+0.00577 | cav=134
+  glucose                          | x=+0.00537 | cav=127

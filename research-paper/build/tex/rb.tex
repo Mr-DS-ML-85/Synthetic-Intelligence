@@ -1,0 +1,483 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={RB: Resonant Bifurcation --- Overcoming Cognitive Interference via Dynamic Topological Fission},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{RB: Resonant Bifurcation --- Overcoming Cognitive Interference
+via Dynamic Topological Fission}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{RB: Resonant Bifurcation --- Overcoming Cognitive Interference
+via Dynamic Topological
+Fission}\label{rb-resonant-bifurcation-overcoming-cognitive-interference-via-dynamic-topological-fission}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\textbf{STATUS: SUPERSEDED by RB+G} (\texttt{rbg.md}), which adds
+generational capping, an alias ledger, energy-conserving fan-out,
+explicit readout and an audit trail, and reports 20-seed reproducibility
+data. This paper is retained as the \textbf{precursor record}: it states
+the original mechanism and the reasoning that produced it, without the
+controls that later proved necessary. Cite \texttt{rbg.md} for the
+mechanism as implemented; cite this only for priority of the idea.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+When a concept accumulates contradictory structure, a wave-propagation
+substrate representing it as a single cavity suffers destructive
+interference: opposed waves cancel inside the cavity and the plasticity
+updates they would have produced cancel with them. Conventional systems
+respond by re-weighting connections. We propose instead that the engine
+\textbf{physically splits the node}.
+
+On a sustained high-incoherence, high-tension signal the substrate
+executes a structural mutation: it clones the cavity, routes excitatory
+tunnels to one child and inhibitory tunnels to the other, and binds the
+children with a single high-stiffness tunnel so the system continues to
+treat them as one concept while allowing them to oscillate
+independently.
+
+The thesis is that intelligence does not only re-weight existing
+connections --- it \textbf{spawns new structure to house concepts its
+current structure cannot hold}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Trigger Condition}\label{trigger-condition}
+
+The incoherence ratio \(I\) is conventionally logged as a failure
+metric. Here it is used as a \textbf{trigger}.
+
+Fission fires when, over three consecutive structural ticks:
+
+\[
+I > 0.15 \quad\text{and}\quad \tau > \tau_{\text{threshold}}
+\]
+
+The interpretation is that the concept is \textbf{too complex to be
+represented by a single point}. It contains contradictions, and its
+representation is the wrong shape rather than the wrong value.
+
+Requiring persistence over three ticks distinguishes a structural
+condition from a transient: a single noisy tick should not restructure
+the graph.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. The Mitosis Protocol}\label{the-mitosis-protocol}
+
+When the trigger fires, the engine performs a structural mutation in
+three steps.
+
+\textbf{Clone.} Create \texttt{X\_alpha} and \texttt{X\_beta} from
+parent concept \texttt{X}.
+
+\textbf{Polarity routing.} Route every excitatory tunnel (positive
+\(\Sigma^{+}\)) to \texttt{X\_alpha}, and every inhibitory tunnel
+(negative \(\Sigma^{-}\)) to \texttt{X\_beta}.
+
+\textbf{Concept binding.} Connect \texttt{X\_alpha} and \texttt{X\_beta}
+with a single ultra-high-stiffness tunnel --- a \emph{semantic spring}.
+
+The binding is what prevents fission from being mere deletion of a
+concept. The children remain mechanically coupled, so the substrate
+still treats them as the same thing, while their displacements are no
+longer forced to share one variable.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Why It Works}\label{why-it-works}
+
+Before fission, positive and negative waves arrive at one cavity and
+interfere destructively. Both the observable displacement and, more
+damagingly, the Hebbian velocity product are driven toward zero --- so
+the tunnels carrying the contradictory evidence are never strengthened.
+
+After fission they enter \textbf{two separate resonant cavities} that
+are bound together. Taking a worked case:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{metformin\_alpha} accumulates the positive associations ---
+  \emph{treats diabetes}, \emph{activates AMPK}.
+\item
+  \texttt{metformin\_beta} accumulates the negative ones ---
+  \emph{causes GI distress}, \emph{inhibits complex I}.
+\end{itemize}
+
+Because the semantic spring is stiff, the engine still knows they are
+the same entity. Because they are distinct cavities, they oscillate
+independently and no longer cancel each other's plasticity.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Why This Is Difficult on Standard
+Infrastructure}\label{why-this-is-difficult-on-standard-infrastructure}
+
+The mechanism requires \textbf{dynamic graph topology}, and mainstream
+deep learning infrastructure is built to forbid it.
+
+Matrix multiplication requires fixed dimensions. Splitting a node
+changes the adjacency matrix from \(N \times N\) to
+\((N{+}1) \times (N{+}1)\) \emph{during} a run. Frameworks organised
+around static tensor shapes and pre-compiled kernels treat that as an
+error condition, not a capability.
+
+A localised wave-propagation model written against ordinary memory has
+no such constraint: a new cavity is an allocation and a few pointer
+updates. \textbf{The mechanism is unavailable not because it is a bad
+idea but because the dominant substrate cannot express it} --- which is
+a claim about tooling, not about cognition.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. What RB+G Added, and Why It Was
+Necessary}\label{what-rbg-added-and-why-it-was-necessary}
+
+The mechanism above is incomplete in ways that only appear on contact
+with a real ontology. \texttt{rbg.md} supplies:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Addition
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Problem in the original
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Generational cap} & children can themselves fission, without a
+bound the graph grows without limit \\
+\textbf{Alias ledger} & after splitting, a query for \texttt{metformin}
+must still resolve; the original specifies no mapping from parent to
+children \\
+\textbf{Energy-conserving fan-out} (\(1/\sqrt{2}\)) & cloning tunnels
+duplicates energy, injecting it into the field from nothing \\
+\textbf{Explicit readout} & with children present, what a query
+\emph{returns} is unspecified above \\
+\textbf{Audit trail} & a structural mutation with no provenance record
+cannot be explained or undone \\
+\textbf{Auto-tuned trigger} & \(I > 0.15\) is hand-picked for one
+ontology; the successor derives it from field energy \\
+\textbf{20-seed measurement} & this paper reports no measurement at
+all \\
+\end{longtable}
+
+The last row is the substantive one. The mechanism as stated here is a
+\emph{proposal}; RB+G is the version that was measured against a
+fission-disabled baseline across 20 seeds and four ablation levers.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Conclusion}\label{conclusion}
+
+Resonant Bifurcation's contribution is the reframing: a persistently
+incoherent concept indicates that the \textbf{representation has the
+wrong shape}, and the correct response is to change the structure rather
+than the weights. That claim survived into RB+G unchanged.
+
+Everything else in this paper --- the specific threshold, the routing
+rule, the absence of energy accounting --- was superseded within one
+iteration. The idea was right and the controls were missing, which is
+the ordinary condition of a first draft and the reason this one is
+labelled as a precursor rather than presented as a result.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Mahir, I. \emph{RB+G: Gated Recursive Bifurcation with Analogical
+  Bridging.} \texttt{rbg.md} --- \textbf{the citable version of this
+  mechanism.}
+\item
+  Mahir, I. \emph{Synaptic Receptor Gating (SRG).} \texttt{srg.md} ---
+  the static-topology alternative to fission.
+\item
+  Mahir, I. \emph{Recursive Integrity Field Architecture (RIFA).} ---
+  source of the incoherence and tension signals used as the trigger.
+\item
+  Implementation: \texttt{src/layer2.hpp} (\texttt{fission\_locked}).
+\end{itemize}
+
+\end{document}

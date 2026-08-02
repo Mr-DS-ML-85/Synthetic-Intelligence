@@ -1,0 +1,91 @@
+{
+  "protocol": {
+    "rounds_per_seed": 5,
+    "seeds_per_concept": 20,
+    "seed_formula": "0xCAF17E00 ^ (0x9E3779B9 * (i+1))",
+    "drive_freq_hz": 20.0,
+    "drive_amp": {"train": 8.0, "probe": 6.0},
+    "chunks_per_round": 10,
+    "ticks_per_chunk": 20,
+    "nt_during_train": {"D": 1.0, "C": 1.0, "S": 2.0}
+  },
+  "reproducibility_20_seeds": {
+    "metformin": {
+      "cluster": "dual-tension (activates ampk, inhibits mtor)",
+      "baseline_gain":    {"mean": 0.8871, "std": 0.0451},
+      "rbg_gain_global":  {"mean": 1.9983, "std": 0.3022},
+      "rbg_gain_rms":     {"mean": 1.5173, "std": 0.2007},
+      "fissions_per_seed":{"mean": 8.85,   "std": 0.96},
+      "target_fissioned_frac": 1.0
+    },
+    "berberine": {
+      "cluster": "tri-hub (activates ampk, inhibits mtor, inhibits hmg_coa_reductase)",
+      "baseline_gain":    {"mean": 0.8996, "std": 0.0297},
+      "rbg_gain_global":  {"mean": 1.5476, "std": 0.1480},
+      "rbg_gain_rms":     {"mean": 1.5148, "std": 0.1389},
+      "fissions_per_seed":{"mean": 8.60,   "std": 1.16},
+      "target_fissioned_frac": 1.0
+    },
+    "atorvastatin": {
+      "cluster": "single-direction (inhibits hmg_coa_reductase, treats hypercholesterolemia)",
+      "baseline_gain":    {"mean": 1.0071, "std": 0.0035},
+      "rbg_gain_global":  {"mean": 1.0931, "std": 0.0538},
+      "rbg_gain_rms":     {"mean": 0.9570, "std": 0.0342},
+      "fissions_per_seed":{"mean": 9.75,   "std": 1.84},
+      "target_fissioned_frac": 1.0,
+      "note": "Mono-directional concept — fission fires elsewhere but the target sees ~0 gain; honest null-adjacent."
+    },
+    "luna": {
+      "cluster": "mutual-activation + death_spiral inhibition",
+      "baseline_gain":    {"mean": 1.2437, "std": 0.0642},
+      "rbg_gain_global":  {"mean": 2.6171, "std": 0.2424},
+      "rbg_gain_rms":     {"mean": 1.8650, "std": 0.1624},
+      "fissions_per_seed":{"mean": 7.00,   "std": 0.95},
+      "target_fissioned_frac": 1.0
+    },
+    "linux": {
+      "cluster": "null control (only is_a, has)",
+      "baseline_gain":    {"mean": 1.0321, "std": 0.0074},
+      "rbg_gain_global":  {"mean": 1.3780, "std": 0.0932},
+      "rbg_gain_rms":     {"mean": 1.0386, "std": 0.0570},
+      "fissions_per_seed":{"mean": 5.00,   "std": 0.00},
+      "target_fissioned_frac": 1.0,
+      "note": "Fissions fire on unrelated nodes; concept-scoped RMS ~unchanged."
+    },
+    "windows_os": {
+      "cluster": "pure null (only is_a)",
+      "baseline_gain":    {"mean": 0.9686, "std": 0.0077},
+      "rbg_gain_global":  {"mean": 0.9553, "std": 0.0102},
+      "rbg_gain_rms":     {"mean": 0.9553, "std": 0.0102},
+      "fissions_per_seed":{"mean": 2.00,   "std": 0.00},
+      "target_fissioned_frac": 0.0,
+      "note": "Target never fissioned — cleanest null control."
+    }
+  },
+  "ablation_5_seeds": {
+    "metformin": {
+      "BASELINE":      {"rms_gain": [0.9221, 0.0105], "fissions": [0.0,   0.00],  "target_fissioned": "0/5"},
+      "ABLATE_CAP":    {"rms_gain": [1.5358, 0.2385], "fissions": [25.60, 3.32],  "target_fissioned": "5/5", "note": "Cascade: 3× fissions, comparable gain — expensive."},
+      "ABLATE_ALIAS":  {"rms_gain": [2.4949, 0.1437], "fissions": [3.40,  0.80],  "target_fissioned": "5/5", "note": "CONFOUND: probe hits ghost cavity; readout measures neighbor drift, not target recall."},
+      "ABLATE_FANOUT": {"rms_gain": [1.8557, 0.0688], "fissions": [13.60, 1.36],  "target_fissioned": "5/5", "note": "Doubles injected energy → inflated raw peak; honest accounting requires 1/√2."},
+      "ABLATE_BIND":   {"rms_gain": [1.4705, 0.0570], "fissions": [8.80,  0.75],  "target_fissioned": "5/5", "note": "Coordination spring removed — minor accuracy loss vs FULL."},
+      "FULL":          {"rms_gain": [1.3455, 0.0535], "fissions": [8.40,  1.02],  "target_fissioned": "5/5"}
+    },
+    "luna": {
+      "BASELINE":      {"rms_gain": [0.4893, 0.1239], "fissions": [0.0,   0.00],  "target_fissioned": "0/5"},
+      "ABLATE_CAP":    {"rms_gain": [3.2027, 0.3192], "fissions": [30.20, 3.31],  "target_fissioned": "5/5", "note": "30 fissions — cascade collapses the concept graph."},
+      "ABLATE_ALIAS":  {"rms_gain": [3.6366, 0.3935], "fissions": [4.60,  0.80],  "target_fissioned": "5/5", "note": "CONFOUND (see metformin)."},
+      "ABLATE_FANOUT": {"rms_gain": [2.9873, 0.3236], "fissions": [7.40,  0.49],  "target_fissioned": "5/5", "note": "Energy inflation."},
+      "ABLATE_BIND":   {"rms_gain": [1.9035, 0.1340], "fissions": [6.80,  0.75],  "target_fissioned": "5/5"},
+      "FULL":          {"rms_gain": [1.9137, 0.1520], "fissions": [7.00,  0.89],  "target_fissioned": "5/5"}
+    }
+  },
+  "reading": [
+    "RB+G shows a large positive effect on concepts with polarity conflict (metformin, berberine, luna) and a HONEST null on pure structural concepts (windows_os, linux).",
+    "atorvastatin (mono-directional) fissions but recall gain is null — honest, showing RB+G is not a free-lunch amplifier.",
+    "ABLATE_CAP: cascade fires 3-4× more fissions without accuracy benefit; the generation cap is a computational necessity, not an accuracy win.",
+    "ABLATE_FANOUT: without 1/√2 fan-out the raw peak is inflated because injected energy doubles; the fan-out is required for HONEST measurement.",
+    "ABLATE_ALIAS: cannot be cleanly ablated (probe semantics change); documented confound.",
+    "ABLATE_BIND: the learned binding spring provides only marginal accuracy improvement over no coupling — evidence that RB's fiat k=2.5 was over-fitted; a soft coordination is enough."
+  ]
+}

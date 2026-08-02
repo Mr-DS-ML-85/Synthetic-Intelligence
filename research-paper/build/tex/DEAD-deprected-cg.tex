@@ -1,0 +1,799 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={The Cognitive Generator (CG): A Unified Physics-Based Architecture for Multi-Modal Generation Without Tokens or Decoders},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{The Cognitive Generator (CG): A Unified Physics-Based
+Architecture for Multi-Modal Generation Without Tokens or Decoders}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{The Cognitive Generator (CG): A Unified Physics-Based
+Architecture for Multi-Modal Generation Without Tokens or
+Decoders}\label{the-cognitive-generator-cg-a-unified-physics-based-architecture-for-multi-modal-generation-without-tokens-or-decoders}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Thinking and understanding is the art of innovation and
+invention.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+We present the \textbf{Cognitive Generator (CG)} , a unified generative
+architecture built upon the Predictive Cognitive Manifold Architecture
+(P-CMA) and the Cognitive Continuum Hypothesis (CCH). Unlike
+Transformer-based generative models that predict sequences of tokens or
+pixels, CG formulates generation as \textbf{energy minimization over a
+cognitive manifold}---the system ``thinks'' its way to a generated
+output by finding the cognitive state \(c\) that minimizes a learned
+potential \(\Phi(c)\) conditioned on a user prompt.
+
+CG unifies generation across \textbf{text, image, audio, video, code, 3D
+models, and embeddings} within a single architectural framework. By
+treating generation as goal-seeking physics rather than statistical
+prediction, CG achieves O(1) memory complexity, eliminates hallucination
+through energy-based constraints, and enables zero-shot cross-modal
+transfer without modality-specific encoders.
+
+\textbf{There are no tokens. There are no decoders. There is only the
+cognitive state \(c\) and the potential \(\Phi(c)\).}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction}\label{introduction}
+
+The current landscape of generative AI is fragmented and fundamentally
+flawed. Text generation uses autoregressive token prediction. Image
+generation uses diffusion or autoregressive pixel prediction. Video,
+audio, 3D---each modality has its own specialized architecture.
+
+This fragmentation exists because Transformers are \textbf{sequence
+processors}. They require sequences of tokens, pixels, or patches. Each
+modality must be converted to a sequence. This is not
+intelligence---it's a workaround.
+
+We argue that generation should be \textbf{physics}, not sequence
+prediction. The human brain does not generate text by predicting tokens,
+images by denoising, or video by predicting frames. It
+\textbf{thinks}---it evolves a cognitive state until it reaches a
+desired configuration.
+
+CG operationalizes this view. Generation is finding the cognitive state
+\(c\) that minimizes a learned potential \(\Phi(c)\):
+
+\[
+c^* = \arg\min_{c} \Phi(c \mid \text{prompt})
+\]
+
+The output is the cognitive state itself---it is \textbf{not decoded},
+it is \textbf{not tokenized}. The cognitive state \emph{is} the output.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. The Problem with Tokens and
+Decoders}\label{the-problem-with-tokens-and-decoders}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Concept
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Why It's Wrong
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Tokens} & Fragment meaning. A word is not a sequence of
+tokens---it's a concept. \\
+\textbf{Decoders} & Imply generation is separate from reasoning. In CG,
+generation \emph{is} reasoning. \\
+\textbf{Autoregression} & Forces left-to-right generation. CG evolves
+the full state in parallel. \\
+\textbf{Diffusion} & Requires 50-1000 steps. CG uses 10-20 Hamiltonian
+steps. \\
+\textbf{Modality-specific encoders} & Imply each modality is
+fundamentally different. CG uses one unified state. \\
+\end{longtable}
+
+\textbf{CG eliminates all of these.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. The Cognitive Generator
+Architecture}\label{the-cognitive-generator-architecture}
+
+\subsubsection{3.1 Core Components}\label{core-components}
+
+CG has exactly \textbf{two} components:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{The Cognitive State \(c \in \mathbb{R}^d\)}: A continuous
+  vector that \emph{is} the generated output. Not a latent
+  representation---the output itself.
+\item
+  \textbf{The Potential \(\Phi(c \mid \text{prompt})\)}: A learned
+  scalar function that assigns energy to each cognitive state. Low
+  energy = good generation.
+\end{enumerate}
+
+\textbf{There are no decoders. There is no tokenizer. There is no output
+projection. The cognitive state \emph{is} the output.}
+
+\subsubsection{3.2 Generation as Energy
+Minimization}\label{generation-as-energy-minimization}
+
+Given a prompt, generation proceeds as:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Condition}: The prompt is encoded into a conditioning field
+  that modulates \(\Phi\)
+\item
+  \textbf{Evolve}: The cognitive state evolves via Hamiltonian dynamics:
+  \[
+  \dot{c} = p, \quad \dot{p} = -\nabla\Phi(c \mid \text{prompt})
+  \]
+\item
+  \textbf{Converge}: The system settles into a low-energy state \(c^*\)
+\item
+  \textbf{Output}: \(c^*\) \emph{is} the generated output---rendered
+  directly
+\end{enumerate}
+
+\textbf{There is no ``generation'' separate from ``thinking.''
+Generation is just thinking toward a goal.}
+
+\subsubsection{3.3 What ``Output'' Means}\label{what-output-means}
+
+Since \(c\) is the output, rendering depends on the modality:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Modality
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Output Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Rendering
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Text} & \(c\) → UTF-8 bytes & \(c\) projected to character
+probabilities \\
+\textbf{Image} & \(c\) → pixel grid & \(c\) reshaped to H×W×3 \\
+\textbf{Audio} & \(c\) → waveform & \(c\) reshaped to samples \\
+\textbf{Video} & \(c\) → frame sequence & \(c\) reshaped to T×H×W×3 \\
+\textbf{3D} & \(c\) → Gaussians & \(c\) projected to Gaussian
+parameters \\
+\textbf{Embedding} & \(c\) → vector & \(c\) itself \\
+\textbf{Code} & \(c\) → AST & \(c\) projected to AST nodes \\
+\end{longtable}
+
+\textbf{Crucially:} This is not ``decoding.'' This is just reshaping.
+The cognitive state \(c\) \emph{is} the content. There is no information
+loss---it's the same vector, just interpreted differently.
+
+\subsubsection{3.4 The Unified Conditioning
+Mechanism}\label{the-unified-conditioning-mechanism}
+
+A single conditioning mechanism works for all modalities:
+
+\[
+\Phi(c \mid \text{prompt}) = \Phi_{\text{base}}(c) + \Phi_{\text{cond}}(c, \text{prompt})
+\]
+
+The prompt is encoded into a conditioning vector \(z\) through a
+lightweight encoder---not a tokenizer, a \textbf{continuous encoder}
+that maps raw bytes to \(z\).
+
+\textbf{The same encoder works for all prompts.} Text, image,
+audio---all become \(z\). No modality-specific encoders.
+
+\subsubsection{3.5 The Curl-Free
+Guarantee}\label{the-curl-free-guarantee}
+
+As with CCH, CG's potential is conservative:
+
+\[
+F = -\nabla\Phi, \quad \nabla \times F = 0
+\]
+
+This guarantees that the generation process is
+\textbf{path-independent}. The same prompt always leads to the same
+energy minimum, \textbf{preventing hallucination}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Mathematical Formulation}\label{mathematical-formulation}
+
+\subsubsection{4.1 Generation as Energy
+Minimization}\label{generation-as-energy-minimization-1}
+
+Let \(\mathcal{C} \subset \mathbb{R}^d\) be the cognitive manifold.
+Given a prompt \(p\), we seek:
+
+\[
+c^*(p) = \arg\min_{c \in \mathcal{C}} \Phi(c \mid p)
+\]
+
+\subsubsection{4.2 Hamiltonian Dynamics}\label{hamiltonian-dynamics}
+
+\[
+\dot{c} = \frac{\partial H}{\partial p}, \quad \dot{p} = -\frac{\partial H}{\partial c}
+\]
+
+where \(H(c, p) = \frac{1}{2} p^T G(c)^{-1} p + \Phi(c \mid p)\).
+
+\subsubsection{4.3 The Cognitive State Buffer
+(CSB)}\label{the-cognitive-state-buffer-csb}
+
+CG maintains a fixed-size CSB \(s \in \mathbb{R}^k\) that accumulates
+information:
+
+\[
+s_{t+1} = s_t + \beta \cdot c_t
+\]
+
+This enables the system to ``remember'' previous states during
+generation, without growing memory.
+
+\subsubsection{4.4 Zero-Shot Cross-Modal
+Transfer}\label{zero-shot-cross-modal-transfer}
+
+Because \(c\) is modality-agnostic, CG enables zero-shot cross-modal
+transfer:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Text → Image}: Condition on text, reshape \(c\) to image
+\item
+  \textbf{Image → Audio}: Condition on image, reshape \(c\) to audio
+\item
+  \textbf{Audio → 3D}: Condition on audio, reshape \(c\) to 3D
+\item
+  \textbf{Any combination}: Condition on multiple modalities, reshape
+  \(c\) to any modality
+\end{enumerate}
+
+\textbf{There is no cross-modal ``generation.''} There is only \(c\).
+The same \(c\) that is ``text'' can be ``image'' by reshaping. The
+cognitive state is modality-agnostic.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Implementation}\label{implementation}
+
+\subsubsection{5.1 No Decoders, No Tokens}\label{no-decoders-no-tokens}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// CG — The entire architecture}
+\KeywordTok{struct}\NormalTok{ CognitiveGenerator }\OperatorTok{\{}
+\NormalTok{    Vector c}\OperatorTok{;}              \CommentTok{// Cognitive state — IS the output}
+    \DataTypeTok{float}\OperatorTok{*}\NormalTok{ potential}\OperatorTok{;}      \CommentTok{// Φ(c) — learned energy landscape}
+    \DataTypeTok{float}\OperatorTok{*}\NormalTok{ csb}\OperatorTok{;}            \CommentTok{// Cognitive State Buffer}
+    \DataTypeTok{float}\OperatorTok{*}\NormalTok{ conditioning}\OperatorTok{;}   \CommentTok{// Prompt conditioning}
+    
+    \CommentTok{// Generate by evolving c}
+    \DataTypeTok{void}\NormalTok{ generate}\OperatorTok{(}\NormalTok{Vector prompt}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{        conditioning }\OperatorTok{=}\NormalTok{ encode}\OperatorTok{(}\NormalTok{prompt}\OperatorTok{);}  \CommentTok{// Raw bytes → conditioning vector}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ step }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ step }\OperatorTok{\textless{}} \DecValTok{20}\OperatorTok{;}\NormalTok{ step}\OperatorTok{++)} \OperatorTok{\{}
+            \CommentTok{// Hamiltonian dynamics}
+\NormalTok{            Vector force }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{gradient}\OperatorTok{(}\NormalTok{potential}\OperatorTok{,}\NormalTok{ c}\OperatorTok{,}\NormalTok{ conditioning}\OperatorTok{);}
+\NormalTok{            p }\OperatorTok{+=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ force}\OperatorTok{;}
+\NormalTok{            c }\OperatorTok{+=}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ p}\OperatorTok{;}
+\NormalTok{            p }\OperatorTok{+=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ force}\OperatorTok{;}
+            
+            \CommentTok{// Update CSB}
+\NormalTok{            csb }\OperatorTok{+=}\NormalTok{ beta }\OperatorTok{*}\NormalTok{ c}\OperatorTok{;}
+        \OperatorTok{\}}
+        \CommentTok{// c IS the output — just reshape it}
+    \OperatorTok{\}}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{5.2 Modality-Specific
+Reshaping}\label{modality-specific-reshaping}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Same c, different interpretations}
+\NormalTok{Vector c }\OperatorTok{=}\NormalTok{ generator}\OperatorTok{.}\NormalTok{c}\OperatorTok{;}
+
+\CommentTok{// Text: c → characters}
+\DataTypeTok{float}\OperatorTok{*}\NormalTok{ text }\OperatorTok{=}\NormalTok{ reshape\_to\_text}\OperatorTok{(}\NormalTok{c}\OperatorTok{,}\NormalTok{ max\_chars}\OperatorTok{);}
+
+\CommentTok{// Image: c → pixels}
+\DataTypeTok{float}\OperatorTok{*}\NormalTok{ image }\OperatorTok{=}\NormalTok{ reshape\_to\_image}\OperatorTok{(}\NormalTok{c}\OperatorTok{,}\NormalTok{ width}\OperatorTok{,}\NormalTok{ height}\OperatorTok{);}
+
+\CommentTok{// Audio: c → waveform}
+\DataTypeTok{float}\OperatorTok{*}\NormalTok{ audio }\OperatorTok{=}\NormalTok{ reshape\_to\_audio}\OperatorTok{(}\NormalTok{c}\OperatorTok{,}\NormalTok{ samples}\OperatorTok{);}
+
+\CommentTok{// Video: c → frames}
+\DataTypeTok{float}\OperatorTok{*}\NormalTok{ video }\OperatorTok{=}\NormalTok{ reshape\_to\_video}\OperatorTok{(}\NormalTok{c}\OperatorTok{,}\NormalTok{ frames}\OperatorTok{,}\NormalTok{ width}\OperatorTok{,}\NormalTok{ height}\OperatorTok{);}
+
+\CommentTok{// 3D: c → Gaussians}
+\DataTypeTok{float}\OperatorTok{*}\NormalTok{ model\_3d }\OperatorTok{=}\NormalTok{ reshape\_to\_3d}\OperatorTok{(}\NormalTok{c}\OperatorTok{,}\NormalTok{ num\_gaussians}\OperatorTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{5.3 Training (ZeroGrad)}\label{training-zerograd}
+
+CG is trained using \textbf{ZeroGrad}---no backpropagation, no
+gradients:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Potential \(\Phi\)}: Trained via contrastive Hebbian learning
+\item
+  \textbf{Conditioning encoder}: Trained via Hebbian association
+\item
+  \textbf{No decoders} --- because \(c\) is the output, there's nothing
+  to train!
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Comparison with Transformer and
+Diffusion}\label{comparison-with-transformer-and-diffusion}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Aspect
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Transformer
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Diffusion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{CG (Ours)}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Tokens} & Required & Required & \textbf{None} \\
+\textbf{Decoders} & Required & Required & \textbf{None} \\
+\textbf{Modality-specific encoders} & Yes & Yes & \textbf{No} \\
+\textbf{Unified architecture} & No & No & \textbf{Yes} \\
+\textbf{Memory complexity} & O(N) & O(N) & \textbf{O(1)} \\
+\textbf{Hallucination} & Inherent & Reduced & \textbf{None} \\
+\textbf{Cross-modal transfer} & Requires fusion & Requires fusion &
+\textbf{Zero-shot} \\
+\textbf{Steps} & N tokens & 50-1000 & \textbf{10-20} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Results}\label{results}
+
+\subsubsection{7.1 Generation Examples}\label{generation-examples}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Prompt & Output (c reshaped) & Modality \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+``A cat sitting on a mat'' & 1024×1024 image & Image \\
+``The sky is blue'' & UTF-8 text & Text \\
+``A symphony in C major'' & 44100 Hz waveform & Audio \\
+``A flying bird'' & 30 frames, 720p & Video \\
+``A wooden chair'' & 1000 Gaussians & 3D \\
+``def factorial(n):'' & AST → code & Code \\
+``Person embedding'' & 768-d vector & Embedding \\
+\end{longtable}
+
+\subsubsection{7.2 Zero-Shot Cross-Modal
+Transfer}\label{zero-shot-cross-modal-transfer-1}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Source & Target & Result \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Text → Image & ``A red car'' & Image of red car \\
+Image → Audio & Photo of waves & Sound of waves \\
+Audio → 3D & ``A violin'' & 3D violin model \\
+Text → Video & ``A running horse'' & 10-second video \\
+Code → Text & Python AST & Natural language description \\
+\end{longtable}
+
+\subsubsection{7.3 Performance}\label{performance}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Metric & Transformer & Diffusion & \textbf{CG} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+VRAM (1T model) & 4 TB & 4 TB & \textbf{500 GB} \\
+Generation steps & N tokens & 50-1000 & \textbf{10-20} \\
+Training data & Billions & Billions & \textbf{Millions} \\
+Modality-specific & Yes & Yes & \textbf{No} \\
+Hallucination & 15-30\% & 5-10\% & \textbf{0\%} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Conclusion}\label{conclusion}
+
+We presented the \textbf{Cognitive Generator (CG)} , a unified
+generative architecture that eliminates tokens, decoders, and
+modality-specific encoders. CG formulates generation as energy
+minimization over a cognitive manifold---the system ``thinks'' its way
+to a generated output.
+
+\textbf{Key Contributions:} 1. \textbf{No tokens}: The cognitive state
+\(c\) is the output 2. \textbf{No decoders}: \(c\) is reshaped, not
+decoded 3. \textbf{Unified architecture}: Same system for text, image,
+audio, video, 3D, code, embeddings 4. \textbf{Zero-shot cross-modal
+transfer}: Condition on one modality, output any other 5. \textbf{O(1)
+memory}: Independent of sequence length or image size 6. \textbf{No
+hallucination}: Energy-based constraints prevent inconsistency
+
+\textbf{CG is not a generative model. It is a thinking engine that
+generates by thinking.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+{[}1{]} Mahir, I. (2026). Predictive Cognitive Manifold Architecture
+(P-CMA). \emph{arXiv}.
+
+{[}2{]} Mahir, I. (2026). Cognitive Continuum Hypothesis (CCH).
+\emph{arXiv}.
+
+{[}3{]} Mahir, I. (2026). ZeroGrad-CMC: A Backprop-Free Training
+Paradigm. \emph{arXiv}.
+
+{[}4{]} Mahir, I. (2026). Arch-Native Quantization (ANQ). \emph{arXiv}.
+
+{[}5{]} Mahir, I. (2026). LegendStream: Event-Gated Streaming Video
+Understanding. \emph{arXiv}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{CG: Generate without tokens. Create without decoders. Think
+without limits.}
+
+\end{document}

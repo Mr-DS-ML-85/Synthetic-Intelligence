@@ -1,0 +1,648 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={CMD: Continuous Morphological Dynamics --- Sensory Grounding and Thermodynamic Habituation},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{CMD: Continuous Morphological Dynamics --- Sensory Grounding and
+Thermodynamic Habituation}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{CMD: Continuous Morphological Dynamics --- Sensory Grounding
+and Thermodynamic
+Habituation}\label{cmd-continuous-morphological-dynamics-sensory-grounding-and-thermodynamic-habituation}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``A stopword is not a word on a list. It is a cavity that has
+heated itself past its Curie point.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+This paper specifies the substrate layer that later work in this lineage
+cites as \emph{CMD} and, until now, could not point at. Three mechanisms
+are defined.
+
+\textbf{Byte-lane sensory grounding.} Concepts are not reachable by
+name. Input bytes drive 256 dedicated sensory lanes, and energy reaches
+a concept only through \emph{learned bindings} from those lanes.
+Recognition therefore involves no string comparison and is
+\textbf{graded}: a misspelling still drives most of the correct lanes
+and still resonates the right concept, at reduced amplitude.
+
+\textbf{Thermodynamic habituation.} Each cavity carries a heat variable
+integrating its own activity, \(\dot{T} = \alpha|v| - \beta T\). Tunnel
+coupling is gated by \(e^{-T/T_{\text{crit}}}\), so a concept that fires
+on every input \textbf{decouples itself} from the graph. This replaces
+the stopword list with a physical process: ubiquity is punished by the
+dynamics rather than by a curated exclusion set.
+
+\textbf{Wavefront-gated emission.} Readout is restricted to the region
+the input actually reached, so a settled field does not report cavities
+that were merely nearby.
+
+Section 6 reports the failure this layer was built to fix --- a
+substrate that answered \texttt{minecraft} with \texttt{alexandria} ---
+and §7 states plainly which half of the emission problem CMD does
+\textbf{not} solve.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Why a Sensory Layer Is
+Necessary}\label{why-a-sensory-layer-is-necessary}
+
+The obvious way to inject a query into a concept substrate is to look up
+the concept and drive its cavity. This has two defects, and the second
+is fatal.
+
+\textbf{It is brittle.} Lookup is a hash probe: exact or nothing. One
+wrong character and the concept does not exist, which is not how
+recognition works in anything that recognises.
+
+\textbf{It is ungrounded.} If concepts are reachable by name, the
+``physics'' is decoration on a dictionary --- the retrieval already
+happened, in the hash table, before any wave propagated. A substrate
+whose entry point is a lookup has conceded the interesting part.
+
+CMD's response is to make the \emph{bytes} the sensory surface and
+require that everything above be reached through learned coupling.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Byte-Lane Grounding}\label{byte-lane-grounding}
+
+\subsubsection{2.1 Structure}\label{structure}
+
+The substrate carries 256 \textbf{byte lanes}, one per possible input
+byte, existing alongside the concept cavities. A lane is an oscillator
+like any other; what distinguishes it is that it is the only thing
+external input can touch directly.
+
+Each lane holds a sparse map of \textbf{binding weights} to concept
+cavities:
+
+\begin{verbatim}
+byte_bind_w[b] : cavity_id -> weight
+\end{verbatim}
+
+Bindings \textbf{start at zero}. A byte reaches a concept only insofar
+as a binding has been established, and until then the input goes
+nowhere. This is the property that makes the layer sensory rather than
+addressing.
+
+\subsubsection{2.2 Binding by rarity}\label{binding-by-rarity}
+
+Bindings are established at grounding time with weight equal to inverse
+lane document-frequency:
+
+\[
+w_{b,c} \;=\; \log \frac{N}{1 + \mathrm{df}(b)}
+\]
+
+for \(N\) concepts and \(\mathrm{df}(b)\) the number of labels
+containing byte \(b\). A byte occurring in nearly every label
+distinguishes nothing and binds weakly; a rare byte binds strongly.
+
+This is the same principle as the Curie gate of §3 applied at grounding
+time instead of during propagation: \textbf{ubiquitous participants are
+suppressed by construction, not by a rule.}
+
+\subsubsection{2.3 Consolidation and
+starvation}\label{consolidation-and-starvation}
+
+Bindings are not static. They grow under co-activity and decay under
+disuse:
+
+\[
+w \;\leftarrow\; \tanh\big( (w\,\lambda_{\text{decay}} + \eta\, v_b\, v_c)
+\,/\, w_{\max} \big)\, w_{\max}
+\]
+
+with growth rate \(\eta = 0.02\), decay \(\lambda = 0.9995\) per tick,
+and a saturating ceiling \(w_{\max} = 0.6\). The decay term is what
+allows the sensory layer to forget a binding that stops paying ---
+starvation rather than deletion.
+
+\subsubsection{2.4 Why recognition is
+graded}\label{why-recognition-is-graded}
+
+Because a concept accumulates energy from \emph{all} the lanes its label
+touches, a query that shares most of its bytes with a label still
+delivers most of the energy. \texttt{metfromin} drives nearly the same
+lane set as \texttt{metformin} and resonates the same concept at
+slightly lower amplitude. A hash lookup returns nothing for the same
+input.
+
+\textbf{This is the falsifiable consequence of the design}, and it is
+the right thing to test the layer against: if recognition were not
+graded, the sensory layer would be an expensive hash table.
+
+\subsubsection{2.5 A representational limit, and the
+escape}\label{a-representational-limit-and-the-escape}
+
+Single-byte lanes cannot distinguish anagrams. \texttt{metformin} and
+\texttt{metfromin} contain the same byte multiset, and a multiset is
+invariant under permutation, so \textbf{no reweighting of single-byte
+lanes can separate them.} This is a theorem about the representation,
+not a tuning failure, and it was mistaken for a tuning failure first.
+
+The escape is to change what is represented: \textbf{ordered pairs}.
+Lanes indexed by bigrams, bracketed with begin- and end-of-word
+sentinels so that word-initial and word-final position are themselves
+observable, distinguish the two words because the pair multisets differ.
+The theorem about byte multisets remains true; the sensory layer simply
+stopped being one.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Thermodynamic
+Habituation}\label{thermodynamic-habituation}
+
+\subsubsection{3.1 The stopword problem, without a stopword
+list}\label{the-stopword-problem-without-a-stopword-list}
+
+Some concepts participate in almost everything. In a
+spreading-activation substrate they accumulate energy from every
+direction and dominate every readout. The conventional fix is a curated
+exclusion list, which is brittle, domain-specific, and hand-maintained.
+
+CMD instead gives every cavity a \textbf{heat} variable integrating its
+own recent activity:
+
+\[
+\frac{dT}{dt} \;=\; \alpha\,|v| \;-\; \beta\,T
+\]
+
+Activity heats a cavity; inactivity cools it. The equilibrium
+temperature of a cavity is proportional to how often it moves.
+
+\subsubsection{3.2 The Curie gate}\label{the-curie-gate}
+
+Tunnel coupling is scaled by the heat of \textbf{both} endpoints:
+
+\[
+K_{\text{eff}} \;=\; K_0 \, e^{-T_a / T_{\text{crit}}}\, e^{-T_b / T_{\text{crit}}}
+\]
+
+with \(T_{\text{crit}} = 3.0\). Below the critical temperature the gate
+is near unity and the tunnel transmits normally. Above it, transmission
+collapses.
+
+\textbf{A concept that fires on every input therefore cooks itself out
+of the field.} Rare concepts stay cold and consolidate strong bonds. The
+analogy is exact rather than decorative: above its Curie point a
+ferromagnet loses its ordering, and above \(T_{\text{crit}}\) a cavity
+loses its coupling.
+
+\subsubsection{3.3 What this buys}\label{what-this-buys}
+
+The mechanism is \textbf{automatic, continuous, and domain-independent}.
+It requires no list, adapts as the ontology changes, and degrades
+smoothly rather than at a boundary. A concept that is ubiquitous in one
+corpus and rare in another is suppressed in the first and not the
+second, without configuration.
+
+It also composes: because heat is a per-cavity scalar read by other
+mechanisms, an external verdict can raise it. A hypothesis refuted by
+experiment drives its target cavity, which heats it, which decouples it
+--- so \textbf{unreliability becomes a physical property of a concept}
+rather than an annotation about it.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Wavefront-Gated Emission}\label{wavefront-gated-emission}
+
+A settled field contains energy that arrived by propagation and energy
+that was merely never disturbed. Reading out by amplitude alone
+conflates them.
+
+CMD tracks, per cavity, how recently the wavefront touched it, and
+restricts readout to cavities the input actually reached. The gate is a
+continuous decay rather than a flag, so recency is graded like
+everything else in the layer.
+
+The practical consequence is that a query about one domain does not
+report high-amplitude cavities from another simply because they were
+already vibrating.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Integration}\label{integration}
+
+CMD provides the state that later mechanisms read. Each consumes it
+differently, and none duplicates it:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reads
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Uses it for
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Curie gate (this paper) & \(T_i\) & collapsing coupling of ubiquitous
+cavities \\
+Chaotic metastability & \(T_i\) & shaking \emph{entrenched} cavities
+hardest, via \(\tanh(T_i/T_{\text{crit}})\) \\
+Phase-consistent Hebbian & binding weights & consolidating only
+phase-consistent co-activity \\
+Momentum emission & wavefront recency & gating which cavities may be
+emitted \\
+\end{longtable}
+
+The chaos coupling is worth noting: it and the Curie gate read the
+\emph{same} variable to opposite ends. Heat makes a cavity decouple, and
+heat also makes it the one most strongly perturbed. Entrenchment is
+thereby both punished and disrupted, which is what allows escape rather
+than mere silencing.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. The Failure This Layer
+Fixed}\label{the-failure-this-layer-fixed}
+
+CMD was not designed in the abstract. It replaced a mechanism that
+demonstrably did not work.
+
+The prior substrate injected input bytes into cavities selected by a
+\textbf{hash of the byte value modulo the cavity count}. This is
+arbitrary addressing wearing the costume of sensation: byte \texttt{m}
+would land on whatever cavity index the hash produced, with no
+relationship between the byte and the concept.
+
+The observable failure was that a query for \texttt{minecraft} returned
+\texttt{alexandria}. The two share bytes; the hash scattered those bytes
+into unrelated cavities; energy accumulated somewhere structurally
+meaningless; and the readout reported it confidently.
+
+The fix has three parts, and all three are necessary. A
+\textbf{dedicated lane layer} so bytes have somewhere of their own to
+go. \textbf{Bindings starting at zero} so a byte cannot reach a concept
+it has never been associated with. And \textbf{rarity weighting} so that
+common bytes cannot carry a match on their own.
+
+The general lesson is stated in the successor literature as the
+difference between a tuning problem and a representational one: no
+adjustment to the hash could have fixed this, because the hash was not
+approximately right.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. What CMD Does Not Solve}\label{what-cmd-does-not-solve}
+
+\textbf{Emission of novel byte sequences.} CMD grounds
+\emph{recognition} in bytes. The symmetric operation --- originating a
+byte sequence for a word not in the lexicon --- does not work. Sweeping
+the byte-lane phase field to emit characters babbles.
+
+The asymmetry is structural rather than incidental. \textbf{Recognition
+is a comparison problem} and yields to better representation, which is
+why the bigram widening of §2.5 fixed it. \textbf{Emission is a
+generation problem}: the field must \emph{originate} a sequence, with
+nothing to compare against. No amount of representational widening
+supplies the missing mechanism, and widening the alphabet --- the fix
+that worked for recognition --- does not help.
+
+This is the residual of the emission problem, and the honest scope of
+this paper is that it solves the input half.
+
+\textbf{Heat is not relevance.} A cold cavity is one that has not fired
+recently, which is not the same as one that matters. Habituation
+suppresses the ubiquitous; it does not promote the important.
+
+\textbf{Constants are set, not derived.} \(T_{\text{crit}} = 3.0\),
+\(\alpha\), \(\beta\), and the binding rates are chosen values. The
+material constants elsewhere in this substrate were replaced by a
+derivation from relation fan-out and measurably improved; the thermal
+constants have not had the same treatment, and until they do this layer
+carries the same unfalsifiability the material table used to.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Conclusion}\label{conclusion}
+
+CMD makes the entry point to the substrate sensory rather than
+addressed. Concepts become unreachable by name and reachable only
+through learned coupling from byte lanes, which makes recognition
+graded, makes misspelling a matter of degree, and removes the hash table
+that was doing the retrieval before any physics ran.
+
+Habituation then replaces a curated stopword list with a thermodynamic
+process, and does so in a form other mechanisms can read --- which is
+why a refuted hypothesis can heat a concept and a chaotic driver can
+shake the hottest one.
+
+The layer is honest about its half of the problem. Input is grounded;
+output is not.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Mahir, I. \emph{PRM: The Phonic Resonance Matrix.} --- the cavity and
+  tunnel substrate CMD grounds.
+\item
+  Mahir, I. \emph{MIMS: Mechanical Impedance and Material Stiffness.}
+  --- the material derivation §7 contrasts with CMD's set constants.
+\item
+  Mahir, I. \emph{MRS: Morphological Resonance Synthesis.} --- the
+  bigram extension of §2.5, and the emission half that does not work.
+\item
+  Mahir, I. \emph{CSAT: Chaotic Strange-Attractor Trajectory.} --- reads
+  \(T_i\) to opposite purpose.
+\item
+  Mahir, I. \emph{CPME / CPME-II.} --- momentum emission and
+  phase-consistent consolidation built on this layer.
+\item
+  Mahir, I. \emph{From Artificial to Synthetic Intelligence.} §5.4c,
+  §8.5.
+\item
+  Implementation: \texttt{src/physics.hpp} (\texttt{byte\_bind\_w},
+  \texttt{bind\_bigram}, \texttt{heat\_T}, \texttt{T\_crit},
+  \texttt{drive\_byte}, wavefront gating).
+\end{itemize}
+
+\end{document}

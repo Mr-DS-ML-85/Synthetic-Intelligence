@@ -1,0 +1,634 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={The L9-Cognitive Graph: Nine Layers from Lexical Decomposition to Paradigm Generation},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{The L9-Cognitive Graph: Nine Layers from Lexical Decomposition to
+Paradigm Generation}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{The L9-Cognitive Graph: Nine Layers from Lexical Decomposition
+to Paradigm
+Generation}\label{the-l9-cognitive-graph-nine-layers-from-lexical-decomposition-to-paradigm-generation}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``A graph that answers
+\texttt{{[}Apple{]}\ -\/-is\_a-\/-\textgreater{}\ {[}Fruit{]}} is a
+dictionary. Maxwell did not consult a dictionary.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+Probabilistic next-symbol prediction confines a system to interpolating
+within existing knowledge. We propose the \textbf{L9-Cognitive Graph}, a
+neuro-symbolic architecture organised as nine discrete layers of
+traversal logic over a deterministic symbolic graph, ascending from
+lexical decomposition to the generation of new axiomatic roots.
+
+The organising claim is that breakthrough reasoning is not semantic
+retrieval but \textbf{cross-domain isomorphism}: recognising that the
+mathematical structure of one domain describes the unresolved anomalies
+of another. Achieving this requires the engine to move from
+\emph{constraint enforcement} to \emph{abductive constraint generation}.
+
+This paper specifies all nine layers --- each with its input, operation,
+output and failure mode --- rather than listing them. Section 5 states,
+layer by layer, which are implemented, which are partial, and which
+remain proposals. Four are live, two are partial, and three are not
+built.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. The Limits of Semantic
+Retrieval}\label{the-limits-of-semantic-retrieval}
+
+A graph database mapping
+\texttt{{[}Apple{]}\ -\/-is\_a-\/-\textgreater{}\ {[}Fruit{]}} is a
+semantic dictionary: it returns what was stored, structured. Human
+breakthrough logic does not work this way. Maxwell's unification of
+electricity and magnetism was not a lookup; it was the recognition that
+one domain's mathematical structure resolved another's anomalies.
+
+Reproducing that requires two capabilities a dictionary lacks. The
+engine must be able to notice that its own knowledge is
+\textbf{structurally inconsistent} rather than merely incomplete, and it
+must be able to \textbf{propose structure that was never asserted} in
+response.
+
+The layers below are ordered by how far each departs from retrieval.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Biological Motivation: Two
+Topologies}\label{biological-motivation-two-topologies}
+
+The architecture borrows two structures rather than a metaphor.
+
+\textbf{Neocortical columns --- the local graph.} The brain processes
+localised, highly deterministic rules: syntax, basic physics. These
+correspond to densely connected subgraph clusters with near-unit edge
+weights, where traversal is reliable and cheap.
+
+\textbf{The Default Mode Network --- the abductive engine.} The DMN
+activates during undirected thought and deep problem-solving, searching
+for low-probability, long-distance connections across disparate columns.
+It corresponds to an asynchronous background process running
+bridge-finding across structurally similar but semantically distant
+subgraphs.
+
+The functional distinction that matters: \textbf{the local graph
+answers, the DMN wanders.} A system with only the first can never
+surprise itself.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. The Nine Layers}\label{the-nine-layers}
+
+Each layer is specified by what it takes, what it does, what it emits,
+and how it fails. Layers are cumulative: L\(n\) presupposes
+L\(1..n{-}1\).
+
+\subsubsection{L1 --- Lexical / Morphological
+Decomposition}\label{l1-lexical-morphological-decomposition}
+
+\textbf{Input.} A token that resolves to no node. \textbf{Operation.}
+Fracture the string into sub-lexical fragments --- morphemes, syllables,
+character clusters --- and project each against the ontology for partial
+matches. \texttt{biology} decomposes to \texttt{bio} + \texttt{logy};
+\texttt{sudo} to \texttt{su} + \texttt{do}. \textbf{Output.} A set of
+candidate bindings for an otherwise orphan node. \textbf{Failure mode.}
+Spurious decomposition. Short fragments match everything, so a fragment
+carries usable evidence only above a minimum length --- an information
+floor, not a stopword list.
+
+This layer exists because a node of degree zero is unreachable, and an
+unreachable node makes every higher layer inapplicable.
+
+\subsubsection{L2 --- Ontological
+Retrieval}\label{l2-ontological-retrieval}
+
+\textbf{Input.} A resolved node. \textbf{Operation.} Traverse explicit
+edges. \texttt{Darwin\ -\textgreater{}\ Human}. \textbf{Output.}
+Asserted neighbours. \textbf{Failure mode.} Silence when no edge exists.
+This is the honest failure and is preferable to a fabricated one.
+
+L1 and L2 together constitute the dictionary. Everything above is the
+argument of this paper.
+
+\subsubsection{L3 --- Transitive
+Inference}\label{l3-transitive-inference}
+
+\textbf{Input.} Two chained edges \(A \to B\), \(B \to C\).
+\textbf{Operation.} Instantiate the implied edge \(A \to C\), recording
+both premises. \textbf{Output.} A derived edge, distinguishable from an
+asserted one. \textbf{Failure mode.} Unbounded expansion. Transitive
+closure over a large graph is quadratic, so derivation must be bounded
+by an explicit budget.
+
+The provenance requirement is not decoration. A derived edge that cannot
+name its premises cannot be retracted when one of them is withdrawn.
+
+\subsubsection{L4 --- Causal Abduction}\label{l4-causal-abduction}
+
+\textbf{Input.} An observed end state \(Y\). \textbf{Operation.} Search
+\emph{backwards} for a cause \(X\) whose consequences include \(Y\).
+This inverts L3's direction of travel. \textbf{Output.} A hypothesis,
+not a conclusion. \textbf{Failure mode.} Affirming the consequent. Many
+causes produce the same effect, so an abduced \(X\) is a candidate
+requiring independent support --- and labelling it otherwise is the
+single easiest way for this architecture to produce confident nonsense.
+
+\subsubsection{L5 --- Counterfactual
+Simulation}\label{l5-counterfactual-simulation}
+
+\textbf{Input.} A core axiom. \textbf{Operation.} Temporarily invert it
+--- \emph{what if gravity repelled?} --- and propagate consequences,
+checking whether the resulting system remains consistent.
+\textbf{Output.} A stability verdict on the inverted world.
+\textbf{Failure mode.} Combinatorial explosion, and contamination of the
+base graph if the inversion is not perfectly isolated and reverted.
+
+L5 is how the engine determines which axioms are \emph{load-bearing}: an
+axiom whose inversion changes nothing was doing no work.
+
+\subsubsection{L6 --- Analogical Mapping}\label{l6-analogical-mapping}
+
+\textbf{Input.} Two subgraphs from different domains.
+\textbf{Operation.} Attempt a structure-preserving \(1{:}1\)
+correspondence --- fluid dynamics onto electrical circuits, pressure
+\(\to\) voltage, flow \(\to\) current. \textbf{Output.} A mapping, plus
+the edges of one domain transferred onto the other as hypotheses.
+\textbf{Failure mode.} Superficial isomorphism. Two subgraphs can share
+shape while the correspondence means nothing, so a mapping must be
+scored by more than topology.
+
+\textbf{This is the first layer of genuine novelty}, because its output
+is not entailed by either domain alone.
+
+\subsubsection{L7 --- Anomaly Detection}\label{l7-anomaly-detection}
+
+\textbf{Input.} The graph. \textbf{Operation.} Scan for nodes of high
+connectivity carrying \emph{contradictory} constraints --- a concept
+that participates widely while holding incompatible commitments. This is
+the \textbf{Maxwell gap}: the signature of a theory that is incomplete
+at a specific, locatable point. \textbf{Output.} A ranked list of
+structural contradictions. \textbf{Failure mode.} Mistaking noise for
+anomaly. Extraction error produces contradictions that indicate a bad
+parse rather than a gap in the world.
+
+L7 is the layer that lets the system be \emph{dissatisfied} with what it
+knows, which is the precondition for L8 and L9.
+
+\subsubsection{L8 --- Synthesis (The DMN
+Layer)}\label{l8-synthesis-the-dmn-layer}
+
+\textbf{Input.} An L7 anomaly. \textbf{Operation.} Generate a
+\textbf{bridge node} resolving it, constrained to satisfy both of the
+subgraphs it joins. \textbf{Output.} A new vertex that appeared in no
+source. \textbf{Failure mode.} Unfalsifiable patching. A bridge invented
+purely to absorb a contradiction, with no independent consequences,
+explains nothing --- it renames the problem.
+
+The discipline required here is that a synthesised node must make
+predictions beyond the anomaly that motivated it.
+
+\subsubsection{L9 --- Paradigm Generation}\label{l9-paradigm-generation}
+
+\textbf{Input.} A region of the graph that is verbose, irregular and
+patched. \textbf{Operation.} Define a new \textbf{axiomatic root} from
+which the messy region follows, collapsing many special cases into fewer
+general ones. \textbf{Output.} A reorganisation of the knowledge base,
+not an addition to it. \textbf{Failure mode.} Losing content. A
+simplification that fails to entail what it replaced is not a paradigm;
+it is deletion.
+
+L9 is the only layer whose success criterion is \emph{compression}: the
+same commitments held in less structure.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Scoring Novelty}\label{scoring-novelty}
+
+Novelty is not randomness --- it is the discovery of hidden structural
+isomorphism. Given subgraphs \(A\) and \(B\), we seek pairs that are
+\textbf{semantically distant} but \textbf{structurally identical}:
+
+\[
+\Phi(A, B) \;=\; \frac{I(A, B)}{e^{-k \cdot d(A, B)}}
+\]
+
+where \(I(A,B)\) is a maximal common subgraph isomorphism score,
+\(d(A,B)\) is the shortest path between the subgraph roots, and \(k\) is
+a scaling constant.
+
+The exponential in the denominator is the load-bearing choice: it makes
+\(\Phi\) grow with distance, so a structural match between
+\emph{adjacent} concepts scores poorly. Two neighbouring nodes sharing
+shape is expected. Two nodes twelve hops apart sharing shape is a
+candidate breakthrough. Pairs exceeding a threshold \(\tau\) are
+flagged.
+
+\textbf{A caution this formulation invites.} \(\Phi\) rewards distance
+unboundedly, so with a finite isomorphism score the highest-scoring
+pairs will tend to be the most remote --- which includes pairs that are
+remote because one of them is extraction noise. Any deployment needs a
+floor on subgraph quality before distance is rewarded.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Implementation Status}\label{implementation-status}
+
+The paper's claims are separated from the engine's behaviour here, layer
+by layer.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Layer
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Status
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Where, or what is missing
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{L1} Morphological & \textbf{live} & bigram sensory lanes; graded
+recognition survives misspelling, 7/7 measured \\
+\textbf{L2} Retrieval & \textbf{live} & typed concept graph traversal \\
+\textbf{L3} Transitive & \textbf{live} & forward chaining with premise
+citation; derived edges name both parents \\
+\textbf{L4} Abduction & \textbf{partial} & abduction over upstream
+cavities exists; no general backward search from an arbitrary \(Y\) \\
+\textbf{L5} Counterfactual & \textbf{not built} & requires isolated
+graph forking with guaranteed revert; no such isolation exists \\
+\textbf{L6} Analogical & \textbf{live} & shared-target intersection plus
+rubber-tunnel bridging, with 20-seed reproducibility data; the Fisher
+metric supplies a principled distance \\
+\textbf{L7} Anomaly & \textbf{partial} & contradiction detection and
+isolated-subgraph/logic-gap scans exist; no ranked Maxwell-gap
+register \\
+\textbf{L8} Synthesis & \textbf{partial} & fission spawns new vertices
+to resolve contradiction, and mutation forces distant-pair hypotheses
+that decay if unsupported --- but neither is \emph{driven by} an L7
+anomaly report \\
+\textbf{L9} Paradigm & \textbf{not built} & no mechanism reorganises the
+graph around a new root; macro-rule induction compresses
+\emph{derivations}, not \emph{axioms}, which is a weaker relative \\
+\end{longtable}
+
+\textbf{The honest summary.} The lower half of the stack is real. The
+upper half is partially present but \emph{disconnected}: the engine has
+anomaly detection and it has synthesis, but synthesis does not consume
+anomaly reports. Wiring L7 into L8 is the single highest-value unbuilt
+link, and it is engineering rather than research.
+
+L5 and L9 are genuinely open. L9 in particular is not a matter of
+effort: no criterion is currently specified for when a proposed
+axiomatic root is \emph{better} than the structure it would replace, and
+without that criterion the layer cannot be evaluated even if built.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Limitations}\label{limitations}
+
+\textbf{The layer ordering is asserted.} Nine layers with clean
+boundaries is a presentational convenience. In the running engine, L1
+recognition and L6 bridging interact directly, and L3 derivation feeds
+L7 detection without passing through L4 or L5. The stack is a taxonomy,
+not a pipeline.
+
+\textbf{\(\Phi\) is untuned.} The constant \(k\) and threshold \(\tau\)
+have no principled setting, and §4 notes the formulation's bias toward
+remote noise. The Fisher-information distance is a more defensible
+replacement for \(d\), and supersedes the shortest-path form where both
+are available.
+
+\textbf{No layer above L3 has an oracle.} L3's output is checkable by
+construction. An L6 mapping, an L8 bridge or an L9 paradigm has no
+external verdict available --- which is precisely the gap the
+compile-verify loop closes for code, and does not close for physics or
+biology.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Conclusion}\label{conclusion}
+
+The L9 stack describes the ascent from a semantic dictionary to an
+isomorphic constraint-satisfaction engine --- one able to observe
+structural contradictions in what it holds and calculate the structure
+required to unify them.
+
+Four layers are live and two are partial. The most useful outcome of
+writing the stack out in full is not the top of it but the middle: it
+makes visible that anomaly detection and synthesis both exist and are
+\textbf{not connected to each other}, which was not apparent while the
+layers were a list of one-line descriptions.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Mahir, I. \emph{From Artificial to Synthetic Intelligence.} §4.4 ---
+  the nine reasoning primitives implementing L2--L6.
+\item
+  Mahir, I. \emph{RB+G: Gated Recursive Bifurcation with Analogical
+  Bridging.} --- L6 and part of L8, with reproducibility data.
+\item
+  Mahir, I. \emph{Conceptual Mutation Architecture (CMA).} --- forced
+  distant-pair hypothesis with decay; the other half of L8.
+\item
+  Mahir, I. \emph{Morphological Abduction Architecture (MAA).} --- L1
+  and L4.
+\item
+  Mahir, I. \emph{A Boltzmann Fisher-Information Metric for Graph-Valued
+  Cognitive States.} --- a principled replacement for \(d(A,B)\) in §4.
+\item
+  Mahir, I. \emph{JAS: Einstein's Epistemology as a Running
+  Architecture.} --- the oracle problem of §6.
+\item
+  Implementation: \texttt{src/layer2.hpp}, \texttt{src/analogy.hpp},
+  \texttt{src/inference.hpp}, \texttt{src/bisociation.hpp}.
+\end{itemize}
+
+\end{document}

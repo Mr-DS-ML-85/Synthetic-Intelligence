@@ -1,0 +1,76 @@
+# maxwell_equations.axioms — the pre-Maxwell electromagnetism seed.
+#
+# We encode ONLY what was known before 1865:
+#
+#     Gauss's law          : div_e is_proportional_to charge_density
+#     Gauss for magnetism  : div_b is_proportional_to zero
+#     Faraday's law        : curl_e is_proportional_to db_dt
+#     Ampere's law         : curl_b is_proportional_to current_density
+#
+# What is intentionally MISSING is the displacement-current term that
+# Maxwell added:
+#
+#     Ampere-Maxwell law   : curl_b is_proportional_to de_dt   ← ABSENT
+#
+# The mirror_of pairings let the anomaly detector see that
+#   curl_e is_proportional_to db_dt      (Faraday, present)
+# has a mirror-partner form that IS NOT asserted:
+#   curl_b is_proportional_to de_dt      (the Maxwell displacement current)
+#
+# That surfaced anomaly IS the historic breakthrough. The engine
+# rediscovers the reasoning path Maxwell followed in 1865.
+#
+# Labels are lowercase because the router normalises queries to
+# lowercase before graph lookup.
+
+# ---------- physics-object typing ----------
+electric_field       is_a   physical_field
+magnetic_field       is_a   physical_field
+charge_density       is_a   physical_quantity
+current_density      is_a   physical_quantity
+db_dt                is_a   physical_quantity
+de_dt                is_a   physical_quantity
+curl_e               is_a   physical_operator
+curl_b               is_a   physical_operator
+div_e                is_a   physical_operator
+div_b                is_a   physical_operator
+
+# ---------- fundamental-law tagging ----------
+electromagnetism     is_a           theory
+gauss_law            is_fundamental fundamental_law
+gauss_magnetism_law  is_fundamental fundamental_law
+faraday_law          is_fundamental fundamental_law
+ampere_law           is_fundamental fundamental_law
+conservation_of_charge is_fundamental fundamental_law
+
+gauss_law            part_of        electromagnetism
+gauss_magnetism_law  part_of        electromagnetism
+faraday_law          part_of        electromagnetism
+ampere_law           part_of        electromagnetism
+
+# ---------- pre-Maxwell equations ----------
+# Gauss's law for electricity
+div_e                is_proportional_to  charge_density
+gauss_law            derives_from        div_e
+gauss_law            derives_from        charge_density
+
+# Gauss's law for magnetism
+div_b                is_proportional_to  zero
+gauss_magnetism_law  derives_from        div_b
+
+# Faraday's law of induction
+curl_e               is_proportional_to  db_dt
+faraday_law          derives_from        curl_e
+faraday_law          derives_from        db_dt
+
+# Pre-Maxwell Ampere's law (current only, NO displacement current)
+curl_b               is_proportional_to  current_density
+ampere_law           derives_from        curl_b
+ampere_law           derives_from        current_density
+
+# ---------- symmetry pairings ----------
+# Every E-side operator has a mirror B-side operator.
+curl_e               mirror_of           curl_b
+div_e                mirror_of           div_b
+de_dt                mirror_of           db_dt
+charge_density       mirror_of           current_density

@@ -1,0 +1,40 @@
+# Facts established by EXPERIMENT (Phase 2 compile-verify loop).
+# Not asserted by a human. Not derived by forward chaining.
+# Each line contradicted what AST extraction recorded, and the
+# compiler settled it.
+drive                        has              sig_int_float_float_int
+drive_byte                   has              sig_drive_bytechar
+drive                        has              sig_driveint_float_float_int
+bind_byte                    has              sig_bind_bytechar_int
+bind_byte                    has              arity_2
+drive                        has              sig_driveint_float_float_int
+# INDUCED, survived 3 held-out experiments:
+# every function FOR WHICH the graph records a takes_arg edge takes at least one argument
+# INDUCED, survived 3 held-out experiments:
+# every function FOR WHICH the graph records a takes_arg edge takes at least one argument
+drive                        has              sig_driveint_float_float_int
+run                          has              sig_runint
+fission                      has              sig_fissionint_float_float
+bind_byte                    has              sig_bind_bytechar_int
+# INDUCED, survived 3 held-out experiments:
+# every function FOR WHICH the graph records a takes_arg edge takes at least one argument
+# INDUCED, survived 3 held-out experiments:
+# every function FOR WHICH the graph records a takes_arg edge takes at least one argument
+drive                        has              sig_driveint_float_float_int
+run                          has              sig_runint
+fission                      has              sig_fissionint_float_float
+bind_byte                    has              sig_bind_bytechar_int
+# INDUCED, survived 3 held-out experiments:
+# every function FOR WHICH the graph records a takes_arg edge takes at least one argument
+drive                        has              sig_driveint_float_float_int
+run                          has              sig_runint
+fission                      has              sig_fissionint_float_float
+bind_byte                    has              sig_bind_bytechar_int
+# INDUCED, survived 3 held-out experiments:
+# every function FOR WHICH the graph records a takes_arg edge takes at least one argument
+# INDUCED, survived 3 held-out experiments:
+# every function FOR WHICH the graph records a takes_arg edge takes at least one argument
+drive                        has              sig_driveint_float_float_int
+run                          has              sig_runint
+fission                      has              sig_fissionint_float_float
+bind_byte                    has              sig_bind_bytechar_int

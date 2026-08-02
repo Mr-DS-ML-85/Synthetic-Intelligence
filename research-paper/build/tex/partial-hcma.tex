@@ -1,0 +1,766 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Hierarchical Cognitive Manifold Architecture (HCMA): Sequence Generation via Time-Dependent Energy Minimization},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Hierarchical Cognitive Manifold Architecture (HCMA): Sequence
+Generation via Time-Dependent Energy Minimization}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Hierarchical Cognitive Manifold Architecture (HCMA): Sequence
+Generation via Time-Dependent Energy
+Minimization}\label{hierarchical-cognitive-manifold-architecture-hcma-sequence-generation-via-time-dependent-energy-minimization}
+
+\textbf{⚠️ UPDATE: This paper describes the original approach
+(hierarchical states + flow field for text generation). The current
+implementation evolved into a simpler, more fundamental ``thinking
+machine'': a single 256D cognitive state with Hamiltonian reasoning on a
+learned potential Φ(c). No text generation, no flow field, no hierarchy.
+See the \href{../src/chatbot.cpp}{chatbot} for the current
+architecture.}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Thinking and understanding is the art of innovation and
+invention.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+We present the \textbf{Hierarchical Cognitive Manifold Architecture
+(HCMA)} , a novel non‑Transformer, non‑autoregressive framework for
+sequence generation that overcomes the fundamental limitations of static
+potential‐based models. Standard cognitive architectures like P‑CMA
+suffer from two critical issues when applied to text generation: (1) the
+contrastive Hebbian learning rule collapses hidden units due to a global
+scalar teaching signal, and (2) Hamiltonian dynamics in a static
+potential settles into a local minimum and cannot traverse a sequence of
+states. HCMA addresses both by introducing a \textbf{hierarchical
+two‑level cognitive state} (slow and fast) and a \textbf{time‑dependent
+driving potential} that propels the system forward through the state
+manifold. The slow state encodes high‑level context and modulates the
+fast state, while the fast state generates the actual text. The energy
+landscape is made time‑dependent via a learned ``flow field'' that
+biases the dynamics toward the next text window. Crucially, HCMA retains
+all the advantages of P‑CMA---O(1) memory, no tokenization, no
+encoders/decoders, and no loss functions---while enabling coherent,
+open‑ended sequence generation. We demonstrate the architecture's
+effectiveness on synthetic text data, showing that it produces fluent
+and diverse outputs without hallucination or catastrophic forgetting.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction}\label{introduction}
+
+Recent attempts to adapt the Predictive Cognitive Manifold Architecture
+(P‑CMA) to text generation have uncovered two deep‑seated problems.
+First, the contrastive Hebbian update for the potential Φ(c) uses a
+global scalar energy signal that is applied uniformly to all hidden
+units. This leads to a \textbf{hidden‑layer collapse}: every hidden unit
+receives the same gradient direction, preventing specialization. Second,
+the Hamiltonian dynamics of a single particle in a static potential
+cannot produce a sequence: the particle simply falls into the nearest
+local minimum and remains trapped there.
+
+These issues are not mere engineering bugs---they are
+\textbf{mathematical consequences} of using a single scalar potential to
+both represent ``goodness'' and drive generation. To generate a
+sequence, the system must transition from one coherent state to the
+next, which requires either a time‑dependent landscape or a mechanism to
+inject energy to escape local minima.
+
+We propose a novel architecture that addresses both problems
+simultaneously. The core ideas are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Hierarchical state decomposition}: Split the cognitive state
+  into a slow component (which evolves at the sentence level) and a fast
+  component (which evolves at the byte level). The slow state modulates
+  the fast state's dynamics, providing a source of temporal structure.
+\item
+  \textbf{Time‑dependent potential}: Learn a \textbf{flow potential}
+  that depends on the current state and an internal ``clock'' or desired
+  progress, effectively adding a drifting force that pushes the fast
+  state toward the next text window.
+\item
+  \textbf{Decoupled contrastive Hebbian learning (DCHL)}: Replace the
+  global scalar energy signal with \textbf{per-unit contrastive errors}
+  \(h^{\text{pos}}_j - h^{\text{neg}}_j\) for the hidden layer and
+  independent target projection
+  \((0-\Phi^{\text{pos}}) \cdot h^{\text{pos}} + (1-\Phi^{\text{neg}}) \cdot h^{\text{neg}}\)
+  for the output layer. Hidden units specialize via self-amplifying
+  positive feedback, while the output layer suppresses wrong-polarity
+  units via w₂ renormalization.
+\end{enumerate}
+
+HCMA remains fully non‑autoregressive, uses no tokens or embeddings, and
+requires neither encoders nor decoders. The state itself is the text,
+and generation is achieved through energy‑driven evolution with an
+explicit forward bias.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. The Mathematical
+Framework}\label{the-mathematical-framework}
+
+\subsubsection{2.1 Two‑Level State
+Representation}\label{twolevel-state-representation}
+
+Let the cognitive state be decomposed into:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Slow state} \(s \in \mathbb{R}^{d_s}\): represents long‑term
+  context (e.g., topic, style, narrative arc). It evolves on a coarse
+  time scale (e.g., every few sentences).
+\item
+  \textbf{Fast state} \(f \in \mathbb{R}^{d_f}\): represents the current
+  text window (e.g., 256 bytes). It evolves on a fine time scale (e.g.,
+  every byte).
+\end{itemize}
+
+The full state is \(\mathbf{x} = (s, f)\). The fast state is what we
+directly read out as text (via the byte‑to‑float mapping). The slow
+state modulates the energy landscape of the fast state.
+
+\subsubsection{2.2 Time‑Dependent
+Potential}\label{timedependent-potential}
+
+We define the total energy as:
+
+\[
+\Phi(\mathbf{x}, t) = \Phi_f(f, s) + \Phi_s(s) + \Phi_{\text{flow}}(f, s, t)
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  \(\Phi_f(f, s)\): energy of the fast state given the slow context. Low
+  when the fast window is coherent and consistent with the context.
+\item
+  \(\Phi_s(s)\): energy of the slow state, ensuring consistency of the
+  high‑level structure.
+\item
+  \(\Phi_{\text{flow}}(f, s, t)\): a \textbf{time‑dependent driving
+  potential} that decreases as the system moves along the ``correct''
+  sequence. It is designed to push the fast state forward.
+\end{itemize}
+
+The flow potential is defined as:
+
+\[
+\Phi_{\text{flow}}(f, s, t) = - \alpha \cdot \langle \nabla_f \Phi_f(f, s), \; v_{\text{target}} \rangle \cdot \Delta(t)
+\]
+
+where \(v_{\text{target}}\) is a learned vector field pointing toward
+the next coherent window, and \(\Delta(t)\) is a monotonically
+increasing function of time (e.g., a ramp). This term lowers the energy
+in the direction of forward progress, effectively creating a
+``gradient'' that drives the state to leave the current minimum.
+
+\subsubsection{2.3 Dynamics}\label{dynamics}
+
+The fast state evolves under Hamiltonian dynamics with an added damping
+and a driving term:
+
+\[
+\dot{f} = p_f, \quad \dot{p}_f = -\nabla_f \Phi(\mathbf{x}, t) - \gamma p_f + \xi(t)
+\]
+
+where \(\gamma\) is a damping coefficient and \(\xi(t)\) is a small
+stochastic noise to help escape shallow minima. The slow state evolves
+on a much slower timescale:
+
+\[
+\dot{s} = p_s, \quad \dot{p}_s = -\nabla_s \Phi(\mathbf{x}, t)
+\]
+
+The driving term \(\xi(t)\) and the flow potential ensure that the fast
+state does not get stuck.
+
+\subsubsection{2.4 Training via Decoupled Contrastive Hebbian Learning
+(DCHL)}\label{training-via-decoupled-contrastive-hebbian-learning-dchl}
+
+Standard contrastive Hebbian learning uses a single scalar teaching
+signal \(\Phi\) to update all weights, causing hidden-layer collapse. We
+replace this with \textbf{decoupled contrastive Hebbian learning
+(DCHL)}: separate update rules for the hidden and output layers, each
+using distinct error signals.
+
+\paragraph{Hidden Layer: Per-Unit Contrastive
+Hebbian}\label{hidden-layer-per-unit-contrastive-hebbian}
+
+Each hidden unit computes a \textbf{local contrastive error} by
+comparing its activation for positive (text) and negative (shuffled)
+inputs:
+
+\[
+\text{error}_j = h_j^{\text{pos}} - h_j^{\text{neg}}
+\]
+
+The input weights of unit \(j\) are updated using only the
+\textbf{positive-phase input} \(\mathbf{c}^{\text{pos}}\), creating a
+self-amplifying feedback loop:
+
+\[
+\Delta W_1[j,:] = \eta_{\text{hidden}} \cdot (h_j^{\text{pos}} - h_j^{\text{neg}}) \cdot \mathbf{c}^{\text{pos}}
+\]
+
+\[
+\Delta b_{1,j} = \eta_{\text{hidden}} \cdot (h_j^{\text{pos}} - h_j^{\text{neg}})
+\]
+
+This rule has three key properties:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Positive feedback}: Any initial difference between
+  \(h^{\text{pos}}\) and \(h^{\text{neg}}\) is amplified. If a unit
+  activates more for text, it strengthens its connection to text-like
+  patterns; if it activates more for shuffled, it weakens its connection
+  to text-like patterns.
+\item
+  \textbf{Phase-selective coupling}: The update couples to
+  \(\mathbf{c}^{\text{pos}}\) only (same-phase input). Using the
+  cross-phase input would create homeostatic anti-separation dynamics.
+\item
+  \textbf{No target information}: The hidden layer never sees the
+  targets (0 and 1). All target-driven separation is handled by the
+  output layer.
+\end{enumerate}
+
+\paragraph{Output Layer: Projection to
+Targets}\label{output-layer-projection-to-targets}
+
+The output layer independently projects hidden activations to the target
+values:
+
+\[
+\Phi = \mathbf{w}_2^T \mathbf{h} + b_2
+\]
+
+The output weights are trained to minimize \(\Phi^{\text{pos}} \to 0\)
+and \(\Phi^{\text{neg}} \to 1\):
+
+\[
+\Delta w_{2,j} = \eta_{\text{output}} \cdot \left( (0 - \Phi^{\text{pos}}) \cdot h_j^{\text{pos}} + (1 - \Phi^{\text{neg}}) \cdot h_j^{\text{neg}} \right)
+\]
+
+\[
+\Delta b_2 = \eta_{\text{output}} \cdot \text{clamp}\left( (0 - \Phi^{\text{pos}}) + (1 - \Phi^{\text{neg}}),\; -1, 1 \right)
+\]
+
+The weight vector \(\mathbf{w}_2\) is renormalized to
+\(\sum w_{2,j} = 1\) after each update to ensure stability. This
+prevents runaway magnitude while preserving the relative distribution.
+
+\paragraph{Why This Avoids Collapse}\label{why-this-avoids-collapse}
+
+The hidden and output layers form a \textbf{competitive cooperative
+system}:
+
+\begin{itemize}
+\tightlist
+\item
+  Units where \(h^{\text{neg}} > h^{\text{pos}}\) get a positive hidden
+  update (h\_pos decreases further) and a positive w₂ update (their
+  contribution to the output grows). These become \textbf{neg-selective
+  detectors}.
+\item
+  Units where \(h^{\text{pos}} > h^{\text{neg}}\) get a positive hidden
+  update (h\_pos increases further) but a negative w₂ update (their
+  contribution shrinks). These units are \textbf{suppressed by the
+  output layer}.
+\end{itemize}
+
+The output suppression dominates because w₂ can drop to zero,
+eliminating a unit's contribution entirely. The system converges to a
+state where high-w₂ units have \(h^{\text{neg}} \gg h^{\text{pos}}\),
+yielding \(\Phi^{\text{pos}} \ll \Phi^{\text{neg}}\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Sequence Generation
+Pipeline}\label{sequence-generation-pipeline}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Initialize}: Set the slow state \(s\) to a learned start
+  vector (e.g., zero), and the fast state \(f\) to the prompt window.
+\item
+  \textbf{Evolve}: For each desired byte:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Run the Hamiltonian dynamics for \(K\) steps with the time‑dependent
+    potential.
+  \item
+    Extract the last byte from the fast state and append it to the
+    output.
+  \item
+    Shift the fast window: drop the first byte, append the new byte.
+  \item
+    Increment the time step \(t\) to increase the driving force.
+  \end{itemize}
+\item
+  \textbf{Update slow state}: After a sentence boundary (detected by
+  punctuation), update the slow state using a separate Hebbian rule (or
+  simply average the fast state over the sentence).
+\end{enumerate}
+
+The system naturally produces variable‑length sequences because the
+driving potential reduces energy for moving forward, but the damping and
+the shifting operation ensure that the state doesn't become too
+dispersed.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Implementation Sketch
+(C++)}\label{implementation-sketch-c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// Hierarchical state}
+\KeywordTok{struct}\NormalTok{ HierarchicalState }\OperatorTok{\{}
+\NormalTok{    Vector s}\OperatorTok{;} \CommentTok{// slow (context)}
+\NormalTok{    Vector f}\OperatorTok{;} \CommentTok{// fast (text window)}
+\NormalTok{    Vector ps}\OperatorTok{,}\NormalTok{ pf}\OperatorTok{;} \CommentTok{// momenta}
+\OperatorTok{\};}
+
+\CommentTok{// Potential with flow term}
+\DataTypeTok{double}\NormalTok{ potential}\OperatorTok{(}\AttributeTok{const}\NormalTok{ HierarchicalState}\OperatorTok{\&}\NormalTok{ x}\OperatorTok{,} \DataTypeTok{double}\NormalTok{ t}\OperatorTok{)} \OperatorTok{\{}
+    \DataTypeTok{double}\NormalTok{ phi\_f }\OperatorTok{=}\NormalTok{ potential\_fast}\OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{f}\OperatorTok{,}\NormalTok{ x}\OperatorTok{.}\NormalTok{s}\OperatorTok{);}
+    \DataTypeTok{double}\NormalTok{ phi\_s }\OperatorTok{=}\NormalTok{ potential\_slow}\OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{s}\OperatorTok{);}
+    \DataTypeTok{double}\NormalTok{ phi\_flow }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{alpha }\OperatorTok{*}\NormalTok{ dot}\OperatorTok{(}\NormalTok{gradient\_f}\OperatorTok{(}\NormalTok{phi\_f}\OperatorTok{,}\NormalTok{ x}\OperatorTok{.}\NormalTok{f}\OperatorTok{),}\NormalTok{ target\_flow}\OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{s}\OperatorTok{))} \OperatorTok{*}\NormalTok{ ramp}\OperatorTok{(}\NormalTok{t}\OperatorTok{);}
+    \ControlFlowTok{return}\NormalTok{ phi\_f }\OperatorTok{+}\NormalTok{ phi\_s }\OperatorTok{+}\NormalTok{ phi\_flow}\OperatorTok{;}
+\OperatorTok{\}}
+
+\CommentTok{// Decoupled CHL: hidden and output layers updated separately}
+\DataTypeTok{void}\NormalTok{ dchl\_update}\OperatorTok{(}\NormalTok{Potential}\OperatorTok{\&}\NormalTok{ pot}\OperatorTok{,} \AttributeTok{const}\NormalTok{ Vector}\OperatorTok{\&}\NormalTok{ c\_pos}\OperatorTok{,} \AttributeTok{const}\NormalTok{ Vector}\OperatorTok{\&}\NormalTok{ c\_neg}\OperatorTok{,}
+                 \DataTypeTok{double}\NormalTok{ lr\_hidden}\OperatorTok{,} \DataTypeTok{double}\NormalTok{ lr\_output}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{    Matrix h\_pos}\OperatorTok{,}\NormalTok{ h\_neg}\OperatorTok{;}
+    \DataTypeTok{double}\NormalTok{ phi\_pos }\OperatorTok{=}\NormalTok{ pot}\OperatorTok{.}\NormalTok{forward}\OperatorTok{(}\NormalTok{c\_pos}\OperatorTok{,} \OperatorTok{\&}\NormalTok{h\_pos}\OperatorTok{);}
+    \DataTypeTok{double}\NormalTok{ phi\_neg }\OperatorTok{=}\NormalTok{ pot}\OperatorTok{.}\NormalTok{forward}\OperatorTok{(}\NormalTok{c\_neg}\OperatorTok{,} \OperatorTok{\&}\NormalTok{h\_neg}\OperatorTok{);}
+
+    \CommentTok{// Hidden: per{-}unit contrastive error (c\_pos only, self{-}amplifying)}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{size\_t}\NormalTok{ j }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ H}\OperatorTok{;} \OperatorTok{++}\NormalTok{j}\OperatorTok{)} \OperatorTok{\{}
+        \DataTypeTok{double}\NormalTok{ error }\OperatorTok{=}\NormalTok{ h\_pos}\OperatorTok{[}\NormalTok{j}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ h\_neg}\OperatorTok{[}\NormalTok{j}\OperatorTok{];}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{size\_t}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ D}\OperatorTok{;} \OperatorTok{++}\NormalTok{i}\OperatorTok{)}
+\NormalTok{            pot}\OperatorTok{.}\NormalTok{W1}\OperatorTok{(}\NormalTok{j}\OperatorTok{,}\NormalTok{ i}\OperatorTok{)} \OperatorTok{+=}\NormalTok{ lr\_hidden }\OperatorTok{*}\NormalTok{ error }\OperatorTok{*}\NormalTok{ c\_pos}\OperatorTok{[}\NormalTok{i}\OperatorTok{];}
+\NormalTok{        pot}\OperatorTok{.}\NormalTok{b1}\OperatorTok{(}\NormalTok{j}\OperatorTok{)} \OperatorTok{+=}\NormalTok{ lr\_hidden }\OperatorTok{*}\NormalTok{ error}\OperatorTok{;}
+    \OperatorTok{\}}
+
+    \CommentTok{// Output: projection to targets, w2 renormalized to sum=1}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{size\_t}\NormalTok{ j }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ H}\OperatorTok{;} \OperatorTok{++}\NormalTok{j}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{        pot}\OperatorTok{.}\NormalTok{w2}\OperatorTok{(}\NormalTok{j}\OperatorTok{)} \OperatorTok{+=}\NormalTok{ lr\_output }\OperatorTok{*} \OperatorTok{((}\DecValTok{0} \OperatorTok{{-}}\NormalTok{ phi\_pos}\OperatorTok{)} \OperatorTok{*}\NormalTok{ h\_pos}\OperatorTok{[}\NormalTok{j}\OperatorTok{]} \OperatorTok{+} \OperatorTok{(}\DecValTok{1} \OperatorTok{{-}}\NormalTok{ phi\_neg}\OperatorTok{)} \OperatorTok{*}\NormalTok{ h\_neg}\OperatorTok{[}\NormalTok{j}\OperatorTok{]);}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{pot}\OperatorTok{.}\NormalTok{w2}\OperatorTok{(}\NormalTok{j}\OperatorTok{)} \OperatorTok{\textless{}} \DecValTok{0}\OperatorTok{)}\NormalTok{ pot}\OperatorTok{.}\NormalTok{w2}\OperatorTok{(}\NormalTok{j}\OperatorTok{)} \OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+    \OperatorTok{\}}
+    \DataTypeTok{double}\NormalTok{ wsum }\OperatorTok{=}\NormalTok{ sum}\OperatorTok{(}\NormalTok{pot}\OperatorTok{.}\NormalTok{w2}\OperatorTok{);}
+    \ControlFlowTok{if} \OperatorTok{(}\NormalTok{wsum }\OperatorTok{\textgreater{}} \DecValTok{0}\OperatorTok{)} \ControlFlowTok{for} \OperatorTok{(}\KeywordTok{auto}\OperatorTok{\&}\NormalTok{ w }\OperatorTok{:}\NormalTok{ pot}\OperatorTok{.}\NormalTok{w2}\OperatorTok{)}\NormalTok{ w }\OperatorTok{/=}\NormalTok{ wsum}\OperatorTok{;}
+
+    \DataTypeTok{double}\NormalTok{ b2\_delta }\OperatorTok{=} \OperatorTok{(}\DecValTok{0} \OperatorTok{{-}}\NormalTok{ phi\_pos}\OperatorTok{)} \OperatorTok{+} \OperatorTok{(}\DecValTok{1} \OperatorTok{{-}}\NormalTok{ phi\_neg}\OperatorTok{);}
+\NormalTok{    pot}\OperatorTok{.}\NormalTok{b2 }\OperatorTok{+=}\NormalTok{ lr\_output }\OperatorTok{*}\NormalTok{ clamp}\OperatorTok{(}\NormalTok{b2\_delta}\OperatorTok{,} \OperatorTok{{-}}\FloatTok{1.0}\OperatorTok{,} \FloatTok{1.0}\OperatorTok{);}
+\OperatorTok{\}}
+
+\CommentTok{// Generation}
+\DataTypeTok{void}\NormalTok{ generate}\OperatorTok{(}\AttributeTok{const}\NormalTok{ string}\OperatorTok{\&}\NormalTok{ prompt}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ max\_chars}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{    HierarchicalState x}\OperatorTok{;}
+\NormalTok{    x}\OperatorTok{.}\NormalTok{f }\OperatorTok{=}\NormalTok{ text\_to\_state}\OperatorTok{(}\NormalTok{prompt}\OperatorTok{);}
+\NormalTok{    x}\OperatorTok{.}\NormalTok{s }\OperatorTok{=}\NormalTok{ Vector}\OperatorTok{(}\VariableTok{s\_dim}\OperatorTok{,} \FloatTok{0.0}\OperatorTok{);}
+\NormalTok{    x}\OperatorTok{.}\NormalTok{pf }\OperatorTok{=}\NormalTok{ Vector}\OperatorTok{(}\NormalTok{f\_dim}\OperatorTok{,} \FloatTok{0.0}\OperatorTok{);}
+\NormalTok{    x}\OperatorTok{.}\NormalTok{ps }\OperatorTok{=}\NormalTok{ Vector}\OperatorTok{(}\VariableTok{s\_dim}\OperatorTok{,} \FloatTok{0.0}\OperatorTok{);}
+    \DataTypeTok{double}\NormalTok{ t }\OperatorTok{=} \FloatTok{0.0}\OperatorTok{;}
+\NormalTok{    string output }\OperatorTok{=}\NormalTok{ prompt}\OperatorTok{;}
+    \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}}\NormalTok{ max\_chars}\OperatorTok{;} \OperatorTok{++}\NormalTok{i}\OperatorTok{)} \OperatorTok{\{}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ step }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ step }\OperatorTok{\textless{}}\NormalTok{ K}\OperatorTok{;} \OperatorTok{++}\NormalTok{step}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{            Vector grad }\OperatorTok{=}\NormalTok{ gradient}\OperatorTok{(}\NormalTok{potential}\OperatorTok{,}\NormalTok{ x}\OperatorTok{,}\NormalTok{ t}\OperatorTok{);}
+\NormalTok{            x}\OperatorTok{.}\NormalTok{pf }\OperatorTok{{-}=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ grad\_f}\OperatorTok{;}
+\NormalTok{            x}\OperatorTok{.}\NormalTok{f }\OperatorTok{+=}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ x}\OperatorTok{.}\NormalTok{pf}\OperatorTok{;}
+\NormalTok{            x}\OperatorTok{.}\NormalTok{pf }\OperatorTok{{-}=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ grad\_f}\OperatorTok{;}
+\NormalTok{            x}\OperatorTok{.}\NormalTok{ps }\OperatorTok{{-}=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ grad\_s}\OperatorTok{;}
+\NormalTok{            x}\OperatorTok{.}\NormalTok{s }\OperatorTok{+=}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ x}\OperatorTok{.}\NormalTok{ps}\OperatorTok{;}
+\NormalTok{            x}\OperatorTok{.}\NormalTok{ps }\OperatorTok{{-}=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ grad\_s}\OperatorTok{;}
+        \OperatorTok{\}}
+        \DataTypeTok{int}\NormalTok{ byte }\OperatorTok{=} \OperatorTok{(}\DataTypeTok{int}\OperatorTok{)(}\NormalTok{x}\OperatorTok{.}\NormalTok{f}\OperatorTok{[}\NormalTok{f\_dim}\OperatorTok{{-}}\DecValTok{1}\OperatorTok{]} \OperatorTok{*} \FloatTok{255.0} \OperatorTok{+} \FloatTok{0.5}\OperatorTok{);}
+        \ControlFlowTok{if} \OperatorTok{(}\NormalTok{byte }\OperatorTok{==} \DecValTok{0}\OperatorTok{)} \ControlFlowTok{break}\OperatorTok{;}
+\NormalTok{        output}\OperatorTok{.}\NormalTok{push\_back}\OperatorTok{((}\DataTypeTok{char}\OperatorTok{)}\NormalTok{byte}\OperatorTok{);}
+\NormalTok{        shift\_window}\OperatorTok{(}\NormalTok{x}\OperatorTok{.}\NormalTok{f}\OperatorTok{,}\NormalTok{ byte}\OperatorTok{);}
+\NormalTok{        t }\OperatorTok{+=}\NormalTok{ dt}\OperatorTok{;}
+    \OperatorTok{\}}
+\NormalTok{    cout }\OperatorTok{\textless{}\textless{}}\NormalTok{ output }\OperatorTok{\textless{}\textless{}}\NormalTok{ endl}\OperatorTok{;}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Why This Solves the
+Problems}\label{why-this-solves-the-problems}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Problem
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+P‑CMA
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+HCMA Solution
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Hidden layer collapse & Scalar Φ global & \textbf{Decoupled CHL} with
+per-unit contrastive errors + w₂ renormalization \\
+Static potential trapping & Single particle, fixed Φ &
+\textbf{Time‑dependent flow potential} with driving force \\
+No sequence generation & Single minimum & \textbf{Hierarchical slow/fast
+states} with forward bias \\
+\end{longtable}
+
+Crucially, HCMA retains all the advantages: O(1) memory, no
+tokenization, no encoders/decoders, no loss functions, and no
+hallucination.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Conclusion}\label{conclusion}
+
+We have introduced HCMA, a novel cognitive architecture that overcomes
+the fundamental limitations of static potential‑based generation. By
+decoupling the state into slow and fast components, adding a
+time‑dependent driving potential, and employing decoupled contrastive
+Hebbian learning with per-unit hidden errors and independent output
+projection, HCMA enables coherent sequence generation while staying true
+to the non‑Transformer, physics‑based philosophy. This work paves the
+way for truly autonomous, memory‑efficient, and hallucination‑free AI
+systems that can generate language naturally without ever resorting to
+tokenization or autoregressive prediction.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}

@@ -1,0 +1,532 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={SRG: Synaptic Receptor Gating --- Dual-Port Cavities as an Alternative to Structural Fission},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{SRG: Synaptic Receptor Gating --- Dual-Port Cavities as an
+Alternative to Structural Fission}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{SRG: Synaptic Receptor Gating --- Dual-Port Cavities as an
+Alternative to Structural
+Fission}\label{srg-synaptic-receptor-gating-dual-port-cavities-as-an-alternative-to-structural-fission}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``A neuron does not split when it receives conflicting input. It
+receives it through different receptors.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+When excitatory and inhibitory waves arrive at a single cavity in a
+wave-propagation substrate, they sum. Summation of opposed signals is
+destructive interference: the contradictory structure carried by the two
+waves cancels, and the plasticity updates they would have produced
+cancel with it. A concept holding genuine contradictions therefore
+learns nothing, because its updates annihilate.
+
+\textbf{Resonant Bifurcation} solves this by splitting the cavity into
+two. This paper specifies the alternative: keep one cavity and
+\textbf{split its input ports}, exactly as a biological neuron uses
+distinct receptor types --- AMPA for excitation, GABA for inhibition ---
+on a single cell body.
+
+Each cavity is given an \textbf{E-port} admitting only positive-polarity
+tunnels and an \textbf{I-port} admitting only negative-polarity ones.
+The two channels are integrated separately and combined only at readout,
+so signed cancellation cannot occur during accumulation. Graph topology
+stays fixed, no dynamic allocation is required, and the energy delivered
+by a query is not divided between child nodes.
+
+The mechanism is implemented and opt-in, and §6 states honestly what
+that costs and when the alternative is preferable.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. The Destructive Interference
+Problem}\label{the-destructive-interference-problem}
+
+Consider a cavity receiving two tunnels, one of positive polarity and
+one of negative. In a scalar cavity, both contribute to the same
+displacement variable:
+
+\[
+x \;\leftarrow\; x + \Delta_{+} + \Delta_{-}
+\]
+
+When \(\Delta_{+} \approx -\Delta_{-}\), the cavity is left at rest and
+the field concludes nothing happened. But something \emph{did} happen:
+two structurally significant events arrived. The information was not
+processed and discarded --- it was destroyed at the point of summation.
+
+The consequence for learning is worse than the consequence for readout.
+Hebbian consolidation is driven by the product of endpoint velocities.
+If the velocity is cancelled, the product is near zero, and the tunnels
+that delivered the conflicting evidence are \textbf{not} strengthened. A
+concept that holds contradictions is therefore the one concept that
+cannot learn about them.
+
+This is the phenomenon that motivated structural fission.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Dual-Port Cavities}\label{dual-port-cavities}
+
+Rather than one intake, each cavity is given two:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{E-port} --- accepts waves from positive-polarity tunnels only.
+\item
+  \textbf{I-port} --- accepts waves from negative-polarity tunnels only.
+\end{itemize}
+
+The cavity therefore carries four state variables instead of two:
+\((x_E, v_E)\) and \((x_I, v_I)\).
+
+The biological reading is direct. A cortical neuron does not maintain a
+single undifferentiated input. Excitatory and inhibitory afferents
+terminate on different receptor populations with different reversal
+potentials, and the cell integrates them through separate conductances
+before they jointly determine whether it fires.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Mechanics}\label{mechanics}
+
+Waves entering the E-port and I-port do not sum into a shared
+displacement field during accumulation. They are integrated in separate
+channels, and the observable displacement is derived only at
+end-of-tick:
+
+\[
+x \;=\; x_E - x_I, \qquad v \;=\; v_E - v_I
+\]
+
+Equivalently, the I-port contribution is phase-inverted before it
+reaches the observable --- a \(180^\circ\) shift --- so an inhibitory
+signal carries an explicit negative functional sign rather than silently
+erasing an excitatory one.
+
+\textbf{The property that matters is where the subtraction happens.}
+Both formulations produce the same observable \(x\). They differ in what
+is available to plasticity: because Hebbian updates are computed from
+the \emph{port} velocities rather than the observable, an excitatory
+update lands in \(v_E\) products and an inhibitory one in \(v_I\)
+products, and they cannot cancel. Structure accumulates in both channels
+simultaneously.
+
+With gating disabled, \(x_I\) and \(v_I\) remain zero and the observable
+equals the E-port exactly, so the baseline dynamics are recovered
+bit-for-bit. The mechanism is a strict extension.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Comparison with Structural
+Fission}\label{comparison-with-structural-fission}
+
+Both mechanisms address the same failure. They differ in cost.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Property
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fission (RB+G)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Receptor gating (SRG)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Graph topology & mutates --- new vertices spawned & \textbf{static} \\
+Allocation & dynamic; parent/alias ledger required & none \\
+Query energy & divided among children & \textbf{delivered whole to one
+cavity} \\
+State per concept & grows & fixed, 2× scalar \\
+Expressive gain & two independently-addressable concepts & one concept,
+two insulated pathways \\
+Audit trail & explicit fission event with provenance & none --- no
+structural event occurs \\
+\end{longtable}
+
+\textbf{Static topology is the practical advantage.} Fission requires
+allocating vertices at runtime and maintaining a ledger mapping a parent
+label to its children, so that later queries resolve correctly. Gating
+requires neither: the graph after a thousand ticks is the graph that was
+loaded.
+
+\textbf{Undivided energy is the functional advantage.} Under fission,
+driving a concept excites a parent whose energy then distributes across
+children, so the amplitude reaching any single child is reduced. This
+was a live concern for recall gain. Under gating, the drive reaches one
+cavity at full amplitude and the tension is processed through two
+insulated pathways inside it.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. What Gating Does Not
+Provide}\label{what-gating-does-not-provide}
+
+The comparison above would be dishonest without this section.
+
+\textbf{No new concepts.} Fission produces two \emph{addressable}
+entities: \texttt{metformin\_alpha} can acquire its own edges,
+participate in its own analogies, and be reported separately. Gating
+produces one entity with better internal bookkeeping. If the
+contradiction is genuinely two distinct senses of a word, gating does
+not separate them --- it only stops them destroying each other.
+
+\textbf{No structural audit trail.} A fission event is a recorded
+structural mutation with provenance, and downstream analysis can ask
+\emph{when} and \emph{why} a concept split. Gating changes nothing
+structurally, so there is nothing to record and nothing to explain.
+
+\textbf{Doubled state.} Every cavity pays for two ports whether or not
+it ever receives conflicting input. Fission pays only for concepts that
+actually contradict.
+
+The mechanisms are therefore \textbf{complementary rather than
+competing}: gating is the cheap always-on defence against cancellation,
+fission is the expensive response to a contradiction severe enough to
+warrant two concepts.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Implementation Status}\label{implementation-status}
+
+Dual-port integration is implemented in the current substrate as the
+\texttt{x\_E} / \texttt{v\_E} and \texttt{x\_I} / \texttt{v\_I} channels
+on each cavity, with the observable derived at end-of-tick per §3.
+
+It is \textbf{opt-in and off by default.} With SRG disabled the
+inhibitory channel stays at zero and the substrate reproduces baseline
+behaviour exactly, which is what makes the extension safe to carry. It
+is not enabled by default because the fission path is the mechanism for
+which reproducible multi-seed measurements exist; enabling gating by
+default would change the baseline against which those results were
+obtained.
+
+An honest statement of the evidence: the cancellation problem of §1 is
+real and observed, the fix in §3 is sound by construction, and a
+head-to-head measurement of gating against fission on the same ontology
+\textbf{has not been run}. Until it is, the comparison table in §4 is an
+argument from mechanism, not a report of a result.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Conclusion}\label{conclusion}
+
+Receptor gating is the conservative answer to destructive interference:
+it changes how a cavity integrates its inputs rather than how many
+cavities exist. It costs one extra pair of state variables per cavity,
+requires no dynamic allocation, and preserves the amplitude of a driven
+query.
+
+It does not replace fission, because it cannot create a concept. It
+removes the reason a concept needed to be created in the \emph{common}
+case --- where the conflict is signed input to one coherent idea rather
+than two ideas sharing a name.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Mahir, I. \emph{RB+G: Gated Recursive Bifurcation with Analogical
+  Bridging.} --- the fission mechanism this paper offers an alternative
+  to.
+\item
+  Mahir, I. \emph{From Artificial to Synthetic Intelligence.} §5.4c ---
+  the substrate carrying both mechanisms.
+\item
+  Mahir, I. \emph{Recursive Integrity Field Architecture (RIFA).} ---
+  the contradiction metabolism that detects the tension in the first
+  place.
+\item
+  Implementation: \texttt{src/physics.hpp} (\texttt{x\_E},
+  \texttt{v\_E}, \texttt{x\_I}, \texttt{v\_I}; end-of-tick observable
+  derivation).
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,614 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={A Liouville Analog for Tension-Bounded Phase-Space Expansion},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{A Liouville Analog for Tension-Bounded Phase-Space Expansion}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{A Liouville Analog for Tension-Bounded Phase-Space
+Expansion}\label{a-liouville-analog-for-tension-bounded-phase-space-expansion}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``When the phase space grows under contradiction, the honest
+conservation law is not on volume but on tension-weighted volume.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+Classical Hamiltonian mechanics preserves phase-space volume under the
+flow. The RB+G mechanism of \texttt{rbg.md} violates this: fission adds
+new degrees of freedom to the state space. We prove that a
+\emph{tension-weighted} volume,
+
+\[
+V(t) \;=\; \sum_{N} \int_{\mathcal{G}_N} e^{-\beta \, T(G)} \, d\text{vol},
+\]
+
+is preserved by the combined dynamics --- Hamiltonian flow inside each
+stratum, plus fission jumps across strata. The proof uses two standard
+tools: Hamilton's equations for divergence-free flow, and a specific
+choice of the cognitive temperature \(\beta\) such that the exponential
+weight cancels the volume gained at fission. The theorem provides the
+first conservation law for cognitive architectures with
+dynamically-growing state, and prepares the ground for the C/R upper
+bound of \texttt{cr\_bound.md}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Setup}\label{setup}
+
+\subsubsection{1.1 The Extended Phase
+Space}\label{the-extended-phase-space}
+
+Let \(\mathcal{P}\) be the disjoint union of strata:
+
+\[
+\mathcal{P} \;=\; \bigsqcup_{N \geq 1} \mathcal{P}_N, \qquad
+\mathcal{P}_N \;=\; \mathbb{R}^{2N} \times \mathcal{G}_N,
+\]
+
+where \(\mathbb{R}^{2N}\) is the cavity state space (\(N\) positions
+\(x_i\) and \(N\) velocities \(v_i\)) and \(\mathcal{G}_N\) is the space
+of typed graphs on \(N\) vertices. A point \(p \in \mathcal{P}_N\) is a
+tuple \(p = (x, v, G)\).
+
+\subsubsection{1.2 The Hamiltonian}\label{the-hamiltonian}
+
+We define the Hamiltonian \(H_N: \mathcal{P}_N \to \mathbb{R}\) as the
+total mechanical energy of the substrate, exactly matching the engine's
+\texttt{audit\_energy()}:
+
+\[
+H_N(x, v, G) \;=\; \underbrace{\sum_{i=1}^{N} \tfrac{1}{2} m_i v_i^2}_{\text{kinetic}}
+                 \;+\; \underbrace{\sum_{(i,j) \in E(G)} \tfrac{1}{2} k_{ij} \big(x_i - p_{ij} x_j\big)^2}_{\text{potential}}
+                 \;+\; \Omega_N(\theta),
+\]
+
+where \(\Omega_N(\theta)\) collects the HNCA macro-node phase terms
+(\(\theta_k\) conjugate to \(\omega_k\)). Each pair \((x_i, v_i)\) and
+\((\theta_k, \omega_k)\) is canonical:
+\(\dot{x}_i = \partial H_N / \partial v_i\),
+\(\dot{v}_i = -\partial H_N / \partial x_i\).
+
+\subsubsection{1.3 The Tension Functional}\label{the-tension-functional}
+
+Let \(T: \mathcal{G} \to \mathbb{R}_{\geq 0}\) be RIFA's tension
+functional (\texttt{rifa.hpp} \texttt{IntegrityCore::tension}):
+
+\[
+T(G) \;=\; \int_0^\infty e^{-s/\tau} \, K(G, s) \, ds, \qquad K(G, s) = \sum_i \tfrac{1}{2} m_i v_i^2(s),
+\]
+
+the exponentially-weighted kinetic-energy integral. \(T\) is continuous
+in \((x, v)\) and monotonically increasing when the system carries
+kinetic energy.
+
+\subsubsection{1.4 The Dynamics}\label{the-dynamics}
+
+Between fissions, the flow on each stratum is Hamiltonian:
+
+\[
+\Phi_t^N: \mathcal{P}_N \to \mathcal{P}_N,
+\qquad
+\dot{x} = \tfrac{\partial H_N}{\partial v}, \quad
+\dot{v} = -\tfrac{\partial H_N}{\partial x}.
+\]
+
+At a fission event, the state jumps from stratum \(N\) to stratum
+\(N+2\) (two children spawned, one binding tunnel added):
+
+\[
+\text{Fis}: \mathcal{P}_N \to \mathcal{P}_{N+2},
+\qquad
+(x, v, G) \;\mapsto\; (x', v', G'),
+\]
+
+with the specific mapping given by
+\texttt{PhysicsEngine::fission\_locked()}. The 1/√2 fan-out mapping
+preserves total kinetic energy:
+
+\[
+\tfrac{1}{2} m \, \text{amp}^2 \;=\; 2 \cdot \tfrac{1}{2} m \, (\text{amp}/\sqrt{2})^2.
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. The Theorem}\label{the-theorem}
+
+\subsubsection{2.1 Statement}\label{statement}
+
+\textbf{Theorem (Liouville Analog for Tension-Bounded Expansion).} Let
+
+\[
+V(t) \;=\; \sum_{N \geq 1} \int_{\mathcal{P}_N} e^{-\beta \, T(G_t)} \, d\text{vol}_N,
+\]
+
+with \(d\text{vol}_N\) the Liouville volume form on \(\mathcal{P}_N\).
+There exists a choice of cognitive temperature \(\beta > 0\) such that
+\(V(t)\) is invariant under the combined dynamics: Hamiltonian flow
+inside each stratum + fission jumps across strata.
+
+\subsubsection{2.2 Proof}\label{proof}
+
+\textbf{Step 1 --- Volume conservation on each stratum.}
+
+Fix \(N\). Between fission events, the flow \(\Phi_t^N\) is Hamiltonian
+on \(\mathcal{P}_N\). The velocity field is
+
+\[
+\vec{u}_N \;=\; \left( \frac{\partial H_N}{\partial v}, \; -\frac{\partial H_N}{\partial x} \right).
+\]
+
+The divergence of \(\vec{u}_N\) is
+
+\[
+\nabla \cdot \vec{u}_N \;=\;
+\sum_i \frac{\partial \dot{x}_i}{\partial x_i} + \sum_i \frac{\partial \dot{v}_i}{\partial v_i}
+\;=\; \sum_i \frac{\partial^2 H_N}{\partial x_i \partial v_i} - \sum_i \frac{\partial^2 H_N}{\partial v_i \partial x_i}
+\;=\; 0
+\]
+
+by equality of mixed partials (Clairaut). This is the classical
+Liouville argument. Under a divergence-free flow, the Liouville volume
+\(\int_{\mathcal{P}_N} d\text{vol}_N\) is preserved. Between fission
+events, the tension weight \(e^{-\beta T(G_t)}\) evolves along the flow
+but is a \emph{smooth} function of the state, so integrating it against
+the preserved volume gives a preserved \emph{weighted} volume on
+\(\mathcal{P}_N\).
+
+\textbf{Step 2 --- Volume conservation across strata (the fission
+jump).}
+
+Consider a single fission event mapping stratum \(N\) to \(N+2\). The
+volume added to \(\mathcal{P}_{N+2}\) per event, before the exponential
+weight, is
+
+\[
+\Delta V_\text{geom} \;=\; c_0 \cdot \Delta v_\alpha \cdot \Delta v_\beta \cdot \Delta v_\text{bind},
+\]
+
+where \(\Delta v_\alpha, \Delta v_\beta\) are the phase-space measures
+of the two new cavities and \(\Delta v_\text{bind}\) is the measure
+contributed by the binding tunnel. \(c_0\) is a constant absorbed by our
+choice of \(\beta\).
+
+\textbf{Fission mapping.} Let \(T_N, T_{N+2}\) be the tensions before
+and after fission. The RB+G design ensures \(T_{N+2} < T_N\): the two
+children absorb the polarity-conflicting energy that was accumulating on
+the parent, so the contradiction is \emph{metabolised} rather than
+merely inherited. Denote the drop by
+
+\[
+\Delta T \;=\; T_N - T_{N+2} \;>\; 0.
+\]
+
+\textbf{Choice of \(\beta\).} We select \(\beta\) such that the
+exponential weight ratio across strata cancels the geometric volume
+gain:
+
+\[
+e^{-\beta T_{N+2}} \cdot \Delta V_\text{geom} \;=\; e^{-\beta T_N},
+\]
+
+which rearranges to
+
+\[
+\boxed{\;\beta \;=\; \frac{\ln \Delta V_\text{geom}}{\Delta T}. \;}
+\]
+
+Because \(\Delta T > 0\) and \(\Delta V_\text{geom} > 1\) generically,
+this \(\beta\) is positive and finite. It is unique up to the geometric
+constant \(c_0\), which is absorbed into the normalization of the volume
+form.
+
+\textbf{Step 3 --- Combined invariance.}
+
+Between fissions, Step 1 shows \(V(t)\) is preserved. At each fission
+event, Step 2's choice of \(\beta\) ensures the strata-crossing jump
+preserves the total weighted volume. Composing: \(V(t)\) is invariant
+under the combined dynamics. \(\blacksquare\)
+
+\subsubsection{2.3 Corollary --- Conservation Law Under g\_max
+Cap}\label{corollary-conservation-law-under-g_max-cap}
+
+The RB+G generation cap \(g_\text{max} = 1\) limits fission depth.
+Applying Step 2 iteratively: over the lifetime of the substrate, at most
+\(L_\text{max} = |\Pi|\) fission events fire (each original graph cavity
+fissions at most once). The total weighted volume growth is
+
+\[
+V(\infty) / V(0) \;=\; 1 \quad \text{(exactly, by the theorem)}.
+\]
+
+The system is \emph{thermodynamically stable}: the graph cannot grow
+without bound because the tension budget bounds the number of fissions,
+and each fission preserves weighted volume rather than adding to it.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Empirical Corroboration}\label{empirical-corroboration}
+
+We test the theorem numerically on the 20-seed reproducibility benchmark
+of \texttt{rbg.md} §6.1. For each seed:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Bind the physics engine.
+\item
+  Measure \(V(0) = \int e^{-\beta T(G_0)} d\text{vol}\) on the initial
+  stratum.
+\item
+  Run the full training loop (5 rounds, 200 physics ticks per round).
+\item
+  Measure \(V(t_{\text{end}})\) after training completes and all
+  fissions have fired.
+\item
+  Report \(V(t_\text{end}) / V(0)\).
+\end{enumerate}
+
+\textbf{Prediction from theorem:} the ratio should be exactly 1 for the
+correct choice of \(\beta\); empirically, within numerical drift.
+
+\textbf{Method.} We approximate the integrals by importance sampling on
+the current substrate state:
+
+\[
+\hat{V}(t) \;\approx\; e^{-\beta \, T_\text{measured}(t)} \cdot \prod_i m_i \cdot \prod_e \sqrt{k_e},
+\]
+
+using \texttt{physics.audit\_energy\_locked().total\_mechanical} as the
+tension proxy \(T\), cavity masses as the position-space measure, and
+√tunnel-stiffness as the potential-space measure.
+
+\textbf{Expected result} (to be run with \texttt{audit\_volume} shell
+command, TODO): \(\hat{V}(t_\text{end}) / \hat{V}(0)\) within 5\% of
+unity across all 20 seeds. Empirical deviations from unity are
+attributable to finite-time discretisation, not to a failure of the
+theorem --- the fission jump is instantaneous in theory but takes one
+structural tick in the simulator.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Relation to Prior Work}\label{relation-to-prior-work}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Liouville (1838).} Original theorem: phase-space volume
+  conserved under Hamiltonian flow. Applies to fixed-dimension state.
+\item
+  \textbf{Poincaré--Cartan integral invariants.} Higher-order
+  generalisation, still fixed-dimension.
+\item
+  \textbf{Stratified symplectic geometry (Sjamaar--Lerman 1991).}
+  Handles fixed-connectivity graphs and singular reductions but not
+  dynamically-growing state.
+\item
+  \textbf{This work.} First conservation law for cognitive architectures
+  with tension-bounded phase-space expansion. The exponential weight is
+  the essential new ingredient; it is unique to information-processing
+  dynamics and has no analog in classical mechanics.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Consequences}\label{consequences}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{RB+G is thermodynamically stable.} The graph cannot grow
+  without bound because \(V(t)\) is preserved. Fission is a
+  \emph{metabolism}, not an accumulation.
+\item
+  \textbf{Cognitive temperature \(\beta\) is measurable.} Given
+  empirical \(\Delta T\) (from the fission ledger) and
+  \(\Delta V_\text{geom}\) (from tunnel counts),
+  \(\beta = \ln(\Delta V_\text{geom}) / \Delta T\) can be computed from
+  the audit trail.
+\item
+  \textbf{The theorem is foundational for the C/R bound.}
+  \texttt{cr\_bound.md} uses this conservation law together with the
+  Fisher metric of \texttt{graph\_fisher.md} to prove the upper bound on
+  the thinker index.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Liouville (1838). \emph{J. Math. Pures Appl.}
+\item
+  Arnol'd (1978). \emph{Mathematical Methods of Classical Mechanics.}
+\item
+  Sjamaar \& Lerman (1991). ``Stratified Symplectic Spaces and
+  Reduction.'' \emph{Ann. Math.}
+\item
+  Mahir (2026). \emph{RB+G: Gated Recursive Bifurcation.}
+  \texttt{research-paper/rbg.md}.
+\item
+  Mahir (2026). \emph{From Artificial to Synthetic Intelligence.}
+  \texttt{research-paper/synthetic-intelligence.md}.
+\item
+  Mahir (2026). \emph{A Boltzmann Fisher Metric for Graph-Valued
+  States.} \texttt{research-paper/graph\_fisher.md} (in preparation).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Liouville analog: the graph grows under contradiction, the
+weighted volume is preserved, the cognitive temperature is the free
+parameter that binds them. No new physics --- just a conservation law
+that finally admits a growing state space.}
+
+\end{document}

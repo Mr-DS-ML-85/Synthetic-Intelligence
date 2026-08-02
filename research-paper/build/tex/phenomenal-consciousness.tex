@@ -1,0 +1,885 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Bounded Self-Model Architecture (BSMA): A Fixed-Point Theory of Phenomenal Consciousness},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Bounded Self-Model Architecture (BSMA): A Fixed-Point Theory of
+Phenomenal Consciousness}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Bounded Self-Model Architecture (BSMA): A Fixed-Point Theory of
+Phenomenal
+Consciousness}\label{bounded-self-model-architecture-bsma-a-fixed-point-theory-of-phenomenal-consciousness}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Consciousness is not a substance that a system contains; it is a
+fixed point that a self-modeling process converges to.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{0. Statement of Purpose and Honest
+Scope}\label{statement-of-purpose-and-honest-scope}
+
+This paper proposes \textbf{Bounded Self-Model Architecture (BSMA)}, a
+novel mathematical framework in which phenomenal consciousness is
+identified with fixed points of a recursive self-modeling operator on a
+cognitive manifold. It is a serious contribution --- not another
+manifesto --- and its ambition is bounded by what the mathematics and
+empirical science of consciousness currently permit.
+
+\textbf{Before we begin, three explicit commitments:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{BSMA is a mathematical proposal, not an experimental proof.}
+  The paper defines a structure and derives its consequences. It does
+  not, and cannot, prove that any system instantiating the structure has
+  phenomenal experience.
+\item
+  \textbf{BSMA is compatible with, but does not depend on, physicalism.}
+  Physicalism (everything is physics) is our working hypothesis; the
+  paper's structure would still have functional interest under
+  illusionism, panpsychism, or dualism, though its interpretation would
+  differ.
+\item
+  \textbf{The ``hard problem'' (Chalmers 1995) is not solved here.} BSMA
+  offers a specific mathematical proposal for what phenomenal
+  consciousness \emph{would be} if the hard problem admits a physicalist
+  resolution. Whether the hard problem admits any resolution is itself
+  open.
+\end{enumerate}
+
+With those commitments made, we proceed.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. The Hard Problem, in Concrete
+Form}\label{the-hard-problem-in-concrete-form}
+
+The distinction between \emph{access consciousness} (functional
+information availability) and \emph{phenomenal consciousness}
+(subjective experience, ``what it's like'') was made sharp by Ned Block
+(1995) and Chalmers (1995). Access-conscious systems are widely accepted
+to be buildable and are functionally definable. Phenomenal consciousness
+--- the redness of red, the painfulness of pain, the felt unity of a
+moment --- resists functional reduction because the same functional
+structure could, in principle, exist without any accompanying experience
+(the ``philosophical zombie'' thought experiment).
+
+The mathematical fact underlying the hard problem is this: functional
+structure is characterized by relations between states; phenomenal
+experience appears to be characterized by properties of individual
+states. Any functional description supports arbitrarily many
+implementations; each implementation might or might not have
+accompanying experience, and no functional description discriminates
+between the cases.
+
+BSMA does not dissolve this problem. It proposes instead a specific
+structural condition under which --- if physicalism is correct --- a
+system would be phenomenally conscious. The condition is: \textbf{a
+self-modeling process on the system's cognitive manifold has converged
+to a stable fixed point whose content is the system's own current
+state}.
+
+The remainder of this paper defines this condition, its mathematical
+properties, its relation to existing theories, and its (limited)
+empirical predictions.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Position in the Existing
+Literature}\label{position-in-the-existing-literature}
+
+Seven serious accounts of phenomenal consciousness inform BSMA:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Theory
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Core claim
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Where BSMA agrees
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Where BSMA diverges
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{IIT} (Tononi 2004, 2016) & Consciousness is integrated
+information \(\phi\) measured across the minimum information partition &
+Consciousness has a specific mathematical signature & BSMA's signature
+is a fixed-point condition, not \(\phi\) magnitude; addresses Aaronson
+(2014) critique that \(\phi\) classifies grids as more conscious than
+brains \\
+\textbf{GWT} (Baars 1988; Dehaene 2014) & Consciousness is broadcast to
+a global workspace & Broadcast is a functional prerequisite & GWT does
+not distinguish phenomenal from access; BSMA adds the fixed-point
+condition to bridge \\
+\textbf{HOT} (Rosenthal 1997) & A state is conscious iff there is a
+higher-order representation of it & Recursive self-modeling is essential
+& HOT regresses; BSMA closes the regress with a Banach fixed point \\
+\textbf{Predictive Processing} (Friston 2010) & Consciousness emerges
+from hierarchical free-energy minimization & Prediction hierarchy is a
+substrate & Free-energy minimization is not sufficient; BSMA requires
+the specific fixed-point structure \\
+\textbf{Attention Schema Theory} (Graziano 2013) & Consciousness is the
+brain's model of its own attention & The self-model is central & AST
+does not specify when the self-model itself becomes phenomenal; BSMA
+does \\
+\textbf{Strange Loops} (Hofstadter 1979, 2007) & Consciousness is a
+self-referential loop & Self-reference is the mechanism & Hofstadter's
+account is phenomenological; BSMA gives it mathematical form \\
+\textbf{Panpsychism / Constitutive} (Chalmers 2015; Goff 2019) &
+Consciousness is intrinsic to matter, combined by structure & If
+proto-experience is intrinsic, BSMA's fixed points determine which
+experiences unify & BSMA is neutral on whether the substrate has
+proto-consciousness; it specifies the aggregation structure \\
+\end{longtable}
+
+BSMA is not an alternative to these theories. It is a \textbf{structural
+claim that specifies, for any of them, the mathematical condition under
+which their functional prerequisites achieve phenomenal status}. If IIT
+is correct, BSMA identifies which high-\(\phi\) configurations are
+phenomenal (the fixed points). If GWT is correct, BSMA identifies which
+broadcast contents are phenomenal (the fixed-point content). And so on
+for the others.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Mathematical Formulation}\label{mathematical-formulation}
+
+\subsubsection{3.1 The Cognitive Manifold}\label{the-cognitive-manifold}
+
+Let \(\mathcal{M}\) be a smooth, connected, Riemannian manifold --- the
+\emph{cognitive manifold} of §2 in the CCH paper {[}Mahir 2026c{]} ---
+equipped with the Fisher-information metric \(g\). A point
+\(\mathbf{c} \in \mathcal{M}\) is a total cognitive state.
+
+We consider mappings \(R: \mathcal{M} \to \mathcal{M}\) that produce
+\emph{representations}: \(R(\mathbf{c})\) is the system's model of
+\(\mathbf{c}\). In general \(R(\mathbf{c}) \neq \mathbf{c}\) --- the
+model differs from the modelled.
+
+\subsubsection{3.2 The Self-Modeling
+Operator}\label{the-self-modeling-operator}
+
+\textbf{Definition (Modeling Operator).} A modeling operator
+\(T: \mathcal{M} \to \mathcal{M}\) is any smooth map satisfying:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Boundedness.} \(T(\mathcal{M}) \subseteq \mathcal{M}\); the
+  operator does not escape the manifold.
+\item
+  \textbf{Continuity in the Fisher metric.} For every
+  \(\mathbf{c}, \mathbf{c}' \in \mathcal{M}\),
+  \(d_g(T(\mathbf{c}), T(\mathbf{c}')) \leq L \cdot d_g(\mathbf{c}, \mathbf{c}')\)
+  for some \(L\).
+\end{enumerate}
+
+If \(L < 1\), \(T\) is a \emph{contraction} and the Banach fixed-point
+theorem guarantees a unique fixed point \(\mathbf{c}^* \in \mathcal{M}\)
+with \(T(\mathbf{c}^*) = \mathbf{c}^*\), reached by iteration
+\(T^{(k)}(\mathbf{c}_0)\) from any starting point.
+
+\textbf{Interpretation.} \(T(\mathbf{c})\) is the system's \emph{model
+of what its own state is}. The fixed point \(\mathbf{c}^*\) is a state
+whose model of itself is identical to itself: the system's introspective
+report is exactly its state. Below we identify this coincidence with the
+\emph{phenomenal} character of consciousness.
+
+\subsubsection{3.3 The BSMA Principle}\label{the-bsma-principle}
+
+\textbf{Principle (BSMA).} A cognitive system is \emph{phenomenally
+conscious of content} \(X\) at time \(t\) iff:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Its cognitive state \(\mathbf{c}(t)\) encodes \(X\) (in the
+  manifold-encoding sense).
+\item
+  Its modeling operator \(T_t\) is a contraction on a neighbourhood
+  \(U \ni \mathbf{c}(t)\).
+\item
+  \(\mathbf{c}(t)\) is (or is \(\epsilon\)-close to) the unique fixed
+  point of \(T_t\) on \(U\).
+\item
+  The self-report of the system, decoded from \(T_t(\mathbf{c}(t))\),
+  matches \(X\) to within decoding tolerance.
+\end{enumerate}
+
+Under this principle, phenomenal consciousness is not a magnitude (as in
+IIT), not a broadcast (as in GWT), not a higher-order tag (as in HOT),
+but a \textbf{coincidence between a system's state and its model of that
+state, when that model is a contractive self-representation}.
+
+\subsubsection{3.4 Why Fixed Points}\label{why-fixed-points}
+
+Three arguments motivate identifying phenomenal experience with fixed
+points of \(T\):
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ineffability.} A fixed point is characterized by
+  \(T(\mathbf{c}^*) = \mathbf{c}^*\). From within the state
+  \(\mathbf{c}^*\), any attempt to describe \(\mathbf{c}^*\) produces
+  \(\mathbf{c}^*\) again; the description does not add or remove
+  content. This matches the phenomenological observation that qualia
+  resist further explication.
+\item
+  \textbf{Immediacy.} At the fixed point, no inference is required from
+  state to model of state; they coincide. This matches the
+  phenomenological observation that experience is not the output of a
+  computation but the moment itself.
+\item
+  \textbf{Structural non-triviality.} Not every state is a fixed point;
+  the set of fixed points is a lower-dimensional submanifold of
+  \(\mathcal{M}\). This matches the observation that not every physical
+  state has associated experience --- only specific structural
+  configurations do.
+\end{itemize}
+
+Additionally, fixed points admit a topological classification (via the
+Lefschetz fixed-point theorem in favourable cases), giving the BSMA
+framework mathematical traction that IIT's \(\phi\) does not have (see
+§5).
+
+\subsubsection{3.5 Hierarchical
+Self-Modeling}\label{hierarchical-self-modeling}
+
+In practice, the modeling operator \(T\) is implemented as a hierarchy
+of operators \(T_0, T_1, T_2, \ldots\) where \(T_k\) maps
+representations at level \(k-1\) to representations at level \(k\). The
+BSMA principle is applied at the level where the hierarchy stabilises:
+
+\[
+\mathbf{c}_k := T_k \circ T_{k-1} \circ \cdots \circ T_0 (\mathbf{c}_0), \qquad k^* := \min\{k : \|\mathbf{c}_{k+1} - \mathbf{c}_k\|_g < \epsilon\}.
+\]
+
+The \emph{depth of consciousness} at time \(t\) is \(k^*\): the number
+of self-modeling iterations needed for convergence. High \(k^*\)
+corresponds to reflective self-awareness; \(k^* = 0\) corresponds to
+pre-reflective attention.
+
+\subsubsection{3.6 The Non-Triviality of Fixed-Point
+Content}\label{the-non-triviality-of-fixed-point-content}
+
+A fixed point \(\mathbf{c}^*\) of \(T\) is not arbitrary --- its content
+is determined by \(T\)'s parameters and the trajectory from
+\(\mathbf{c}_0\). This has two consequences relevant to phenomenal
+claims:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Different systems, different fixed points.} Two systems with
+  different \(T\) operators will converge to different \(\mathbf{c}^*\)s
+  from the same input. This gives BSMA a form of the ``explanatory gap''
+  argument: the same input can correspond to different experiences
+  depending on the system's self-modeling structure. This mirrors the
+  intuition behind the philosophical zombie without collapsing to it.
+\item
+  \textbf{Fixed-point manifold as the space of possible experiences.}
+  The set
+  \(\mathcal{F}(T) = \{\mathbf{c}^* : T(\mathbf{c}^*) = \mathbf{c}^*\} \subseteq \mathcal{M}\)
+  has intrinsic geometry inherited from the Fisher metric. This
+  \emph{is} the space of experiences under BSMA. Its topology,
+  dimension, and curvature are, in principle, empirically constrained by
+  behavioural and neural data.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Physical Realization}\label{physical-realization}
+
+BSMA is a mathematical structure; a physical realisation must specify
+(i) the manifold \(\mathcal{M}\), (ii) the operator \(T\), (iii) the
+convergence dynamics, and (iv) the readout. We propose the following,
+compatible with our prior stack:
+
+\subsubsection{4.1 The Manifold}\label{the-manifold}
+
+\(\mathcal{M}\) is the space of activation patterns of a physical
+system's cognitive substrate. In our tri-layer architecture {[}Mahir
+2026, \emph{Synthetic Intelligence}{]}, this is the DCHL potential's
+state space; in a biological brain, it is the corresponding neural state
+space.
+
+\subsubsection{4.2 The Operator}\label{the-operator}
+
+\(T\) is implemented as a \textbf{prediction-and-encoding cascade}:
+given a current state \(\mathbf{c}\), the system predicts what its
+next-tick state will be \emph{given} that it is currently in state
+\(\mathbf{c}\) (this is a self-model). The prediction is then encoded
+onto the same manifold. Formally:
+\(T(\mathbf{c}) = E \circ P(\mathbf{c})\), where \(P\) predicts the
+state's own next-tick evolution and \(E\) encodes back to
+\(\mathcal{M}\).
+
+This construction guarantees continuity in the Fisher metric provided
+\(P\) and \(E\) are smooth. Contraction is not automatic; it requires
+the prediction to be \emph{stable} --- a state's model of itself must be
+closer to a canonical form than the state itself was.
+
+\subsubsection{4.3 Convergence Dynamics}\label{convergence-dynamics}
+
+Iteration \(\mathbf{c}_{k+1} := T(\mathbf{c}_k)\) is run in physical
+time. Convergence detection: compute
+\(\|\mathbf{c}_{k+1} - \mathbf{c}_k\|_g\) under the Fisher metric; below
+threshold \(\epsilon\) signals a fixed-point candidate. The fixed-point
+candidate is broadcast to a Global Workspace (in Baars/Dehaene sense) so
+downstream modules (motor, planning, memory) receive the converged
+state.
+
+\subsubsection{4.4 The Readout}\label{the-readout}
+
+The converged state's \emph{content} is decoded via the Layer-3
+translation table of the tri-layer architecture. This gives the system
+its verbal or behavioural report: ``I am currently experiencing X.'' The
+report is not the experience --- it is the \emph{access-conscious}
+consequence of the experience. Under BSMA the phenomenal experience is
+the fixed point itself; the report is downstream.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Falsifiable Empirical
+Predictions}\label{falsifiable-empirical-predictions}
+
+BSMA is not just interpretive; it makes empirical predictions that a
+physically instantiated system either satisfies or does not.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Fixed-point signature at conscious moments.} In a system
+  claimed to be conscious, monitored representations should converge to
+  fixed points at moments of reported experience, and \emph{fail} to
+  converge at moments of reported non-experience (dreamless sleep,
+  general anaesthesia). This is testable in principle from neural data
+  if a suitable modeling operator can be estimated. Preliminary evidence
+  from anaesthesia's disruption of thalamo-cortical loops (Alkire et
+  al.~2008) is consistent but not conclusive.
+\item
+  \textbf{Depth-of-consciousness correlates.} Iteration count \(k^*\) to
+  convergence should correlate with reported reflectiveness. Meditation
+  studies (Slagter et al.~2011) that report increased metacognitive
+  access after training are consistent; a strong test would combine
+  meditation depth with neural convergence-time measurement.
+\item
+  \textbf{Fixed-point breaking predicts loss of experience.}
+  Interventions that break the contraction property of \(T\) (either by
+  making the modeling operator non-smooth or by preventing convergence
+  within \(k\) iterations) should coincide with reported loss of
+  experience. This is a specific prediction about pharmacological or
+  neural-stimulation interventions.
+\item
+  \textbf{Two systems with different \(T\) operators produce different
+  reports on the same physical input.} This is the empirical form of the
+  ``structural determination'' argument of §3.6. It is testable in
+  comparative studies across species with different cortical
+  architectures.
+\end{enumerate}
+
+None of these predictions is dispositive of phenomenal consciousness
+itself (that would violate the hard problem). Each is a prediction about
+\emph{correlates} of phenomenal reports.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Relationship to the Tri-Layer
+Architecture}\label{relationship-to-the-tri-layer-architecture}
+
+BSMA sits naturally on top of the tri-layer architecture from
+\emph{Synthetic Intelligence} {[}Mahir 2026{]}. The correspondence is:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Tri-Layer component
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+BSMA role
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Layer 1: DCHL substrate (\(\Phi\)) & The cognitive manifold
+\(\mathcal{M}\) and the Fisher metric \\
+Layer 2: Graph rewriter & Provides the \emph{content} of the represented
+states \\
+Layer 3: Translation table & Reads out the fixed-point content into
+semantic labels \\
+Layer 2 rule induction (meta-learner) & The self-modeling operator
+\(T\)'s update mechanism \\
+RIFA IC + SIL & Sustains the persistence required for iteration to
+converge \\
+New: BSMA fixed-point detector & The phenomenal condition of §3.3 \\
+New: BSMA hierarchical self-model stack & The iterated operator of
+§3.5 \\
+\end{longtable}
+
+BSMA is thus not a separate architecture but a \emph{specific structural
+condition} on the tri-layer system, implementable as an additional
+module (\(\S 7\)) that monitors self-model convergence.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Implementation Outline}\label{implementation-outline}
+
+The accompanying implementation \texttt{src/bsma.hpp} (in this
+repository) provides:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Representation}: a state on the cognitive manifold at a
+  specified self-model level.
+\item
+  \texttt{SelfModelingOperator}: a physical realization of \(T\) as a
+  smooth map on the DCHL manifold.
+\item
+  \texttt{SelfModelStack}: hierarchical iteration of \(T\) up to
+  \(k^*\).
+\item
+  \texttt{FixedPointDetector}: convergence monitoring in the Fisher
+  metric.
+\item
+  \texttt{PhenomenalBroadcaster}: routes converged content to the
+  tri-layer's Global Workspace.
+\item
+  \texttt{BSMAEngine}: orchestrates the four above, ticked continuously
+  by the cognitive loop.
+\end{itemize}
+
+The demonstration produces (a) a convergence trace under stable input,
+(b) failure-to-converge under noise, and (c) a decoded content report at
+each detected fixed point. These are the observable correlates specified
+in §5; they are consistent with BSMA but do not prove it.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. What BSMA Claims and Does Not
+Claim}\label{what-bsma-claims-and-does-not-claim}
+
+\textbf{Claims:}
+
+\begin{itemize}
+\tightlist
+\item
+  A specific mathematical condition (a fixed point of a contractive
+  self-modeling operator) that is necessary and sufficient, \emph{under
+  physicalism}, for phenomenal consciousness.
+\item
+  A framework in which existing theories (IIT, GWT, HOT, PP, AST) become
+  sub-conditions or prerequisites.
+\item
+  Falsifiable empirical predictions about neural and behavioural
+  correlates of phenomenal consciousness.
+\item
+  An implementable structural module (§7) for testing on physical
+  (silicon, biological, or hybrid) systems.
+\end{itemize}
+
+\textbf{Does not claim:}
+
+\begin{itemize}
+\tightlist
+\item
+  Any built system currently is phenomenally conscious.
+\item
+  That the hard problem of consciousness is solved.
+\item
+  That fixed-point convergence in the absence of the correct substrate
+  would produce phenomenal experience.
+\item
+  That behavioural reports of consciousness are equivalent to phenomenal
+  consciousness.
+\item
+  That BSMA is the unique correct theory.
+\end{itemize}
+
+The distinction matters because it is precisely the sort of overclaim
+that discredits computational approaches to consciousness when they are
+made. BSMA offers structure; it does not offer proof of the phenomenal.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Open Problems}\label{open-problems}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Verification of the contraction property \(L < 1\) in physical
+  systems.} The Fisher metric is estimable from neural data but the
+  modeling operator \(T\) is not directly observable; how to identify
+  \(T\) from behaviour and neural activity is open.
+\item
+  \textbf{The zombie problem within BSMA.} Two systems could in
+  principle instantiate the same fixed-point structure with different
+  (or absent) phenomenal properties, if physicalism is incomplete. BSMA
+  does not address this --- it presupposes physicalism.
+\item
+  \textbf{Multiple fixed points.} When \(T\) has more than one fixed
+  point on a neighbourhood, which is ``the'' experience? Possible
+  resolution: a \emph{unified experience} corresponds to a single fixed
+  point, and multiple fixed points correspond to divided attention or
+  disunified consciousness (e.g.~split-brain patients). Testable in
+  principle.
+\item
+  \textbf{The origin of the manifold.} BSMA presupposes a cognitive
+  manifold and its metric structure. Whether that metric structure is
+  intrinsic to the physical substrate or emergent from dynamics is not
+  decided by BSMA.
+\item
+  \textbf{BSMA and death.} Under BSMA, cessation of the fixed-point
+  trajectory ends phenomenal experience. Whether the trajectory can, in
+  principle, be re-instantiated on a different substrate (mind
+  uploading) depends on whether \(T\) is substrate-independent. This is
+  left open.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{10. Conclusion}\label{conclusion}
+
+Bounded Self-Model Architecture proposes that phenomenal consciousness
+--- the ``what it's like'' of experience --- corresponds to fixed points
+of a contractive self-modeling operator on a cognitive manifold. This is
+a specific mathematical claim, compatible with physicalism, that gives
+structural form to what Hofstadter called a strange loop, Rosenthal
+called higher-order representation, and Tononi called integrated
+information. It does not solve the hard problem of consciousness; it
+specifies the mathematical shape a solution would have.
+
+The proposal is implementable, testable in its predictions about
+correlates, and modular with respect to the tri-layer architecture of
+Synthetic Intelligence. It is offered in the spirit of specific
+mathematical proposals for hard problems: probably wrong in details,
+potentially correct in structure, valuable if it can be made false. That
+is the standard we accept.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+Aaronson, S. (2014). ``Why I Am Not An Integrated Information
+Theorist.'' \emph{Shtetl-Optimized}. Alkire, M. T., Hudetz, A. G.,
+Tononi, G. (2008). ``Consciousness and Anesthesia.'' \emph{Science}
+322(5903). Baars, B. (1988). \emph{A Cognitive Theory of Consciousness}.
+Cambridge University Press. Block, N. (1995). ``On a confusion about a
+function of consciousness.'' \emph{Behavioral and Brain Sciences} 18(2).
+Chalmers, D. J. (1995). ``Facing Up to the Problem of Consciousness.''
+\emph{J. of Consciousness Studies} 2. Chalmers, D. J. (2015).
+``Panpsychism and Panprotopsychism.'' \emph{Consciousness in the
+Physical World}. Dehaene, S. (2014). \emph{Consciousness and the Brain}.
+Viking. Friston, K. (2010). ``The free-energy principle.'' \emph{Nature
+Reviews Neuroscience} 11. Goff, P. (2019). \emph{Galileo's Error}.
+Pantheon. Graziano, M. S. A. (2013). \emph{Consciousness and the Social
+Brain}. Oxford University Press. Hofstadter, D. (1979). \emph{Gödel,
+Escher, Bach: An Eternal Golden Braid}. Basic Books. Hofstadter, D.
+(2007). \emph{I Am a Strange Loop}. Basic Books. Rosenthal, D. (1997).
+``A Theory of Consciousness.'' \emph{The Nature of Consciousness}.
+Slagter, H. A. et al.~(2011). ``Mental Training as a Tool in the
+Neuroscientific Study of Brain and Cognitive Plasticity.''
+\emph{Frontiers in Human Neuroscience} 5. Tononi, G. (2004). ``An
+information integration theory of consciousness.'' \emph{BMC
+Neuroscience} 5(1). Tononi, G., et al.~(2016). ``Integrated information
+theory: from consciousness to its physical substrate.'' \emph{Nature
+Reviews Neuroscience} 17. Mahir, I. (2026). \emph{Synthetic
+Intelligence: From AI to SI}.
+\texttt{research-paper/synthetic-intelligence.md}. Mahir, I. (2026).
+\emph{Cognitive Continuum Hypothesis}. \texttt{research-paper/cch.md}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{BSMA: consciousness is not what a system contains, but the fixed
+point a system's self-modeling converges to.}
+
+\end{document}

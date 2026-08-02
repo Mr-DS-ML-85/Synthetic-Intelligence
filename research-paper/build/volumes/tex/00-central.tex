@@ -1,0 +1,2757 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\ifLuaTeX
+  \usepackage{luacolor}
+  \usepackage[soul]{lua-ul}
+\else
+  \usepackage{soul}
+\fi
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={From Artificial to Synthetic Intelligence --- Principles of Constructive Structural Cognition},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{From Artificial to Synthetic Intelligence --- Principles of
+Constructive Structural Cognition}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{From Artificial to Synthetic Intelligence --- Principles of
+Constructive Structural
+Cognition}\label{from-artificial-to-synthetic-intelligence-principles-of-constructive-structural-cognition}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{quote}
+The framework paper. Read this first; every other volume is a companion
+to it.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Contents of This Volume}\label{contents-of-this-volume}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\#
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+File
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & From Artificial to Synthetic Intelligence: Principles of
+Constructive Structural Cognition &
+\texttt{synthetic-intelligence.md} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\newpage
+
+\subsection{From Artificial to Synthetic Intelligence: Principles of
+Constructive Structural
+Cognition}\label{from-artificial-to-synthetic-intelligence-principles-of-constructive-structural-cognition-1}
+
+\begin{quote}
+\emph{``Thinking is not the selection of a token; it is the construction
+of a mechanism that computes the answer.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Abstract}\label{abstract}
+
+We propose a rigorous distinction between \textbf{Artificial
+Intelligence (AI)} --- pattern matching over statistical landscapes ---
+and \textbf{Synthetic Intelligence (SI)} --- active construction of
+deterministic mechanisms that compute answers under structural
+constraints. We argue that every existing cognitive architecture,
+including our own prior work (CMA, P-CMA, HCMA, DCHL, RIFA), reduces at
+small scale to some hidden form of memorization, classification, or
+retrieval. We prove that this is not an implementation defect but a
+consequence of a conservation law: the \textbf{Translation Capacity
+Lemma}, which shows that any mapping from a continuous cognitive
+substrate to a discrete semantic set of size \(N\) requires channel
+capacity of at least \(\log_2 N\) bits \emph{somewhere} in the system,
+and that this cost can only be relocated, never eliminated. We then
+present the \textbf{Constructive Structural Cognition (CSC)} framework,
+built on three axioms --- categorical-topological state representation,
+non-equilibrium phase-space expansion, and active constructive reasoning
+over statistical interpolation --- realized in a \textbf{tri-layer
+architecture}: a physics-based substrate for coherence and identity, a
+typed graph-rewriting engine for constructive derivation, and a
+minimum-description-length translation table that pays only the
+mandatory conservation-law tax.
+
+Four results distinguish this version from the framework as originally
+stated. \textbf{(i) Constructive Language Locking} (§5.4d): deriving
+grammar from field dynamics is a category error, because grammar is a
+transmission protocol rather than a physical phenomenon; moving surface
+realisation into isolated deterministic language clusters yields
+byte-exact output in English, Bengali and Banglish from one cognitive
+state, with zero learned parameters and no possibility of drift.
+\textbf{(ii) A third provenance class} (§5.4c): facts \emph{established
+by experiment} against an external oracle --- the C++ compiler --- which
+are neither asserted nor rule-derived, and which have corrected the
+graph where mechanical extraction was wrong. \textbf{(iii) The J-A-S
+cycle} (§5.4e): Einstein's induction--deduction--refutation loop as a
+running mechanism, including an \textbf{impossibility register} that
+distinguishes a refuted induction from a theorem left intact by a scope
+escape; two of this project's own impossibility theorems were escaped
+without being violated. \textbf{(iv) A mechanism-level lineage audit}
+(§6.2), performed by grepping live source rather than reading papers,
+which retires several components this paper previously claimed to retain
+--- including the DCHL substrate on which its own headline empirical
+result was obtained.
+
+That last point is the paper's methodological claim as much as its
+architectural one: a lineage accumulates claims faster than it retires
+them, and the only defence is to re-derive the parts list from the code
+on every revision. Sections marked \textbf{RETIRED} or
+\textbf{historical} below are kept deliberately, because a negative
+result that is deleted stops being evidence.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{1. Introduction}\label{introduction}
+
+\paragraph{1.1 The Two Kinds of
+Intelligence}\label{the-two-kinds-of-intelligence}
+
+The last decade of AI has confused \emph{statistical fluency} with
+\emph{cognition}. A transformer trained on a sufficient corpus can
+produce text indistinguishable from a thinker's --- because the corpus
+contains the thinker's outputs, and pattern-matching over a large-enough
+distribution asymptotically reproduces them. This is Artificial
+Intelligence: the reconstruction of the surface of thought from its
+shadow in data.
+
+\textbf{Synthetic Intelligence is different in kind, not in degree.} SI
+does not reconstruct thought from data. SI \emph{constructs} a
+mechanism, for each query, that computes the answer under the constraint
+of the query. A calculator is a trivial SI system: given ``17 × 23'', it
+does not sample; it derives. Coq, Lean, Isabelle are more sophisticated
+SI systems: given a proposition, they construct a proof or report that
+none exists. What has been missing is a general framework that lifts
+this kind of active construction to natural queries, retains the
+interpretability of formal systems, and does not collapse into either
+symbolic AI's brittleness or statistical AI's opacity.
+
+This paper is that framework.
+
+\paragraph{1.2 The Three Traps of Prior
+Attempts}\label{the-three-traps-of-prior-attempts}
+
+Every prior attempt at physics-based or structural cognition ---
+including our own --- collapses at small scale into one of three failure
+modes:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{The Classifier Trap.} Contrastive training (text-vs-random,
+  coherent-vs-shuffled) trains an energy function that discriminates
+  classes. At inference the state descends into the winning class's
+  centroid. This is a binary classifier; nothing about ``physics-based''
+  changes that.
+\item
+  \textbf{The Memorization Trap.} Q → A triplet training forces the
+  network to reproduce specific input-output mappings. The physics is
+  decoration on a lookup table.
+\item
+  \textbf{The Retrieval Trap.} Cosine similarity over an evolved-state
+  anchor bank is attention with a different name. The evolution is a
+  normaliser; the retrieval is the substance.
+\end{itemize}
+
+We show below that these are not three defects but three symptoms of the
+same underlying constraint: information cannot be produced out of
+nothing, and any cognitive system that reliably distinguishes \(N\)
+semantic outcomes must contain \(\log_2 N\) bits of information about
+which outcome to produce. Physics-based dynamics do not exempt one from
+this law.
+
+\paragraph{1.3 Contributions}\label{contributions}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{The Translation Capacity Lemma} (§3), a conservation law for
+  cognitive architecture.
+\item
+  \textbf{The Composition-Retrieval Distinction} (§3.4), an operational
+  definition of ``thinker'' as \emph{composition rate over storage
+  rate}, replacing the impossible target of ``no storage.''
+\item
+  \textbf{The Constructive Structural Cognition framework} (§4), three
+  axioms distinguishing SI from AI.
+\item
+  \textbf{The Tri-Layer Unified Architecture} (§5), a synthesis of our
+  prior lineage plus the missing constructive layer.
+\item
+  \textbf{Constructive Language Locking} (§5.4d, \texttt{cll.md}),
+  separating cognitive freedom from linguistic protocol, with measured
+  three-language output from a single triple.
+\item
+  \textbf{The experiment provenance class} (§5.4c), knowledge
+  established by an external oracle rather than asserted or derived,
+  with the cost of a repeated task falling from 3 experiments to 1.
+\item
+  \textbf{The J-A-S cycle and impossibility register} (§5.4e), including
+  the rule that a counterexample to a THEOREM is a scope error until
+  proven otherwise --- the distinction between Minsky--Papert being
+  \emph{escaped} and being \emph{violated}.
+\item
+  \textbf{The place of prior work} (§6) as intellectual history, and
+  \textbf{a mechanism-level audit} (§6.2) stating, per paper and by
+  grep, what is load-bearing, what is partly salvaged, and what is dead.
+  Two mechanisms (ZeroGrad, ANQ-LEA) are live while their papers are
+  retired.
+\item
+  \textbf{Open problems and empirical program} (§7--§8), with closed
+  items marked closed and abandoned items marked abandoned rather than
+  pending.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{2. The Failure Modes of Substrate-Only
+Cognition}\label{the-failure-modes-of-substrate-only-cognition}
+
+Our prior work developed a family of \emph{physics-based cognitive
+substrates}: continuous state spaces, learned potentials, Hamiltonian
+dynamics, curl-free vector fields, energy-based Hebbian training. Each
+substrate came with a paper claiming that its dynamics constituted
+``thinking.'' We now argue --- and this is a self-critique --- that all
+of them, at any scale we have empirically tested (from 33K to 1B
+parameters), collapse into the three traps of §1.2.
+
+\paragraph{2.1 The Substrate Alone Cannot
+Answer}\label{the-substrate-alone-cannot-answer}
+
+Consider the simplest instance. The DCHL potential \(\Phi(\mathbf{c})\)
+is trained by decoupled contrastive Hebbian learning to have low energy
+on real text windows and high energy on incoherent ones. The Hamiltonian
+evolution \(\dot{\mathbf{c}} = -\nabla\Phi(\mathbf{c})\) then descends
+into a nearby low-energy basin.
+
+For any semantic question --- ``what is the capital of France?'' --- the
+substrate produces an evolved state \(\mathbf{c}^*\) that is
+\emph{coherent} (low \(\Phi\)) but has no discrete semantic content. It
+is a point on a manifold, not an answer. Reading out ``Paris'' from
+\(\mathbf{c}^*\) requires an additional map
+\(\phi: \mathcal{M} \to \Sigma\) that has semantic knowledge the
+substrate does not.
+
+The Byte Energy Descent (BED) decoder {[}Mahir 2026e{]} attempted to
+make this map be a discrete argmin of \(\Phi\) over the byte lattice.
+Empirically, this converged to byte-mean states without
+prompt-conditioned structure --- because \(\Phi\) was trained to score
+whole-window coherence, not to encode prompt-answer dependency. The
+retrieval-based CognitiveMemory alternative worked (it produced actual
+English answers) --- but only because it stored \((Q, A)\) pairs, which
+is memorization.
+
+\paragraph{2.2 Why Every Substrate-Only Approach Reduces to One of the
+Three
+Traps}\label{why-every-substrate-only-approach-reduces-to-one-of-the-three-traps}
+
+The pattern generalizes:
+
+\begin{itemize}
+\tightlist
+\item
+  If the substrate is trained on \emph{class-vs-class} contrast →
+  classifier trap.
+\item
+  If the substrate is trained on \emph{specific mappings} → memorizer
+  trap.
+\item
+  If a lookup mechanism is added on top of the substrate → retriever
+  trap.
+\end{itemize}
+
+There is no fourth option that produces a \emph{specific} discrete
+answer from a \emph{specific} input. This is not because the substrate
+design is wrong. It is because information about which of \(N\) answers
+to produce cannot arise from dynamics alone; it must be stored, in some
+form, in the system's parameters or state. This is the theorem of §3.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{3. The Translation Capacity
+Lemma}\label{the-translation-capacity-lemma}
+
+\paragraph{3.1 Statement}\label{statement}
+
+\textbf{Lemma (Translation Capacity).} Let \(\mathcal{M}\) be a state
+space equipped with a computable dynamical system, and let \(\Sigma\) be
+a discrete semantic set with \(|\Sigma| = N\). Let
+\(\phi: \mathcal{M} \to \Sigma\) be a computable map that reliably
+discriminates all \(N\) elements (i.e., for every \(\sigma \in \Sigma\)
+there exists \(\mathbf{x} \in \mathcal{M}\) with
+\(\phi(\mathbf{x}) = \sigma\), and the pre-images are separable to
+within some error \(\epsilon > 0\)).
+
+Then the total description complexity of \(\phi\) (as measured by its
+Kolmogorov complexity, or equivalently by the channel capacity of any
+implementation) is at least
+
+\[
+K(\phi) \geq \log_2 N - O(1).
+\]
+
+Moreover, this cost cannot be relocated \emph{out of} the system; it can
+only be redistributed \emph{within} it.
+
+\paragraph{3.2 Proof Sketch}\label{proof-sketch}
+
+The cost is an immediate consequence of the source coding theorem: the
+output \(\sigma\) carries \(\log_2 N\) bits of information, and the only
+source of this information is \(\phi\) itself, since \(\mathcal{M}\) has
+continuous cardinality and the dynamics are computable (thus of bounded
+description). Any implementation of \(\phi\) must therefore
+\emph{contain} those \(\log_2 N\) bits. Distributing them across many
+parameters (as in an LLM), storing them explicitly (as in a lookup
+table), or hiding them in the shape of a learned potential (as in DCHL)
+does not reduce the total; it only changes the compression ratio.
+\(\square\)
+
+\paragraph{3.3 The Cost Ledger Across
+Architectures}\label{the-cost-ledger-across-architectures}
+
+The lemma allows a clean accounting of where the mandatory \(\log_2 N\)
+bits sit in each architecture we have studied:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Architecture
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Location of \(\log_2 N\) bits
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Explicit?
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Transformer LM & Vocabulary embedding + softmax head & Yes \\
+Frontier LLM & Distributed across \(\sim 10^{10}\)--\(10^{12}\)
+parameters & No (opaque) \\
+Symbolic AI & Rule table + fact base & Yes \\
+CMA / P-CMA / HCMA & Shape of learned \(\Phi\) + decoder & No
+(obscured) \\
+DCHL + BED & Learned \(\Phi\) + argmin over bytes & Partial \\
+CognitiveMemory & Anchor set + string bank & Yes \\
+STAN topological readout & Winding-number → concept table & Yes \\
+RIFA Rule Synthesizer & Antecedent-consequent bindings & Yes \\
+\end{longtable}
+
+\textbf{Consequence.} The right question is not \emph{``can we build a
+cognitive architecture without a translation layer?''} --- the lemma
+proves we cannot. The right question is: \emph{``what is the
+minimum-description-length translation layer that a coherence-driven
+substrate can operate, and what work can only physics-based substrate
+perform that no lookup table can?''}
+
+This reformulation is the philosophical hinge of Synthetic Intelligence.
+
+\paragraph{3.4 The Composition--Retrieval
+Distinction}\label{the-compositionretrieval-distinction}
+
+The lemma dissolves the naïve ``storage-free thinker'' ambition but
+leaves a sharper distinction intact. We now state it precisely.
+
+\textbf{Definition (Composition rate and retrieval rate).} Let a
+cognitive system \(\mathcal{S}\) have a set of stored primitives \(\Pi\)
+with \(|\Pi| = P\), and let it operate on queries \(q\) by producing
+derivations \(d(q)\) that are compositions of primitives of length
+\(\ell(q)\).
+
+\begin{itemize}
+\tightlist
+\item
+  The \textbf{retrieval rate} of \(\mathcal{S}\) is
+  \(R(\mathcal{S}) = |\{q : \ell(q) \leq 1\}| / |Q|\): the fraction of
+  queries answered by a single primitive lookup.
+\item
+  The \textbf{composition rate} is
+  \(C(\mathcal{S}) = \mathbb{E}_q[\ell(q)]\): the expected derivation
+  length on the query distribution.
+\end{itemize}
+
+\textbf{Definition (Thinker vs.~Pattern Matcher).} A system is a
+\textbf{thinker} to the extent that \(C(\mathcal{S}) \gg 1\) and the
+number of \emph{reachable derivations}
+\(|\{\text{compositions of length} \leq L\}|\) grows exponentially in
+\(L\) while \(P\) grows only polynomially. A system is a \textbf{pattern
+matcher} to the extent that \(R(\mathcal{S}) \to 1\) and
+\(C(\mathcal{S}) \to 1\).
+
+The distinction is \emph{not} about the presence or absence of storage
+--- the lemma forbids the latter. It is about the \emph{ratio} of
+composition to retrieval, and about whether the derivation space is
+exponentially larger than the primitive space. Under this definition:
+
+\begin{itemize}
+\tightlist
+\item
+  A calculator with 10 digit-arithmetic primitives that composes them
+  into \(n\)-digit multiplications has \(|\Pi| = 10\) and reachable
+  derivations \(\Theta(10^n)\). Ratio: exponential. \textbf{Thinker.}
+\item
+  A frontier LLM that has ``memorised'' (Q, A) pairs with high fidelity,
+  composing at most one or two lookup steps per query, has
+  \(|\Pi| \gg 10^{10}\) but \(\ell \approx 1\). Ratio: constant.
+  \textbf{Pattern matcher}, regardless of parameter count.
+\item
+  Coq / Lean / Isabelle: \(|\Pi| \sim 10^3\) inference rules, reachable
+  proofs \(\Theta(k^L)\) for branching factor \(k\) and depth \(L\).
+  \textbf{Thinker.}
+\item
+  AlphaProof: Lean composition engine with a neural policy as the
+  relevance heuristic. \textbf{Thinker} (the neural component is the
+  heuristic, not the answer).
+\end{itemize}
+
+\textbf{Corollary (The Four-Part Structure of a Thinker).} Any system
+with \(C(\mathcal{S}) \gg 1\) that scales as we require must have four
+separable subsystems:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Primitives} \(\Pi\) --- small, composable, closed under the
+  composition operation.
+\item
+  \textbf{Composition engine} --- the mechanism that assembles
+  derivations. Tree search, graph rewriting, proof search, program
+  synthesis. \emph{This is where the thinking happens.}
+\item
+  \textbf{Relevance heuristic} --- a policy that ranks which primitive
+  to try next. Learned or hand-tuned. Makes composition tractable in an
+  exponential space.
+\item
+  \textbf{Verifier} --- a decidable check that a derivation is valid.
+  Non-negotiable; distinguishes construction from generation.
+\end{enumerate}
+
+The heuristic (component 3) is where neural/statistical/physics-based
+systems belong. The engine (component 2) is where thinking lives.
+Missing (2) reduces the system to a generator; missing (4) reduces it to
+a hallucinator; missing (3) reduces it to brute-force search.
+
+\textbf{This corrects a mistake in our own prior lineage:} every earlier
+paper (CMA through RIFA) attempted to make the substrate itself the
+thinker. The lemma and this corollary say that is a category error. The
+substrate is the \emph{heuristic}, in the sense that AlphaProof's neural
+network is a heuristic for Lean. The thinker is the composition engine
+sitting on top of it. In the tri-layer architecture of §5, this is Layer
+2.
+
+The formal ratio \(C(\mathcal{S})/R(\mathcal{S})\) is the \emph{thinker
+index} of a cognitive system. It is a measurable quantity, not a
+philosophical claim.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{4. The Constructive Structural Cognition
+Framework}\label{the-constructive-structural-cognition-framework}
+
+We propose that Synthetic Intelligence is defined by three axioms
+distinguishing it from statistical AI.
+
+\paragraph{4.1 Axiom I. Categorical-Topological
+State}\label{axiom-i.-categorical-topological-state}
+
+A cognitive state is \emph{not} a vector of real numbers. A cognitive
+state is a \textbf{typed graph of active relationships}: a finite
+collection of nodes (concepts) connected by typed morphisms (relations),
+evolving under structure-preserving transformations (functors).
+
+Formally, let \(\mathcal{G}\) be a small category whose objects are
+concept nodes and whose morphisms are typed relations. A cognitive state
+is a subobject of \(\mathcal{G}\). Reasoning is the composition of
+morphisms and the introduction of new subobjects via natural
+transformations.
+
+This is a strict departure from metric-space cognition. In a metric
+space, similarity is a distance. In a categorical topology, similarity
+is \emph{structural compatibility}: two subgraphs are similar if they
+are related by a functor. The system does not measure how close two
+thoughts are; it evaluates whether one can be transformed into the other
+by a valid rule.
+
+We do not require full Grothendieck-topos machinery, which is
+computationally intractable at scale. In practice we use \textbf{typed
+graph rewriting} as a computable specialization of the categorical
+structure: nodes are concepts, edges are typed relations, and rewrite
+rules are the local presentation of categorical morphisms. This
+preserves the axiom's spirit while remaining implementable.
+
+\paragraph{4.2 Axiom II. Non-Equilibrium Phase-Space
+Expansion}\label{axiom-ii.-non-equilibrium-phase-space-expansion}
+
+Classical dynamical systems have a fixed phase space determined at
+construction time. A cognitive system does not. When the system
+encounters a problem that its current structure cannot resolve, the
+reasoning process \emph{physically spawns new degrees of freedom} ---
+new nodes, new relations, new subgraphs --- to accommodate the problem.
+
+Formally, if \(G_t\) is the graph at reasoning step \(t\), the
+transition \(G_t \to G_{t+1}\) is not confined to
+\(|G_{t+1}| \leq |G_t|\). New vertices and edges may be introduced by
+construction rules. The Liouville conservation law that governs fixed
+phase spaces does not apply; instead we introduce the
+\textbf{tension-bounded expansion principle}:
+
+\[
+\Delta|G_t| \leq \alpha \cdot T(t),
+\]
+
+where \(T(t)\) is the RIFA-style tension (contradiction magnitude
+weighted by log-coherence) and \(\alpha\) is a growth-rate constant.
+Tension governs how much the system is \emph{permitted} to expand its
+state to resolve pressure. Under stable operation (\(T\) small) the
+graph stabilizes; under contradiction (\(T\) large) it grows to
+accommodate.
+
+This provides an analog of the conservation law --- not phase-space
+\emph{volume} (which now grows), but the \textbf{cost of growth}, which
+is charged against a tension budget. The system cannot expand
+infinitely; the expansion is thermodynamically constrained.
+
+\paragraph{4.3 Axiom III. Active Construction Over Statistical
+Interpolation}\label{axiom-iii.-active-construction-over-statistical-interpolation}
+
+A cognitive engine does not select the most likely next token from a
+learned distribution. It \textbf{constructs}, per query, a deterministic
+mechanism that computes the answer.
+
+Given a query \(q\), the reasoning process assembles a subgraph
+\(G^*(q) \subseteq G\) whose structure \emph{is} the answer's
+derivation. The final semantic output is read from a specific node (or
+invariant) of \(G^*(q)\) via the translation table.
+
+This is the same computational primitive that underlies proof search
+(Coq, Lean, Isabelle) and constraint solving (Z3, MiniSat). The
+difference in CSC is that the \emph{heuristic} guiding which rewrite
+rules to try --- the equivalent of a proof-tactic policy --- is provided
+by the physics-based substrate rather than by a hand-crafted search
+strategy or a monolithic neural policy. The substrate contributes
+coherence-driven retrieval of relevant nodes and rules; the constructive
+layer performs the actual derivation; the translation table names the
+final result.
+
+\paragraph{4.4 The Nine Reasoning
+Primitives}\label{the-nine-reasoning-primitives}
+
+The composition space of a constructive engine is determined not by the
+\emph{number} of stored rules but by the \emph{closure} of the primitive
+rule types under composition. We argue that a small finite set --- nine
+primitives --- is sufficient to close the space, on the same principle
+by which a finite set of grammar rules generates unbounded language
+(Chomsky, 1957).
+
+The nine primitives, and their operational form on a typed graph \(G\):
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\#
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Primitive
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pattern
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Conclusion
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & \textbf{Deduction} (modus ponens) & \(P \wedge (P \Rightarrow Q)\) &
+\(Q\) \\
+2 & \textbf{Transitive composition} &
+\((A \xrightarrow{r_1} B) \wedge (B \xrightarrow{r_2} C)\) &
+\((A \xrightarrow{r_3} C)\) \\
+3 & \textbf{Inheritance} (class-property flow) &
+\((X \xrightarrow{\text{is\_a}} C) \wedge (C \xrightarrow{r} Y)\) &
+\((X \xrightarrow{r} Y)\) \\
+4 & \textbf{Abduction} & goal \(G\), rule \((P \Rightarrow G)\) &
+hypothesise \(P\) \\
+5 & \textbf{Negation} (contrapositive) &
+\((P \Rightarrow Q) \wedge (\neg Q)\) & \((\neg P)\) \\
+6 & \textbf{Case analysis} (disjunction elim.) &
+\((X \text{ OR } \{d_i\}) \wedge \forall i\,(d_i \Rightarrow R)\) &
+\((X \Rightarrow R)\) \\
+7 & \textbf{Induction} (schematic gen.) &
+\(\{X_i \text{ is\_a } C, X_i \text{ has } P\}\) for enough \(i\) &
+\((C \text{ has } P)\) \\
+8 & \textbf{Analogy} (structure map) & \((X \sim X')\) and
+\((X \xrightarrow{r} Y)\) & \((X' \xrightarrow{r} Y)\) \\
+9 & \textbf{Recursion} & any rule may fire on its own output & fixpoint
+iteration \\
+\end{longtable}
+
+\textbf{Claim (Composition Closure).} Under recursive composition
+(primitive 9) and the meta-rule discovery mechanism of §5.3.3, the
+reachable derivation set from any consistent premise base is
+Turing-complete when the ontology permits variable binding and
+arithmetic. The proof is standard: the nine primitives include modus
+ponens, universal instantiation (inheritance), and case analysis, which
+suffice to encode any first-order proof; recursion + rule induction
+allow the effective procedure to grow its rule set from experience. This
+is the closure argument that makes ``hardcoded rules'' a \emph{seed}
+rather than a ceiling.
+
+\textbf{Empirical validation.} Each primitive is implemented as a
+separate rule-type in \texttt{src/primitives.hpp} of the accompanying
+implementation. On a small hand-crafted ontology (dogs, students,
+planets, switches, chains of length 15) each primitive derives the
+expected conclusion:
+
+\begin{itemize}
+\tightlist
+\item
+  Transitive: \texttt{dog\ is\_a\ animal} via 3 edges --- YES
+\item
+  Deduction: \texttt{raining\ implies\ risk} --- YES
+\item
+  Inheritance: \texttt{socrates\ has\ mortality},
+  \texttt{socrates\ has\ language} --- YES
+\item
+  Negation: \texttt{socrates\ NOT\ has\_gills} via contrapositive of
+  \((\text{has\_gills} \Rightarrow \text{aquatic})\) --- YES
+\item
+  Case analysis: \texttt{switch\_state\ ⇒\ actionable} via both
+  disjuncts --- YES
+\item
+  Induction: \texttt{student\ has\ textbook} from 4 witnesses --- YES
+\item
+  Analogy: cross-domain edge transfer under a \texttt{is\_a} mapping ---
+  YES
+\item
+  Recursion: \texttt{a\ is\_a\ p} across a 15-hop chain via fixpoint
+  iteration --- YES (105 edges derived over 4 steps under tension budget
+  5000)
+\item
+  Rule induction: macro-rule discovered from 24 forward-chaining
+  derivations --- YES
+\end{itemize}
+
+Every derivation is fully traceable via the parent-edge chain (Layer 2
+§5.3.4), and every conclusion was \textbf{never asserted directly}. This
+is the composition-vs-retrieval distinction of §3.4 exhibited on an
+actual buildable engine.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{5. The Tri-Layer Unified
+Architecture}\label{the-tri-layer-unified-architecture}
+
+We now specify the concrete synthesis of the three axioms with our prior
+lineage.
+
+\paragraph{5.1 Overview}\label{overview}
+
+\begin{verbatim}
+                   ┌──────────────────────────────────────────┐
+INPUT (bytes) ─►   │  LAYER 1: Physics Substrate              │
+                   │  ─────────────────────────               │
+                   │                                           │
+                   │  RFE     (kernel-field encoder)          │
+                   │  DCHL Φ  (coherence potential)           │
+                   │  Hamiltonian evolution                    │
+                   │  RIFA IC + SIL + Crown Lattice           │
+                   │                                           │
+                   │  Trained via ZeroGrad Hebbian.           │
+                   │  Output: (a) coherent state c*           │
+                   │          (b) tension T(t)                │
+                   │          (c) retrieved nodes & rules     │
+                   └──────────────────┬───────────────────────┘
+                                      │
+                   ┌──────────────────▼───────────────────────┐
+                   │  LAYER 2: Constructive Substrate         │
+                   │  ─────────────────────────               │
+                   │                                           │
+                   │  Typed graph G of active concepts        │
+                   │  Rewrite rules → morphisms G → G'        │
+                   │  Growth budget bounded by T(t)           │
+                   │                                           │
+                   │  Reasoning = fixpoint of rule-application │
+                   │  Terminates on:                          │
+                   │   – answer node reached                  │
+                   │   – no rule applies                      │
+                   │   – tension budget exhausted             │
+                   │                                           │
+                   │  Realises Axioms I, II, III.             │
+                   │  Output: final graph G*                  │
+                   └──────────────────┬───────────────────────┘
+                                      │
+                   ┌──────────────────▼───────────────────────┐
+                   │  LAYER 3: MDL Translation                │
+                   │  ─────────────────────────               │
+                   │                                           │
+                   │  Table T of ≤ N rows:                    │
+                   │    (graph_invariant_i, string_i)         │
+                   │                                           │
+                   │  Lookup: match(G*) → string              │
+                   │  If no match above threshold →           │
+                   │    "unknown", supported by IC's         │
+                   │    reported low coherence                │
+                   │                                           │
+                   │  Cost: exactly log₂N bits (Lemma).       │
+                   └──────────────────┬───────────────────────┘
+                                      │
+                                      ▼
+                              SEMANTIC ANSWER
+\end{verbatim}
+
+\paragraph{5.2 Layer 1: Physics Substrate --- the Relevance
+Heuristic}\label{layer-1-physics-substrate-the-relevance-heuristic}
+
+In the four-part structure of §3.4, Layer 1 is the \textbf{relevance
+heuristic}, not the thinker. Its job is the same as AlphaProof's neural
+policy: given the current query and derivation state, propose
+\emph{which} primitives (nodes, rules) Layer 2 should try next, in what
+order. It does not answer; it ranks.
+
+Its four responsibilities:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Semantic normalization.} Paraphrases of a query evolve to
+  nearby states under the Hamiltonian, so downstream retrieval and
+  rewriting see a canonical form. This is work no lookup table can do.
+\item
+  \textbf{Contradiction metabolism.} RIFA's Integrity Core {[}Mahir
+  2026g{]} converts contradiction pressure into a scalar tension
+  \(T(t)\) that regulates Layer 2's growth budget.
+\item
+  \textbf{Identity persistence.} RIFA's Silence-Integration Layer
+  sustains the operator across long input gaps without external
+  prompting.
+\item
+  \textbf{Rule-relevance ranking.} Given the current \((q, G_t)\),
+  output a probability distribution over Layer 2's rule set --- a
+  \emph{tactic policy} in the theorem-proving sense. This is where the
+  substrate replaces a brute-force forward-chaining search.
+\end{itemize}
+
+The substrate is trained by the \textbf{ZeroGrad} Hebbian paradigm
+{[}Mahir 2026d{]}: no backprop, no loss functions, no optimizer state,
+no gradient descent on parameters. All updates are local and
+physics-derived. Weight compression uses \textbf{Arch-Native
+Quantization} at 4-bit precision {[}Mahir 2026f{]} for GPU-scale
+substrates. \textbf{Crucially, the substrate is trained on derivation
+traces from Layer 2}, not on raw text: it learns to predict which rule
+was actually applied at each step of past successful derivations. This
+is precisely the training signal used by AlphaZero's policy network ---
+but implemented via ZeroGrad Hebbian rather than backprop.
+
+\textbf{Anti-memorization guarantee.} The substrate never sees a
+\texttt{(query,\ answer)} pair. Its training signal is
+\texttt{(graph\ state,\ rule\ applied)} triples, drawn from the
+derivations Layer 2 has itself generated. There is therefore no channel
+through which the substrate could memorize the mapping from queries to
+answers --- the mapping is not in the training data. It could, at worst,
+memorize \texttt{(state,\ rule)} correlations, which is exactly what a
+heuristic policy is \emph{supposed} to do (see §5.2's list of
+responsibilities). The engine's answers come from Layer 2's construction
+plus Layer 3's translation table; neither of these paths involves the
+substrate as anything other than a proposer of what to try next. This is
+what closes the ``hidden memorization'' trap that
+pattern-matcher-in-thinker's-clothing systems fall into.
+
+\paragraph{5.3 Layer 2: Constructive Substrate --- the
+Thinker}\label{layer-2-constructive-substrate-the-thinker}
+
+Layer 2 is the composition engine of §3.4. This is where thinking lives.
+It is a \textbf{typed graph rewriter} operating on a graph
+\(G_t = (V_t, E_t, \tau)\) where \(\tau: E_t \to \mathcal{R}\) assigns
+each edge a relation type from a finite ontology \(\mathcal{R}\). Its
+four subcomponents mirror the corollary:
+
+\textbf{5.3.1 Rule Family.} Rewrite rules are of the form
+
+\[
+\text{if } (P \subseteq G_t) \text{ then } G_{t+1} := G_t \cup Q,
+\]
+
+where \(P\) is a pattern subgraph and \(Q\) is a construction subgraph.
+New nodes in \(Q \setminus P\) realize Axiom II (phase-space expansion).
+The initial rule set is the \textbf{nine reasoning primitives of §4.4}
+(deduction, transitive composition, inheritance, abduction, negation,
+case analysis, induction, analogy, recursion). Each is implemented as a
+distinct rule type with its own pattern matcher; the accompanying
+implementation \texttt{src/primitives.hpp} fires all nine on the
+empirical suite of §4.4.
+
+By the composition-closure claim of §4.4, this seed set is sufficient to
+reach a Turing-complete derivation space under recursion + rule
+induction. The set is fixed at design time; the \emph{macros} discovered
+from usage (§5.3.3) multiply the reachable derivation space
+monotonically over the system's lifetime, without new hand-authored
+rules.
+
+\textbf{5.3.2 Composition Engine.} Both forward and backward chaining.
+Forward derives everything currently reachable; backward pursues a
+specific query goal by working from the goal to the premises. The engine
+is a bounded-depth iterative deepening: forward for exploration,
+backward for goal-directed proof. Termination conditions: (a) answer
+node reached, (b) no rule applies (fixpoint), (c) tension-bounded budget
+\(\alpha \cdot T(t)\) exhausted.
+
+\textbf{5.3.3 Rule Induction (Meta-Rule Discovery).} After every
+successful derivation, sub-chains of length \(\geq 2\) are recorded with
+their frequency. When a sub-chain crosses a MDL threshold (its
+compressed representation is shorter than the sum of its parts), it is
+registered as a new \textbf{macro-rule}. Subsequent derivations that
+would have replayed the sub-chain now apply the macro-rule instead. This
+is how the system grows its own primitive set from experience --- the
+primitive count \(P\) grows polynomially, but each new macro-rule
+multiplies the reachable derivation space. The result is a monotone
+increase in the thinker index \(C/R\) over the system's lifetime, purely
+from usage, without any additional training data.
+
+\textbf{5.3.4 Verifier.} Every derived edge carries the rule that
+produced it and the parent edges. A verifier walks any candidate answer
+edge back to premises and re-checks each application. This is the
+mechanism that prevents Layer 2 from being a generator: no output is
+emitted unless its derivation type-checks against the current rule set.
+Failed verification returns ``unknown'' via Layer 3, not a hallucinated
+answer.
+
+This layer is what none of our prior work possessed. It is what turns
+coherent-state normalisation into constructive derivation, and ---
+through §5.3.3 --- enables the system to \emph{increase its thinker
+index over time} rather than being frozen at design.
+
+\paragraph{5.4 Layer 3: Minimum-Description-Length
+Translation}\label{layer-3-minimum-description-length-translation}
+
+The translation table pays the conservation-law tax explicitly. Each row
+is a pair \((I_i, s_i)\) where \(I_i\) is a graph invariant (e.g., the
+label of a designated answer node, or a signature over \(G^*\)) and
+\(s_i\) is its human-readable string. Lookup is exact (invariants are
+discrete). The total cost is \(\Theta(N)\) table rows for \(N\) answers,
+meeting the \(\log_2 N\) lower bound within a constant factor.
+
+Because the translation is explicit, it is \textbf{interpretable} in a
+way no distributed LLM head is: every row can be inspected, every answer
+traced to a specific graph structure. Because the invariants are
+discrete, translation \textbf{does not hallucinate}: an answer is either
+a table hit or ``unknown'' (reported with IC-supported low coherence).
+
+\paragraph{\texorpdfstring{5.4b Physics-Driven Language Generation via
+Resonance Signatures ---
+\textbf{RETIRED}}{5.4b Physics-Driven Language Generation via Resonance Signatures --- RETIRED}}\label{b-physics-driven-language-generation-via-resonance-signatures-retired}
+
+\begin{quote}
+\textbf{STATUS: RETIRED. Superseded by §5.4d (Constructive Language
+Locking).}
+
+This section is preserved because it states a hypothesis clearly and
+that hypothesis was \textbf{wrong in kind, not in degree} --- which is a
+result worth keeping. Do not cite it as describing the current system.
+
+The proposal below asks a resonance field to \emph{discover} English
+word order. §5.4d argues that this is a category error: grammar is a
+transmission protocol two speakers agreed on, not a physical phenomenon
+awaiting measurement. There is no gradient to follow because there is no
+fact of the matter. The concept-level ordering described in Stage 3
+partially worked and survives in CPME/CPSB; the \emph{grammatical}
+claims of Stage 2 did not, and the byte-level emission babbled
+(\texttt{mrs.md} §4b).
+
+\textbf{What replaced it:} surface realisation moved out of the physics
+entirely, into isolated deterministic language clusters (§5.4d,
+\texttt{cll.md}). What was retained: phase-collapse ordering across
+\emph{concepts}, which is a physical claim and holds.
+
+The comparison table at the end of this section should be read as
+\emph{what was hoped for in 2026}, not as a measured result. Two of its
+rows (``Grammar: fixed macro-node ω per grammatical role'',
+``Sequencing: phase-locked slot sampling'') describe a mechanism that
+was implemented and did not work.
+\end{quote}
+
+The MDL translation table of §5.4 answers a single query with a single
+string via a static lookup on a graph invariant. Natural-language
+\emph{generation} --- producing ordered sentences --- requires an
+extension: the wave dynamics of Layer 1 already encode meaning, but the
+\emph{sequence} of words must emerge from a mechanism that does not
+sample from a next-token distribution. We proposed a three-stage
+physics-only pipeline that produces grammatically ordered output without
+any statistical prediction.
+
+\textbf{Stage 1 --- Resonance Signature (semantics).} A query drives the
+cognitive substrate; after a settling window the standing-wave field
+\(\{x_i, v_i, \theta_k\}\) across cavities and macro-nodes IS the
+meaning. This is consistent with the fixed-point account of phenomenal
+consciousness in BSMA {[}Mahir 2026m, \texttt{bmsa\_new.md}{]}: the wave
+field is not a proxy for a thought --- it is the thought. No decoding is
+required at this stage --- the meaning lives in the physical state, and
+the primitives it references live in the graph.
+
+\textbf{Stage 2 --- Phase-Locking with a Syntax Macro-Layer.} In
+addition to the semantic macro-nodes of HNCA {[}Mahir 2026n,
+\texttt{hnca.md}{]} we introduce a second macro-layer whose regions have
+\emph{grammatical roles}: one macro-node per slot (Subject, Verb,
+Object, and optional Adverb / Modifier) with a fixed natural frequency
+\(\omega_S, \omega_V, \omega_O\). The semantic macro-nodes couple into
+the syntax layer via the same Kuramoto rule already used for HNCA:
+
+\[
+\frac{d\theta_i}{dt} = \omega_i + \frac{K}{M}\sum_j \sin(\theta_j - \theta_i)\,A_j
+\]
+
+When a semantic cluster's amplitude peaks near the Subject slot's phase,
+that cluster IS the subject of the emitted sentence. This is the same
+mechanism a human uses when a ``verb slot'' in Broca's area recruits
+whichever motor-action concept currently has the highest neural gain ---
+grammatical role is a \emph{physical slot}, not a statistical
+association.
+
+\textbf{Stage 3 --- Temporal Readout Head with Tunnel Decoding.} A
+readout head samples the cavities at each slot phase in canonical order:
+\(\theta_S = 0\), \(\theta_V = 2\pi/3\), \(\theta_O = 4\pi/3\). For each
+slot the head reports the cavity whose displacement is peak \emph{at
+that phase}. Only then are the raw label strings concatenated. The
+result is not a bag of concepts --- it is an ordered sentence whose
+sequence is determined by physics, not by probability. Concretely, for a
+probe on \texttt{metformin}:
+
+\begin{itemize}
+\tightlist
+\item
+  The semantic wave excites \texttt{metformin.α}, which phase-locks into
+  the Subject slot; the tunnel
+  \texttt{metformin\ -\/-inhibits-\/-\textgreater{}\ mtor} transmits
+  into the Verb slot at phase \(2\pi/3\); the target cavity
+  \texttt{mtor.β} phase-locks into the Object slot at \(4\pi/3\).
+\item
+  The readout head samples these three slots in the fixed canonical
+  order.
+\item
+  Layer-3 table maps each cavity id to its label string.
+\item
+  Output: \texttt{metformin\ inhibits\ mtor} --- one sentence,
+  deterministic, physics-derived, no next-token prediction anywhere in
+  the pipeline.
+\end{itemize}
+
+\textbf{Storage-floor honesty.} The three raw label strings
+(\texttt{metformin}, \texttt{inhibits}, \texttt{mtor}) ARE stored ---
+they must be, by the Translation Capacity Lemma of §3.1. The
+\emph{sequencing} is NOT stored. No pair
+\texttt{(query,\ "metformin\ inhibits\ mtor")} appears anywhere in the
+training data. The order emerges from the physical geometry of the
+syntax macro-layer coupled into the semantic substrate. This is the same
+storage floor a human brain requires: a child who has never heard
+\texttt{metformin} cannot dream about it. Facts must be stored;
+sentences need not be.
+
+\textbf{Comparison.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+LLM
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+This engine
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Semantics & Distributed in \(\sim 10^{12}\) weights & Standing-wave
+field on the substrate \\
+Sequencing & \(\arg\max\) over next-token distribution & Phase-locked
+slot sampling \\
+Grammar & Learned from token co-occurrence & Fixed macro-node \(\omega\)
+per grammatical role \\
+Sampling & Temperature \(\times\) softmax & None --- deterministic slot
+readout \\
+Novelty & Statistical interpolation & Physics-computed constructions
+(fission, bridge insertion, resonance) \\
+Storage & \((Q,A)\) pairs baked into weights & Only primitive fact
+strings; \(O(N)\) rows \\
+Failure mode & Hallucination & Explicit ``unknown'' via slot-vacancy \\
+\end{longtable}
+
+This mechanism is the natural extension of Layer 3 --- the same MDL
+table supplies the label strings; the syntax macro-layer supplies the
+ordering that a single-slot lookup cannot. Neither statistical sampling
+nor an autoregressive language model appears anywhere in the pipeline.
+The extension is a small addition: one macro-layer with three-to-five
+fixed frequencies, one readout head, no new weights, no new training.
+
+\paragraph{5.4c The Unified Working Substrate --- What Is Built,
+Measured, and
+Load-Bearing}\label{c-the-unified-working-substrate-what-is-built-measured-and-load-bearing}
+
+The papers in this lineage each propose one mechanism. Read separately
+they are a pile of proposals; read as a stack they are one substrate in
+which each mechanism gates a different physical quantity. This section
+arranges the mechanisms that are \textbf{implemented and measured} ---
+not proposed --- in the order the field encounters them. Everything
+below is in \texttt{src/physics.hpp} unless noted.
+
+\textbf{Input path.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Gates
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Status
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Byte-lane sensory layer & CMD & 256 lanes; concepts reached only via
+learned bindings & built \\
+Bigram lanes & MRS §4b.1 & ordered pairs; recognition survives
+misspelling & \textbf{7/7 measured} \\
+Chirality & CPME §1.1 & arrival time → phase gradient & built \\
+\end{longtable}
+
+\textbf{Field dynamics.} Each row multiplies a different term; none is a
+special case of another.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Gates
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Physical quantity
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+MIMS materials & \texttt{mims.md} & tunnel stiffness / damping &
+\textbf{now derived from fan-out, not hand-set} \\
+Curie habituation & CMD & tunnel coupling & per-cavity heat \(T_i\) \\
+VGHT sub-bands & \texttt{vght.md} & domain isolation & macro-node
+\(\omega\) \\
+VGHT voltage gates & \texttt{vght.md} & cross-domain bridges &
+\(\sigma(\kappa(|x_a||x_b| - \theta))\) \\
+VGHT viscosity & \texttt{vght.md} & avalanche suppression &
+\(E_{\text{total}}\) \\
+CPSB gauge \(\Psi\) & \texttt{cpsb.md} & directed phase order &
+per-tunnel offset \\
+CSAT chaos & \texttt{CSAT.md} & metastability & Lorenz
+\(\hat x \cdot \tanh(T_i/T_c)\) \\
+Energy homeostasis & this §5.4c & inter-turn forgetting & global gain
+\(\sqrt{B/E}\) \\
+\end{longtable}
+
+\textbf{Structural mechanisms.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Effect
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RB+G fission & \texttt{rbg.md} & contradiction → new vertices (Axiom
+II) \\
+L6-A bridging & \texttt{rbg.md} §5 & shared-target intersection → rubber
+tunnel \\
+ZeroGrad Hebbian & \texttt{zerograd.md} & local plasticity, no
+backprop \\
+CPME-II phase Hebbian & \texttt{cpme\_ii.md} & consolidates only
+phase-consistent co-activity \\
+\end{longtable}
+
+\textbf{Two corrections this arrangement forced.} Assembling the stack
+revealed defects invisible when each paper was read alone:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \emph{MIMS constants were guesses.} Stiffness is now \textbf{derived}
+  from a relation's fan-out:
+  \(k_r = k_{hi}/(1 + \log_2(1 + \text{fanout}_r))\). A relation whose
+  subject almost determines its object is a hard constraint and
+  transmits cleanly; a promiscuous one is diffuse and should not. Twenty
+  hand-set numbers became one formula, and the physics measurably
+  improved.
+\item
+  \emph{VGHT sub-bands were assigned per connected component, which
+  silently failed.} Union-find over \textbf{all} tunnels merged 69\% of
+  the graph (1877 of 2712 cavities) into one component, which then
+  received a single frequency band --- so domain isolation was absent
+  exactly where it was needed, and biology, taxonomy and computing
+  resonated in the same band. The cause was generic \texttt{is\_a} /
+  \texttt{has} edges bridging every domain through shared abstract hubs.
+  The fix follows from correction (1): those relations now carry
+  \emph{low} stiffness by construction, so clustering unions only over
+  tunnels above median stiffness. \textbf{Two masses joined by a very
+  weak spring are not one rigid body.} The giant component fell to 621
+  cavities and cross-domain contamination disappeared:
+
+\begin{verbatim}
+before   mammal -> biology open source license kernel posix compliance
+after    mammal -> warm blood hair spine
+\end{verbatim}
+\end{enumerate}
+
+\textbf{Verification path (Phase 2).} The substrate now forms hypotheses
+from the graph, emits real source expressing them, and submits them to
+an external oracle:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Fact
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Provenance
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{human\ is\_a\ great\_ape} & derived --- forward chaining,
+premises cited \\
+\texttt{bind\_byte\ has\ arity\_2} & \textbf{established by experiment}
+--- contradicted extraction; compiler settled it \\
+\texttt{drive\ has\ sig\_int\_float\_float\_int} & \textbf{established
+by experiment} --- absent from the graph entirely \\
+\end{longtable}
+
+This adds a third provenance class to the substrate. Neither asserted
+nor derived: \emph{established by experiment}. Cost on a repeated task
+falls from 3 experiments to 1, because the hypothesis it starts from is
+the one it earned.
+
+\paragraph{5.4d Language Governance --- Isolated Syntax
+Clusters}\label{d-language-governance-isolated-syntax-clusters}
+
+\emph{Developed at length in \texttt{research-paper/cll.md}
+(Constructive Language Locking). This section states the principle and
+the measured result; the companion paper gives the formal definition,
+cost accounting, comparison table and failure modes.}
+
+§5.4b proposed deriving word order from field physics, and §8.5 asked
+for ``grammatical constraint expressed as a field property.''
+\textbf{That was a category error, and this section corrects it.}
+
+\textbf{Cognition and language are different kinds of thing.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Cognition
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Language
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Purpose & discover & transmit \\
+Needs & novelty, experiment, resonance, oracle validation & a fixed,
+agreed protocol \\
+Bound by rules? & never --- that would cripple it & entirely --- that is
+what it \emph{is} \\
+\end{longtable}
+
+English SVO is not a physical law awaiting discovery by resonance. It is
+a human communication convention. Bengali SOV encodes identical
+cognitive content under a different convention. Attempting to make the
+substrate \emph{discover} grammar confuses a protocol with a phenomenon.
+
+\textbf{Architecture.} The substrate splits, and the core is untouched:
+
+\begin{verbatim}
+[ Core SI Physics Substrate ]  ->  raw resonant concept triples
+                |                  (subject, relation, object)
+                v
+[ Isolated Language Cluster ]  ->  deterministic surface realization
+     |- English  (SVO grid)
+     |- Bengali  (SOV grid)
+     |- Banglish (SOV grid, Latin script)
+                |
+                v
+        human-readable stream
+\end{verbatim}
+
+Not one grammar rule enters \texttt{physics.hpp}. Fission, L6-A
+bridging, thermodynamic discovery and novelty are unaffected --- the
+cognitive flexibility the rest of this paper argues for is preserved
+\emph{because} the protocol lives outside the physics.
+
+\textbf{Measured} (\texttt{src/lang.hpp}), one cognitive state under
+three protocols:
+
+\begin{verbatim}
+(biology, is_a, science)     en: Biology is a science.
+                             bn: Biology science একটি।
+                             bl: Biology science ekta.
+
+(metformin, inhibits, mtor)  en: Metformin inhibits mtor.
+                             bn: Metformin mtor বাধা দেয়।
+                             bl: Metformin mtor badha dey.
+\end{verbatim}
+
+\textbf{Cost accounting.} This adds no hidden cost and hides nothing.
+Layer 3 already stores label strings --- the Translation Capacity Lemma
+(§3.1) forces it. A word-order constant is \textasciitilde2 bits; a
+relation lexicalisation table is one row per relation per language; a
+transliteration map is one row per word pair. All are Layer-3
+\emph{protocol} cost, explicitly named, and none is intelligence.
+
+\textbf{A defect testing disproved immediately.} The first
+implementation treated article insertion as a global language property
+and emitted \emph{``Biology is a the science.''} Whether an object takes
+a determiner belongs to the \textbf{construction}, not the language:
+\texttt{is\_a} supplies its own article, proper nouns take none. Article
+placement is now a per-relation flag. This is the shape of the remaining
+work --- real grammar exceeds word order, but every additional rule is
+deterministic data, never a learned parameter.
+
+\textbf{Two properties this buys that a language model cannot.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Zero-hallucination surface form.} The transliteration relation
+  is strict and static: \texttt{tumi} is \emph{always} \texttt{তুমি}. A
+  model code-switching Banglish drifts between spellings because its
+  output is sampled; this cannot, because nothing is sampled.
+\item
+  \textbf{O(1) multilingual swap.} Adding Japanese means adding a table.
+  The same cognitive state emits Japanese with the substrate unchanged.
+  A language model requires retraining or far greater capacity for the
+  same capability.
+\end{enumerate}
+
+\textbf{Still open in this layer} --- all deterministic, none requiring
+ML: morphological agreement (\emph{studies}, not \emph{study}), Bengali
+verb conjugation by person and honorific (তুমি / আপনি / তুই), free word
+order under case marking, and multi-triple discourse with pronoun
+resolution.
+
+\paragraph{5.4e The J-A-S Cycle --- Einstein's Epistemology as Substrate
+Architecture}\label{e-the-j-a-s-cycle-einsteins-epistemology-as-substrate-architecture}
+
+Einstein described the structure of physical theory as a cycle rather
+than a ladder:
+
+\begin{verbatim}
+                  +---------------------------+
+                  |        Axioms (A)         |
+                  +---------------------------+
+                     /                     \
+                    v                       v
+                +-----+                   +-----+
+                |  S  |                   | S'  |   deduced theorems
+                +-----+                   +-----+
+                   |                         |
+                   | experiment              | experiment
+                   v                         v
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                Sense Experience (E)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        \                                     /
+         +------------- Jump (J) ------------+
+\end{verbatim}
+
+The crucial claim is that \textbf{J is not logical}. No inference rule
+takes you from observations to axioms; the leap is inductive,
+unjustified, and revisable. Deduction runs \emph{downward} from axioms
+to theorems; experiment tests theorems back against experience;
+refutation propagates \emph{upward} to revise the axioms that produced
+them.
+
+This is not an analogy for the architecture --- it is a description of
+it. Every element is already implemented:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Einstein
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Substrate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Implementation
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{E} --- sense experience & raw source, byte input &
+\texttt{extract\_ast\_axioms.py}, byte-lane layer \\
+\textbf{J} --- the jump & induction: universal generalisation over
+observations & §5.3.3 rule induction, L6-A bridging, RB+G fission \\
+\textbf{A} --- axioms & the typed concept graph &
+\texttt{data/*.axioms} \\
+\textbf{S, S'} --- deduced theorems & forward chaining & 100 derived
+edges, premises cited \\
+\textbf{experiment} & compile-verify against an external oracle &
+\texttt{synth}, §5.4c \\
+\textbf{refutation → revise A} & corrected axiom written back &
+\texttt{data/verified.axioms} \\
+\end{longtable}
+
+\textbf{Why this matters for the SI claim.} §3.4 defines a thinker by
+composition rate. The J-A-S cycle sharpens that: a system that only
+deduces (S from A) is a theorem prover, and a system that only observes
+(E) is a sensor. What makes something a \emph{scientist} is the closed
+loop --- jumping to axioms that are not entailed, deducing their
+consequences, and letting an external oracle refute them.
+
+The substrate closes that loop. It is the strongest available answer to
+the charge that this is an indexing engine: an index has no J, no
+experiment, and no mechanism by which reality can overturn what it
+holds.
+
+\textbf{The essential asymmetry.} J is \emph{not} the inverse of
+deduction and must never be implemented as such. An induced axiom is a
+guess whose only warrant is survival under experiment. The substrate
+therefore tracks three provenance classes --- \emph{asserted},
+\emph{derived}, \emph{established by experiment} --- and a fourth is
+added here: \emph{induced}, which carries the weakest warrant and is the
+first thing retracted under refutation.
+
+\paragraph{5.5 What Each Prior Component Contributes, and What Was
+Dropped}\label{what-each-prior-component-contributes-and-what-was-dropped}
+
+\begin{quote}
+\textbf{CORRECTED.} An earlier version of this table listed DCHL, BED,
+ANQ and CMC as \emph{retained components of the current architecture}.
+They are not, and were not at the time the claim was written. The table
+below is reconciled against the mechanism-level audit in §6.2, which was
+produced by grepping the live source rather than by reading the papers.
+Where the two disagreed, the grep won.
+
+The error is worth naming because it is the characteristic failure of a
+long lineage: a synthesis section written once and never re-checked
+silently becomes a description of a system that no longer exists. That
+is the failure §6.2 exists to prevent, and it had already happened here.
+\end{quote}
+
+The substrate this paper describes is the \textbf{oscillator substrate}
+(\texttt{src/physics.hpp}). It replaced the \textbf{DCHL substrate} ---
+a continuous-state Hamiltonian system with a learned potential \(\Phi\)
+--- which is retired. Everything below is stated relative to that
+replacement.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Component
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Status in the CURRENT engine
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Where, or why not
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+CMA fixed potential & \textbf{historical only} & supplied the manifold
+vocabulary of §4; no code \\
+P-CMA predictive transition & \textbf{dropped} & subsumed by
+graph-rewriter transitions \\
+HCMA hierarchical states & \textbf{dropped with DCHL} & its contrastive
+training is the negative result of §2.1 \\
+CCH curl-free constraint & \textbf{not implemented} & grep finds no
+\texttt{curl} in the substrate; the constraint was never enforced in
+code, so it guarantees nothing here \\
+DCHL learned \(\Phi\) & \textbf{RETIRED} & the substrate that collapsed
+into the §1.2 traps; trained artifacts archived out of the tree \\
+\textbf{ZeroGrad learning rule} & \textbf{LIVE --- foundational} &
+\texttt{plasticity\_delta\ =\ pd·hebbian\_decay\ +\ plastic\_rate·v\_a·v\_b};
+every Hebbian update, including CPME-II, is this rule. \emph{The paper
+is dead; the rule is load-bearing} (§6.2.4) \\
+\textbf{RIFA IC/SIL} & \textbf{LIVE} & \texttt{IntegrityCore},
+\texttt{SilenceIntegration} --- contradiction and identity metabolism \\
+RIFA Rule Synthesizer & \textbf{live but bypassed on bulk load} &
+streaming-only; feeding it a sorted axiom file manufactures rules from
+alphabetical order, so ingestion disables it \\
+BED (Byte Energy Descent) & \textbf{DEAD} &
+\texttt{DEAD/deprected/bed.md}; converged to byte-mean with no prompt
+structure \\
+CognitiveMemory retrieval & \textbf{dropped} & subsumed by the Layer-3
+table, which names the cost honestly \\
+STAN topological readout & \textbf{dropped} & bifurcation drift;
+replaced by graph invariants \\
+ANQ 4-bit quantisation & \textbf{DEAD as a scheme} & retired with the
+GPU trainer it served \\
+\textbf{ANQ LEA integrator} & \textbf{LIVE} & continuous integrator
+replacing threshold-commit; used by every saturating accumulator in the
+tick (§6.2.4) \\
+CMC memory reduction & \textbf{not in live code} & no current trainer
+needs it --- there is no gradient training left to compress \\
+\textbf{LTO} & \textbf{LIVE} & runtime axiom acquisition and
+persistence \\
+\end{longtable}
+
+Two entries above are the point of the whole audit: \textbf{ZeroGrad and
+ANQ-LEA are running in production while their papers sit in
+\texttt{DEAD/}.} A dead paper is not a retracted one. Cite those two as
+\emph{sources of mechanisms}, never as \emph{descriptions of the
+system}.
+
+The architecture is minimal in the sense that removing any \textbf{LIVE}
+component costs a specific capability. It is \emph{not} minimal in the
+sense that every historical component found a home --- most did not, and
+saying otherwise was the error corrected above.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{6. Relationship to Prior Work in the
+Lineage}\label{relationship-to-prior-work-in-the-lineage}
+
+\begin{quote}
+\textbf{Read this section as intellectual history, not as a parts list.}
+Every item below states what a paper \emph{contributed to the thinking}.
+Whether the mechanism survives into running code is a separate question,
+answered --- per paper, by grep --- in §6.2. Several entries here are
+historically important and currently dead (CCH, CMC, ANQ, SCER, BED).
+Conflating ``this shaped the design'' with ``this is in the system'' is
+precisely the error corrected in §5.5.
+\end{quote}
+
+The synthesis makes explicit what each earlier paper contributed, and
+what none of them could have done alone:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{CMA} (2026a) introduced the manifold and Hamiltonian
+  formalism.
+\item
+  \textbf{P-CMA} (2026b) added learned transitions and the planning
+  idea.
+\item
+  \textbf{CCH} (2026c) established the curl-free constraint as the
+  mathematical guarantor of transitive reasoning.
+\item
+  \textbf{HCMA} (2026h) introduced decoupled contrastive Hebbian
+  learning (DCHL) and the two-level state.
+\item
+  \textbf{ZeroGrad} (2026d) formalized the local, backprop-free training
+  paradigm.
+\item
+  \textbf{CMC} (2026i) reduced training memory to \(O(1)\) via cognitive
+  state compression.
+\item
+  \textbf{ANQ} (2026f) achieved 4-bit weight compression that preserves
+  DCHL physics.
+\item
+  \textbf{CME} (2026j) extended the substrate to multimodal inputs via
+  unified state.
+\item
+  \textbf{LTO} (2026k) introduced online substrate adaptation without
+  stopping inference.
+\item
+  \textbf{SCER} (2026l) proposed multi-mode routing at the reasoning
+  layer.
+\item
+  \textbf{RIFA} (2026g) added structural pressure, contradiction
+  metabolism, silence endurance, and self-assembling control.
+\item
+  \textbf{BED} (2026e) introduced the discrete argmin decoder for
+  byte-level output.
+\end{itemize}
+
+Each was locally correct within its scope. The synthesis reveals that
+none was sufficient alone to escape the three traps of §1.2, and that
+the missing piece --- the constructive graph-rewriting layer with
+explicit MDL translation --- is precisely what turns \emph{substrate}
+into \emph{thinker}.
+
+\textbf{Two corrections to the list above, both established by §6.2.}
+CCH's curl-free constraint is described here as having ``established'' a
+guarantor of transitive reasoning; it was never implemented, so it
+guarantees nothing about this engine and the claim is historical only.
+And the framing ``each was locally correct'' is too generous to HCMA and
+BED: HCMA's contrastive objective was \emph{wrong} in the specific way
+§2.1 diagnoses (it trains a classifier), and BED's decoder demonstrably
+converged to the byte-mean. Those are negative results, and they are
+more useful stated as such.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\paragraph{6.2 Lineage Audit --- What Still Carries Weight, and What Is
+Dead}\label{lineage-audit-what-still-carries-weight-and-what-is-dead}
+
+A lineage of thirty-plus papers accumulates claims faster than it
+retires them. This section states, for every prior paper, whether it is
+load-bearing in the current engine. The audit was performed by grepping
+the live source for each mechanism, not by reading the papers.
+
+\textbf{The distinction that matters most: a paper can be dead while its
+mechanism survives.} Research lineages do not retire ideas cleanly; they
+cannibalise them. Marking a paper dead says the \emph{proposal as
+stated} is retired. It does not say the idea was worthless, and in two
+cases below the idea is running in production while its paper sits in
+\texttt{DEAD/}.
+
+\subparagraph{\texorpdfstring{6.2.1 Load-bearing today
+(\texttt{research-paper/})}{6.2.1 Load-bearing today (research-paper/)}}\label{load-bearing-today-research-paper}
+
+Mechanisms verified present in \texttt{src/physics.hpp},
+\texttt{src/layer2.hpp}, or the live binaries:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Where
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{prm.md} & mass-spring cavities & \texttt{struct\ Cavity} \\
+\texttt{mims.md} & material impedance & \texttt{material\_for()} ---
+\textbf{now derived, not hand-set} \\
+\texttt{hnca.md} & macro Kuramoto & \texttt{struct\ MacroNode} \\
+\texttt{ntda.md} & neuromodulators &
+\texttt{struct\ Neurotransmitters} \\
+\texttt{tsda.md} & salience integrator & \texttt{Cavity::salience} \\
+\texttt{rifa.md} & contradiction + identity & \texttt{IntegrityCore},
+\texttt{SilenceIntegration} \\
+\texttt{srg.md} & dual-port routing & \texttt{x\_E/x\_I} (opt-in) \\
+\texttt{rbg.md} & gated fission & \texttt{fission\_locked()} \\
+\texttt{vght.md} & sub-bands, voltage gates & band ladder,
+\texttt{voltage\_gated} \\
+\texttt{cpme.md}, \texttt{cpme\_ii.md} & momentum emission, phase
+Hebbian & \texttt{readout\_phase\_collapse()} \\
+\texttt{cpsb.md} & gauge Ψ & \texttt{psi\_for()} \\
+\texttt{CSAT.md} & chaotic metastability & Lorenz, opt-in \\
+\texttt{mrs.md} & bigram recognition & \texttt{bigram\_bind\_w}
+(emission half retired) \\
+\texttt{cll.md} & language locking & \texttt{src/lang.hpp} \\
+\texttt{graph\_fisher.md} & Fisher metric &
+\texttt{fisher\_distance()} \\
+\texttt{RADE.md}, \texttt{maa.md}, \texttt{l9.md} & discovery, dispatch,
+L9 fixes & \texttt{rade.hpp}, \texttt{mal.hpp} \\
+\texttt{bmsa\_new.md}, \texttt{phenomenal-consciousness.md} & bounded
+self-model & \texttt{bsma\_topo.hpp} \\
+\texttt{liouville\_analog.md}, \texttt{cr\_bound.md} & proofs & no code
+required \\
+\end{longtable}
+
+\subparagraph{6.2.2 Partly works --- retired as architectures, mined for
+parts}\label{partly-works-retired-as-architectures-mined-for-parts}
+
+(\texttt{research-paper/failed\_but\_parts\_works/})
+
+These described the \textbf{DCHL substrate}, a continuous-state
+Hamiltonian system that preceded the oscillator substrate. That
+architecture is retired: it collapsed into the three traps of §1.2,
+exactly as §2 predicts. What survived was extracted.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Paper
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Status
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+What survived
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{cma.md} & superseded & manifold + Hamiltonian framing; the
+vocabulary of §4 \\
+\texttt{hcma.md} & superseded & DCHL contrastive training --- the
+\emph{negative} result of §2.1 \\
+\texttt{cch.md} & \textbf{not in live code} & curl-free constraint; grep
+finds no \texttt{curl} in the substrate \\
+\texttt{cmc.md}, \texttt{cmc\_extra.md} & \textbf{not in live code} &
+training-memory compression; no current trainer needs it \\
+\texttt{cme.md} & \textbf{never implemented} & multimodal unified state;
+aspirational \\
+\texttt{rifa.md} & \textbf{LIVE} (duplicated to root) & IC/SIL are
+load-bearing; this copy is redundant \\
+\texttt{README.md} & historical & describes the retired DCHL chatbot \\
+\end{longtable}
+
+The honest summary: this folder is the record of a substrate that did
+not work and the reasons why. §2 of this paper is a self-critique built
+on it. Keeping it is correct --- the negative result is a contribution
+--- but nothing in it except RIFA is load-bearing.
+
+\subparagraph{6.2.3 DEAD --- formally
+retired}\label{dead-formally-retired}
+
+(\texttt{research-paper/failed\_but\_parts\_works/DEAD/})
+
+\textbf{These papers are dead. They are retained for provenance only and
+should not be cited as describing the current system.}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+File
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Why dead
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{bug\_fix.md}, \texttt{future\_fix.md} & roadmaps fully
+superseded by \texttt{ROADMAP.md} \\
+\texttt{deprected/bed.md} & Byte Energy Descent --- converged to
+byte-mean, no prompt structure (§2.1) \\
+\texttt{deprected/scer.md} & multi-mode routing --- subsumed by the
+field-observable dispatcher \\
+\texttt{deprected/hmhra.md}, \texttt{hrm.md}, \texttt{omt.md},
+\texttt{cb.md}, \texttt{cg.md} & superseded before implementation \\
+\texttt{deprected/fixes.md} & ad-hoc patch log, no longer navigable \\
+\end{longtable}
+
+\subparagraph{6.2.4 Two mechanisms that outlived their
+papers}\label{two-mechanisms-that-outlived-their-papers}
+
+This is the finding the audit exists to surface.
+
+\textbf{ZeroGrad} (\texttt{DEAD/deprected/zerograd.md}). The paper is
+dead --- it described backprop-free training of the DCHL potential, and
+that substrate is retired. \textbf{The learning rule is live.}
+\texttt{physics.hpp} line 20 carries it verbatim:
+
+\begin{verbatim}
+ZeroGrad : plasticity_delta = pd·hebbian_decay + plastic_rate·v_a·v_b
+\end{verbatim}
+
+Every Hebbian update in the current engine, including the
+phase-consistent extension of \texttt{cpme\_ii.md}, is this rule. The
+paper died; the rule became foundational.
+
+\textbf{ANQ} (\texttt{DEAD/deprected/anq.md}). The 4-bit quantisation
+scheme is retired with the GPU trainer it served. \textbf{One idea
+survived}: the continuous-integrator-instead-of-threshold-commit
+pattern, cited in \texttt{physics.hpp} line 21 as \texttt{ANQ\ LEA}, and
+now used by every saturating accumulator in the tick.
+
+\textbf{The lesson for citation practice.} A dead paper is not a
+retracted one. These two should be cited as \emph{sources of
+mechanisms}, never as \emph{descriptions of the system}. Conflating the
+two is how a lineage accumulates claims it can no longer defend ---
+which is the failure this audit exists to prevent.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{7. Empirical Program}\label{empirical-program}
+
+The architecture makes testable predictions. We enumerate them so the
+empirical validation is unambiguous.
+
+\paragraph{7.1 Substrate-Only Baselines (Falsification of §1.2
+Traps)}\label{substrate-only-baselines-falsification-of-1.2-traps}
+
+At all tested scales (\(10^4\) -- \(10^9\) parameters), substrate-only
+variants (DCHL alone, BED alone, RIFA alone) should reduce to
+classifier, memorizer, or retriever behaviour under any measurable
+generalization test. \textbf{This is a falsification prediction of the
+Translation Capacity Lemma.} Empirical evidence to date (this paper's
+supporting implementation and the accompanying limitations documented in
+{[}Mahir 2026e{]}) is consistent with this prediction.
+
+\paragraph{7.2 Substrate-Level Paraphrase
+Invariance}\label{substrate-level-paraphrase-invariance}
+
+Under Hamiltonian evolution, semantically equivalent queries should
+converge to states \(\mathbf{c}^*\) closer to one another than the raw
+query encodings. Concretely, for a set of paraphrase clusters
+\(\{P_k\}\), define
+
+\[
+r_k \equiv \frac{\text{mean intra-cluster distance after evolution}}{\text{mean intra-cluster distance before evolution}}.
+\]
+
+The claim is \(r_k < 1\) for well-trained substrates. This is \emph{the}
+work only physics-based dynamics can do; if it fails, the substrate has
+no non-trivial role.
+
+\paragraph{7.3 Layer-2 Generalization to Unseen
+Combinations}\label{layer-2-generalization-to-unseen-combinations}
+
+The graph rewriter is symbolic and deterministic; it should achieve
+near-100\% accuracy on syllogisms whose \emph{rules} have been supplied
+but whose \emph{specific instances} have never been trained. This is the
+sharpest possible test of constructive reasoning versus memorization: an
+LLM at any scale below full-corpus coverage cannot achieve this, because
+it has no explicit derivation mechanism.
+
+\paragraph{7.4 OOD Honesty}\label{ood-honesty}
+
+When queries lie outside the ontology of concepts and rules, the
+pipeline must refuse --- not confabulate. The mechanism is
+coherence-thresholded lookup at Layer 3, backed by IC's contradiction
+reporting. The claim is that hallucination rates should be near zero on
+strictly-OOD test sets, with all non-answers being explicit refusals.
+
+\paragraph{\texorpdfstring{7.5 Scale Behavior --- \textbf{applies to the
+retired DCHL substrate
+only}}{7.5 Scale Behavior --- applies to the retired DCHL substrate only}}\label{scale-behavior-applies-to-the-retired-dchl-substrate-only}
+
+\begin{quote}
+This prediction is stated in units the current architecture does not
+have. The oscillator substrate has \textbf{no parameters to scale}:
+cavities and tunnels are created from the ontology, and their materials
+are \emph{derived} from relation fan-out rather than fitted. ``1 B
+parameters in 4-bit ANQ on 8 GB VRAM'' describes the retired system.
+
+The corresponding question for the current substrate is not parameter
+count but \textbf{graph scale}, and there the honest answer is a
+measured limitation rather than a prediction: at 157 k concepts / 237 k
+relations the per-query cost is dominated by a dense tick over all
+cavities and tunnels, because Layer 1 has no sparse wavefront iteration.
+Scaling behaviour is therefore currently an \emph{engineering} bound,
+not an architectural claim, and should not be reported as one.
+\end{quote}
+
+\emph{(historical)} At GPU-scale substrates (\textasciitilde1B
+parameters, achievable in 4-bit ANQ on 8GB VRAM), the
+paraphrase-invariance ratio \(r_k\) should improve monotonically with
+substrate capacity; the constructive layer's accuracy should be
+independent of substrate capacity (a symbolic engine's correctness is
+not a scaling law); and the translation table's necessary size \(N\) is
+a property of the domain, not the substrate.
+
+\paragraph{7.5b Empirical: The Nine-Primitive Layer 2 and a 0.5B Layer
+1}\label{b-empirical-the-nine-primitive-layer-2-and-a-0.5b-layer-1}
+
+Two empirical facts from the accompanying implementation:
+
+\textbf{Layer 2 (constructive substrate).} All nine primitives from §4.4
+fire correctly on hand-crafted premise bases (transitive, deduction,
+inheritance, negation, case-analysis, induction, analogy, recursion, and
+macro-rule induction). Every derived conclusion was never asserted
+directly. Every derivation is traceable to its premises via the
+parent-edge chain. The macro-rule induction fires on repeated derivation
+streams. This validates the §3.4 composition-over-retrieval definition
+on an actual buildable engine, at zero cost of ``training data'' --- the
+primitives are hand-authored (a seed of \textasciitilde1 KB of code) and
+their compositions are unbounded.
+
+\textbf{Layer 1 --- HISTORICAL, on the RETIRED DCHL substrate.} The
+paragraph that follows describes the \emph{previous} Layer 1, not the
+current one. It is retained because the measurement was real and the
+diagnosis was correct; it must not be read as evidence for the
+architecture this paper now describes. The current Layer 1 is the
+oscillator substrate of §5.4c, which has \textbf{no gradient training,
+no parameters, and no GPU path} --- so none of these numbers apply to
+it, and the ``pending fix'' below was never propagated because the
+substrate it belonged to was retired instead.
+
+\begin{quote}
+\emph{(historical)} The denoising DCHL trainer, ANQ 4-bit weights, and
+pinned-memory host / device pipeline complete a 4-epoch training pass on
+8 000 samples from a C4 + Pile-8 corpus in \(4\) min \(43\) s wall clock
+on an RTX 4060 (8 GB VRAM), using 285 MB of that VRAM for a 539 M
+parameter model (D = 512, H = 1 048 576, packed in 4-bit ANQ). Denoising
+\(\Delta\Phi\) is correctly signed on every epoch on which the substrate
+has not yet saturated the tanh activation. \textbf{A saturation limit is
+empirically visible at \textbar h\textbar{} \(\approx 0.008\)} --- the
+substrate's hidden activations sit deep in tanh's linear regime ---
+traceable to an aug-norm scaling of \(\sqrt{\lVert c\rVert^2 + 1}\) that
+compresses pre-activations by \(\Theta(1/\sqrt{D})\) for byte-scale
+inputs. The proposed fix --- replace the divisor by
+\(\sqrt{(\lVert c\rVert^2 + 1)/D}\) --- was implemented in reference
+code as \texttt{pre\_inv\_scale} and never propagated to the CUDA
+kernel.
+\end{quote}
+
+\textbf{Why this is reported rather than deleted.} The DCHL result is
+the empirical content of §2: a physics-based substrate, trained
+contrastively at 0.5 B parameters, that reduced to the classifier trap
+exactly as the Translation Capacity Lemma predicts. Deleting it would
+remove the evidence for this paper's central self-critique. Reporting it
+as though it were current would be a fabrication. It is therefore kept,
+dated, and fenced.
+
+\textbf{What the current claims actually rest on.} Layer 2's correctness
+is independent of any substrate numerics: the nine primitives are exact
+symbolic operations. The paper's core claims ---
+composition-over-retrieval, thinker-index growth under rule induction,
+verifier soundness, and the provenance chain from a derived edge back to
+its premises --- rest on Layer 2 and on the oscillator Layer 1, neither
+of which involves training. Every number in §7.6--§7.7 was produced on
+that stack.
+
+\paragraph{7.6 The Thinker Index and Its Growth Under Rule
+Induction}\label{the-thinker-index-and-its-growth-under-rule-induction}
+
+The thinker index \(C(\mathcal{S})/R(\mathcal{S})\) of §3.4 is directly
+measurable. For any query set \(Q\), run the pipeline, count \(\ell(q)\)
+for each \(q\), and compute the ratio. The claim is:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Baseline.} With only the initial hand-authored rules (§5.3.1),
+  \(C/R > 1\) on out-of-training queries --- the value is bounded by the
+  maximum derivation length allowed by the tension budget.
+\item
+  \textbf{Rule induction growth.} After \(M\) queries, with rule
+  induction active (§5.3.3), the primitive set \(|\Pi|\) grows by
+  \(O(\log M)\) (new macro-rules registered at MDL thresholds), while
+  the reachable derivation space grows exponentially in \(|\Pi|\).
+  \textbf{The thinker index therefore grows monotonically over the
+  system's lifetime}, with no additional training data.
+\item
+  \textbf{Comparison to LLMs.} An LLM's thinker index is fixed at
+  training time and does not grow with usage. This is \emph{the}
+  separable empirical claim distinguishing SI from AI: SI systems become
+  more of a thinker over time; AI systems do not.
+\end{enumerate}
+
+These are separable empirical claims, testable in a modest research
+programme.
+
+\paragraph{7.7 Recursive Bifurcation and Analogical Bridging (RB+G /
+L6-A)}\label{recursive-bifurcation-and-analogical-bridging-rbg-l6-a}
+
+The physics substrate of Layer 1 supports two structural mechanisms that
+Layer 2 uses as \emph{primitives beyond the nine of §4.4}:
+\textbf{Recursive Bifurcation with Gating (RB+G)} for splitting
+contradictory concepts, and \textbf{L6 Analogical Bridging} for
+inserting cross-domain resonance links between fissioned siblings.
+
+\textbf{RB+G --- the mechanism.} When a concept-cavity's incoherence
+metric \(I = (\Sigma^+ \cdot \Sigma^-) / (\Sigma^+ + \Sigma^-)^2\)
+sustains above 0.15 with local tension \(\tau > 0.005\) for three
+structural ticks, the cavity is split into two children (α excitatory, β
+inhibitory) bound by a learned low-stiffness coordination spring. Four
+documented failure modes of the original RB proposal {[}Mahir 2026o,
+\texttt{rb.md}{]} are addressed by four mechanisms:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{generation cap} (\(g_{\max}=1\)) --- children of a fission are
+  generation-1 and ineligible for further fission, preventing cascade;
+\item
+  \textbf{alias ledger} --- a parallel to \texttt{cavities{[}{]}} that
+  never touches \texttt{si.graph.by\_label}; child labels are synthetic
+  \texttt{\textless{}parent\textgreater{}.α} / \texttt{.β};
+\item
+  \textbf{energy-conserving fan-out} (\(1/\sqrt{2}\)) --- a drive on a
+  fissioned parent routes to both children at \(\text{amp}/\sqrt{2}\),
+  so total injected energy matches a single-cavity drive at amp;
+\item
+  \textbf{learned binding tunnel} --- \(k_\text{init}=1.0\),
+  \(p_\text{init}=0.0\), converging under Hebbian to a coordination
+  stiffness rather than RB's fiat \(k=2.5\);
+\item
+  \textbf{audit trail} --- every fission appended to
+  \texttt{data/fission\_ledger.jsonl}.
+\end{enumerate}
+
+\textbf{20-seed reproducibility} (rounds=5, seed formula
+\(s = \mathtt{0xCAF17E00} \oplus (\mathtt{0x9E3779B9}\cdot(i+1))\)):
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Concept
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Cluster type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Baseline gain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+RB+G gain (RMS)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fissions/seed
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Target fissioned
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+metformin & dual-tension (act ampk, inh mtor) & 0.887 ± 0.045 & 1.517 ±
+0.201 & 8.85 ± 0.96 & 20/20 \\
+berberine & tri-hub (act ampk, inh mtor, inh hmg) & 0.900 ± 0.030 &
+1.515 ± 0.139 & 8.60 ± 1.16 & 20/20 \\
+atorvastatin & mono-directional (inh hmg, treats hcy) & 1.007 ± 0.004 &
+0.957 ± 0.034 & 9.75 ± 1.84 & 20/20 \\
+luna & mutual + death\_spiral inhibition & 1.244 ± 0.064 & 1.865 ± 0.162
+& 7.00 ± 0.95 & 20/20 \\
+linux & null (is\_a, has, no polarity conflict) & 1.032 ± 0.007 & 1.039
+± 0.057 & 5.00 ± 0.00 & 20/20 \\
+windows\_os & pure null (only is\_a) & 0.969 ± 0.008 & 0.955 ± 0.010 &
+2.00 ± 0.00 & 0/20 \\
+\end{longtable}
+
+Concepts with polarity conflict show a large positive RB+G effect. The
+mono-directional concept (atorvastatin) shows an honest null effect ---
+fission fires on nearby concepts but the target's own recall does not
+improve, because there was no contradiction inside it to metabolize. The
+pure-null concept (windows\_os) is never fissioned in 20/20 seeds ---
+the mechanism refuses to fire when the substrate has no contradiction to
+resolve. This is the falsifiability guarantee: RB+G is not a free-lunch
+amplifier.
+
+\textbf{Four-lever ablation (5 seeds, metformin).} Full RB+G reaches
+1.35 ± 0.05 concept RMS gain against a fission-off baseline of 0.92.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Configuration
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+RMS gain
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fissions
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reading
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+BASELINE (fission off) & 0.922 ± 0.011 & 0.0 & negative control \\
+ABLATE\_CAP (\(g_{\max}=999\)) & 1.536 ± 0.239 & 25.6 ± 3.3 & cascade
+--- 3× fissions, no accuracy win \\
+ABLATE\_ALIAS & 2.495 ± 0.144 & 3.4 ± 0.8 & confound: probe hits ghost
+cavity \\
+ABLATE\_FANOUT (factor=1.0) & 1.856 ± 0.069 & 13.6 ± 1.4 & inflated peak
+--- energy doubling \\
+ABLATE\_BIND & 1.470 ± 0.057 & 8.8 ± 0.8 & minor loss vs FULL \\
+FULL (all four mechanisms) & 1.345 ± 0.054 & 8.4 ± 1.0 & RB+G \\
+\end{longtable}
+
+The ablation is honest, not marketing: two of the ablations produce
+\emph{higher} raw RMS than FULL, and we do not hide that.
+\texttt{ABLATE\_ALIAS} produces higher raw numbers because the probe
+measurement itself is altered when alias routing is off --- the probe
+hits the zeroed ghost cavity and the recorded post/pre ratio reflects
+neighbour drift, not target recall. \texttt{ABLATE\_FANOUT} inflates the
+peak because \(\sqrt{2}\times\) more energy is injected. These are
+documented confounds. What FULL buys is honest energy accounting and
+cascade-free convergence, not the biggest number.
+
+\textbf{L6 Analogical Bridging.} After RB+G fissions two related
+concepts, \texttt{discover\_analogies()} computes the intersection of
+α-child excitatory targets and inserts a rubber tunnel (\(k=0.05\),
+\(c=0.15\)) between α-cavities when \(\geq K\) targets are shared. This
+is the physics realization of L6 Analogical Mapping from \texttt{l9.md}
+and the structural- analogy prescription of \texttt{mims.md}. The rubber
+material means MIMS impedance filtering: high-frequency mechanistic
+probes are absorbed by the low-stiffness edge; low-frequency structural
+probes ride the bridge.
+
+On the insulin-pathway ontology, training
+\texttt{metformin\ +\ berberine} surfaces five real analogies including:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\texttt{akt\ \textasciitilde{}\ ampk}} --- both kinases
+  activating \texttt{glut4} (glucose uptake);
+\item
+  \textbf{\texttt{akt\ \textasciitilde{}\ mtor}} --- both kinases in the
+  insulin cascade;
+\item
+  \textbf{\texttt{berberine\ \textasciitilde{}\ resveratrol}} --- both
+  AMPK activators (a known drug-repurposing pair);
+\item
+  \textbf{\texttt{type2\_diabetes\ \textasciitilde{}\ drug}} (six shared
+  targets) --- cross-category structural analogy;
+\item
+  \textbf{\texttt{molecule\ \textasciitilde{}\ ampk}} (empty shared
+  target list) --- noise / weak analogy reported honestly.
+\end{itemize}
+
+Probing \texttt{metformin} at 3 Hz after bridge insertion surfaces
+\texttt{atorvastatin} at rank 10 --- a concept \textbf{unreachable by
+naive graph propagation} from metformin (no direct or 2-hop path in the
+axioms), reachable only through the physics-inserted bridge
+\texttt{metformin.α\ ↔\ berberine.α\ ↔\ hmg\_coa\_reductase\ ↔\ atorvastatin}.
+In a negative-control run that fissions both concepts but skips
+\texttt{discover\_analogies}, \texttt{atorvastatin} disappears from the
+top-10. That single row is the L6-A signal.
+
+\textbf{No line in any axiom file says
+\texttt{metformin\ \textasciitilde{}\ berberine}}, no cavity
+\texttt{metformin.α} exists at bind time, and no rubber tunnel exists
+until \texttt{discover\_analogies} inserts it. This is construction over
+retrieval --- the composition-over-retrieval definition of §3.4
+exhibited in physics, not in symbolic proof.
+
+\textbf{Storage-floor honesty.} The primitive facts
+(\texttt{metformin\ activates\ ampk},
+\texttt{berberine\ activates\ ampk}) ARE stored in
+\texttt{data/insulin\_pathway.axioms}. The lemma of §3.1 requires this.
+What is \emph{not} stored: the analogy
+\texttt{metformin\ \textasciitilde{}\ berberine}, the child cavity
+\texttt{metformin.α}, the rubber bridge, or the answer that a 3 Hz probe
+at metformin surfaces atorvastatin. Every one of these is
+physics-constructed from the axiom base at query time. This is what
+makes it a thinker under the §3.4 definition --- a constant primitive
+count, an exponentially larger reachable derivation space.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{8. Open Problems --- Status After RB+G /
+L6-A}\label{open-problems-status-after-rbg-l6-a}
+
+The five open problems posed in earlier drafts of this paper have been
+partially resolved by the RB+G and L6-A work of §7.7. We reproduce each
+open problem verbatim below and mark its current status.
+
+\paragraph{8.1 Partially Resolved}\label{partially-resolved}
+
+\begin{itemize}
+\item
+  \textbf{Domain-independent rule induction.} \emph{(Original: ``§5.3.3
+  registers macro-rules from frequent derivation sub-chains. Whether
+  this suffices to discover genuinely new rule families (not just macros
+  of existing families) is open. Can rule induction find analogy or
+  abduction rules if the initial set had only transitive
+  composition?'')} \textbf{Status: RESOLVED for analogy.} L6-A (§7.7,
+  \texttt{rbg.md} §5) demonstrates that the physics substrate discovers
+  analogy relations \emph{without} an analogy primitive being seeded ---
+  the mechanism is: RB+G fissions two concepts under contradiction;
+  \texttt{discover\_analogies()} computes the intersection of their
+  α-child excitatory targets; a rubber tunnel is inserted when the
+  intersection is nontrivial. On the insulin-pathway ontology this
+  produces \texttt{akt\ \textasciitilde{}\ ampk},
+  \texttt{berberine\ \textasciitilde{}\ resveratrol}, and three other
+  real analogies --- none supplied as premises. Abduction rule discovery
+  from primitives-only remains open.
+\item
+  \textbf{Cross-domain heuristic transfer.} \emph{(Original: ``A
+  substrate trained on derivation traces from one domain should provide
+  some relevance signal in a related domain via shared type structure.
+  Quantifying the transfer is open.'')} \textbf{Status: PARTIALLY
+  RESOLVED.} L6-A demonstrates \emph{cross-concept} transfer
+  \emph{within} a domain: a 3 Hz probe on \texttt{metformin} surfaces
+  \texttt{atorvastatin} at rank 10 via the physics-inserted bridge
+  \texttt{metformin.α\ ↔\ berberine.α\ ↔\ hmg\_coa\_reductase\ ↔\ atorvastatin}.
+  Atorvastatin is unreachable from metformin by any 2-hop path in the
+  raw axiom graph. This is transfer through shared \emph{structural}
+  targets (both drugs act on \texttt{hmg\_coa\_reductase}), which is the
+  exact ``shared type structure'' the original problem referenced. Full
+  cross-\emph{domain} transfer (syllogisms → algebra) remains open and
+  requires a substrate spanning multiple ontologies.
+\item
+  \textbf{The tension-bounded conservation law.} \emph{(Original: ``The
+  expansion principle \(\Delta|G_t| \leq \alpha T(t)\) is proposed but
+  not proved to be strictly conservative. What is the analog of
+  Liouville's theorem for tension-bounded phase-space expansion?'')}
+  \textbf{Status: EMPIRICALLY REALIZED, THEORETICALLY OPEN.} RB+G is a
+  concrete mechanism whose \emph{implementation} preserves energy
+  exactly: the \(1/\sqrt{2}\) fan-out (M3 of §7.7) guarantees that a
+  drive on a fissioned parent injects the same total kinetic energy as a
+  drive on a single cavity --- proven algebraically by
+  \(2 \cdot \frac{1}{2} m (\text{amp}/\sqrt{2})^2 = \frac{1}{2} m \, \text{amp}^2\)
+  and verified in the ABLATE\_FANOUT ablation (§7.7): setting fan-out to
+  1.0 injects \(\sqrt{2}\times\) more energy and inflates the RMS gain
+  by the same factor, confirming the fan-out is what preserves
+  conservation. The generation cap \(g_\text{max} = 1\) bounds
+  cumulative growth to \(\Delta|G_t| \leq 3\) per fission event (2 new
+  cavities + 1 binding tunnel), against a tension budget indexed by the
+  streak counter. The \emph{formal} Liouville-analog theorem --- showing
+  that the tension-bounded expansion principle admits a conserved
+  symplectic-like form on graph-valued phase spaces --- remains open.
+\end{itemize}
+
+\paragraph{8.2 Newly Resolved by the RB+G/L6-A
+Work}\label{newly-resolved-by-the-rbgl6-a-work}
+
+\begin{itemize}
+\item
+  \textbf{Contradiction metabolism as construction, not just filtering.}
+  Prior to RB+G, RIFA's Integrity Core reported a scalar tension
+  \(T(t)\) but did not act on it. RB+G converts sustained cavity-local
+  incoherence into a \emph{physical structural mutation} --- the graph
+  gains vertices and edges under contradiction rather than damping
+  toward equilibrium. This is the first Layer-1 mechanism that realizes
+  Axiom II operationally.
+\item
+  \textbf{The falsifiability guarantee for structural mechanisms.} RB+G
+  on \texttt{windows\_os} (pure null control, only \texttt{is\_a} edges)
+  fires zero target-fissions across 20/20 seeds. The mechanism refuses
+  to fire when there is no contradiction to metabolize. This is the
+  empirical form of the falsifiability criterion demanded by §7.1: a
+  Layer-1 mechanism that triggers on real signal and stays silent on
+  noise.
+\item
+  \textbf{Honest ablation methodology for physics substrates.} The
+  four-lever ablation of §7.7 shows \emph{two configurations produce
+  higher raw RMS than FULL} --- \texttt{ABLATE\_ALIAS} (measurement
+  confound) and \texttt{ABLATE\_FANOUT} (energy inflation). Both are
+  reported openly rather than hidden. This establishes a methodology for
+  the empirical program of §7 in which ``the biggest number wins'' is
+  not the criterion; interpretability of the measurement is.
+\end{itemize}
+
+\paragraph{8.3 Still Open}\label{still-open}
+
+\begin{itemize}
+\item
+  \textbf{The Fisher-information metric on the concept graph.}
+  \emph{(Original: ``CCH proposed that the cognitive manifold carries a
+  Fisher-information metric. The extension to a graph-valued state
+  requires the appropriate categorical generalization. Open.'')}
+  \textbf{Status: STILL OPEN.} RB+G/L6-A did not address this. The
+  Fisher- information metric on graph-valued states is well-defined for
+  Bayesian belief networks (Amari 1985) but not for the typed rewrite
+  graphs of Axiom I. This remains a categorical / differential-geometric
+  question the empirical work does not touch.
+\item
+  \textbf{The upper bound on the thinker index.} \emph{(Original: ``Is
+  \(C/R\) bounded from above for any physically realizable SI
+  system?'')} \textbf{Status: STILL OPEN.} The 20-seed data of §7.7
+  shows RB+G contributes a \textasciitilde1.5× RMS gain per
+  contradiction-bearing concept over baseline. This does not answer the
+  \emph{upper bound} question. The thinker index growth is monotone
+  under rule induction (§7.6.2) and now also under L6-A bridge
+  insertion, but neither implies a supremum.
+\end{itemize}
+
+\paragraph{8.4 Newly Opened by the RB+G/L6-A
+Work}\label{newly-opened-by-the-rbgl6-a-work}
+
+\begin{itemize}
+\item
+  \st{\textbf{Auto-tuning of fission trigger thresholds.}}
+  \textbf{CLOSED.} The hand-picked values \(I > 0.15\),
+  \(\tau > 0.005\), streak = 3 were replaced by homeostatic energy
+  feedback: an EMA of total mechanical energy drives the threshold,
+  \(I_{\text{thresh}}(t) = I_0 + k\,
+  E_{\text{smooth}}(t)\). Implemented in \texttt{physics.hpp}
+  (\texttt{refresh\_fission\_thresholds\_locked}). The system now sets
+  its own trigger from a physical observable rather than from a constant
+  tuned on one ontology.
+\item
+  \st{\textbf{Online L6-A discovery.}} \textbf{CLOSED.} Bridges are now
+  inserted in-tick: every fission event calls
+  \texttt{discover\_analogies\_locked()} restricted to the
+  newly-fissioned parent, so the cost is \(O(P)\) new pairs rather than
+  \(O(P^2)\) rediscovery. \texttt{layer2.hpp},
+  \texttt{online\_l6a\_enabled}. The coupling with ongoing Hebbian
+  consolidation that this bullet flagged as unanalysed is bounded by
+  construction: bridges are rubber tunnels with \(k = 0.05\), an order
+  of magnitude below the stiffest structural material, so an inserted
+  bridge cannot dominate consolidation on the tick it appears.
+\item
+  \textbf{Rubber-tunnel frequency selectivity.} The claim that
+  low-frequency probes ride the L6-A bridge while high-frequency probes
+  are absorbed depends on the impedance mismatch between rubber
+  (\(k=0.05\)) and steel (\(k \geq 1.6\)) tunnels. The optimal probe
+  frequency 3 Hz was chosen empirically on the insulin ontology. A
+  theoretical treatment (transfer- function analysis of the MIMS
+  material table) would let us pick probe frequencies for arbitrary
+  domains without inspection.
+\item
+  \textbf{Scaling to \(10^4\)--\(10^5\) concepts.} \emph{(Partly closed,
+  and the remainder is now measured rather than anticipated.)} The
+  \textbf{Layer-2} structural tick is sparse:
+  \texttt{quiet\_ticks{[}i{]}} tracks the wavefront and the fission
+  trigger evaluates only recently-driven cavities, bit-identical to the
+  dense baseline over 5 seeds. \textbf{Layer 1 is not.}
+  \texttt{PhysicsEngine::tick()} still iterates every cavity and every
+  tunnel, so at 157 k concepts / 237 k relations a single query costs
+  \textasciitilde200 ticks × 237 k tunnels × 4 transcendentals. This is
+  the binding constraint on ontology size today, and it is an
+  implementation gap, not an architectural one --- the wavefront data
+  structure already exists and Layer 2 already honours it.
+
+  Three \(O(E^2)\) defects on the ingest path were found and fixed while
+  measuring this: \texttt{has\_edge} was a linear scan called from every
+  \texttt{add\_edge} (making a bulk load quadratic),
+  \texttt{would\_contradict} scanned all edges per asserted axiom, and
+  four reasoning primitives performed their joins by full edge scan.
+  Indexing them reduced load time by \(105\times\) at fixed output. None
+  of this changes a claim in this paper; it changes what is runnable.
+\item
+  \st{\textbf{Language generation Stage 2 (syntax macro-layer).}}
+  \textbf{ABANDONED, not pending.} This bullet described Stage 2 of
+  §5.4b as ``a small extension not yet implemented''. It was in fact
+  implemented and it failed: the measured slot readout left the Subject
+  or Verb slot \emph{empty} on 3 of 3 probes. More importantly the
+  approach was \textbf{retired as a category error} (§5.4d): grammatical
+  role is a convention, and a fixed natural frequency \(\omega_S\)
+  cannot discover a convention. The question this bullet posed --- ``is
+  English syntax captured by three-slot phase-locking?'' --- is not
+  open. It is answered \emph{no}, and the replacement is a deterministic
+  protocol table (\texttt{cll.md}).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\paragraph{8.5 The Central Unsolved Problem: Continuous Wave →
+Syntax-Constrained Byte
+Stream}\label{the-central-unsolved-problem-continuous-wave-syntax-constrained-byte-stream}
+
+Everything above concerns \emph{what the field knows} and \emph{how it
+changes}. This section concerns \emph{how the field speaks}, and it is
+the one place where we have a mechanism specification, a measured
+failure, and no solution.
+
+\textbf{The problem.} Layer 1 holds meaning as a standing-wave field.
+Layer 3 converts a graph invariant to a stored string. Between them sits
+a gap: how does field energy become an \textbf{ordered byte stream that
+is grammatical}, without collapsing into babble?
+
+\[
+\text{Wave dynamics in cavity field}
+\;\xrightarrow{\;\text{phase locking + gauge coupling}\;}\;
+\text{syntax-constrained mechanical emission}
+\]
+
+\textbf{Why the field ran to language models instead.} This is worth
+stating plainly, because it explains the shape of the entire discipline.
+The statistical shortcut
+
+\[
+P(w_n \mid w_1 \ldots w_{n-1})
+\]
+
+is not a theory of language production. It is what remains once the
+mechanical problem is abandoned. A next-token distribution requires no
+account of \emph{why} a word follows another --- only a count of how
+often it did. Every architecture that adopts it has, at that moment,
+stopped attempting emission physics and started interpolating a corpus.
+The approach works, spectacularly, and it forecloses the question.
+
+The claim of this paper is not that the statistical route is wrong. It
+is that the mechanical route was never attempted seriously, and that its
+difficulty --- not its impossibility --- is why.
+
+\textbf{What is built.} Word \emph{order across concepts} is solved.
+CPME §1.6 sweeps a carrier phase across a per-cavity phase field
+\(\phi_i = \operatorname{atan2}(v_i, \omega_0 x_i)\); CPSB §2.1 supplies
+direction through per-tunnel gauge offsets \(\Psi\); output length is
+emergent rather than templated. On code structure this reaches a correct
+signature reconstruction that compiles (§5.4c). At the level of
+\emph{which concept follows which}, physics-driven ordering works.
+
+\textbf{What is not built.} Word \emph{form} --- the byte stream itself.
+MRS §1.4 proposes emitting bytes by sweeping the byte-lane phase field.
+It babbles. The measured failures are recorded in \texttt{mrs.md} §4b,
+and the recognition half of that paper (bigram lanes, 7/7 on
+misspellings) must not be mistaken for the emission half, which does not
+work.
+
+\textbf{Why the cheap fixes are known not to work.} Two were tried and
+both failed for the same structural reason:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Reweighting the byte scoring.} Every reweighting relocated the
+  failure rather than removing it --- the signature of insufficient
+  representation, not of bad parameters.
+\item
+  \emph{Widening the alphabet to bigrams.} This fixed
+  \textbf{recognition}, because recognition compares a query against
+  stored forms. It does not fix \textbf{emission}, because emission has
+  nothing to compare against: the field must \emph{originate} a
+  sequence, not match one.
+\end{itemize}
+
+The asymmetry is the point. Recognition is a comparison problem and
+yields to better representation. Emission is a \textbf{generation}
+problem and requires a mechanism that converts continuous field energy
+into discrete ordered symbols under grammatical constraint. No amount of
+representational widening supplies that mechanism.
+
+\textbf{REVISION (§5.4d): the problem was two problems, and one is
+solved.}
+
+This section originally asked for grammatical constraint as a
+\emph{field property}. That was a category error. Grammar is a
+transmission protocol, not a phenomenon, and §5.4d separates the two:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+mechanism
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+status
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Which concepts, in what relation} & physics --- resonance, gauge
+Ψ, phase-collapse & solved \\
+\textbf{Word order, article, script} & protocol --- isolated language
+cluster & \textbf{solved (§5.4d)} \\
+\textbf{Word FORM for a lexicon-absent word} & requires emission
+mechanics & \textbf{open} \\
+\end{longtable}
+
+Ordering across concepts and realisation into English, Bengali or
+Banglish are done, deterministically and without ML. What remains is
+strictly narrower than originally stated: producing the \emph{bytes of a
+word the lexicon does not contain}. For any word already in Layer 3, no
+byte synthesis is needed --- the protocol layer emits it exactly.
+
+The residual problem therefore matters for morphological productivity
+(inflecting an unseen stem, coining a compound) rather than for speaking
+at all. That is a real limitation, and a much smaller one.
+
+\textbf{What the residual problem actually requires.} Not a trick --- an
+emission mechanics for the field itself. Minimally:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{A discretisation principle.} What physical event constitutes
+  ``emit a byte now''? Threshold crossing, phase coincidence, and
+  resonance capture are candidates; none has been derived.
+\item
+  \textbf{A refractory / sequencing law.} What prevents the same lane
+  from dominating, and what advances the field to the next symbol? The
+  current sweep imposes this externally rather than deriving it.
+\item
+  \textbf{A grammatical constraint expressed as a field property.} CPSB
+  shows this is possible at the concept level (\(\Psi\) as a directed
+  phase offset). The morphological analogue --- a constraint that makes
+  ill-formed byte sequences physically unfavourable rather than merely
+  unlikely --- does not exist.
+\item
+  \textbf{A termination condition.} When is an utterance complete?
+  Silence must be a field state, not a counter reaching zero.
+\end{enumerate}
+
+\textbf{Status.} Open, and correctly identified as the hard core rather
+than a remaining detail. It is a mathematical and physical problem, not
+an engineering one, and it should not be reported as solved until a
+mechanism satisfying (1)--(4) is specified and measured. The honest
+position is that this substrate currently \emph{thinks} in fields and
+\emph{speaks} through a stored label table --- and that the second half
+is exactly what remains.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{9. Conclusion}\label{conclusion}
+
+Synthetic Intelligence is not scaled Artificial Intelligence. SI is a
+\emph{categorically different mode of computation}: active,
+constructive, structurally grounded, and information-theoretically
+honest about where its knowledge lives. The Translation Capacity Lemma
+shows that no cognitive architecture can escape the mandatory
+\(\log_2 N\) cost of discriminating \(N\) semantic outcomes; the honest
+response is not to hide this cost but to name it, minimize it, and pair
+it with a substrate that does what only physics-based dynamics can do.
+
+The Tri-Layer Unified Architecture is the concrete realization: a
+physics-based coherence substrate that no lookup table can replace, a
+graph-rewriting constructive layer that no continuous dynamics can
+perform, and a minimum-description-length translation table that no
+distributed embedding can match on interpretability. Each layer is
+minimal. Each layer has a specific, testable role. Removing any layer
+costs a specific capability. The synthesis of our prior lineage into
+this architecture is the argument of this paper.
+
+The path from AI to SI is not through more scale. It is through the
+recognition that thinking is construction, not selection; that
+intelligence is structural synthesis, not pattern matching; and that any
+architecture that pretends to eliminate the translation layer is simply
+hiding it. The honest architecture names its costs, distributes its
+responsibilities, and builds cognition where cognition can be built ---
+not where it can only be simulated.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{References}\label{references}
+
+{[}Mahir 2026a{]} The Cognitive Manifold Architecture.
+\emph{research-paper/cma.md}. {[}Mahir 2026b{]} Predictive Cognitive
+Manifold Architecture (P-CMA). \emph{research-paper/pcma.md}. {[}Mahir
+2026c{]} The Cognitive Continuum Hypothesis (CCH).
+\emph{research-paper/cch.md}. {[}Mahir 2026d{]} The ZeroGrad Cognitive
+Engine. \emph{research-paper/zerograd.md}. {[}Mahir 2026e{]} Byte Energy
+Descent (BED). \emph{research-paper/bed.md}. {[}Mahir 2026f{]}
+Arch-Native Quantization (ANQ). \emph{research-paper/anq.md}. {[}Mahir
+2026g{]} Recursive Integrity Field Architecture (RIFA).
+\emph{research-paper/deprected/rifa.md}. {[}Mahir 2026h{]} Hierarchical
+Cognitive Manifold Architecture (HCMA). \emph{research-paper/hcma.md}.
+{[}Mahir 2026i{]} The Cognitive Manifold Compressor (CMC).
+\emph{research-paper/cmc.md}. {[}Mahir 2026j{]} The Cognitive Multimodal
+Engine (CME). \emph{research-paper/cme.md}. {[}Mahir 2026k{]} LTO: Live
+Training Over Manifolds. \emph{research-paper/lto.md}. {[}Mahir 2026l{]}
+SCER: Search + Compute + Evolve + Reason. \emph{research-paper/scer.md}.
+{[}Besag 1986{]} On the Statistical Analysis of Dirty Pictures. \emph{J.
+R. Statist. Soc. B}. {[}Lawvere 1963{]} Functorial Semantics of
+Algebraic Theories. \emph{PhD thesis, Columbia}. {[}Mac Lane 1971{]}
+Categories for the Working Mathematician. \emph{Springer}. {[}Shannon
+1948{]} A Mathematical Theory of Communication. \emph{Bell Sys. Tech.
+J.} {[}Kolmogorov 1965{]} Three Approaches to the Quantitative
+Definition of Information. {[}Grothendieck 1957{]} Sur quelques points
+d'algèbre homologique. \emph{Tohoku Math. J.} {[}LeCun 2022{]} A Path
+Towards Autonomous Machine Intelligence. {[}Marr 1982{]} Vision: A
+Computational Investigation. \emph{W. H. Freeman}. {[}Newell \& Simon
+1976{]} Computer Science as Empirical Inquiry. \emph{Comm. ACM}.
+{[}Turing 1950{]} Computing Machinery and Intelligence. \emph{Mind}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{From Artificial to Synthetic Intelligence: pattern matching is
+not thinking, retrieval is not reasoning, and the honest cognitive
+architecture is the one that names its costs, pays them minimally, and
+builds construction where construction can be built.}
+
+\end{document}

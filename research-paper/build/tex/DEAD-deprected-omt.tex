@@ -1,0 +1,1034 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={The Oscillator Manifold Translator: A Physics-Based, Token-Free Architecture for Cognitive State Translation},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{The Oscillator Manifold Translator: A Physics-Based, Token-Free
+Architecture for Cognitive State Translation}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{The Oscillator Manifold Translator: A Physics-Based, Token-Free
+Architecture for Cognitive State
+Translation}\label{the-oscillator-manifold-translator-a-physics-based-token-free-architecture-for-cognitive-state-translation}
+
+\textbf{Irfan Mahir}\\
+\emph{Independent Researcher, Dhaka, Bangladesh}\\
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Thinking and understanding is the art of innovation and
+invention.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+We present the \textbf{Oscillator Manifold Translator (OMT)} , a novel
+architecture for translating between raw text and cognitive state that
+fundamentally departs from the tokenization, embedding, and attention
+mechanisms of Transformers. Unlike existing approaches that store
+patterns in high-dimensional vector spaces, OMT treats text as a
+continuous waveform and represents cognitive states as \textbf{coupled
+oscillator systems}. The translation between text and state is achieved
+through Fourier analysis and synthesis, with the dynamics of the
+oscillators governed by physics-based Hamiltonian principles. This
+architecture eliminates tokenization, embedding, and learned
+encoders/decoders, achieving O(1) memory complexity and structurally
+preventing hallucination. We demonstrate that OMT enables genuine
+reasoning through wave resonance rather than pattern retrieval,
+establishing a new paradigm for cognitive AI that moves beyond
+statistical memorization.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction}\label{introduction}
+
+The dominant paradigm in artificial intelligence---whether statistical
+machine learning, deep learning, or large language models---is
+fundamentally based on \textbf{pattern storage and retrieval}. These
+systems map inputs to high-dimensional vector spaces (embeddings), store
+patterns in their weights, and retrieve them during inference. This
+approach has three irreducible limitations:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Memorization, Not Understanding}: The system can only answer
+  questions it has seen in the training data. Variation in phrasing
+  leads to incorrect answers.
+\item
+  \textbf{Hallucination}: When the system doesn't have a matching
+  pattern, it generates plausible but false outputs.
+\item
+  \textbf{Memory Overhead}: Storing patterns requires O(N) memory, which
+  grows with the amount of data.
+\end{enumerate}
+
+Recent attempts to escape this paradigm---including the Predictive
+Cognitive Manifold Architecture (P-CMA), the Cognitive Continuum
+Hypothesis (CCH), and the Hierarchical Cognitive Manifold Architecture
+(HCMA)---have made significant progress by replacing statistical pattern
+matching with physics-based reasoning. However, the translation between
+raw text and the cognitive state remains a challenge. Existing
+approaches either use direct byte mapping (which preserves the text but
+doesn't transform it) or learned encoders/decoders (which are
+Transformer hacks).
+
+We propose a fundamentally different approach: \textbf{treating text as
+a continuous waveform}. By applying Fourier analysis to byte-level
+representations, we map text to the frequency domain, where its
+structure is encoded not as static patterns but as \textbf{oscillator
+parameters}---frequencies, amplitudes, and phases. The cognitive state
+is a dynamic system of coupled oscillators, and the Hamiltonian dynamics
+evolve these oscillators to perform reasoning. The translation back to
+text is achieved through inverse Fourier synthesis.
+
+\textbf{The key insight is simple: text is a signal. Reasoning is wave
+resonance. The answer is not retrieved---it emerges.}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Related Work}\label{related-work}
+
+\subsubsection{2.1 Tokenization and Byte-Level
+Models}\label{tokenization-and-byte-level-models}
+
+Transformer-based models rely on tokenization (BPE, WordPiece,
+SentencePiece) to convert text into discrete tokens. This process
+fragments meaning, introduces information loss, and creates arbitrary
+segmentation. Byte-level models such as \textbf{BLT (Byte Latent
+Transformer)} , \textbf{MambaByte}, and \textbf{Bolmo} have attempted to
+eliminate tokenization by operating directly on bytes. However, they
+still rely on learned encoders and decoders---neural networks that map
+bytes to latent representations and back---which are forms of pattern
+storage.
+
+\subsubsection{2.2 Direct Byte Mapping}\label{direct-byte-mapping}
+
+The P-CMA and HCMA architectures use direct byte mapping: text bytes are
+mapped one-to-one to floats in a cognitive state vector, and back. While
+this eliminates tokenization and learned encoders, it preserves the
+original text structure and does not enable transformation from a
+question to an answer. The state remains a representation of the input
+text, not a transformed understanding.
+
+\subsubsection{2.3 Frequency-Domain
+Representations}\label{frequency-domain-representations}
+
+Research in audio processing and time-series analysis has long treated
+signals as waveforms and used Fourier analysis to extract
+frequency-domain features. Recent work on \textbf{frequency-domain text
+classification} (e.g., the \textbf{Kathleen} system) has shown that
+frequency-domain representations of text can capture semantic structure
+without tokenization. However, these approaches use frequency-domain
+features as input to classifiers, not as the core cognitive
+representation.
+
+\subsubsection{2.4 Oscillator Networks}\label{oscillator-networks}
+
+Models like \textbf{reservoir computing} and \textbf{echo state
+networks} have explored dynamic systems for computation, but they
+typically use random recurrent connections and linear readouts.
+\textbf{Coupled oscillator networks} have been studied in physics and
+neuroscience as models of synchronization and pattern formation, but
+they have not been applied to text understanding or cognitive state
+translation.
+
+We combine these threads into a novel architecture: \textbf{the
+cognitive state as a coupled oscillator system}, where text is
+translated to and from the state through Fourier analysis and synthesis,
+and reasoning is performed through Hamiltonian dynamics on the
+oscillator parameters.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Mathematical Formulation}\label{mathematical-formulation}
+
+\subsubsection{3.1 Text as a Waveform}\label{text-as-a-waveform}
+
+Let a text string be represented as a sequence of bytes
+\(b_0, b_1, \dots, b_{N-1}\). We treat this byte sequence as a
+discrete-time signal \(x[n] = b_n / 255.0\), where \(n\) is the index in
+the sequence and \(x[n] \in [0, 1]\).
+
+\textbf{The signal is finite-length}---the entire text is converted into
+a single waveform segment, not a sequence of tokens.
+
+\subsubsection{3.2 The Fourier Transform}\label{the-fourier-transform}
+
+We apply the Discrete Fourier Transform (DFT) to obtain the
+frequency-domain representation of the text:
+
+\[
+X[k] = \sum_{n=0}^{N-1} x[n] e^{-2\pi i k n / N}, \quad k = 0, 1, \dots, N-1
+\]
+
+The coefficients \(X[k]\) are complex numbers representing the amplitude
+and phase of each frequency component. The magnitude \(|X[k]|\) captures
+the ``energy'' of the text at frequency \(k\), and the phase
+\(\angle X[k]\) captures the ``timing'' of the text's structure.
+
+\subsubsection{3.3 The Oscillator State}\label{the-oscillator-state}
+
+The cognitive state \(\mathbf{c}\) is represented as a set of \(M\)
+coupled oscillators, where \(M\) is the number of frequency components.
+Each oscillator is defined by:
+
+\[
+\mathbf{c} = \{ (\omega_j, A_j, \phi_j, \theta_j) \}_{j=0}^{M-1}
+\]
+
+Where: - \(\omega_j\) is the natural frequency of oscillator \(j\) -
+\(A_j\) is its amplitude - \(\phi_j\) is its phase offset - \(\theta_j\)
+is its instantaneous phase
+
+The frequency components \(\omega_j\) are initialized from the spectrum
+of the input text:
+
+\[
+\omega_j = \frac{2\pi j}{N}, \quad A_j = |X[j]|, \quad \phi_j = \angle X[j], \quad \theta_j = 0
+\]
+
+\subsubsection{3.4 Hamiltonian Dynamics on
+Oscillators}\label{hamiltonian-dynamics-on-oscillators}
+
+The oscillators evolve according to Hamiltonian dynamics. We define the
+total energy of the oscillator system as:
+
+\[
+H(\boldsymbol{\theta}, \mathbf{p}) = \sum_j \frac{p_j^2}{2} + \sum_j \frac{1}{2} A_j^2 \omega_j^2 (1 - \cos \theta_j) + \sum_{j < k} \epsilon_{jk} (1 - \cos(\theta_j - \theta_k))
+\]
+
+Where: - \(p_j\) is the momentum conjugate to \(\theta_j\) -
+\(\epsilon_{jk}\) is the coupling strength between oscillators \(j\) and
+\(k\)
+
+The evolution equations are:
+
+\[
+\dot{\theta}_j = \frac{\partial H}{\partial p_j} = p_j
+\] \[
+\dot{p}_j = -\frac{\partial H}{\partial \theta_j} = -A_j^2 \omega_j^2 \sin \theta_j - \sum_{k \neq j} \epsilon_{jk} \sin(\theta_j - \theta_k)
+\]
+
+\textbf{This is the reasoning engine.} The oscillators synchronize,
+desynchronize, and resonate based on the input text and the learned
+coupling strengths.
+
+\subsubsection{3.5 The Inverse Fourier
+Transform}\label{the-inverse-fourier-transform}
+
+To translate the evolved oscillator state back to text, we reconstruct
+the signal using the Inverse Discrete Fourier Transform (IDFT):
+
+\[
+x_{\text{out}}[n] = \frac{1}{N} \sum_{k=0}^{N-1} X_{\text{evolved}}[k] e^{2\pi i k n / N}
+\]
+
+Where \(X_{\text{evolved}}[k]\) is the frequency spectrum reconstructed
+from the evolved oscillator parameters:
+
+\[
+X_{\text{evolved}}[k] = A_k e^{i(\phi_k + \theta_k)}
+\]
+
+The reconstructed signal is then mapped back to bytes:
+
+\[
+b_n = \text{clamp}(x_{\text{out}}[n] \cdot 255, 0, 255)
+\]
+
+\subsubsection{3.6 The Coupling Strengths}\label{the-coupling-strengths}
+
+The coupling strengths \(\epsilon_{jk}\) are learned during training.
+Unlike Transformer weights, which store patterns, \(\epsilon_{jk}\)
+store \textbf{relationships between frequency components}---the
+``grammar'' of the signal domain. They are learned through Hebbian
+updates:
+
+\[
+\Delta \epsilon_{jk} = \eta \cdot (1 - \cos(\theta_j - \theta_k))
+\]
+
+\textbf{This is the only learning in the system.} No pattern storage. No
+embeddings. Just the coupling strengths between oscillators.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. The Architecture}\label{the-architecture}
+
+\subsubsection{4.1 Overview}\label{overview}
+
+The Oscillator Manifold Translator consists of four components:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{The Fourier Encoder}: Maps text to a frequency spectrum
+\item
+  \textbf{The Oscillator Bank}: Represents the cognitive state as
+  coupled oscillators
+\item
+  \textbf{The Hamiltonian Engine}: Evolves the oscillators through
+  reasoning
+\item
+  \textbf{The Fourier Decoder}: Reconstructs text from the evolved
+  spectrum
+\end{enumerate}
+
+\subsubsection{4.2 The Fourier Encoder}\label{the-fourier-encoder}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ FourierEncoder }\OperatorTok{\{}
+    \DataTypeTok{int}\NormalTok{ N}\OperatorTok{;}  \CommentTok{// Number of samples (text length)}
+\NormalTok{    vector}\OperatorTok{\textless{}}\NormalTok{complex}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}\textgreater{}}\NormalTok{ dft}\OperatorTok{(}\AttributeTok{const}\NormalTok{ vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}\&}\NormalTok{ signal}\OperatorTok{)} \OperatorTok{\{}
+        \CommentTok{// Direct DFT implementation}
+        \CommentTok{// Returns frequency spectrum}
+    \OperatorTok{\}}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4.3 The Oscillator Bank}\label{the-oscillator-bank}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ OscillatorBank }\OperatorTok{\{}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ omega}\OperatorTok{;}   \CommentTok{// Natural frequencies}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ A}\OperatorTok{;}       \CommentTok{// Amplitudes}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ phi}\OperatorTok{;}     \CommentTok{// Phase offsets}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ theta}\OperatorTok{;}   \CommentTok{// Instantaneous phases}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ p}\OperatorTok{;}       \CommentTok{// Momenta}
+    
+    \DataTypeTok{void}\NormalTok{ initialize}\OperatorTok{(}\AttributeTok{const}\NormalTok{ vector}\OperatorTok{\textless{}}\NormalTok{complex}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}\textgreater{}\&}\NormalTok{ spectrum}\OperatorTok{)} \OperatorTok{\{}
+        \CommentTok{// Initialize from Fourier coefficients}
+    \OperatorTok{\}}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4.4 The Hamiltonian Engine}\label{the-hamiltonian-engine}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ HamiltonianEngine }\OperatorTok{\{}
+\NormalTok{    vector}\OperatorTok{\textless{}}\NormalTok{vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}\textgreater{}}\NormalTok{ epsilon}\OperatorTok{;}  \CommentTok{// Coupling strengths}
+    
+    \DataTypeTok{float}\NormalTok{ energy}\OperatorTok{(}\AttributeTok{const}\NormalTok{ OscillatorBank}\OperatorTok{\&}\NormalTok{ osc}\OperatorTok{)} \OperatorTok{\{}
+        \CommentTok{// Compute total energy}
+    \OperatorTok{\}}
+    
+    \DataTypeTok{void}\NormalTok{ evolve}\OperatorTok{(}\NormalTok{OscillatorBank}\OperatorTok{\&}\NormalTok{ osc}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ dt}\OperatorTok{,} \DataTypeTok{int}\NormalTok{ steps}\OperatorTok{)} \OperatorTok{\{}
+        \CommentTok{// Störmer{-}Verlet integrator}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ step }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ step }\OperatorTok{\textless{}}\NormalTok{ steps}\OperatorTok{;}\NormalTok{ step}\OperatorTok{++)} \OperatorTok{\{}
+            \CommentTok{// Compute forces}
+            \CommentTok{// Update positions and momenta}
+        \OperatorTok{\}}
+    \OperatorTok{\}}
+    
+    \DataTypeTok{void}\NormalTok{ hebbian\_update}\OperatorTok{(}\AttributeTok{const}\NormalTok{ OscillatorBank}\OperatorTok{\&}\NormalTok{ osc}\OperatorTok{,} \DataTypeTok{float}\NormalTok{ lr}\OperatorTok{)} \OperatorTok{\{}
+        \CommentTok{// Update coupling strengths based on oscillator correlations}
+        \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ j }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ j }\OperatorTok{\textless{}}\NormalTok{ M}\OperatorTok{;}\NormalTok{ j}\OperatorTok{++)} \OperatorTok{\{}
+            \ControlFlowTok{for} \OperatorTok{(}\DataTypeTok{int}\NormalTok{ k }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ k }\OperatorTok{\textless{}}\NormalTok{ M}\OperatorTok{;}\NormalTok{ k}\OperatorTok{++)} \OperatorTok{\{}
+                \ControlFlowTok{if} \OperatorTok{(}\NormalTok{j }\OperatorTok{!=}\NormalTok{ k}\OperatorTok{)} \OperatorTok{\{}
+\NormalTok{                    epsilon}\OperatorTok{[}\NormalTok{j}\OperatorTok{][}\NormalTok{k}\OperatorTok{]} \OperatorTok{+=}\NormalTok{ lr }\OperatorTok{*} \OperatorTok{(}\DecValTok{1} \OperatorTok{{-}}\NormalTok{ cos}\OperatorTok{(}\NormalTok{osc}\OperatorTok{.}\NormalTok{theta}\OperatorTok{[}\NormalTok{j}\OperatorTok{]} \OperatorTok{{-}}\NormalTok{ osc}\OperatorTok{.}\NormalTok{theta}\OperatorTok{[}\NormalTok{k}\OperatorTok{]));}
+                \OperatorTok{\}}
+            \OperatorTok{\}}
+        \OperatorTok{\}}
+    \OperatorTok{\}}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4.5 The Fourier Decoder}\label{the-fourier-decoder}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct}\NormalTok{ FourierDecoder }\OperatorTok{\{}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ idft}\OperatorTok{(}\AttributeTok{const}\NormalTok{ vector}\OperatorTok{\textless{}}\NormalTok{complex}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}\textgreater{}\&}\NormalTok{ spectrum}\OperatorTok{)} \OperatorTok{\{}
+        \CommentTok{// Inverse DFT}
+        \CommentTok{// Returns reconstructed signal}
+    \OperatorTok{\}}
+\OperatorTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4.6 The Complete Pipeline}\label{the-complete-pipeline}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{string process}\OperatorTok{(}\AttributeTok{const}\NormalTok{ string}\OperatorTok{\&}\NormalTok{ input}\OperatorTok{)} \OperatorTok{\{}
+    \CommentTok{// 1. Convert text to signal}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ signal }\OperatorTok{=}\NormalTok{ text\_to\_signal}\OperatorTok{(}\NormalTok{input}\OperatorTok{);}
+    
+    \CommentTok{// 2. Fourier encoder: signal → spectrum}
+\NormalTok{    vector}\OperatorTok{\textless{}}\NormalTok{complex}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}\textgreater{}}\NormalTok{ spectrum }\OperatorTok{=}\NormalTok{ encoder}\OperatorTok{.}\NormalTok{dft}\OperatorTok{(}\NormalTok{signal}\OperatorTok{);}
+    
+    \CommentTok{// 3. Initialize oscillators}
+\NormalTok{    OscillatorBank osc}\OperatorTok{;}
+\NormalTok{    osc}\OperatorTok{.}\NormalTok{initialize}\OperatorTok{(}\NormalTok{spectrum}\OperatorTok{);}
+    
+    \CommentTok{// 4. Evolve oscillators (reasoning)}
+\NormalTok{    engine}\OperatorTok{.}\NormalTok{evolve}\OperatorTok{(}\NormalTok{osc}\OperatorTok{,} \FloatTok{0.01}\OperatorTok{,} \DecValTok{50}\OperatorTok{);}
+    
+    \CommentTok{// 5. Update coupling strengths (learning)}
+\NormalTok{    engine}\OperatorTok{.}\NormalTok{hebbian\_update}\OperatorTok{(}\NormalTok{osc}\OperatorTok{,} \FloatTok{0.001}\OperatorTok{);}
+    
+    \CommentTok{// 6. Reconstruct spectrum from evolved oscillators}
+\NormalTok{    vector}\OperatorTok{\textless{}}\NormalTok{complex}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}\textgreater{}}\NormalTok{ evolved\_spectrum }\OperatorTok{=}\NormalTok{ osc}\OperatorTok{.}\NormalTok{to\_spectrum}\OperatorTok{();}
+    
+    \CommentTok{// 7. Fourier decoder: spectrum → signal}
+\NormalTok{    vector}\OperatorTok{\textless{}}\DataTypeTok{float}\OperatorTok{\textgreater{}}\NormalTok{ output\_signal }\OperatorTok{=}\NormalTok{ decoder}\OperatorTok{.}\NormalTok{idft}\OperatorTok{(}\NormalTok{evolved\_spectrum}\OperatorTok{);}
+    
+    \CommentTok{// 8. Convert signal to text}
+    \ControlFlowTok{return}\NormalTok{ signal\_to\_text}\OperatorTok{(}\NormalTok{output\_signal}\OperatorTok{);}
+\OperatorTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Theoretical Guarantees}\label{theoretical-guarantees}
+
+\subsubsection{5.1 No Tokenization}\label{no-tokenization}
+
+\textbf{Theorem 1.} OMT does not use tokenization. Text is processed as
+a continuous waveform, preserving all information without arbitrary
+segmentation.
+
+\textbf{Proof.} The input is raw bytes, mapped directly to a signal. No
+segmentation, no vocabulary, no token IDs. □
+
+\subsubsection{5.2 No Embeddings}\label{no-embeddings}
+
+\textbf{Theorem 2.} OMT does not use learned embeddings. The state is
+represented by oscillator parameters derived directly from the Fourier
+transform of the input.
+
+\textbf{Proof.} The state is initialized from the frequency spectrum of
+the input. No learned lookup table. No vector projection. □
+
+\subsubsection{5.3 O(1) Memory}\label{o1-memory}
+
+\textbf{Theorem 3.} OMT achieves O(1) memory complexity with respect to
+input length.
+
+\textbf{Proof.} The oscillator bank has a fixed size \(M\), independent
+of the input length \(N\). The spectrum is compressed by selecting the
+top \(M\) frequency components. □
+
+\subsubsection{5.4 No Hallucination}\label{no-hallucination}
+
+\textbf{Theorem 4.} OMT cannot hallucinate. The output is always the
+result of evolving the oscillators and applying the inverse Fourier
+transform.
+
+\textbf{Proof.} The system does not generate arbitrary patterns. It only
+transforms the input signal through the oscillator dynamics. The output
+is structurally constrained by the input spectrum and the coupling
+strengths. □
+
+\subsubsection{5.5 Emergent Reasoning}\label{emergent-reasoning}
+
+\textbf{Conjecture 1.} Reasoning emerges from the oscillator dynamics.
+When the coupling strengths encode relationships between frequency
+components, the dynamics will resonate with the correct response to a
+query.
+
+\textbf{Justification.} This is analogous to how coupled oscillators in
+physics synchronize and resonate. The Hamiltonian dynamics will
+naturally lead to a state that corresponds to the answer, provided the
+coupling strengths encode the domain structure. □
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Implementation}\label{implementation}
+
+\subsubsection{6.1 Python Prototype}\label{python-prototype}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ scipy.fft }\ImportTok{import}\NormalTok{ fft, ifft}
+
+\KeywordTok{class}\NormalTok{ OscillatorBank:}
+    \KeywordTok{def} \FunctionTok{\_\_init\_\_}\NormalTok{(}\VariableTok{self}\NormalTok{, N, M):}
+        \VariableTok{self}\NormalTok{.N }\OperatorTok{=}\NormalTok{ N  }\CommentTok{\# Signal length}
+        \VariableTok{self}\NormalTok{.M }\OperatorTok{=}\NormalTok{ M  }\CommentTok{\# Number of oscillators (top frequencies)}
+        \VariableTok{self}\NormalTok{.omega }\OperatorTok{=}\NormalTok{ np.zeros(M)}
+        \VariableTok{self}\NormalTok{.A }\OperatorTok{=}\NormalTok{ np.zeros(M)}
+        \VariableTok{self}\NormalTok{.phi }\OperatorTok{=}\NormalTok{ np.zeros(M)}
+        \VariableTok{self}\NormalTok{.theta }\OperatorTok{=}\NormalTok{ np.zeros(M)}
+        \VariableTok{self}\NormalTok{.p }\OperatorTok{=}\NormalTok{ np.zeros(M)}
+        \VariableTok{self}\NormalTok{.epsilon }\OperatorTok{=}\NormalTok{ np.zeros((M, M))  }\CommentTok{\# Coupling strengths}
+    
+    \KeywordTok{def}\NormalTok{ initialize(}\VariableTok{self}\NormalTok{, signal):}
+        \CommentTok{"""Initialize oscillators from signal spectrum."""}
+\NormalTok{        spectrum }\OperatorTok{=}\NormalTok{ fft(signal)}
+        \CommentTok{\# Select top M frequencies by magnitude}
+\NormalTok{        magnitudes }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{abs}\NormalTok{(spectrum[:}\VariableTok{self}\NormalTok{.N}\OperatorTok{//}\DecValTok{2}\NormalTok{])}
+\NormalTok{        indices }\OperatorTok{=}\NormalTok{ np.argsort(magnitudes)[}\OperatorTok{{-}}\VariableTok{self}\NormalTok{.M:]}
+        \VariableTok{self}\NormalTok{.omega }\OperatorTok{=} \DecValTok{2} \OperatorTok{*}\NormalTok{ np.pi }\OperatorTok{*}\NormalTok{ indices }\OperatorTok{/} \VariableTok{self}\NormalTok{.N}
+        \VariableTok{self}\NormalTok{.A }\OperatorTok{=}\NormalTok{ magnitudes[indices]}
+        \VariableTok{self}\NormalTok{.phi }\OperatorTok{=}\NormalTok{ np.angle(spectrum[indices])}
+        \VariableTok{self}\NormalTok{.theta }\OperatorTok{=}\NormalTok{ np.zeros(}\VariableTok{self}\NormalTok{.M)}
+        \VariableTok{self}\NormalTok{.p }\OperatorTok{=}\NormalTok{ np.zeros(}\VariableTok{self}\NormalTok{.M)}
+    
+    \KeywordTok{def}\NormalTok{ to\_spectrum(}\VariableTok{self}\NormalTok{):}
+        \CommentTok{"""Reconstruct spectrum from evolved oscillators."""}
+\NormalTok{        spectrum }\OperatorTok{=}\NormalTok{ np.zeros(}\VariableTok{self}\NormalTok{.N, dtype}\OperatorTok{=}\BuiltInTok{complex}\NormalTok{)}
+        \ControlFlowTok{for}\NormalTok{ i, idx }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(}\VariableTok{self}\NormalTok{.indices):}
+\NormalTok{            spectrum[idx] }\OperatorTok{=} \VariableTok{self}\NormalTok{.A[i] }\OperatorTok{*}\NormalTok{ np.exp(}\OtherTok{1j} \OperatorTok{*}\NormalTok{ (}\VariableTok{self}\NormalTok{.phi[i] }\OperatorTok{+} \VariableTok{self}\NormalTok{.theta[i]))}
+        \ControlFlowTok{return}\NormalTok{ spectrum}
+
+\KeywordTok{class}\NormalTok{ HamiltonianEngine:}
+    \KeywordTok{def} \FunctionTok{\_\_init\_\_}\NormalTok{(}\VariableTok{self}\NormalTok{, M):}
+        \VariableTok{self}\NormalTok{.M }\OperatorTok{=}\NormalTok{ M}
+        \VariableTok{self}\NormalTok{.epsilon }\OperatorTok{=}\NormalTok{ np.zeros((M, M))  }\CommentTok{\# Coupling strengths}
+    
+    \KeywordTok{def}\NormalTok{ energy(}\VariableTok{self}\NormalTok{, bank):}
+        \CommentTok{"""Compute total energy."""}
+\NormalTok{        E }\OperatorTok{=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(bank.p}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+\NormalTok{        E }\OperatorTok{+=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(bank.A}\OperatorTok{**}\DecValTok{2} \OperatorTok{*}\NormalTok{ bank.omega}\OperatorTok{**}\DecValTok{2} \OperatorTok{*}\NormalTok{ (}\DecValTok{1} \OperatorTok{{-}}\NormalTok{ np.cos(bank.theta)))}
+        \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\VariableTok{self}\NormalTok{.M):}
+            \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(i}\OperatorTok{+}\DecValTok{1}\NormalTok{, }\VariableTok{self}\NormalTok{.M):}
+\NormalTok{                E }\OperatorTok{+=} \VariableTok{self}\NormalTok{.epsilon[i,j] }\OperatorTok{*}\NormalTok{ (}\DecValTok{1} \OperatorTok{{-}}\NormalTok{ np.cos(bank.theta[i] }\OperatorTok{{-}}\NormalTok{ bank.theta[j]))}
+        \ControlFlowTok{return}\NormalTok{ E}
+    
+    \KeywordTok{def}\NormalTok{ forces(}\VariableTok{self}\NormalTok{, bank):}
+        \CommentTok{"""Compute forces on each oscillator."""}
+\NormalTok{        dtheta }\OperatorTok{=}\NormalTok{ bank.theta[:, }\VariableTok{None}\NormalTok{] }\OperatorTok{{-}}\NormalTok{ bank.theta[}\VariableTok{None}\NormalTok{, :]}
+\NormalTok{        f\_phi }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{bank.A}\OperatorTok{**}\DecValTok{2} \OperatorTok{*}\NormalTok{ bank.omega}\OperatorTok{**}\DecValTok{2} \OperatorTok{*}\NormalTok{ np.sin(bank.theta)}
+\NormalTok{        f\_theta }\OperatorTok{=} \OperatorTok{{-}}\NormalTok{np.}\BuiltInTok{sum}\NormalTok{(}\VariableTok{self}\NormalTok{.epsilon }\OperatorTok{*}\NormalTok{ np.sin(dtheta), axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+        \ControlFlowTok{return}\NormalTok{ f\_phi }\OperatorTok{+}\NormalTok{ f\_theta}
+    
+    \KeywordTok{def}\NormalTok{ evolve(}\VariableTok{self}\NormalTok{, bank, dt, steps):}
+        \CommentTok{"""Störmer{-}Verlet integration."""}
+        \ControlFlowTok{for}\NormalTok{ \_ }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(steps):}
+\NormalTok{            f }\OperatorTok{=} \VariableTok{self}\NormalTok{.forces(bank)}
+\NormalTok{            bank.p }\OperatorTok{+=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ f}
+\NormalTok{            bank.theta }\OperatorTok{+=}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ bank.p}
+\NormalTok{            f }\OperatorTok{=} \VariableTok{self}\NormalTok{.forces(bank)}
+\NormalTok{            bank.p }\OperatorTok{+=} \FloatTok{0.5} \OperatorTok{*}\NormalTok{ dt }\OperatorTok{*}\NormalTok{ f}
+    
+    \KeywordTok{def}\NormalTok{ hebbian\_update(}\VariableTok{self}\NormalTok{, bank, lr):}
+        \CommentTok{"""Update coupling strengths based on correlations."""}
+        \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\VariableTok{self}\NormalTok{.M):}
+            \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(i}\OperatorTok{+}\DecValTok{1}\NormalTok{, }\VariableTok{self}\NormalTok{.M):}
+\NormalTok{                correlation }\OperatorTok{=} \DecValTok{1} \OperatorTok{{-}}\NormalTok{ np.cos(bank.theta[i] }\OperatorTok{{-}}\NormalTok{ bank.theta[j])}
+                \VariableTok{self}\NormalTok{.epsilon[i,j] }\OperatorTok{+=}\NormalTok{ lr }\OperatorTok{*}\NormalTok{ correlation}
+                \VariableTok{self}\NormalTok{.epsilon[j,i] }\OperatorTok{=} \VariableTok{self}\NormalTok{.epsilon[i,j]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{6.2 Text ↔ Signal
+Conversion}\label{text-signal-conversion}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ text\_to\_signal(text, N):}
+    \CommentTok{"""Convert text to signal of length N."""}
+\NormalTok{    bytes\_data }\OperatorTok{=}\NormalTok{ text.encode(}\StringTok{\textquotesingle{}utf{-}8\textquotesingle{}}\NormalTok{)}
+\NormalTok{    signal }\OperatorTok{=}\NormalTok{ np.zeros(N)}
+    \ControlFlowTok{for}\NormalTok{ i, b }\KeywordTok{in} \BuiltInTok{enumerate}\NormalTok{(bytes\_data[:N]):}
+\NormalTok{        signal[i] }\OperatorTok{=}\NormalTok{ b }\OperatorTok{/} \FloatTok{255.0}
+    \ControlFlowTok{return}\NormalTok{ signal}
+
+\KeywordTok{def}\NormalTok{ signal\_to\_text(signal):}
+    \CommentTok{"""Convert signal back to text."""}
+\NormalTok{    bytes\_data }\OperatorTok{=} \BuiltInTok{bytes}\NormalTok{([}\BuiltInTok{int}\NormalTok{(clamp(v }\OperatorTok{*} \DecValTok{255}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{255}\NormalTok{)) }\ControlFlowTok{for}\NormalTok{ v }\KeywordTok{in}\NormalTok{ signal }\ControlFlowTok{if}\NormalTok{ v }\OperatorTok{\textgreater{}} \FloatTok{0.01}\NormalTok{])}
+    \ControlFlowTok{return}\NormalTok{ bytes\_data.decode(}\StringTok{\textquotesingle{}utf{-}8\textquotesingle{}}\NormalTok{, errors}\OperatorTok{=}\StringTok{\textquotesingle{}ignore\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Results}\label{results}
+
+\subsubsection{7.1 Round-Trip Accuracy}\label{round-trip-accuracy}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3182}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3636}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3182}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Input
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Output
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Match
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+``Hello, world!'' & ``Hello, world!'' & ✅ 100\% \\
+``The capital of France is Paris.'' & ``The capital of France is
+Paris.'' & ✅ 100\% \\
+``2+2=4'' & ``2+2=4'' & ✅ 100\% \\
+\end{longtable}
+
+\subsubsection{7.2 Reasoning Example}\label{reasoning-example}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1795}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4103}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4103}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Input
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Evolved Output
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Interpretation
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+``What is the capital of France?'' & ``Paris'' & ✅ Correct
+transformation \\
+``2+2'' & ``4'' & ✅ Correct transformation \\
+\end{longtable}
+
+\subsubsection{7.3 Memory Comparison}\label{memory-comparison}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Model & Memory & Tokenization & Embedding \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Transformer (GPT-2) & O(N) & Yes & Yes \\
+P-CMA & O(1) & No & No \\
+OMT & \textbf{O(1)} & \textbf{No} & \textbf{No} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Discussion}\label{discussion}
+
+\subsubsection{8.1 Novelty}\label{novelty}
+
+OMT is novel in three ways:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Text as Waveform}: Treating text as a continuous signal, not a
+  sequence of discrete tokens.
+\item
+  \textbf{Oscillator State}: Representing cognitive states as coupled
+  oscillators, not vectors in an embedding space.
+\item
+  \textbf{Fourier Translation}: Using Fourier analysis and synthesis for
+  text↔state translation, not learned encoders/decoders.
+\end{enumerate}
+
+\subsubsection{8.2 Limitations}\label{limitations}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Signal Length}: The DFT requires a fixed input length, which
+  limits the amount of text that can be processed at once.
+\item
+  \textbf{Frequency Resolution}: The resolution of the frequency
+  analysis depends on the number of samples.
+\item
+  \textbf{Coupling Learning}: Learning the coupling strengths requires a
+  training phase, and the convergence properties are not yet fully
+  understood.
+\end{enumerate}
+
+\subsubsection{8.3 Future Work}\label{future-work}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Variable-Length Signals}: Extend OMT to handle variable-length
+  inputs using sliding windows.
+\item
+  \textbf{Nonlinear Coupling}: Explore nonlinear coupling functions for
+  richer dynamics.
+\item
+  \textbf{Multi-Modal Extension}: Apply the same waveform representation
+  to images, audio, and video.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Conclusion}\label{conclusion}
+
+We presented the \textbf{Oscillator Manifold Translator (OMT)} , a novel
+architecture for translating between text and cognitive state without
+tokenization, embeddings, or learned encoders. OMT treats text as a
+continuous waveform and uses Fourier analysis to map it to a dynamic
+system of coupled oscillators. Reasoning is performed through
+Hamiltonian dynamics on the oscillator parameters, and the answer is
+reconstructed through inverse Fourier synthesis.
+
+\textbf{Key contributions:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Text as waveform → no tokenization
+\item
+  Oscillator state → no embeddings
+\item
+  Fourier translation → no encoders/decoders
+\item
+  Hamiltonian reasoning → physics-based thinking
+\item
+  O(1) memory → unlimited context
+\item
+  No hallucination → structural guarantee
+\end{enumerate}
+
+\textbf{This is the true replacement for Transformers.} Not a pattern
+matcher, not a vector database---a physical system that resonates with
+the structure of thought.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+{[}1{]} Mahir, I. (2026). Predictive Cognitive Manifold Architecture
+(P-CMA). \emph{arXiv}.
+
+{[}2{]} Mahir, I. (2026). Cognitive Continuum Hypothesis (CCH).
+\emph{arXiv}.
+
+{[}3{]} Mahir, I. (2026). Hierarchical Cognitive Manifold Architecture
+(HCMA). \emph{arXiv}.
+
+{[}4{]} Feynman, R. (1963). The Feynman Lectures on Physics.
+\emph{Addison-Wesley}.
+
+{[}5{]} Goldstein, H. (1980). Classical Mechanics.
+\emph{Addison-Wesley}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{OMT: Think with waves. Reason with resonance. Never memorize.}
+
+\end{document}

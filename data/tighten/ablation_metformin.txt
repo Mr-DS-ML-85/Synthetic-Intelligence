@@ -1,0 +1,42 @@
+
+[study_recall_ablation] label=metformin rounds=5 n_seeds=5
+cfg | seed | pre | post | rms_gain | n_fissions
+BASELINE       | 0x54c607b9 | 0.07231 | 0.06709 | 0.928x | 0
+ABLATE_CAP     | 0x54c607b9 | 0.07231 | 0.12446 | 1.333x | 27 [tfiss]
+ABLATE_ALIAS   | 0x54c607b9 | 0.07231 | 0.25352 | 2.479x | 4 [tfiss]
+ABLATE_FANOUT  | 0x54c607b9 | 0.07231 | 0.17288 | 1.835x | 15 [tfiss]
+ABLATE_BIND    | 0x54c607b9 | 0.07231 | 0.12541 | 1.461x | 8 [tfiss]
+FULL           | 0x54c607b9 | 0.07231 | 0.12502 | 1.340x | 8 [tfiss]
+BASELINE       | 0xf69f8d72 | 0.07020 | 0.06405 | 0.912x | 0
+ABLATE_CAP     | 0xf69f8d72 | 0.07020 | 0.12850 | 1.407x | 27 [tfiss]
+ABLATE_ALIAS   | 0xf69f8d72 | 0.07020 | 0.26825 | 2.702x | 2 [tfiss]
+ABLATE_FANOUT  | 0xf69f8d72 | 0.07020 | 0.18074 | 1.955x | 12 [tfiss]
+ABLATE_BIND    | 0xf69f8d72 | 0.07020 | 0.13061 | 1.553x | 10 [tfiss]
+FULL           | 0xf69f8d72 | 0.07020 | 0.13014 | 1.421x | 10 [tfiss]
+BASELINE       | 0x1057132b | 0.07474 | 0.06995 | 0.936x | 0
+ABLATE_CAP     | 0x1057132b | 0.07474 | 0.17115 | 1.711x | 28 [tfiss]
+ABLATE_ALIAS   | 0x1057132b | 0.07474 | 0.24204 | 2.290x | 4 [tfiss]
+ABLATE_FANOUT  | 0x1057132b | 0.07474 | 0.16946 | 1.756x | 14 [tfiss]
+ABLATE_BIND    | 0x1057132b | 0.07474 | 0.12252 | 1.390x | 9 [tfiss]
+FULL           | 0x1057132b | 0.07474 | 0.12136 | 1.270x | 9 [tfiss]
+BASELINE       | 0xb22c98e4 | 0.07204 | 0.06537 | 0.907x | 0
+ABLATE_CAP     | 0xb22c98e4 | 0.07204 | 0.18704 | 1.917x | 19 [tfiss]
+ABLATE_ALIAS   | 0xb22c98e4 | 0.07204 | 0.26452 | 2.596x | 4 [tfiss]
+ABLATE_FANOUT  | 0xb22c98e4 | 0.07204 | 0.18076 | 1.907x | 15 [tfiss]
+ABLATE_BIND    | 0xb22c98e4 | 0.07204 | 0.13069 | 1.512x | 9 [tfiss]
+FULL           | 0xb22c98e4 | 0.07204 | 0.12994 | 1.385x | 8 [tfiss]
+BASELINE       | 0xdde41e9d | 0.07372 | 0.06833 | 0.927x | 0
+ABLATE_CAP     | 0xdde41e9d | 0.07372 | 0.12453 | 1.311x | 27 [tfiss]
+ABLATE_ALIAS   | 0xdde41e9d | 0.07372 | 0.25097 | 2.407x | 3 [tfiss]
+ABLATE_FANOUT  | 0xdde41e9d | 0.07372 | 0.17513 | 1.826x | 12 [tfiss]
+ABLATE_BIND    | 0xdde41e9d | 0.07372 | 0.12566 | 1.436x | 8 [tfiss]
+FULL           | 0xdde41e9d | 0.07372 | 0.12449 | 1.311x | 7 [tfiss]
+
+AGGREGATE metformin [n=5]:
+  cfg            | rms_gain (mean±std) | fissions (mean±std) | target_fissioned
+  BASELINE       | 0.9221 ± 0.0105    | 0.00 ± 0.00      | 0/5
+  ABLATE_CAP     | 1.5358 ± 0.2385    | 25.60 ± 3.32      | 5/5
+  ABLATE_ALIAS   | 2.4949 ± 0.1437    | 3.40 ± 0.80      | 5/5
+  ABLATE_FANOUT  | 1.8557 ± 0.0688    | 13.60 ± 1.36      | 5/5
+  ABLATE_BIND    | 1.4705 ± 0.0570    | 8.80 ± 0.75      | 5/5
+  FULL           | 1.3455 ± 0.0535    | 8.40 ± 1.02      | 5/5

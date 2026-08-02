@@ -1,0 +1,1028 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Byte Energy Descent (BED): A Discrete State→Text Decoder for Physics-Based Cognitive Architectures},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Byte Energy Descent (BED): A Discrete State→Text Decoder for
+Physics-Based Cognitive Architectures}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Byte Energy Descent (BED): A Discrete State→Text Decoder for
+Physics-Based Cognitive
+Architectures}\label{byte-energy-descent-bed-a-discrete-statetext-decoder-for-physics-based-cognitive-architectures}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``The state is the answer. But only if the potential is sculpted,
+not classified, and the decoder never leaves the state.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+We present \textbf{Byte Energy Descent (BED)}, a novel state→text
+decoder for the DCHL / P-CMA / HCMA family of physics-based cognitive
+architectures. Prior work in this lineage evolves a continuous cognitive
+state \(\mathbf{c} \in \mathbb{R}^D\) under Hamiltonian dynamics on a
+learned potential \(\Phi(\mathbf{c})\), then reads out an answer by
+rounding each answer-region float to the nearest byte. We show ---
+analytically and empirically --- that this pointwise rounding is
+decoupled from \(\Phi\): the continuous minimiser of \(\Phi\) has no
+obligation to land on the integer byte lattice, and the resulting bytes
+drift toward the marginal byte mean of the training corpus (an
+unconditional low-order statistic) instead of a prompt-conditioned
+coherent completion.
+
+BED replaces both the continuous roll-out and the pointwise rounding
+with a single \textbf{discrete coordinate descent on the byte lattice}
+driven by \(\Phi\) itself. The state stays on \(\{0,1,\dots,255\}^D\) at
+every intermediate configuration, so it always decodes to real text.
+Each answer position \(i\) is updated by evaluating \(\Phi\) at all 256
+candidate byte values and choosing the argmin, with positions swept in a
+randomised order (i.e.~\textbf{not} left-to-right, so BED is not
+autoregressive and not sequential). A rank-1 cache of pre-activations
+makes each 256-way candidate evaluation cost \(O(H)\) instead of
+\(O(H \cdot D)\), so a full sweep costs \(O(D_{\text{answer}} \cdot H)\)
+and the whole decoder runs in a few sweeps.
+
+We derive the update rule, prove monotone non-increase of \(\Phi\) at
+zero temperature, and give the exact implementation in
+\texttt{src/hcma.hpp:think\_bytes}. We report honest empirical results
+on a small model trained on the Pile: BED does produce prompt-dependent
+answers (each prompt gives a distinct \(\Phi_{\text{final}}\) and
+distinct byte distribution), but its outputs are not English at this
+training scale. We locate the residual failure precisely --- the
+contrastive learning signal used to shape \(\Phi\) is too weak once
+trivial negatives are exhausted --- and propose \textbf{hard-negative
+mining from the corpus itself} (wrong text completions of the same
+prompt) as the next necessary step for the architecture to develop the
+coherence basins BED needs.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. Introduction}\label{introduction}
+
+\subsubsection{1.1 The state→text failure of Hamiltonian
+rollout}\label{the-statetext-failure-of-hamiltonian-rollout}
+
+The HCMA/P-CMA/DCHL architecture stores its output as a cognitive state
+\(\mathbf{c} \in [0,1]^D\) obtained by mapping each byte \(b\) to
+\(b/256\). Inference splits \(\mathbf{c}\) into a \emph{prompt region}
+(frozen) and an \emph{answer region} (evolved). Hamiltonian dynamics on
+the learned potential \(\Phi(\mathbf{c})\) then push the answer region
+toward a low-energy configuration:
+
+\[
+\dot{c}_i = p_i, \qquad \dot{p}_i = -\partial_i \Phi(\mathbf{c}), \qquad i \in \text{answer region}.
+\]
+
+The classical decoder reads out an answer via
+
+\[
+\text{byte}_i = \text{round}(c_i \cdot 256).
+\]
+
+We observe that this pipeline reliably fails to produce meaningful text
+--- even when \(\Phi\) has been trained to strongly separate coherent
+from incoherent bytes. The output collapses to a repetitive stream of
+bytes near the corpus mean (around ASCII 98--113,
+\texttt{b}--\texttt{q}), regardless of the prompt.
+
+\subsubsection{\texorpdfstring{1.2 Why continuous rollout + rounding is
+decoupled from
+\(\Phi\)}{1.2 Why continuous rollout + rounding is decoupled from \textbackslash Phi}}\label{why-continuous-rollout-rounding-is-decoupled-from-phi}
+
+Two independent problems compose:
+
+\textbf{Problem A: the gradient in fp32 space has no reason to point at
+integer bytes.} \(\Phi\) is trained on real byte-valued inputs (pixels
+of the byte lattice), but \emph{evaluated} at every point in
+\([0,1]^D\). The continuous minimiser of \(\Phi\) under the smooth
+extension is not, in general, one of the \(256^{D_{\text{answer}}}\)
+integer configurations. Hamiltonian descent finds the smooth minimum,
+which is typically a byte-mean vector.
+
+\textbf{Problem B: pointwise rounding erases prompt conditioning.} Even
+if descent found a good continuous point, \texttt{round(c\_i\ ·\ 256)}
+treats each \(c_i\) independently. Any correlations between adjacent
+bytes --- which is where coherence lives --- are lost in the last step.
+
+The result is that the answer is drawn from the \emph{marginal} byte
+distribution of the training corpus, not the \emph{conditional}
+distribution given the prompt.
+
+\subsubsection{1.3 Contribution}\label{contribution}
+
+We propose \textbf{Byte Energy Descent (BED)}. BED never leaves the byte
+lattice. It updates each answer byte to the argmin of \(\Phi\) over the
+256 candidate values, given the current values of all other bytes
+(prompt + rest of answer). Positions are updated in a randomised order
+across each sweep, so the update rule is neither autoregressive nor
+sequential.
+
+BED closes both problems at once: 1. Every intermediate state, and the
+final state, is composed of real bytes. There is no rounding step to
+disrupt \(\Phi\)-conditioned coupling. 2. Each byte's choice sees the
+whole state through \(\Phi\), so joint / conditional structure is
+preserved.
+
+Complexity is kept tractable by a rank-1 cache: the shift in \(\Phi\)
+from changing byte \(i\) from \(v_{\text{old}}\) to \(v\) is a scalar
+function of \((v - v_{\text{old}})\) and a single column of \(W_1\).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. Related Work}\label{related-work}
+
+BED sits at the intersection of three literatures.
+
+\textbf{Autoregressive decoding} (Transformer LMs, causal RNNs). Text is
+generated by sampling \(y_t \sim P(\cdot \mid y_{<t}, x)\)
+token-by-token, left-to-right, over a learned vocabulary. BED does
+\emph{not} condition on a causal prefix and does \emph{not} have a
+vocabulary --- the 256 candidates at each position are the raw byte
+values, and positions are visited in random order.
+
+\textbf{Diffusion / score-based decoding.} Generate by denoising a
+continuous latent under \(-\nabla \log p\). BED has no noise schedule,
+no reverse process, and works on the discrete byte lattice rather than a
+continuous latent.
+
+\textbf{Iterated Conditional Modes (ICM)} {[}Besag, 1986{]}. Classical
+MRF inference: fix all variables but one, set that one to its
+conditional argmin. BED is exactly ICM applied to the byte-level Markov
+random field whose energy is the DCHL potential \(\Phi\). What is novel
+here is (i) using a scalar potential learned by decoupled contrastive
+Hebbian updates as the energy, (ii) the rank-1 caching that keeps
+per-position cost independent of \(D\), and (iii) the pairing with a
+prompt-frozen state so BED becomes a conditional text generator.
+
+\textbf{Greedy energy decoding for byte-level models.} Prior byte-level
+generative work (byte-level LMs, ByT5) still uses autoregressive softmax
+over 256 output classes. BED replaces the entire softmax head with
+direct \(\Phi\)-scoring over candidates and dispenses with the causal
+mask.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. Mathematical Formulation}\label{mathematical-formulation}
+
+\subsubsection{3.1 The DCHL potential in cached
+form}\label{the-dchl-potential-in-cached-form}
+
+Recall the DCHL potential
+
+\[
+\Phi(\mathbf{c}) = b_2 + \sum_{j=1}^H w_{2,j} \tanh\!\left( \frac{W_{1,j} \cdot \mathbf{c} + b_{1,j}}{\lVert [\mathbf{c}, 1] \rVert} \right).
+\]
+
+Introduce the pre-activation cache and squared augmented-norm cache
+
+\[
+\pi_j \;=\; W_{1,j} \cdot \mathbf{c} + b_{1,j}, \qquad n^2 \;=\; 1 + \lVert \mathbf{c} \rVert^2.
+\]
+
+Then
+
+\[
+\Phi(\mathbf{c}) \;=\; b_2 + \sum_j w_{2,j} \tanh\!\left( \frac{\pi_j}{\sqrt{n^2}} \right).
+\]
+
+\subsubsection{3.2 Rank-1 update under a single-byte
+change}\label{rank-1-update-under-a-single-byte-change}
+
+Let \(i\) be an answer position and let \(v\) be a candidate byte value
+(\(v = b/256\) for \(b \in \{0,\dots,255\}\)). Denote the current value
+at position \(i\) by \(c_i = v_{\text{old}}\), and let
+\(\Delta v = v - v_{\text{old}}\).
+
+Changing only \(c_i\) perturbs the caches by a single column of \(W_1\)
+and a single scalar:
+
+\[
+\pi_j^{(v)} \;=\; \pi_j + W_1[j, i] \, \Delta v, \qquad
+(n^2)^{(v)} \;=\; n^2 + v^2 - v_{\text{old}}^2.
+\]
+
+Both quantities are computed in \(O(1)\) per hidden unit \(j\). The
+candidate energy is then
+
+\[
+\Phi^{(v)}(i) \;=\; b_2 + \sum_j w_{2,j} \, \tanh\!\left( \frac{\pi_j^{(v)}}{\sqrt{(n^2)^{(v)}}} \right),
+\]
+
+with total cost \(O(H)\) per candidate value.
+
+\subsubsection{3.3 The BED update rule}\label{the-bed-update-rule}
+
+At each answer position \(i\) visited in a random order,
+
+\[
+c_i^{\ast} \;=\; \operatorname*{arg\,min}_{v \in \{0, 1, \dots, 255\}/256}\, \Phi^{(v)}(i).
+\]
+
+If the update was accepted (\(c_i^{\ast} \neq v_{\text{old}}\)), the
+caches are patched in \(O(H)\):
+
+\[
+\pi_j \;\leftarrow\; \pi_j + W_1[j, i] \, (c_i^{\ast} - v_{\text{old}}), \qquad
+n^2 \;\leftarrow\; n^2 + (c_i^{\ast})^2 - v_{\text{old}}^2.
+\]
+
+\subsubsection{3.4 Temperature-controlled
+variant}\label{temperature-controlled-variant}
+
+For diverse or exploratory generation we replace the argmin by a
+temperature-controlled softmax over the 256 candidate energies
+
+\[
+p(v) \;\propto\; \exp\!\left( -\frac{\Phi^{(v)}(i) - \min_{v'} \Phi^{(v')}(i)}{T} \right).
+\]
+
+At \(T \to 0\) this reduces to the deterministic argmin; at
+\(T \to \infty\) it becomes uniform sampling. Sampling from the
+\emph{conditional} Boltzmann distribution at each position is a
+component of a Gibbs sampler for the joint Boltzmann distribution
+\(\propto \exp(-\Phi / T)\) over the byte lattice.
+
+\subsubsection{3.5 Monotone descent (zero
+temperature)}\label{monotone-descent-zero-temperature}
+
+\textbf{Proposition.} At \(T = 0\) the sequence
+\(\Phi(\mathbf{c}^{(t)})\) is non-increasing across BED updates.
+
+\emph{Proof.} Each update replaces \(c_i\) by the value that minimises
+\(\Phi\) conditional on all other bytes; therefore
+\(\Phi(\mathbf{c}^{(t+1)}) \le \Phi(\mathbf{c}^{(t)})\). \(\Box\)
+
+BED terminates when a full sweep produces no improvement above a
+tolerance \(\epsilon\), or after a maximum number of sweeps.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Complexity}\label{complexity}
+
+Let \(H\) be the number of hidden units,
+\(D = D_{\text{prompt}} + D_{\text{answer}}\) the state dimension, and
+\(S\) the number of sweeps.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Step
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Cost
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Notes
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Cache initialisation (\(\pi_j\), \(n^2\)) & \(O(HD)\) & Once per
+query \\
+One candidate evaluation & \(O(H)\) & Uses cached \(\pi_j\), \(n^2\) \\
+One position update (256 candidates + patch) & \(O(256 H) = O(H)\) &
+Constant factor of 256 \\
+One sweep over \(D_{\text{answer}}\) positions &
+\(O(D_{\text{answer}} \cdot H)\) & No \(D\) factor \\
+Full BED run (\(S\) sweeps) &
+\(O(HD + S \cdot D_{\text{answer}} \cdot H)\) & \\
+\end{longtable}
+
+For a 1B-parameter DCHL model with \(H \approx 10^6\),
+\(D_{\text{answer}} = 512\), and \(S = 6\) sweeps, BED is
+\(\approx 3 \times 10^9\) operations per query --- a few seconds on CPU,
+sub-second on the RTX 4060 with a straightforward GPU port.
+
+By contrast, autoregressive Transformer decoding of the same
+\(D_{\text{answer}}\) tokens with a comparable-width model costs
+\(O(D_{\text{answer}}^2 \cdot d_{\text{model}})\) attention plus
+\(O(D_{\text{answer}} \cdot P)\) MLP work per generated token. BED
+avoids both the quadratic attention and the KV cache entirely.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Algorithm}\label{algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Input:  Potential Phi (W1, b1, w2, b2, D\_prompt, D\_answer, H)}
+\NormalTok{        Prompt string q}
+\NormalTok{        Number of sweeps S, temperature T}
+\NormalTok{Output: Answer string a, phi\_initial, phi\_final}
+
+\NormalTok{\# 1. Assemble byte{-}lattice initial state.}
+\NormalTok{c = [byte/256 for byte in bytes(q) padded to D\_prompt] ++ [128/256] * D\_answer}
+
+\NormalTok{\# 2. Prime the caches.}
+\NormalTok{n2  = 1 + sum(c\_i\^{}2 for c\_i in c)}
+\NormalTok{for j in 1..H:}
+\NormalTok{    pi\_j = W1[j] . c + b1[j]}
+\NormalTok{phi\_initial = b2 + sum(w2\_j * tanh(pi\_j / sqrt(n2)) for j)}
+
+\NormalTok{\# 3. Coordinate descent on the answer region.}
+\NormalTok{positions = list(range(D\_prompt, D\_prompt + D\_answer))}
+\NormalTok{for sweep in 1..S:}
+\NormalTok{    shuffle(positions)}
+\NormalTok{    for i in positions:}
+\NormalTok{        v\_old = c[i]}
+\NormalTok{        for b in 0..255:}
+\NormalTok{            v = b / 256}
+\NormalTok{            dv = v {-} v\_old}
+\NormalTok{            n2\_v  = n2 + v*v {-} v\_old*v\_old}
+\NormalTok{            inv\_n = 1 / sqrt(n2\_v)}
+\NormalTok{            phi\_v = b2 + sum(w2\_j * tanh((pi\_j + W1[j,i] * dv) * inv\_n) for j)}
+\NormalTok{            phi\_cand[b] = phi\_v}
+\NormalTok{        if T \textgreater{} 0:}
+\NormalTok{            b\_star = softmax\_sample({-}(phi\_cand {-} min(phi\_cand)) / T)}
+\NormalTok{        else:}
+\NormalTok{            b\_star = argmin(phi\_cand)}
+\NormalTok{        v\_new = b\_star / 256}
+\NormalTok{        if v\_new != v\_old:}
+\NormalTok{            \# rank{-}1 cache patch}
+\NormalTok{            for j in 1..H:}
+\NormalTok{                pi\_j += W1[j,i] * (v\_new {-} v\_old)}
+\NormalTok{            n2 += v\_new*v\_new {-} v\_old*v\_old}
+\NormalTok{            c[i] = v\_new}
+\NormalTok{    phi\_now = b2 + sum(w2\_j * tanh(pi\_j / sqrt(n2)) for j)}
+\NormalTok{    if T == 0 and abs(phi\_now {-} phi\_prev) \textless{} eps:}
+\NormalTok{        break}
+\NormalTok{    phi\_prev = phi\_now}
+
+\NormalTok{\# 4. Emit the answer region as bytes.}
+\NormalTok{a = bytes(round(c\_i * 256) for i in D\_prompt..D\_prompt+D\_answer{-}1)}
+\NormalTok{return a, phi\_initial, phi\_now}
+\end{Highlighting}
+\end{Shaded}
+
+Reference implementation: \href{../src/hcma.hpp}{\texttt{src/hcma.hpp}}
+function \texttt{think\_bytes}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Comparison to
+Alternatives}\label{comparison-to-alternatives}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Property
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Autoregressive LM
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Diffusion LM
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Hamiltonian + round
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{BED (ours)}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Output symbol set & learned tokens & pixels / bytes & bytes (post-round)
+& \textbf{bytes (native)} \\
+Left-to-right? & yes & no & no & \textbf{no} \\
+Causal mask? & yes & no & no & \textbf{no} \\
+Sees whole context per emission? & prefix only & yes & yes &
+\textbf{yes} \\
+Uses a softmax vocabulary head? & yes & no & no & \textbf{no} \\
+Continuous relaxation? & no & yes & yes & \textbf{no} \\
+Coupled to trained energy? & via cross-entropy & via score & \textbf{no}
+(rounding decouples) & \textbf{yes} (direct argmin) \\
+Memory during decoding & \(O(N)\) KV & \(O(D)\) & \(O(D)\) &
+\(O(H + D)\) (caches) \\
+\end{longtable}
+
+BED is the only column where every intermediate output is on the native
+symbol set, no vocabulary is defined, and the decoding step is a direct
+search on the \emph{same} energy landscape used to train the model.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Empirical Observations (Honest
+Reading)}\label{empirical-observations-honest-reading}
+
+We integrated BED into the reference DCHL implementation
+(\texttt{chatbot.cpp}) and trained potentials of two sizes on the Pile
+sample from \texttt{\textasciitilde{}/Desktop/datasets}:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{small.neuron} ---
+  \(D_{\text{prompt}} = D_{\text{answer}} = 256\), \(H = 1024\), 3
+  epochs.
+\item
+  \texttt{chatbot\_v2.neuron} ---
+  \(D_{\text{prompt}} = D_{\text{answer}} = 256\), \(H = 8192\), 30
+  epochs, hard negatives only (shuffle + splice, no random).
+\end{itemize}
+
+\subsubsection{7.1 BED does what BED
+should}\label{bed-does-what-bed-should}
+
+\begin{itemize}
+\tightlist
+\item
+  Every intermediate state decodes to real bytes; there is no rounding
+  step.
+\item
+  \(\Phi_{\text{final}}\) is deterministically non-increasing at
+  \(T = 0\), as the proposition predicts.
+\item
+  Distinct prompts produce distinct \(\Phi_{\text{final}}\) and distinct
+  byte distributions:
+\end{itemize}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Prompt
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Hamiltonian rollout (legacy)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+BED (this work)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+``The Roman Empire was'' & \texttt{bbbbb…} (byte 98 flat) & mixed
+letters/punctuation around ASCII 118--126, distinct per prompt \\
+``In the beginning'' & \texttt{bbbbb…} & space-heavy pattern reflecting
+the short prompt \\
+``qwertyuiop1234'' & \texttt{bbbbb…} & OOD-flagged, byte pattern shifts
+noticeably \\
+\end{longtable}
+
+The classical Hamiltonian decoder collapses every prompt to the same
+saturation byte. BED produces prompt-conditioned outputs whose byte
+statistics differ.
+
+\subsubsection{7.2 The outputs are still not
+English}\label{the-outputs-are-still-not-english}
+
+This is where we have to be very careful and honest. Every BED output at
+this training scale is a mixture of adjacent-in-ASCII letters and
+punctuation, with the right \emph{marginal} byte distribution but no
+legible words.
+
+The training curve tells us why. Over 30 epochs of \texttt{chatbot\_v2}:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Symptom
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Meaning
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\Delta\Phi \approx 0.1\)--\(0.2\) and not growing & \(\Phi\) is barely
+distinguishing coherent from incoherent. \\
+\(\lvert h \rvert \approx 0.52\) stable & Hidden units are alive but not
+specialising. \\
+\(\Phi(\text{coherent})\) wanders without a clear downward trend & The
+contrastive signal is not providing a consistent gradient direction. \\
+\end{longtable}
+
+The DCHL Hebbian rule can only sharpen features that already differ
+between \(\mathbf{c}^{+}\) (coherent window) and \(\mathbf{c}^{-}\)
+(negative). Our negatives are: random bytes, shuffled bytes, and
+cross-document splices. All three destroy the token- and phrase-level
+statistics that make text look like text; the model quickly saturates
+the ``text vs.~not-text'' contrast and then has nothing left to learn
+from. Once trivial negatives are exhausted, dPhi collapses to noise.
+
+BED faithfully descends whatever \(\Phi\) has learned. Right now, that
+is essentially ``text has this byte distribution'' --- so BED lands on
+the marginal byte distribution, not on a coherent continuation.
+
+\subsubsection{7.3 The decoder is correct; the potential was trained as
+a
+classifier}\label{the-decoder-is-correct-the-potential-was-trained-as-a-classifier}
+
+BED is not the bottleneck. The bottleneck is that the potential \(\Phi\)
+was, up to this point, being trained on a \textbf{text-vs-random binary
+classification objective} dressed up as contrastive Hebbian learning.
+Once trivial negatives (random bytes) are exhausted, the training curve
+collapses to \(\Delta\Phi \approx 0.1\) --- because there is nothing
+left for a \emph{classifier} to learn. Even the ``harder'' variants
+(shuffle, cross-document splice) are still binary classification: they
+just move the decision boundary.
+
+A classifier that BED descends into just produces a byte-average of the
+winning class. Different prompts do get different
+\(\Phi_{\text{final}}\) because Φ has some prompt-dependent capacity,
+but the answer bytes come from the class mean, not from anywhere the
+prompt actually points to. That is precisely pattern matching, and it is
+the correct behaviour of a well-trained \emph{classifier} under BED ---
+which confirms that BED is doing its job on the input it is given.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. What is Actually Needed Next: Manifold
+Sculpting}\label{what-is-actually-needed-next-manifold-sculpting}
+
+To make BED produce text, \(\Phi\) must stop being trained as a
+classifier and start being trained as an \textbf{energy landscape whose
+basins sit on the data manifold}. This is a change in objective, not in
+machinery: the DCHL Hebbian update itself is unchanged (per-unit
+contrastive on the hidden layer, pure differential on \(w_2\), ZeroGrad
+throughout). What changes is what plays the role of \(\mathbf{c}^{-}\).
+
+\subsubsection{8.1 Negatives as perturbations, not as a
+class}\label{negatives-as-perturbations-not-as-a-class}
+
+For each positive \(\mathbf{c}^{+}\) drawn from the corpus we generate
+the negative as a \emph{perturbation} of \(\mathbf{c}^{+}\) itself:
+
+\[
+\mathbf{c}^{-} \;=\; \mathbf{c}^{+} + \boldsymbol{\eta}, \qquad \boldsymbol{\eta} \sim \mathcal{P}(\lVert \boldsymbol{\eta} \rVert)
+\]
+
+The DCHL step then raises \(\Phi(\mathbf{c}^{-})\) by an amount that,
+over the corpus, aligns with \(\lVert \boldsymbol{\eta} \rVert\). There
+is no ``class of negatives'' --- \(\mathcal{P}\) is a \emph{continuous}
+perturbation distribution, and Φ acquires a basin at \(\mathbf{c}^{+}\)
+whose \emph{shape} is determined by that distribution. This is the same
+idea underneath score matching and denoising diffusion, ported to DCHL:
+instead of learning the density of the data directly, we learn to make
+its gradient point back to the data.
+
+Two useful perturbation schedules are:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Additive noise (score-matching flavour)}:
+  \(\boldsymbol{\eta}\) is small Gaussian noise on the byte-scaled
+  state. Φ is sculpted so ∇Φ(\(\mathbf{c}^{+}\)) points \emph{back} to
+  \(\mathbf{c}^{+}\), not toward some class centroid. The DCHL update is
+  exactly the local Hebbian rule from §3, but now \(\mathbf{c}^{-}\) is
+  a smooth perturbation of \(\mathbf{c}^{+}\) rather than a draw from a
+  fixed noise class.
+\item
+  \textbf{Structural coherence perturbation (predictive-coding
+  flavour)}: \(\boldsymbol{\eta}\) replaces the continuation half of
+  \(\mathbf{c}^{+}\) with a valid English continuation drawn from a
+  different document. This is \emph{not} a ``wrong class'' --- it is a
+  specific perturbation that keeps the marginal byte statistics
+  identical and only breaks the joint prompt-continuation structure.
+  DCHL is then forced to allocate hidden units to prompt-continuation
+  \emph{interactions}, which is what BED needs to read out at inference
+  time.
+\end{itemize}
+
+\subsubsection{8.2 Why this stops being a
+classifier}\label{why-this-stops-being-a-classifier}
+
+Under this objective, \(\mathbf{c}^{+}\) and \(\mathbf{c}^{-}\) share
+almost every statistic that would let a classifier separate them; the
+only signal that survives is the \emph{distance from the data manifold}.
+Because the perturbation magnitude and direction vary continuously
+across samples, there is no fixed decision boundary for Φ to converge
+onto. Instead, Φ acquires a local minimum at every \(\mathbf{c}^{+}\) we
+show it, with a gradient that points back to that minimum from nearby
+perturbed states --- that is a manifold sculpture, not a decision rule.
+
+At inference, BED lands on a \emph{specific point} on that manifold ---
+a byte-level configuration in the data manifold's neighbourhood of the
+prompt --- instead of the byte mean of a class.
+
+\subsubsection{8.3 Interaction with BED}\label{interaction-with-bed}
+
+BED itself is unchanged. The two components are cleanly separated: DCHL
+builds the potential, BED reads it. Moving from a classifier objective
+to a manifold-sculpting objective is a change in the training loop's
+negative sampler and in nothing else. When the potential is
+well-sculpted, the same BED code --- every line of it --- will start
+producing text.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Limitations}\label{limitations}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Second-order effects between bytes.} BED is coordinate descent
+  --- it can get stuck in local minima where any single-byte flip raises
+  \(\Phi\) but a pair flip would lower it. Extensions: block moves,
+  random restarts, or the temperature-based Gibbs sampler.
+\item
+  \textbf{Cost of \(256 \cdot H\) tanh calls per position.} On CPU,
+  small models (up to a few tens of \(M\) parameters) run in seconds;
+  large models need the GPU port.
+\item
+  \textbf{BED does not create coherence structure.} If \(\Phi\) has not
+  learned \(p(\text{answer} \mid \text{prompt})\), BED cannot invent it.
+  Section 8 is a prerequisite for BED to look like it is ``thinking.''
+\item
+  \textbf{UTF-8 and multi-byte characters.} BED treats each byte
+  position independently. UTF-8 continuation bytes are not enforced to
+  be valid multi-byte sequences; corrupted characters are possible
+  mid-stream.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{10. Conclusion}\label{conclusion}
+
+Byte Energy Descent is the state→text step the DCHL / P-CMA / HCMA
+lineage has been missing. By keeping the state on the byte lattice at
+all times and choosing each byte as the direct argmin of the trained
+potential \(\Phi\), BED closes the gap between the physics of the
+cognitive manifold and the text of the answer. It is not autoregressive,
+has no vocabulary, has no continuous relaxation, and is coupled to the
+same \(\Phi\) that DCHL learns --- so any improvement in \(\Phi\) shows
+up as an improvement in the decoded text, with no decoder-side changes.
+
+The current implementation cleanly demonstrates two things:
+
+\begin{itemize}
+\tightlist
+\item
+  The decoder itself is correct: prompts produce distinct
+  \(\Phi_{\text{final}}\), monotone descent holds, and complexity is
+  \(O(HD + SD_{\text{answer}}H)\).
+\item
+  The potential was previously trained as a \emph{binary classifier}
+  (text vs random / shuffle / splice), and BED faithfully descends into
+  that classifier's class centroid --- which is pattern matching, not
+  thinking.
+\end{itemize}
+
+The next step is to stop training Φ as a classifier and start training
+it as a \textbf{manifold sculpture}: negatives are continuous
+perturbations of the positive, not draws from a separate class. The DCHL
+update rule is unchanged; only the negative sampler changes. When it
+lands, the same BED code --- every line of it --- will start producing
+text.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+{[}1{]} Besag, J. (1986). On the Statistical Analysis of Dirty Pictures.
+\emph{J. R. Statist. Soc. B}. --- Iterated Conditional Modes.
+
+{[}2{]} Mahir, I. (2026). Predictive Cognitive Manifold Architecture
+(P-CMA). \emph{arXiv}.
+
+{[}3{]} Mahir, I. (2026). Cognitive Continuum Hypothesis (CCH).
+\emph{arXiv}.
+
+{[}4{]} Mahir, I. (2026). Hierarchical Cognitive Manifold Architecture
+(HCMA). \emph{arXiv}.
+
+{[}5{]} Mahir, I. (2026). ZeroGrad Cognitive Engine. \emph{arXiv}.
+
+{[}6{]} Mahir, I. (2026). Arch-Native Quantization (ANQ). \emph{arXiv}.
+
+{[}7{]} LeCun, Y. et al.~(2006). A Tutorial on Energy-Based Learning.
+
+{[}8{]} Vaswani, A. et al.~(2017). Attention Is All You Need.
+\emph{NeurIPS}.
+
+{[}9{]} Hoogeboom, E. et al.~(2021). Argmax Flows and Multinomial
+Diffusion.
+
+{[}10{]} Xue, L. et al.~(2022). ByT5: Towards a token-free future with
+pre-trained byte-to-byte models.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{BED: the state is the answer, and the decoder never leaves the
+state.}
+
+\end{document}

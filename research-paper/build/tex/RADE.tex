@@ -1,0 +1,575 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("mainfontfallback",{
+      "NotoSerifBengali:mode=harf"
+    })}
+  \fi
+  \setmainfont[,RawFeature={fallback=mainfontfallback}]{Latin Modern Roman}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("sansfontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setsansfont[,RawFeature={fallback=sansfontfallback}]{Latin Modern Sans}
+  \ifLuaTeX
+    \usepackage{luaotfload}
+    \directlua{luaotfload.add_fallback("monofontfallback",{
+      "NotoSansBengali:mode=harf"
+    })}
+  \fi
+  \setmonofont[,RawFeature={fallback=monofontfallback}]{DejaVu Sans Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% paper_preamble.tex — shared LaTeX preamble for the PCMA/SI paper set.
+%
+% Compiled with lualatex (NOT pdflatex) because several papers contain
+% Bengali script: the CLL paper realises one cognitive state into
+% English, Bengali and Banglish, so the Bengali output is EVIDENCE and
+% cannot be transliterated away without destroying the point being made.
+%
+% Font selection is NOT done here. pandoc >= 3 has native
+% `mainfontfallback` / `monofontfallback` variables that emit the
+% luaotfload fallback registration in the correct position relative to
+% unicode-math; doing it by hand in this header lands after unicode-math
+% and breaks font loading outright. See tools/build_papers.sh.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}   % \xleftrightarrow etc. used in cll.md §5
+\usepackage{booktabs}
+
+% ---------------------------------------------------------------------
+% Unicode symbols appearing in PROSE rather than inside $...$.
+%
+% The papers were written as markdown and read as markdown, so they use
+% real characters — "the ω-boost", "α-child", "ΔR coherence" — instead of
+% LaTeX macros. Under unicode-math those codepoints are math-mode-only
+% and abort the build ("\symbballowed only in math mode"). Mapping each
+% to \ensuremath keeps the markdown readable on GitHub AND compilable,
+% which is the whole point of keeping one source.
+% ---------------------------------------------------------------------
+\usepackage{newunicodechar}
+
+% Greek, lower case
+\newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{λ}{\ensuremath{\lambda}}
+\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}
+\newunicodechar{ρ}{\ensuremath{\rho}}
+\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{τ}{\ensuremath{\tau}}
+\newunicodechar{φ}{\ensuremath{\varphi}}
+\newunicodechar{χ}{\ensuremath{\chi}}
+\newunicodechar{ψ}{\ensuremath{\psi}}
+\newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{ν}{\ensuremath{\nu}}
+\newunicodechar{ξ}{\ensuremath{\xi}}
+\newunicodechar{ζ}{\ensuremath{\zeta}}
+\newunicodechar{ι}{\ensuremath{\iota}}
+
+% Greek, upper case
+\newunicodechar{Δ}{\ensuremath{\Delta}}
+\newunicodechar{Φ}{\ensuremath{\Phi}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}
+\newunicodechar{Ψ}{\ensuremath{\Psi}}
+\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{Γ}{\ensuremath{\Gamma}}
+\newunicodechar{Λ}{\ensuremath{\Lambda}}
+\newunicodechar{Θ}{\ensuremath{\Theta}}
+\newunicodechar{Π}{\ensuremath{\Pi}}
+
+% Operators and relations
+\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∂}{\ensuremath{\partial}}
+\newunicodechar{∇}{\ensuremath{\nabla}}
+\newunicodechar{√}{\ensuremath{\sqrt{}}}
+\newunicodechar{∞}{\ensuremath{\infty}}
+\newunicodechar{∝}{\ensuremath{\propto}}
+\newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{∫}{\ensuremath{\int}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{‖}{\ensuremath{\|}}
+\newunicodechar{⊕}{\ensuremath{\oplus}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{¬}{\ensuremath{\neg}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+
+% Arrows
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{↓}{\ensuremath{\downarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇐}{\ensuremath{\Leftarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+
+% Super/subscripts written as literal characters
+\newunicodechar{²}{\ensuremath{^{2}}}
+\newunicodechar{³}{\ensuremath{^{3}}}
+\newunicodechar{⁴}{\ensuremath{^{4}}}
+\newunicodechar{⁵}{\ensuremath{^{5}}}
+\newunicodechar{⁶}{\ensuremath{^{6}}}
+\newunicodechar{₀}{\ensuremath{_{0}}}
+\newunicodechar{₁}{\ensuremath{_{1}}}
+\newunicodechar{₂}{\ensuremath{_{2}}}
+\newunicodechar{₃}{\ensuremath{_{3}}}
+\newunicodechar{ᵀ}{\ensuremath{^{\mathsf{T}}}}
+
+% Status glyphs. The papers use emoji as status markers in tables
+% (implemented / failed / warning). Mapped to typographic equivalents:
+% a colour emoji font in lualatex is unreliable, and the MEANING is what
+% carries — a reader needs to see "this one failed", not a red cross.
+\newunicodechar{✅}{\ensuremath{\checkmark}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}
+\newunicodechar{❌}{\ensuremath{\times}}
+\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{⚠}{\textbf{!}}
+\newunicodechar{🧩}{\textbf{[piece]}}
+\newunicodechar{📋}{\textbf{[list]}}
+\newunicodechar{🟡}{\textbf{[partial]}}
+\newunicodechar{🔴}{\textbf{[dead]}}
+\newunicodechar{🟢}{\textbf{[live]}}
+\newunicodechar{▼}{\ensuremath{\blacktriangledown}}
+\newunicodechar{►}{\ensuremath{\blacktriangleright}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{█}{\rule{0.6em}{0.9ex}}
+\newunicodechar{•}{\textbullet}
+\newunicodechar{†}{\textdagger}
+\newunicodechar{‑}{-}
+\newunicodechar{‐}{-}
+\newunicodechar{…}{\ldots}
+\newunicodechar{।}{\textbar}   % danda: rendered by the Bengali fallback in text
+\newunicodechar{⁻}{\ensuremath{^{-}}}
+
+% Zero-width formatting codepoints. These are invisible in an editor but
+% are real characters to LaTeX: an emoji written as "⚠️" is TWO
+% codepoints (U+26A0 U+FE0F), so declaring only the visible one leaves a
+% variation selector with no definition and the build dies on a symbol
+% nobody can see. Both are mapped to nothing.
+\newunicodechar{^^^^fe0f}{}    % VARIATION SELECTOR-16
+\newunicodechar{^^^^200d}{}    % ZERO WIDTH JOINER
+\newunicodechar{^^^^200b}{}    % ZERO WIDTH SPACE
+
+\usepackage{longtable}
+\usepackage{array}
+
+% Comparison matrices and cost ledgers are wide. Let them shrink to the
+% text block rather than overflow the margin.
+\usepackage{adjustbox}
+
+% Code blocks: wrap long lines instead of running off the page. Several
+% papers quote real C++ with long identifiers.
+\usepackage{fvextra}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\small}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\small\itshape Synthetic Intelligence — research lineage}
+\fancyhead[R]{\small\itshape irfan@furylogic.com}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{18pt}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={RADE: The Recursive Axiom-Derivation Engine --- Deduction over Prediction in a Persistent Truth Graph},
+  pdfauthor={Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh --- irfan@furylogic.com},
+  colorlinks=true,
+  linkcolor={black},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={[HTML]{0B5394}},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{RADE: The Recursive Axiom-Derivation Engine --- Deduction over
+Prediction in a Persistent Truth Graph}
+\author{Irfan Mahir --- Independent Researcher, Dhaka, Bangladesh ---
+irfan@furylogic.com}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{RADE: The Recursive Axiom-Derivation Engine --- Deduction over
+Prediction in a Persistent Truth
+Graph}\label{rade-the-recursive-axiom-derivation-engine-deduction-over-prediction-in-a-persistent-truth-graph}
+
+\textbf{Irfan Mahir} \emph{Independent Researcher, Dhaka, Bangladesh}
+irfan@furylogic.com
+
+\begin{quote}
+\emph{``Novelty by guessing and novelty by formal expansion look alike
+from the outside. Only one of them can show its work.''}
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+A Transformer-style attention mechanism remains a statistical prediction
+machine regardless of how its routing is rearranged: what is computed is
+a distribution over continuations conditioned on co-occurrence, and
+changing the plumbing does not change that. This paper specifies
+\textbf{RADE}, an architecture organised around \textbf{logical
+synthesis} rather than probabilistic approximation.
+
+RADE replaces three components at once. Knowledge moves from
+floating-point weights into an \textbf{Axiom Substrate} --- a persistent
+graph of verified relations. Inference moves from a forward pass to a
+\textbf{proof pass} over that graph. And termination moves from a fixed
+depth to \textbf{homeostatic inhibition}, a resource budget whose
+exhaustion triggers a lateral switch to a different region of the graph
+rather than an unbounded search.
+
+The consequence that matters is a change of failure mode. A predictive
+system fails by producing fluent falsehood, which is undetectable from
+the output alone. RADE fails by \textbf{logical inconsistency}, which is
+detectable, localisable, and attributable to specific premises.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{1. The Problem with Rearranged
+Plumbing}\label{the-problem-with-rearranged-plumbing}
+
+Architectural variation within the predictive family --- sparse
+attention, linear attention, state-space substitutions, mixture routing
+--- changes the cost of computing \(P(w_n \mid w_1 \ldots w_{n-1})\)
+without changing what that quantity is. A count of how often one symbol
+followed another is not an account of \emph{why} it did, and no
+rearrangement of the machinery that computes the count converts it into
+one.
+
+This is not an argument that prediction is useless. It is an argument
+about what a system can be asked for. A predictive system can be asked
+for a continuation. It cannot be asked for a \emph{derivation}, because
+it does not have one to give --- the output was not produced by steps
+that could be exhibited.
+
+RADE is specified to answer the second kind of request.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{2. The Axiom Substrate}\label{the-axiom-substrate}
+
+\subsubsection{2.1 Knowledge as structure, not as
+parameters}\label{knowledge-as-structure-not-as-parameters}
+
+In a Transformer, knowledge is distributed across floating-point weights
+and cannot be inspected, edited, or deleted at the granularity of a
+fact. In RADE it is held explicitly:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Formal objects} \(O\) --- concepts, as graph vertices.
+\item
+  \textbf{Operators} \(\Phi\) --- typed relations, as directed edges.
+\end{itemize}
+
+The distinction from embeddings is persistence semantics. An embedding
+degrades under continued training: the representation of a concept
+drifts as unrelated updates accumulate. A graph edge does not. If the
+substrate holds \texttt{A\ is\_a\ B}, it holds it until something
+explicitly removes it, and the removal is an event that can be logged.
+
+\subsubsection{2.2 Why this matters for
+correction}\label{why-this-matters-for-correction}
+
+A predictive model cannot be told that one specific thing it believes is
+wrong. The belief is not localised, so correction is retraining, and
+retraining perturbs everything else.
+
+In a truth graph, a wrong fact is an edge. Removing it is \(O(1)\), and
+the consequences of removing it are computable: every derived edge
+citing it as a premise becomes unsupported and can be retracted by
+following the provenance chain. Correction is therefore \emph{bounded}
+rather than global.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{3. The Proof Pass}\label{the-proof-pass}
+
+The forward pass is replaced by a traversal.
+
+\textbf{Input.} A query --- for example, \emph{why is X a
+superconductor?}
+
+\textbf{Operation.} The engine does not estimate an answer. It searches
+the graph for a path connecting the queried concepts through typed
+operators. If a path exists, the path \emph{is} the answer, and every
+edge along it is either an asserted premise or a derived edge that names
+the two premises that produced it.
+
+\textbf{When no path exists.} The engine enters a
+\textbf{search-and-constrain} phase: it proposes a candidate link and
+tests it against the existing axioms. A candidate that contradicts a
+held axiom is rejected. A candidate that survives is committed as a
+derived edge, with its provenance recorded.
+
+This is the distinction the paper turns on:
+
+\begin{quote}
+\textbf{Novelty by guessing} produces a plausible string.
+\textbf{Novelty by formal expansion} produces an edge that survived a
+consistency test and can name what it rests on.
+\end{quote}
+
+Both look like new output. Only the second can be audited, and only the
+second can be retracted cleanly when its support is withdrawn.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{4. Homeostatic Inhibition}\label{homeostatic-inhibition}
+
+An unbounded proof search does not terminate on a large graph. The
+biological analogue of the fix is inhibitory interneurons, which prevent
+excitation from propagating without limit.
+
+\textbf{Resource budget.} Every search path is allocated a bounded
+budget.
+
+\textbf{Lateral inhibition.} A path that yields no result within its
+budget is abandoned, and the search is displaced to a different region
+of the graph rather than deepened.
+
+The behavioural effect is the ability to \emph{stop pursuing an
+unproductive line}, which is a capability rather than a limitation: a
+system that cannot abandon a path cannot allocate effort. This mechanism
+is the direct ancestor of the tension-bounded construction budget in the
+successor architecture, where the budget is derived from a physical
+observable rather than set as a constant.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{5. Comparison}\label{comparison}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Property
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Transformer
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+RADE
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Foundation & statistical probabilities & logical axioms \\
+Inference & forward pass & proof pass over a graph \\
+Novelty & interpolation, indistinguishable from hallucination & formal
+expansion, consistency-tested \\
+Memory & lossy KV cache & persistent graph of hard relations \\
+Correction & retraining, global & edge removal, bounded by provenance \\
+Failure mode & fluent falsehood, \textbf{undetectable from output} &
+logical inconsistency, \textbf{detectable and localisable} \\
+Objective & minimise prediction error & maximise logical consistency \\
+\end{longtable}
+
+The failure-mode row carries the argument. A system whose errors are
+detectable can be improved by an operator who does not have access to
+its internals. A system whose errors are fluent cannot.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{6. Ingestion: The
+Axiom-ifier}\label{ingestion-the-axiom-ifier}
+
+A corpus is not knowledge until it is structured. RADE separates
+\textbf{reading} from \textbf{reasoning}: an ingestion stage converts
+source material into structured triples, and the reasoning engine never
+touches raw text.
+
+The ingestion stage emits only triples that the substrate can type-check
+against its operator set. Anything it cannot structure is dropped rather
+than approximated --- a coverage gap is preferable to a fabricated
+relation, because a gap is visible and a fabrication is not.
+
+The successor architecture implements exactly this split: mechanical AST
+extraction produces triples from source, and every fact carries a
+provenance class distinguishing what was asserted from what was derived
+and what was established by experiment.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{7. Status and Relation to the Implemented
+System}\label{status-and-relation-to-the-implemented-system}
+
+RADE is an \textbf{architectural proposal}, written before the substrate
+that now exists. Its components map onto implemented mechanisms as
+follows:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+RADE component
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Implemented as
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Status
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Axiom Substrate & typed concept graph, \texttt{data/*.axioms} &
+\textbf{live} \\
+Proof pass & forward chaining with premise citation & \textbf{live} ---
+derived edges name their parents \\
+Search-and-constrain & contradiction check before assertion &
+\textbf{live} \\
+Resource budget & tension-bounded construction budget & \textbf{live},
+now derived from field energy \\
+Lateral inhibition & budget exhaustion ends a derivation chain &
+\textbf{partial} --- no region-switching heuristic \\
+Axiom-ifier & mechanical AST extraction & \textbf{live}, no ML \\
+\end{longtable}
+
+The one component not carried across is the explicit region-switching
+behaviour of §4. The current engine exhausts a budget and stops; it does
+not redirect to a different subgraph. Whether that redirection is worth
+implementing is open, and it should not be reported as present.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{8. Limitations}\label{limitations}
+
+\textbf{Ingestion is the bottleneck, not reasoning.} The proof pass is
+cheap; converting unstructured source into typed triples is not. The
+quality ceiling of the whole system is the quality of that conversion,
+and this paper does not solve it.
+
+\textbf{Consistency is not truth.} The search-and-constrain phase
+rejects candidates that contradict held axioms. It cannot reject a
+candidate that is consistent with a set of axioms that are themselves
+wrong. Consistency is a necessary condition and nothing more.
+
+\textbf{Coverage cliff.} A query whose concepts are absent from the
+substrate returns nothing. This is the correct behaviour and it is also
+a visible limitation; the honest presentation is an explicit gap rather
+than a degraded guess.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{9. Conclusion}\label{conclusion}
+
+RADE's claim is narrow and, stated carefully, defensible: an
+architecture that stores relations rather than parameters, infers by
+traversal rather than by prediction, and bounds its search by an
+explicit budget can answer for its outputs in a way a predictive system
+structurally cannot.
+
+It does not claim to reason better. It claims to reason \emph{auditably}
+--- and to fail in a way that can be seen.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Mahir, I. \emph{From Artificial to Synthetic Intelligence: Principles
+  of Constructive Structural Cognition.} --- the tri-layer architecture
+  in which RADE's components are implemented.
+\item
+  Mahir, I. \emph{JAS: Einstein's Epistemology as a Running
+  Architecture.} --- the provenance classes that make retraction
+  bounded.
+\item
+  Implementation: \texttt{src/rade.hpp}.
+\end{itemize}
+
+\end{document}
