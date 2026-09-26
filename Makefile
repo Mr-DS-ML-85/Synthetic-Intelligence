@@ -14,7 +14,9 @@ all: si
 
 si: src/si_main.cpp src/lang.hpp src/si_state.hpp src/big_ontology.hpp \
     src/axiom_loader.hpp src/physics.hpp src/layer2.hpp \
-    src/unified.hpp src/primitives.hpp src/meta_learner.hpp src/rifa.hpp
+    src/unified.hpp src/primitives.hpp src/meta_learner.hpp src/rifa.hpp \
+    src/salience.hpp src/bisociation.hpp src/novelty.hpp src/analogy.hpp \
+    src/inference.hpp src/bsma_topo.hpp
 	$(CXX) $(CXXFLAGS) src/si_main.cpp -o si $(LDFLAGS)
 
 # --- reproducibility harnesses -----------------------------------------

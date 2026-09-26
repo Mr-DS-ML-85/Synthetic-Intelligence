@@ -36,6 +36,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <functional>
 #include <random>
 #include <string>
 #include <vector>
@@ -256,6 +257,7 @@ struct CrownLattice {
     float dissolve_above = 0.98f;
     float coherence_decay = 0.02f;
     float coherence_step = 0.05f;
+    uint32_t mutation_events = 0;   // mutate+spawn+dissolve count, lifetime
 
     explicit CrownLattice(size_t D)
         : root(0, 0, Vec(D, 0.0f), 1e9f /* root fires on everything */) {
@@ -311,6 +313,7 @@ struct CrownLattice {
                 std::uniform_int_distribution<size_t> u(0, rfe.anchors.size() - 1);
                 Vec a = rfe.anchors[u(rng)];
                 c.children.emplace_back(next_id++, 1, a, 0.5f);
+                ++mutation_events;
             }
             return;
         }
@@ -319,6 +322,7 @@ struct CrownLattice {
         if (c.coherence > dissolve_above && c.children.empty()) {
             c.threshold *= 1.2f;
             c.coherence *= 0.5f;
+            ++mutation_events;
         }
 
         // Mutate below critical.
@@ -333,6 +337,7 @@ struct CrownLattice {
             c.threshold = 0.2f + 0.4f * std::uniform_real_distribution<float>(0.0f, 1.0f)(rng);
             c.coherence = 0.5f;
             c.fires = 0;
+            ++mutation_events;
         }
 
         // Spawn a child if stable and there's room.
@@ -341,7 +346,34 @@ struct CrownLattice {
             std::uniform_int_distribution<size_t> u(0, rfe.anchors.size() - 1);
             Vec a = rfe.anchors[u(rng)];
             c.children.emplace_back(next_id++, depth + 1, a, c.threshold * 0.6f);
+            ++mutation_events;
         }
+    }
+
+public:
+    // Coherence-weighted mean of the NON-root crown attractors — the
+    // centre of mass of what the lattice currently "believes in". The
+    // root is excluded: its attractor is the origin and its threshold
+    // is unbounded, so it carries no spatial information. Used by the
+    // IntegrityCore as the CL→IC coupling term and by SIL
+    // reconstruction as the seed of the rebuilt identity.
+    Vec weighted_centre(size_t D) const {
+        Vec acc(D, 0.0f);
+        float wsum = 0.0f;
+        std::function<void(const Crown&)> walk = [&](const Crown& c) {
+            if (c.depth > 0) {
+                float w = std::max(0.0f, c.coherence);
+                if (w > 0.0f) {
+                    for (size_t k = 0; k < D; ++k) acc[k] += w * c.attractor[k];
+                    wsum += w;
+                }
+            }
+            for (const auto& ch : c.children) walk(ch);
+        };
+        walk(root);
+        if (wsum <= 1e-6f) return {};
+        for (auto& v : acc) v /= wsum;
+        return acc;
     }
 };
 
@@ -491,6 +523,7 @@ struct RIFA {
     bool has_last_input = false;
     std::mt19937 rng;
     uint64_t ticks = 0;
+    float crown_gain = 0.05f;           // CL→IC coupling strength
 
     struct Event { uint64_t tick; int crown_id; std::string kind; };
     std::vector<Event> events;
@@ -533,11 +566,43 @@ struct RIFA {
     }
 
     // Advance internal dynamics by dt (no input).
+    //
+    // CL→IC coupling (RIFA §bidirectional): the Crown Lattice is not a
+    // passive readout — coherent crowns are themselves attractors for
+    // identity. Their weighted centre pulls I each step, so a stable
+    // crown configuration stabilises identity and a mutated lattice
+    // drags identity with it. (The coupling lives here, not inside
+    // IntegrityCore::step, because CrownLattice is defined after IC.)
     void step(float dt) {
         ic.step(rfe, dt);
+        Vec centre = cl.weighted_centre(D);
+        if (!centre.empty()) {
+            for (size_t k = 0; k < D; ++k)
+                ic.I[k] += dt * crown_gain * (centre[k] - ic.I[k]);
+        }
         sil.tick(dt, ic.tension);
         cl.restructure(rng, rfe);
         ++ticks;
+    }
+
+    // SIL self-reconstruction (RIFA §recovery): when accumulated
+    // endurance crosses the threshold, the system REBUILDS its identity
+    // from the surviving crown configuration and discharges the
+    // endurance that paid for the rebuild. Without a caller this was a
+    // dormant predicate — identity persistence without identity repair.
+    bool reconstruct_if_ready() {
+        if (!sil.can_reconstruct()) return false;
+        sil.endurance = 0.0f;
+        sil.tension_integral = 0.0f;
+        Vec centre = cl.weighted_centre(D);
+        if (!centre.empty()) {
+            for (size_t k = 0; k < D; ++k)
+                ic.I[k] = 0.5f * ic.I[k] + 0.5f * centre[k];
+        }
+        ic.tension = 0.0f;
+        ic.pressure_dir.assign(D, 0.0f);
+        events.push_back({ticks, -1, "reconstruct"});
+        return true;
     }
 
     // Simulate a silence period of `seconds` at time step `dt`.
@@ -563,10 +628,12 @@ struct RIFA {
         size_t anchors, crowns;
         float coherence, identity_strength, endurance;
         float tension;
+        uint32_t mutations;          // trajectory: lifetime structural events
     };
     Fingerprint fingerprint() const {
         return {rfe.anchors.size(), cl.count(),
-                ic.coherence, ic.identity_strength, sil.endurance, ic.tension};
+                ic.coherence, ic.identity_strength, sil.endurance, ic.tension,
+                cl.mutation_events};
     }
 };
 
@@ -607,11 +674,12 @@ struct ReplicationEngine {
                 case 3: return p.identity_strength;
                 case 4: return p.endurance;
                 case 5: return p.tension;
+                case 6: return (float)p.mutations;
             }
             return 0.0f;
         };
         double consistency_sum = 0.0;
-        int fields = 6;
+        int fields = 7;
         for (int f = 0; f < fields; ++f) {
             double mean = 0.0, var = 0.0;
             for (size_t i = 0; i < instances.size(); ++i) mean += get(i, f);

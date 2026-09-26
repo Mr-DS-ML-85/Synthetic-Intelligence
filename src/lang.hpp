@@ -218,6 +218,13 @@ inline LanguageCluster make_bengali() {
         {"activates", "সক্রিয় করে"},
         {"calls",     "ডাকে"},
         {"precedes",  "আগে চলে"},
+        // Same coverage as the English cluster — without these rows the
+        // realiser falls through to underscore-rendering and produces
+        // broken mixed-script output for code-shaped relations.
+        {"returns",     "ফেরত দেয়"},
+        {"takes_arg",   "আর্গুমেন্ট নেয়"},
+        {"imports",     "আমদানি করে"},
+        {"mutates",     "পরিবর্তন করে"},
         // Commonsense relations (see the English cluster).
         {"used_for",    "জন্য ব্যবহৃত হয়"},
         {"capable_of",  "পারে"},
@@ -248,6 +255,11 @@ inline LanguageCluster make_banglish() {
     };
     L.lexicalize["precedes"] = "age chole";
     L.lexicalize["calls"]    = "dake";
+    // Code-shaped relations — same coverage as the Bengali cluster.
+    L.lexicalize["returns"]   = "pherot dey";
+    L.lexicalize["takes_arg"] = "argument ney";
+    L.lexicalize["imports"]   = "amdani kore";
+    L.lexicalize["mutates"]   = "poriborton kore";
     // Commonsense relations, transliterated from the Bengali cluster.
     L.lexicalize["used_for"]    = "jonno byabohrito hoy";
     L.lexicalize["capable_of"]  = "pare";

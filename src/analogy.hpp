@@ -32,17 +32,45 @@
 
 namespace unified {
 
-// The multiset signature of a node: (relation, target_label) pairs.
-// Using target *label* rather than target id is deliberate — analogy
-// works cross-domain, so we abstract over the specific downstream node.
+// The multiset signature of a node: (relation, endpoint_label, direction)
+// triples. Using endpoint *label* rather than endpoint id is deliberate —
+// analogy works cross-domain, so we abstract over the specific node.
+// The direction is part of the signature: a node's ROLE is defined both
+// by what it points at (outgoing) and by what points at it (incoming).
+// A source with only outgoing links and a sink with only incoming links
+// are not analogous even when their edge multisets coincide.
 struct NodeSignature {
-    std::vector<std::pair<int, std::string>> features;
+    struct Feature {
+        int rel;
+        std::string label;
+        int dir;             // 0 = outgoing, 1 = incoming
+        bool operator<(const Feature& o) const {
+            if (rel != o.rel) return rel < o.rel;
+            if (label != o.label) return label < o.label;
+            return dir < o.dir;
+        }
+        bool operator==(const Feature& o) const {
+            return rel == o.rel && label == o.label && dir == o.dir;
+        }
+    };
+    std::vector<Feature> features;
 
     static NodeSignature of(const SI& si, int node_id) {
         NodeSignature sig;
-        for (const auto& e : si.graph.edges) {
-            if (e.from != node_id) continue;
-            sig.features.push_back({e.rel, si.graph.nodes[e.to].label});
+        if (node_id < 0 || node_id >= (int)si.graph.nodes.size()) return sig;
+        // Walk the graph's adjacency indexes, not the edge list — this
+        // is O(deg) per node instead of O(E), and it reaches BOTH sides.
+        if (node_id < (int)si.graph.out_adj.size()) {
+            for (int ei : si.graph.out_adj[(size_t)node_id]) {
+                const Edge& e = si.graph.edges[(size_t)ei];
+                sig.features.push_back({e.rel, si.graph.nodes[e.to].label, 0});
+            }
+        }
+        if (node_id < (int)si.graph.in_adj.size()) {
+            for (int ei : si.graph.in_adj[(size_t)node_id]) {
+                const Edge& e = si.graph.edges[(size_t)ei];
+                sig.features.push_back({e.rel, si.graph.nodes[e.from].label, 1});
+            }
         }
         std::sort(sig.features.begin(), sig.features.end());
         return sig;

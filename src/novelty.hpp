@@ -52,8 +52,12 @@ struct DiscoveryPath {
     int length() const { return (int)edges.size(); }
 };
 
-// Enumerate paths from `a` to `b` of length <= max_hops. Depth-first
-// with a visited-node stack. Returns up to `cap` paths, shortest first.
+// Enumerate paths from `a` to `b` of length <= max_hops. ITERATIVE
+// DEEPENING over a depth-first walk: depth 1 first, then 2, ... The
+// previous single-pass DFS burned the `cap` budget on long chains
+// before any short path was seen, and short paths are the ones every
+// consumer (bisociation, logic gaps) actually wants. Deep paths are
+// still reachable — deepening just orders the work by usefulness.
 inline std::vector<DiscoveryPath>
 find_paths(const SI& si, const std::string& a, const std::string& b,
            int max_hops = 6, int cap = 32) {
@@ -68,10 +72,8 @@ find_paths(const SI& si, const std::string& a, const std::string& b,
     std::vector<char> on_path((int)si.graph.nodes.size(), 0);
     std::vector<int> cur_edges;
 
-    // Precompute outgoing edges per node so DFS is not O(E) per step.
-    std::vector<std::vector<int>> outgoing(si.graph.nodes.size());
-    for (size_t i = 0; i < si.graph.edges.size(); ++i)
-        outgoing[si.graph.edges[i].from].push_back((int)i);
+    // Outgoing edges per node from the graph's own index — O(1) setup.
+    const auto& outgoing = si.graph.out_adj;
 
     std::function<void(int,int)> dfs = [&](int u, int hops_left) {
         if ((int)out.size() >= cap) return;
@@ -80,6 +82,7 @@ find_paths(const SI& si, const std::string& a, const std::string& b,
             return;
         }
         if (hops_left <= 0) return;
+        if (u < 0 || u >= (int)outgoing.size()) return;   // index guard
         on_path[u] = 1;
         for (int e_idx : outgoing[u]) {
             int v = si.graph.edges[e_idx].to;
@@ -91,7 +94,8 @@ find_paths(const SI& si, const std::string& a, const std::string& b,
         }
         on_path[u] = 0;
     };
-    dfs(start, max_hops);
+    for (int depth = 1; depth <= max_hops && (int)out.size() < cap; ++depth)
+        dfs(start, depth);
 
     std::sort(out.begin(), out.end(),
               [](const DiscoveryPath& x, const DiscoveryPath& y){
@@ -156,14 +160,25 @@ struct DrugCandidate {
 // as drugs / molecules / natural products / compounds. This filters out
 // enzymes / receptors / pathway intermediates that share a mechanism
 // edge by chance but are not something you'd administer to a patient.
-inline bool is_therapeutic_entity(const SI& si, int X) {
+//
+// The type set is a PARAMETER, not a hardcoded string wall — the same
+// query shape works for any domain once the caller names its entity
+// types (e.g. {"framework", "library"} for a code graph).
+inline const std::vector<std::string>& default_therapeutic_types() {
+    static const std::vector<std::string> t = {
+        "drug", "molecule", "compound", "natural_product",
+        "small_molecule", "biologic", "peptide"
+    };
+    return t;
+}
+
+inline bool is_therapeutic_entity(
+        const SI& si, int X,
+        const std::vector<std::string>& types = default_therapeutic_types()) {
     for (const auto& e : si.graph.edges) {
         if (e.from != X || e.rel != REL_IS_A) continue;
         const std::string& lbl = si.graph.nodes[e.to].label;
-        if (lbl == "drug" || lbl == "molecule" || lbl == "compound" ||
-            lbl == "natural_product" || lbl == "small_molecule" ||
-            lbl == "biologic" || lbl == "peptide")
-            return true;
+        for (const auto& t : types) if (lbl == t) return true;
     }
     return false;
 }

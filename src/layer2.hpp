@@ -120,6 +120,8 @@ public:
     int   online_l6a_min_shared = 2;
     float online_l6a_rubber_k = 0.05f;
     float online_l6a_rubber_c = 0.15f;
+    // Fisher-metric insertion threshold for L6-A rubber bridges.
+    float l6a_fisher_max = 2.0f;
 
     // Called each structural tick before the fission scan when
     // auto_thresh_enabled. Uses physics::audit_energy_locked() because
@@ -694,6 +696,18 @@ public:
                 int a_i = sub->fission_map[parents[i]].first;
                 int a_j = sub->fission_map[parents[j]].first;
 
+                // Fisher gate (Phase 4.2): the paper says a rubber bridge
+                // is inserted exactly when the two cavities are close in
+                // the Fisher metric — statistically indistinguishable
+                // given their Hebbian consolidation. Shared downstream
+                // targets alone say "these look alike"; the Fisher
+                // distance says "the field cannot tell them apart". Both
+                // must hold. Generous default keeps prior behaviour
+                // while excluding pairs whose covariance structure is
+                // genuinely distinct.
+                if (fisher_distance_locked(a_i, a_j) > l6a_fisher_max)
+                    continue;
+
                 // Duplicate-bridge guard — skip if a rubber tunnel
                 // already exists between these α cavities. Cheap linear
                 // scan is fine; analogy_records is small.
@@ -854,6 +868,13 @@ public:
     // indistinguishable = a Fisher-optimal L6-A bridge candidate.
     float fisher_distance(int cav_a, int cav_b, float beta = 1.0f) {
         std::lock_guard<std::mutex> lk(sub->mtx);
+        return fisher_distance_locked(cav_a, cav_b, beta);
+    }
+
+    // Lock-free twin of fisher_distance for callers that already hold
+    // sub->mtx (the L6-A discovery loop runs inside a _locked function;
+    // taking the mutex again there would deadlock).
+    float fisher_distance_locked(int cav_a, int cav_b, float beta = 1.0f) {
         if (cav_a < 0 || cav_a >= (int)sub->cavities.size()) return 1e9f;
         if (cav_b < 0 || cav_b >= (int)sub->cavities.size()) return 1e9f;
         // Fission-aware: build the set of cavities that "represent" each.

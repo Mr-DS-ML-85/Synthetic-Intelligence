@@ -39,8 +39,31 @@ struct BisociationResult {
     std::string intermediate;        // label of the "hinge" concept, if any
     float energy = 0.0f;             // U_hyp (lower = better)
     bool validated = false;          // U_hyp < U_crit
+    float confidence = 0.0f;         // gradual: 1/(1+U_hyp) when validated,
+                                     // accumulates across repeat attempts
+                                     // at the caller (CMA §resource loop)
     std::string status;              // human-readable outcome
 };
+
+// Structural degree of a node — both directions. The energy model and
+// hinge choice need "how connected is this intermediate", which is a
+// property of the graph, not of the search that found the path.
+inline int bisoc_degree(const SI& si, int id) {
+    if (id < 0 || id >= (int)si.graph.nodes.size()) return 0;
+    int d = 0;
+    if (id < (int)si.graph.out_adj.size()) d += (int)si.graph.out_adj[(size_t)id].size();
+    if (id < (int)si.graph.in_adj.size())  d += (int)si.graph.in_adj[(size_t)id].size();
+    return d;
+}
+
+// One hop through a hub is CHEAP (many corroborating paths run through
+// it); one hop through a rare leaf is EXPENSIVE (that path is the only
+// evidence). U_hyp = sum over hops of 1/log(2+deg) — the CMA paper's
+// "a bridge through highly connected hubs should be cheaper than
+// through rare intermediates", which a bare hop count cannot express.
+inline float bisoc_hop_cost(const SI& si, int via_node) {
+    return 1.0f / std::log(2.0f + (float)bisoc_degree(si, via_node));
+}
 
 // Search for a bridge between a and b: any short path a -> ... -> b
 // through the graph. If found, extract the mid-hop concept as the
@@ -99,6 +122,7 @@ bisociate(const SI& si, const std::string& a_label,
             r.status = "no direct bridge, but " + r.intermediate +
                        " is a shared hinge concept";
             r.validated = r.energy < u_crit;
+            r.confidence = r.validated ? 1.0f / (1.0f + r.energy) : 0.0f;
             return r;
         }
         r.status = "no bridge found within " +
@@ -113,18 +137,34 @@ bisociate(const SI& si, const std::string& a_label,
     r.bridge_edges = best.edges;
     r.bridge_found = true;
 
-    // Extract the middle hop as the hinge concept.
-    if (!best.edges.empty()) {
-        int mid = (int)best.edges.size() / 2;
-        int mid_edge = best.edges[mid];
-        int hinge = (mid == 0) ? si.graph.edges[mid_edge].to
-                              : si.graph.edges[best.edges[mid - 1]].to;
-        r.intermediate = si.graph.nodes[hinge].label;
+    // Hinge = the most CONSTRAINING internal concept on the bridge —
+    // the highest-degree internal node, not the geometric midpoint. A
+    // long bridge through one dominant hub is really a bisociation
+    // THROUGH that hub; the midpoint can be an incidental pass-through.
+    if (best.edges.size() >= 2) {
+        int best_deg = -1, best_node = -1;
+        for (size_t k = 0; k + 1 < best.edges.size(); ++k) {
+            int internal = si.graph.edges[best.edges[k]].to;
+            int d = bisoc_degree(si, internal);
+            if (d > best_deg) { best_deg = d; best_node = internal; }
+        }
+        if (best_node >= 0)
+            r.intermediate = si.graph.nodes[best_node].label;
+    } else if (!best.edges.empty()) {
+        r.intermediate = si.graph.nodes[si.graph.edges[best.edges[0]].to].label;
     }
 
-    // Energy: linear in path length. Longer bridges cost more.
-    r.energy = (float)best.length();
+    // Energy: structural, not just hop count — each hop costs by the
+    // rarity of the node it passes through (bisoc_hop_cost).
+    float u = 0.0f;
+    for (size_t k = 0; k < best.edges.size(); ++k) {
+        int via = si.graph.edges[best.edges[k]].to;
+        u += bisoc_hop_cost(si, via);
+    }
+    if (u < 1.0f) u = 1.0f;          // a bridge is never free
+    r.energy = u;
     r.validated = r.energy < u_crit;
+    r.confidence = r.validated ? 1.0f / (1.0f + r.energy) : 0.0f;
     r.status = r.validated
                ? "bridge found (len=" + std::to_string(best.length())
                  + "), U_hyp=" + std::to_string(r.energy)
@@ -154,6 +194,10 @@ inline std::string render_bisociation(const SI& si,
     }
     char e[64]; std::snprintf(e, sizeof(e), "%.2f", r.energy);
     out += "  bisociation energy  : "; out += e; out += "\n";
+    if (r.confidence > 0.0f) {
+        char cbuf[64]; std::snprintf(cbuf, sizeof(cbuf), "%.2f", r.confidence);
+        out += "  confidence          : "; out += cbuf; out += "\n";
+    }
     out += "  outcome             : " + r.status + "\n";
     if (r.validated) {
         out += "  interpretation      : the engine synthesised a bridge "

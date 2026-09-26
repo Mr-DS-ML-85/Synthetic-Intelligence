@@ -42,8 +42,10 @@
 #include "unified.hpp"
 
 #include <algorithm>
+#include <cctype>
 #include <cstdint>
 #include <queue>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -218,7 +220,9 @@ inline LogicGap find_logic_gap(const SI& si,
     int A = ita->second, B = itb->second;
     if (A == B) return g;
 
-    // Forward BFS from A.
+    // Forward BFS from A. Walks the graph's own out_adj index —
+    // scanning every edge per dequeued node was O(N·E) overall, the
+    // same problem the main graph fixed with adjacency lists.
     std::vector<int> fdepth(si.graph.nodes.size(), -1);
     std::vector<int> fparent_node(si.graph.nodes.size(), -1);
     std::vector<int> fparent_edge(si.graph.nodes.size(), -1);
@@ -228,17 +232,17 @@ inline LogicGap find_logic_gap(const SI& si,
     while (fh < fq.size()) {
         int u = fq[fh++];
         if (fdepth[u] >= max_hops) continue;
-        for (size_t i = 0; i < si.graph.edges.size(); ++i) {
-            const auto& e = si.graph.edges[i];
-            if (e.from != u) continue;
-            if (fdepth[e.to] >= 0) continue;
-            fdepth[e.to] = fdepth[u] + 1;
-            fparent_node[e.to] = u;
-            fparent_edge[e.to] = (int)i;
-            fq.push_back(e.to);
+        if (u >= (int)si.graph.out_adj.size()) continue;
+        for (int ei : si.graph.out_adj[(size_t)u]) {
+            int v = si.graph.edges[(size_t)ei].to;
+            if (fdepth[v] >= 0) continue;
+            fdepth[v] = fdepth[u] + 1;
+            fparent_node[v] = u;
+            fparent_edge[v] = ei;
+            fq.push_back(v);
         }
     }
-    // Backward BFS from B along reverse edges.
+    // Backward BFS from B along in_adj (the graph's reverse index).
     std::vector<int> bdepth(si.graph.nodes.size(), -1);
     std::vector<int> bparent_node(si.graph.nodes.size(), -1);
     std::vector<int> bparent_edge(si.graph.nodes.size(), -1);
@@ -248,14 +252,14 @@ inline LogicGap find_logic_gap(const SI& si,
     while (bh < bq.size()) {
         int u = bq[bh++];
         if (bdepth[u] >= max_hops) continue;
-        for (size_t i = 0; i < si.graph.edges.size(); ++i) {
-            const auto& e = si.graph.edges[i];
-            if (e.to != u) continue;
-            if (bdepth[e.from] >= 0) continue;
-            bdepth[e.from] = bdepth[u] + 1;
-            bparent_node[e.from] = u;
-            bparent_edge[e.from] = (int)i;
-            bq.push_back(e.from);
+        if (u >= (int)si.graph.in_adj.size()) continue;
+        for (int ei : si.graph.in_adj[(size_t)u]) {
+            int v = si.graph.edges[(size_t)ei].from;
+            if (bdepth[v] >= 0) continue;
+            bdepth[v] = bdepth[u] + 1;
+            bparent_node[v] = u;
+            bparent_edge[v] = ei;
+            bq.push_back(v);
         }
     }
     // Full path? A node reached by both frontiers.
@@ -448,5 +452,90 @@ inline std::string inf_english(const std::string& s) {
     for (char c : s) out.push_back(c == '_' ? ' ' : c);
     return out;
 }
+
+// ---------- query 6 — classify_gap_query ----------
+//
+// The router's front door: decide whether a natural-language line is a
+// discovery question at all, and if so, which discovery query it asks
+// for. No branch table over relation names — the detection is over a
+// handful of structural question shapes:
+//
+//   "what's missing between X and Y"  -> logic gap between X and Y
+//   "any isolated / floating parts"   -> isolated subgraphs
+//   "dangling / dead-end concepts"    -> dangling edges
+//   "incomplete / missing symmetries" -> symmetry gaps
+//   "where is the graph confused"     -> anomalies
+//
+// The classifier returns INTENT plus candidate content words; resolving
+// those words to nodes stays with the caller (it owns exact and
+// resonant recognition). Keeping the two apart means the classifier
+// never needs graph access and the resolver never needs string hacks.
+
+struct GapQuery {
+    bool is_query = false;
+    int  kind     = -1;      // 0 logic gap, 1 isolated, 2 dangling,
+                             // 3 symmetry, 4 anomaly
+    std::vector<std::string> terms;   // content words, in order
+};
+
+inline GapQuery classify_gap_query(const std::string& query) {
+    GapQuery g;
+    std::string q;
+    q.reserve(query.size());
+    for (char c : query) q += (char)std::tolower((unsigned char)c);
+
+    auto has = [&](const char* kw) { return q.find(kw) != std::string::npos; };
+
+    // Kind detection — most specific first. "symmetry gaps" contains
+    // the substring "gap", so the generic gap/missing keywords must be
+    // checked LAST or they swallow the specific query shapes.
+    if (has("symmetr"))
+        g.kind = 3;
+    else if (has("isolated") || has("floating"))
+        g.kind = 1;
+    else if (has("dangling") || has("dead end") || has("dead-end"))
+        g.kind = 2;
+    else if (has("anomal") || has("confused") || has("breakthrough"))
+        g.kind = 4;
+    else if (has("missing") || has("gap") || has("unlinked") ||
+             has("not connected") || has("disconnected"))
+        g.kind = 0;
+
+    // It is only a discovery question if a shape keyword AND a question
+    // mood are both present. "the gap between rich and poor" in a
+    // declarative sentence should not trigger a BFS.
+    bool interrogative = has("what") || has("where") || has("any") ||
+                         has("which") || has("find") || has("show") ||
+                         has("list") || has("?") || has("is there") ||
+                         has("are there");
+    if (g.kind < 0 || !interrogative) return g;
+    g.is_query = true;
+
+    // Content words = tokens minus the interrogative frame. Multi-word
+    // graph labels use '_', but the caller's resolver handles that via
+    // its own recognition path; here we just strip frame words.
+    static const char* stop[] = {
+        "what", "whats", "what's", "where", "which", "any", "is", "are",
+        "there", "the", "a", "an", "of", "in", "and", "or", "between",
+        "from", "to", "find", "show", "list", "me", "tell", "us", "our",
+        "missing", "gap", "gaps", "unlinked", "not", "connected",
+        "disconnected", "isolated", "floating", "dangling", "dead",
+        "end", "ends", "symmetry", "symmetries", "incomplete",
+        "anomalies", "anomaly", "confused", "breakthrough", "graph",
+        "concepts", "concept", "parts", "part", "?", "it", "this",
+        "that", "look", "should", "we", "for"
+    };
+    std::unordered_set<std::string> stopset(std::begin(stop), std::end(stop));
+    std::istringstream iss(q);
+    std::string w;
+    while (iss >> w) {
+        while (!w.empty() && !std::isalnum((unsigned char)w.back())) w.pop_back();
+        while (!w.empty() && !std::isalnum((unsigned char)w.front())) w.erase(w.begin());
+        if (w.size() < 2 || stopset.count(w)) continue;
+        g.terms.push_back(w);
+    }
+    return g;
+}
+
 
 } // namespace unified

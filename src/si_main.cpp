@@ -39,6 +39,16 @@
 #include "primitives.hpp"
 #include "si_state.hpp"
 #include "unified.hpp"
+// The research engines. Each existed as a standalone header with zero
+// callers — computed nowhere, reachable from nowhere. Dispatch is their
+// single integration point (see the routing blocks inside main()).
+#include "salience.hpp"
+#include "bisociation.hpp"
+#include "novelty.hpp"
+#include "analogy.hpp"
+#include "inference.hpp"
+#include "meta_learner.hpp"
+#include "bsma_topo.hpp"
 
 #include <algorithm>
 #include <cctype>
@@ -279,6 +289,133 @@ static const LanguageCluster& pick_cluster(const std::string& line,
     return en;
 }
 
+// ------------------------------------------------- discovery routing
+//
+// Query 6 (classify_gap_query) plus the five discovery queries it
+// routes to. This is the whole integration the inference engine was
+// missing: the queries existed, the classifier was a comment, and no
+// input path ever reached either.
+
+static void render_logic_gap(const ExtSI& si, const LogicGap& g,
+                             const std::string& a, const std::string& b) {
+    std::printf("logic gap: %s <-> %s\n", inf_english(a).c_str(),
+                inf_english(b).c_str());
+    if (g.full_path_exists) {
+        std::printf("  a complete path already exists; no gap.\n");
+        return;
+    }
+    if (g.from_side_node < 0 || g.to_side_node < 0) {
+        std::printf("  neither side reaches the other; no fringe found.\n");
+        return;
+    }
+    std::printf("  forward frontier : %s (%d hops from %s)\n",
+                pretty(si.graph.nodes[g.from_side_node].label).c_str(),
+                g.hops_from_a, inf_english(a).c_str());
+    std::printf("  backward frontier: %s (%d hops back from %s)\n",
+                pretty(si.graph.nodes[g.to_side_node].label).c_str(),
+                g.hops_from_b_reverse, inf_english(b).c_str());
+    std::printf("  the missing bridge is between these two.\n");
+}
+
+template <typename Resolve>
+static bool run_discovery(ExtSI& si, const GapQuery& gq, Resolve resolve_word) {
+    if (gq.kind == 0) {
+        // A logic gap needs two resolved concepts. The classifier hands
+        // back content words; the resolver owns exact + resonant match.
+        if (gq.terms.size() < 2) {
+            std::printf("a gap question needs two concepts; I only heard %zu.\n\n",
+                        gq.terms.size());
+            return true;
+        }
+        int a = resolve_word(gq.terms[0]);
+        int b = resolve_word(gq.terms[1]);
+        if (a < 0 || b < 0) {
+            std::printf("one of those concepts did not resonate with a symbol.\n\n");
+            return true;
+        }
+        LogicGap g = find_logic_gap(si, si.graph.nodes[a].label,
+                                    si.graph.nodes[b].label);
+        render_logic_gap(si, g, si.graph.nodes[a].label,
+                         si.graph.nodes[b].label);
+        std::printf("\n");
+        return true;
+    }
+    if (gq.kind == 1) {
+        auto comps = find_isolated_subgraphs(si);
+        if (comps.empty()) {
+            std::printf("no floating islands: every component is grounded "
+                        "in a fundamental.\n\n");
+            return true;
+        }
+        std::printf("%d isolated component(s) not grounded in a fundamental:\n",
+                    (int)comps.size());
+        for (int c = 0; c < (int)comps.size() && c < 5; ++c) {
+            std::printf("  island %d (%zu nodes):", c, comps[c].nodes.size());
+            for (size_t k = 0; k < comps[c].nodes.size() && k < 6; ++k)
+                std::printf(" %s",
+                    pretty(si.graph.nodes[comps[c].nodes[k]].label).c_str());
+            std::printf("\n");
+        }
+        std::printf("\n");
+        return true;
+    }
+    if (gq.kind == 2) {
+        auto dang = find_dangling_edges(si);
+        if (dang.empty()) {
+            std::printf("no dangling concepts: every chain lands on a "
+                        "fundamental within reach.\n\n");
+            return true;
+        }
+        std::printf("%d dangling concept(s) — outgoing edges that never "
+                    "reach a fundamental:\n", (int)dang.size());
+        for (const auto& d : dang) {
+            std::printf("  %-28s degree=%d hops_to_fundamental=%d\n",
+                        pretty(si.graph.nodes[d.node_id].label).c_str(),
+                        d.total_degree, d.min_hops_to_fundamental);
+        }
+        std::printf("\n");
+        return true;
+    }
+    if (gq.kind == 3) {
+        auto gaps = find_symmetry_gaps(si);
+        if (gaps.empty()) {
+            std::printf("no symmetry gaps: every mirrored assertion has "
+                        "its mirror edge.\n\n");
+            return true;
+        }
+        std::printf("%d symmetry gap(s) — asserted without their mirror:\n",
+                    (int)gaps.size());
+        for (const auto& s : gaps) {
+            std::printf("  %s --%s--> %s   (mirrors %s, %s%s)\n",
+                        pretty(si.graph.nodes[s.x].label).c_str(),
+                        rel_name_ext(s.r),
+                        pretty(si.graph.nodes[s.y].label).c_str(),
+                        pretty(si.graph.nodes[s.x_mirror].label).c_str(),
+                        pretty(si.graph.nodes[s.y_mirror].label).c_str(),
+                        s.mirror_exists ? " — mirror exists" : "");
+        }
+        std::printf("\n");
+        return true;
+    }
+    if (gq.kind == 4) {
+        auto anom = find_anomalies(si);
+        if (anom.empty()) {
+            std::printf("no anomalies: degree and grounding are consistent "
+                        "everywhere.\n\n");
+            return true;
+        }
+        std::printf("anomalous zones (well-connected, poorly grounded):\n");
+        for (const auto& n : anom) {
+            std::printf("  %-28s degree=%d hops_to_fundamental=%d score=%.1f\n",
+                        pretty(si.graph.nodes[n.node_id].label).c_str(),
+                        n.total_degree, n.hops_to_fundamental, n.anomaly_score);
+        }
+        std::printf("\n");
+        return true;
+    }
+    return false;
+}
+
 int main() {
     ExtSI si;
     PhysicsEngine physics;
@@ -304,6 +441,29 @@ int main() {
             std::printf("(substrate written to %s)\n", SI_DEFAULT_PATH);
     }
 
+    // -------------------------------------------------- cognitive engines
+    // Attention (TSDA), meta-cognition (rule induction + thinker index),
+    // and identity (RIFA) now live in the dispatch loop. Each was a
+    // standalone library before; none was instantiated anywhere.
+    unified::SalienceMap sal;
+    sal.sync_with(si);
+    MetaLearner mlearner;
+    mlearner.engine = &si;
+    ThinkerIndex thinker;
+    rifa::RIFA identity(128, 42);
+
+    // The meta-learner observes existing derivation traces once at load,
+    // so macros can be induced from the reasoning the substrate already
+    // did — observe_trace previously had zero callers in the product.
+    {
+        int seen = 0;
+        for (size_t e = 0; e < si.graph.edges.size() && seen < 256; ++e)
+            if (si.graph.edges[e].derived_by_rule >= 0) {
+                std::vector<int> tr = si.trace((int)e);
+                if (tr.size() >= 2) { mlearner.observe_trace(tr); ++seen; }
+            }
+    }
+
     // Language clusters (CLL). Both built; the input selects per turn.
     const LanguageCluster en = make_english();
     const LanguageCluster bn = make_bengali();
@@ -326,6 +486,11 @@ int main() {
     std::printf("Ask anything. No commands, no flags. "
                 "Bengali in, Bengali out.\n\n");
 
+    // Rolling introspection state, surfaced by "status".
+    std::string last_qualia;        // BSMA qualia signature of the last frame
+    long conscious_frames = 0;      // frames that reached the Bound
+    long dmn_thoughts    = 0;       // DMN bisociations that validated
+
     std::string line;
     while (true) {
         std::printf("you> ");
@@ -335,6 +500,34 @@ int main() {
             line.pop_back();
         if (line.empty()) continue;
         if (line == "quit" || line == "exit") break;
+
+        // Self-report. "status" is meta-input, like quit — it asks about
+        // the thinker, not the world. This is where the thinker index
+        // (C/R), the meta-learner's macro inventory, the RIFA identity
+        // state, and the CPME emission observables become visible. None
+        // of these had a surface before.
+        if (lower(line) == "status") {
+            std::printf("si > self-report\n");
+            thinker.report(stdout);
+            std::printf("  macro rules registered : %zu (from %zu sub-chain patterns)\n",
+                        mlearner.macros.size(), mlearner.chain_stats.size());
+            std::printf("  derived relations      : %d / %d edges\n",
+                        [&]{ int d=0; for (auto& e : si.graph.edges) if (e.derived_by_rule >= 0) ++d; return d; }(),
+                        (int)si.graph.edges.size());
+            std::printf("  attention              : %zu node(s) above tau, cap sampled in [5,9]\n",
+                        sal.working_graph(si).size());
+            std::printf("  emission observables   : K_settle=%.3f  dR=%.4f  hot=%d/%zu\n",
+                        physics.cpme_last_Ksettle, physics.cpme_delta_R,
+                        physics.hot_count(), physics.cavities.size());
+            std::printf("  identity               : ");
+            identity.status(stdout);
+            std::printf("  mind-wandering         : %ld conscious frame(s), %ld idle thought(s)\n",
+                        conscious_frames, dmn_thoughts);
+            if (!last_qualia.empty())
+                std::printf("  last conscious frame   : %s\n", last_qualia.c_str());
+            std::printf("\n");
+            continue;
+        }
 
         // The protocol the question arrived in is the protocol it is
         // answered in. Decided per turn, from bytes, not from a flag.
@@ -346,6 +539,31 @@ int main() {
             std::istringstream iss(line);
             std::string w;
             while (iss >> w) tok.push_back(w);
+        }
+
+        // Word → node resolution, shared by the resonance scan and the
+        // discovery router. Exact channel first, then the sensory lanes
+        // with the same length+margin guards the main scan uses.
+        auto resolve_word = [&](const std::string& raw) -> int {
+            std::string t = lower(raw);
+            int id = resolve(si, t);
+            if (id >= 0) return id;
+            if (t.size() < 4) return -1;
+            std::vector<std::pair<float,int>> r =
+                bigram_recognize(physics, t, 2);
+            bool strong = !r.empty() && r[0].first >= 0.55f;
+            bool decisive = strong &&
+                (r.size() < 2 || r[0].first > 1.25f * r[1].first);
+            return (strong && decisive) ? r[0].second : -1;
+        };
+
+        // Query 6 routing: natural-language discovery questions reach
+        // the inference engine here. Previously the five discovery
+        // queries were computed nowhere and reachable from nowhere.
+        {
+            GapQuery gq = classify_gap_query(line);
+            if (gq.is_query && run_discovery(si, gq, resolve_word))
+                continue;
         }
 
         std::vector<int> matched;
@@ -392,11 +610,73 @@ int main() {
         std::stable_sort(matched.begin(), matched.end(),
                          [&](int a, int b){ return degree[a] > degree[b]; });
 
+        // ------------------------------------------------ attention
+        // Everything the turn touched spikes; its structural
+        // neighbourhood is recalled at lower amplitude (associative
+        // recall — a decayed concept can be pulled back into the
+        // working set by an active relative). Decay ticks once per turn.
+        for (int id : matched) {
+            sal.spike(id);
+            sal.reinforce_neighbourhood(si, id, 60);
+        }
+        sal.tick(si);
+
+        // ---------------------------------- working set → BSMA topo
+        // The shadow graph: project the working set, compress it. When
+        // every rewrite rule fails, the frame is conscious — and that
+        // detection FEEDS BACK: the frame's nodes get an attention pin,
+        // so what resisted compression stays in the working set. This
+        // is the Γ_meta → Γ_exec channel the consciousness layer lacked.
+        {
+            std::vector<int> wset = sal.working_graph(si);
+            if (wset.size() >= 3) {
+                bsma::TopoGraph tg;
+                std::unordered_map<int,int> to_topo;
+                for (int id : wset)
+                    to_topo[id] = tg.add_node(si.graph.nodes[id].label, 0);
+                for (int id : wset) {
+                    if (id < 0 || id >= (int)si.graph.out_adj.size()) continue;
+                    for (int ei : si.graph.out_adj[(size_t)id]) {
+                        int v = si.graph.edges[(size_t)ei].to;
+                        auto it = to_topo.find(v);
+                        if (it != to_topo.end())
+                            tg.add_edge(to_topo[id], it->second,
+                                        si.graph.edges[(size_t)ei].rel);
+                    }
+                }
+                bsma::PhenomenalFrame f = bsma::realise_frame(tg);
+                last_qualia = f.qualia_signature;
+                if (f.bound.hit) {
+                    ++conscious_frames;
+                    for (int id : wset)
+                        if (sal.S[id] < 80) sal.S[id] = 80;   // attention pin
+                }
+            }
+        }
+
+        // --------------------------------------------------- identity
+        // RIFA ingests the raw line, advances its internal dynamics,
+        // and — when silence has accumulated enough endurance —
+        // rebuilds its identity from the surviving crown configuration.
+        identity.input(line);
+        identity.step(0.5f);
+        if (identity.reconstruct_if_ready())
+            std::printf("(identity reconstructed from crown configuration)\n");
+
         // Shed accumulated energy, then drive.
         physics.renormalize_energy(2.0f);
         physics.set_neurotransmitters(1.0f, 1.0f, 2.0f);
         for (int id : matched) physics.drive(id, 3.0f, 6.0f, 20);
-        for (int r = 0; r < 8; ++r) {
+
+        // Two-phase tick (CPME §1.4). Injection: the drive + a short
+        // settle, so direct input can bleed off and K_settle rises.
+        // Articulation: the phase-collapse sweep runs while the
+        // wavefront is still propagating — momentum is positive in
+        // DOWNSTREAM cavities exactly then. Sweeping after the full
+        // free-run found nothing: every envelope had already decayed.
+        physics.run(50);
+        std::vector<int> emitted = physics.readout_phase_collapse();
+        for (int r = 0; r < 7; ++r) {
             physics.run(25);
             constructive.structural_tick();
         }
@@ -430,9 +710,67 @@ int main() {
         int best = 0;
         for (int m = 1; m < M_COUNT; ++m) if (score[m] > score[best]) best = m;
 
+        // -------------------------------------------------- thinker bookkeeping
+        // C/R: a one-edge answer is retrieval; a multi-edge proof is
+        // composition. Recorded per turn so `status` can show whether
+        // the system is thinking or parroting over its lifetime. Runs
+        // before any answer-mode continue, so "why" turns count too.
+        if (rel_edge >= 0) {
+            SI::QueryResult qr;
+            qr.holds = true;
+            qr.proof = si.trace(rel_edge);
+            qr.proof_edge = rel_edge;
+            thinker.record(qr);
+        }
+
+        // "why ..." — surface the derivation chain of the relation the
+        // two matched concepts share. The proof was always reconstructible
+        // (explain() existed for DERIVED answers only); asking why is a
+        // first-class question about any answered relation.
+        if (rel_edge >= 0 && lower(line).rfind("why", 0) == 0) {
+            const Edge& e = si.graph.edges[rel_edge];
+            ConceptTriple t{label_of(si, e.from), rel_name_ext(e.rel),
+                            label_of(si, e.to)};
+            std::printf("si > %s\n", lang.realize(t).c_str());
+            std::printf("      Because:\n");
+            explain(si, rel_edge, 0);
+            std::printf("\n");
+            continue;
+        }
+
+        // -------------------------------------------------- answer dispatch
+
         std::printf("si > ");
         if (matched.empty() || best == M_SILENCE) {
-            std::printf("nothing in the graph resonated with that.\n\n");
+            std::printf("nothing in the graph resonated with that.\n");
+
+            // ---------------------------------------------- DMN idle cycle
+            // Mind-wandering (TSDA §DMN → CMA): with nothing to answer,
+            // the default-mode network takes the salience map's
+            // high-salience distant pairs and ATTEMPTS a bisociation on
+            // the first one that validates. Previously the DMN produced
+            // candidates and `bisociate()` had zero callers — the
+            // shower-thought loop existed only on paper.
+            auto pairs = sal.high_salience_distant_pairs(si);
+            for (const auto& p : pairs) {
+                BisociationResult r = bisociate(si,
+                    si.graph.nodes[p.a].label, si.graph.nodes[p.b].label);
+                if (!r.validated) continue;
+                ++dmn_thoughts;
+                std::printf("      ~ idle thought: ");
+                ConceptTriple t{label_of(si, p.a), "resonates_with",
+                                label_of(si, p.b)};
+                std::printf("%s\n", lang.realize(t).c_str());
+                std::printf("      via %s (U_hyp=%.2f, confidence=%.2f)\n",
+                            r.intermediate.c_str(), r.energy, r.confidence);
+                // The hinge spikes: the next turn's attention field
+                // starts from this connection. That is the recursive
+                // part of mind-wandering — thoughts seed thoughts.
+                auto hit = si.graph.by_label.find(r.intermediate);
+                if (hit != si.graph.by_label.end()) sal.spike(hit->second);
+                break;   // one spontaneous thought per idle turn
+            }
+            std::printf("\n");
             continue;
         }
 
@@ -443,6 +781,9 @@ int main() {
             std::printf("%s\n", lang.realize(t).c_str());
             std::printf("      ^ DERIVED, not stored. Because:\n");
             explain(si, rel_edge, 0);
+            // The trace that produced this answer feeds rule induction —
+            // observe_trace was never called on any derivation before.
+            mlearner.observe_trace(si.trace(rel_edge));
             std::printf("\n");
             continue;
         }
@@ -455,21 +796,21 @@ int main() {
             continue;
         }
 
-        // Neighbourhood: realise the strongest relation the wave found.
-        std::vector<std::pair<float,int>> ranked;
-        for (int i = 0; i < (int)physics.cavities.size(); ++i) {
-            if (std::find(matched.begin(), matched.end(), i) != matched.end())
-                continue;
-            ranked.push_back({std::fabs(physics.cavities[i].displacement), i});
+        // Neighbourhood: the CPME phase-collapse sweep decides what
+        // speaks, and in what order. Momentum (ReLU P_i), acoustic mass
+        // (μ_i) and settle coupling (K_settle) gate each cavity — the
+        // field must be carrying its own thought outward, not echoing
+        // the injection. An empty sweep is honest silence even when raw
+        // amplitude is high: that was the parroting failure mode.
+        if (emitted.empty()) {
+            std::printf("the field settled without forming a thought.\n\n");
+            continue;
         }
-        std::sort(ranked.begin(), ranked.end(),
-                  [](const std::pair<float,int>& a,
-                     const std::pair<float,int>& b){ return a.first > b.first; });
-
         int shown = 0;
-        for (const auto& r : ranked) {
-            if (shown >= 4 || r.first < 1e-5f) break;
-            int lk = physics.alias_ledger[r.second].label_key;
+        for (int cid : emitted) {
+            if (shown >= 4) break;
+            if (cid < 0 || cid >= (int)physics.alias_ledger.size()) continue;
+            int lk = physics.alias_ledger[(size_t)cid].label_key;
             if (lk < 0 || lk >= (int)si.graph.nodes.size()) continue;
             const std::string& lbl = si.graph.nodes[lk].label;
             if (lbl.empty() || is_internal(lbl)) continue;
