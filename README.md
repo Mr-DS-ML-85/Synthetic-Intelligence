@@ -23,27 +23,7 @@ No gradients. No backpropagation. No learned embeddings. No next-token predictio
 ## ⚠️ Status: early development
 
 **This is a research prototype, not a product, and not a finished
-architecture.** The project maintains its own gap audit — see
-[`SI/incomplete.md`](SI/incomplete.md) — which currently reports:
-
-> **53 paper mechanisms identified. 28 fully implemented. 12 partially. 13 missing.**
-
-Read that file before forming an opinion about what this does. It is
-more critical of the system than any external review has been, and it is
-kept current deliberately.
-
-| Layer | Coverage |
-| --- | --- |
-| Reasoning primitives | 90% |
-| Physics substrate | 85% |
-| Discovery queries | 83% |
-| Attention / salience | 75% |
-| Language (CLL) | 67% |
-| Identity (RIFA) | 60% |
-| Consciousness (BSMA) | 50% |
-| Learning / meta | 50% |
-| Wave I/O (emission) | 40% |
-
+architecture. 
 ---
 
 ## A different branch, not a smaller model
